@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {FormsModule} from "./forms/forms.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     BrowserModule,
     NgbModule,
     AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
