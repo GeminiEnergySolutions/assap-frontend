@@ -1,13 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MasterDetailComponent } from './master-detail/master-detail.component';
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MasterDetailComponent} from './master-detail/master-detail.component';
 
 
 @NgModule({
-  declarations: [MasterDetailComponent],
+  declarations: [
+    MasterDetailComponent,
+  ],
+  exports: [
+    MasterDetailComponent,
+  ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+  ],
 })
-export class FormsModule { }
+export class FormsModule {
+}
