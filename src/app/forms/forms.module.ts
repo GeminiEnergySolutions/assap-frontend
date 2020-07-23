@@ -11,6 +11,7 @@ import { FormComponent } from './form/form.component';
   ],
   exports: [
     MasterDetailComponent,
+    FormComponent,
   ],
   imports: [
     CommonModule,
