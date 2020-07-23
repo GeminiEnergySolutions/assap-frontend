@@ -3,7 +3,32 @@
     <h2>{{section.section}}</h2>
     <div *ngFor="let element of section.elements" class="form-group">
       <label for="{{section.id}}-{{element.id}}">{{element.param}}</label>
-      <input type="text" class="form-control" id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+      <ng-container [ngSwitch]="element.dataType">
+        <select *ngSwitchCase="'pickerinputrow'"
+                class="form-control"
+                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+          <option *ngFor="let value of element.defaultValues.split(',')"
+                  [value]="value.substring(0, value.indexOf(':'))">{{value.substring(value.indexOf(':') + 1)}}</option>
+        </select>
+        <input *ngSwitchCase="'emailrow'"
+               type="email" class="form-control"
+               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+        <input *ngSwitchCase="'phonerow'"
+               type="tel" class="form-control"
+               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+        <textarea *ngSwitchCase="'textarearow'"
+                  class="form-control"
+                  id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help"></textarea>
+        <input *ngSwitchCase="'introw'"
+               type="number" class="form-control" step="1"
+               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+        <input *ngSwitchCase="'decimalrow'"
+               type="number" class="form-control"
+               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+        <input *ngSwitchDefault
+               type="text" class="form-control"
+               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+      </ng-container>
       <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>
     </div>
   </ng-container>
