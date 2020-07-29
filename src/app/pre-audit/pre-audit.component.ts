@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Audit} from "../model/audit.interface";
+import {ParseService} from "../parse/parse.service";
 
 @Component({
   selector: 'app-pre-audit',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pre-audit.component.scss']
 })
 export class PreAuditComponent implements OnInit {
+  audits: Audit[] = [];
+  selectedAudit?: Audit;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private parseService: ParseService,
+  ) {
   }
 
+  ngOnInit(): void {
+    this.parseService.getAudits().subscribe(audits => {
+      this.audits = audits;
+    });
+  }
 }

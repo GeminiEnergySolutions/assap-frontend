@@ -1,1 +1,26 @@
-<p>pre-audit works!</p>
+<div class="row no-gutters">
+  <!-- Users box-->
+  <div class="col-3">
+    <div class="p-3 bg-light">
+      <h5>Audits</h5>
+    </div>
+    <div class="list-group rounded-0">
+      <a *ngFor="let audit of audits"
+         class="list-group-item list-group-item-action"
+         [class.active]="audit === selectedAudit"
+         [class.text-white]="audit === selectedAudit"
+         (click)="selectedAudit = audit"
+      >
+        {{audit.name}}
+      </a>
+    </div>
+
+  </div>
+  <!-- Chat Box-->
+  <div class="col-9">
+    <div class="container">
+      <app-form *ngIf="selectedAudit" type="preaudit"></app-form>
+      <h1 *ngIf="!selectedAudit" class="text-center">Select or Create an Audit to begin</h1>
+    </div>
+  </div>
+</div>
