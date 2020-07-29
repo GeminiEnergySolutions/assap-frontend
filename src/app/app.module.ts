@@ -8,12 +8,14 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "./forms/forms.module";
 import {HttpClientModule} from "@angular/common/http";
+import { PreAuditComponent } from './pre-audit/pre-audit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     NavBarComponent,
+    PreAuditComponent,
   ],
   imports: [
     BrowserModule,
