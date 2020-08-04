@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Audit, Type, Zone} from "../model/audit.interface";
 import {ParseService} from "../parse/parse.service";
 import {Feature} from "../model/feature.interface";
+import {ActivatedRoute, Router} from "@angular/router";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-pre-audit',
@@ -18,19 +20,24 @@ export class PreAuditComponent implements OnInit {
 
   constructor(
     private parseService: ParseService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
-    this.parseService.getAudits().subscribe(audits => {
+    combineLatest([this.parseService.getAudits(), this.route.params]).subscribe(([audits, params]) => {
       this.audits = audits;
+      const aid: string = params.aid;
+      if (aid) {
+        this.selectAudit(aid);
+      }
     });
   }
 
-  selectAudit(audit: Audit) {
-    this.selectedAudit = audit;
+  private selectAudit(auditId: string) {
+    this.selectedAudit = this.audits.find(a => a.auditId === auditId);
 
-    this.parseService.getFeatures({auditId: audit.auditId, zoneId: "null"}).subscribe(features => {
+    this.parseService.getFeatures({auditId, zoneId: "null"}).subscribe(features => {
       this.selectedFeatures = features;
 
       this.data = features[0] ? this.feature2Data(features[0]) : {};
