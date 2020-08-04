@@ -32,7 +32,7 @@
             <div class="list-group rounded-0">
               <a *ngFor="let keyValue of selectedAudit?.zone | keyvalue"
                  class="list-group-item list-group-item-action"
-                 [routerLink]="['audits', selectedAudit.auditId, 'zones', keyValue.value.id]"
+                 [routerLink]="['/audits', selectedAudit.auditId, 'zones', keyValue.value.id]"
               >
                 {{keyValue.value.name}}
               </a>
