@@ -3,6 +3,7 @@ import {Audit, Type, Zone} from "../model/audit.interface";
 import {Subscription} from "rxjs";
 import {ParseService} from "../parse/parse.service";
 import {ActivatedRoute} from "@angular/router";
+import {Schema} from "../forms/forms.interface";
 
 @Component({
   selector: 'app-type',
@@ -14,7 +15,10 @@ export class TypeComponent implements OnInit, OnDestroy {
   zone?: Zone;
   typeName?: string;
   types: Type[] = [];
+
   selectedType?: Type;
+  data?: object;
+  schema?: Schema;
 
   subscription: Subscription;
 
@@ -34,8 +38,21 @@ export class TypeComponent implements OnInit, OnDestroy {
         this.audit = audits[0];
         this.zone = this.audit.zone[zid];
         this.types = Object.values(this.audit.type).filter(t => t.type === this.typeName);
-        this.selectedType = this.audit.type[tid];
+        this.selectType(tid);
       });
+    });
+  }
+
+  private selectType(tid: number) {
+    this.selectedType = this.audit.type[tid];
+    this.parseService.getFeatures({
+      auditId: this.audit.auditId,
+      zoneId: `${this.zone.id}`,
+      typeId: `${tid}`,
+    }).subscribe(features => {
+      const feature = features[0];
+      this.schema = feature ? this.parseService.feature2Schema(feature) : undefined;
+      this.data = feature ? this.parseService.feature2Data(feature) : {};
     });
   }
 

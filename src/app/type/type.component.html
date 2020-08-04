@@ -23,7 +23,9 @@
       Select or Create a Type to begin
     </h1>
     <ng-container *ngIf="selectedType">
-
+      <div class="container">
+        <app-form [schema]="schema" [data]="data"></app-form>
+      </div>
     </ng-container>
   </div>
 </div>
