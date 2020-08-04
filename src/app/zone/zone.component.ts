@@ -1,20 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Audit, Type, Zone} from "../model/audit.interface";
 import {ParseService} from "../parse/parse.service";
 import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
   styleUrls: ['./zone.component.scss']
 })
-export class ZoneComponent implements OnInit {
+export class ZoneComponent implements OnInit, OnDestroy {
   audit?: Audit;
   zones: Zone[] = [];
   types: Type[] = [];
   selectedZone?: Zone;
 
   activeTab: string;
+
+  subscription: Subscription;
 
   constructor(
     private parseService: ParseService,
@@ -23,7 +26,7 @@ export class ZoneComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.subscription = this.route.params.subscribe(params => {
       const aid: string = params.aid;
       const zid: number = +params.zid;
       this.parseService.getAudits({auditId: aid}).subscribe(audits => {
@@ -32,6 +35,10 @@ export class ZoneComponent implements OnInit {
         this.selectZone(zid);
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private selectZone(zoneId: number) {
