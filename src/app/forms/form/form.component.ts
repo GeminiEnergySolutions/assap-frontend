@@ -9,7 +9,7 @@ import {FormsService} from "../forms.service";
 })
 export class FormComponent implements OnInit {
   @Input() type: string;
-  schema?: Schema;
+  @Input() schema?: Schema;
 
   @Input() data: object = {};
   @Output() dataChanged = new EventEmitter<object>();
@@ -20,9 +20,11 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formsService.loadSchema(this.type).subscribe(schema => {
-      this.schema = schema;
-    });
+    if (this.type && !this.schema) {
+      this.formsService.loadSchema(this.type).subscribe(schema => {
+        this.schema = schema;
+      });
+    }
   }
 
   save(): void {
