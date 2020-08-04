@@ -37,7 +37,7 @@ export class TypeComponent implements OnInit, OnDestroy {
       this.parseService.getAudits({auditId: aid}).subscribe(audits => {
         this.audit = audits[0];
         this.zone = this.audit.zone[zid];
-        this.types = Object.values(this.audit.type).filter(t => t.type === this.typeName);
+        this.types = Object.values(this.audit.type).filter(t => t.type === this.typeName && t.zoneId === zid);
         this.selectType(tid);
       });
     });
