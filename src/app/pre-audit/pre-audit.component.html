@@ -1,5 +1,4 @@
 <div class="row no-gutters">
-  <!-- Users box-->
   <div class="col-3">
     <div class="p-3 bg-light">
       <h5>Audits</h5>
@@ -14,11 +13,11 @@
         {{audit.name}}
       </a>
     </div>
-
   </div>
-  <!-- Chat Box-->
   <div class="col-9">
-    <h1 *ngIf="!selectedAudit" class="text-center">Select or Create an Audit to begin</h1>
+    <h1 *ngIf="!selectedAudit" class="text-center">
+      Select or Create an Audit to begin
+    </h1>
     <ng-container *ngIf="selectedAudit">
       <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
         <li ngbNavItem="preaudit">
@@ -43,7 +42,6 @@
           </ng-template>
         </li>
       </ul>
-
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </ng-container>
   </div>
