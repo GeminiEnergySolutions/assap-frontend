@@ -18,9 +18,12 @@ export class ParseService {
   ) {
   }
 
-  getAudits(): Observable<Audit[]> {
+  getAudits(filter: Partial<Audit> = {}): Observable<Audit[]> {
     return this.http.get<{ results: Audit[] }>(`${environment.parseUrl}/classes/rAudit`, {
       headers: this._headers,
+      params: {
+        where: JSON.stringify(filter),
+      },
     }).pipe(
       map(v => v.results),
     );
