@@ -1,1 +1,32 @@
-<p>zone works!</p>
+<div class="row no-gutters">
+  <div class="col-3">
+    <div class="p-3 bg-light">
+      <h5><a [routerLink]="['/audits', audit?.auditId]">{{audit?.name}}</a> &gt; Zones</h5>
+    </div>
+    <div class="list-group rounded-0">
+      <a *ngFor="let zone of zones"
+         class="list-group-item list-group-item-action"
+         [routerLink]="['/audits', audit.auditId, 'zones', zone.id]" routerLinkActive="active text-white"
+      >
+        {{zone.name}}
+      </a>
+    </div>
+  </div>
+  <div class="col-9">
+    <h1 *ngIf="!selectedZone" class="text-center">
+      Select or Create a Zone to begin
+    </h1>
+    <ng-container *ngIf="selectedZone">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+        <li *ngFor="let type of types"
+          [ngbNavItem]="type.id">
+          <a ngbNavLink>{{type.name}}</a>
+          <ng-template ngbNavContent>
+            {{type.type}} <small class="text-muted">{{type.subtype}}</small>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </ng-container>
+  </div>
+</div>
