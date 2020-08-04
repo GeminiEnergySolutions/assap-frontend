@@ -19,7 +19,7 @@
   <!-- Chat Box-->
   <div class="col-9">
     <div class="container">
-      <app-form *ngIf="selectedAudit" type="preaudit"></app-form>
+      <app-form *ngIf="selectedAudit" type="preaudit" [data]="data"></app-form>
       <h1 *ngIf="!selectedAudit" class="text-center">Select or Create an Audit to begin</h1>
     </div>
   </div>

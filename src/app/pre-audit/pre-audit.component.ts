@@ -12,6 +12,7 @@ export class PreAuditComponent implements OnInit {
   audits: Audit[] = [];
   selectedAudit?: Audit;
   selectedFeatures: Feature[] = [];
+  data: object = {};
 
   constructor(
     private parseService: ParseService,
@@ -29,6 +30,21 @@ export class PreAuditComponent implements OnInit {
 
     this.parseService.getFeatures({auditId: audit.auditId, zoneId: "null"}).subscribe(features => {
       this.selectedFeatures = features;
+
+      this.data = features[0] ? this.feature2Data(features[0]) : {};
     });
+  }
+
+  feature2Data(feature: Feature): object {
+    const data = {};
+    const formIds = feature.formId.split('\u001F');
+    const values = feature.values.split('\u001F');
+    const length = Math.min(formIds.length, values.length);
+
+    for (let i = 0; i < length; i++) {
+      data[formIds[i]] = values[i];
+    }
+
+    return data;
   }
 }
