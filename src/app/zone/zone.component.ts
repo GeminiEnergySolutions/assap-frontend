@@ -13,6 +13,7 @@ export class ZoneComponent implements OnInit, OnDestroy {
   audit?: Audit;
   zones: Zone[] = [];
   types: Type[] = [];
+  groupedTypes: { [type: string]: Type[]; } = {};
   selectedZone?: Zone;
 
   activeTab: string;
@@ -44,5 +45,14 @@ export class ZoneComponent implements OnInit, OnDestroy {
   private selectZone(zoneId: number) {
     this.selectedZone = this.zones.find(a => a.id === zoneId);
     this.types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
+
+    this.groupedTypes = {};
+    for (const type of this.types) {
+      let array = this.groupedTypes[type.type];
+      if (!array) {
+        this.groupedTypes[type.type] = array = [];
+      }
+      array.push(type);
+    }
   }
 }
