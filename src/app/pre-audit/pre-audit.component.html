@@ -35,29 +35,8 @@
             <div class="list-group rounded-0">
               <a *ngFor="let keyValue of selectedAudit?.zone | keyvalue"
                  class="list-group-item list-group-item-action"
-                 [class.active]="keyValue.value === selectedZone"
-                 [class.text-white]="keyValue.value === selectedZone"
-                 (click)="selectZone(keyValue.value)"
+                 [routerLink]="['audits', selectedAudit.auditId, 'zones', keyValue.value.id]"
               >
-                {{keyValue.value.name}}
-              </a>
-            </div>
-          </ng-template>
-        </li>
-        <li ngbNavItem="type">
-          <a ngbNavLink>Type</a>
-          <ng-template ngbNavContent>
-            <div class="list-group rounded-0">
-              <a *ngFor="let keyValue of selectedAudit?.type | keyvalue"
-                 class="list-group-item list-group-item-action"
-                 [class.active]="keyValue.value === selectedType"
-                 [class.text-white]="keyValue.value === selectedType"
-                 (click)="selectType(keyValue.value)"
-              >
-                {{keyValue.value.type}}
-                &gt;
-                {{keyValue.value.subtype}}
-                &gt;
                 {{keyValue.value.name}}
               </a>
             </div>
