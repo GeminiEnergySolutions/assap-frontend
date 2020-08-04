@@ -18,9 +18,54 @@
   </div>
   <!-- Chat Box-->
   <div class="col-9">
-    <div class="container">
-      <app-form *ngIf="selectedAudit" type="preaudit" [data]="data"></app-form>
-      <h1 *ngIf="!selectedAudit" class="text-center">Select or Create an Audit to begin</h1>
-    </div>
+    <h1 *ngIf="!selectedAudit" class="text-center">Select or Create an Audit to begin</h1>
+    <ng-container *ngIf="selectedAudit">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+        <li ngbNavItem="preaudit">
+          <a ngbNavLink>Preaudit</a>
+          <ng-template ngbNavContent>
+            <div class="container">
+              <app-form *ngIf="selectedAudit" type="preaudit" [data]="data"></app-form>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem="zone">
+          <a ngbNavLink>Zone</a>
+          <ng-template ngbNavContent>
+            <div class="list-group rounded-0">
+              <a *ngFor="let keyValue of selectedAudit?.zone | keyvalue"
+                 class="list-group-item list-group-item-action"
+                 [class.active]="keyValue.value === selectedZone"
+                 [class.text-white]="keyValue.value === selectedZone"
+                 (click)="selectZone(keyValue.value)"
+              >
+                {{keyValue.value.name}}
+              </a>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem="type">
+          <a ngbNavLink>Type</a>
+          <ng-template ngbNavContent>
+            <div class="list-group rounded-0">
+              <a *ngFor="let keyValue of selectedAudit?.type | keyvalue"
+                 class="list-group-item list-group-item-action"
+                 [class.active]="keyValue.value === selectedType"
+                 [class.text-white]="keyValue.value === selectedType"
+                 (click)="selectType(keyValue.value)"
+              >
+                {{keyValue.value.type}}
+                &gt;
+                {{keyValue.value.subtype}}
+                &gt;
+                {{keyValue.value.name}}
+              </a>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </ng-container>
   </div>
 </div>

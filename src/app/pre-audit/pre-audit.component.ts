@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Audit} from "../model/audit.interface";
+import {Audit, Type, Zone} from "../model/audit.interface";
 import {ParseService} from "../parse/parse.service";
 import {Feature} from "../model/feature.interface";
 
@@ -11,8 +11,12 @@ import {Feature} from "../model/feature.interface";
 export class PreAuditComponent implements OnInit {
   audits: Audit[] = [];
   selectedAudit?: Audit;
+  selectedZone?: Zone;
+  selectedType?: Type;
   selectedFeatures: Feature[] = [];
   data: object = {};
+
+  activeTab: 'preaudit' | 'zone' | 'type' = 'preaudit';
 
   constructor(
     private parseService: ParseService,
@@ -33,6 +37,14 @@ export class PreAuditComponent implements OnInit {
 
       this.data = features[0] ? this.feature2Data(features[0]) : {};
     });
+  }
+
+  selectZone(zone: Zone) {
+    this.selectedZone = zone;
+  }
+
+  selectType(type: Type) {
+    this.selectedType = type;
   }
 
   feature2Data(feature: Feature): object {
