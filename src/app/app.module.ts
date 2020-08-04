@@ -10,6 +10,7 @@ import {FormsModule} from "./forms/forms.module";
 import {HttpClientModule} from "@angular/common/http";
 import { PreAuditComponent } from './pre-audit/pre-audit.component';
 import { ZoneComponent } from './zone/zone.component';
+import { TypeComponent } from './type/type.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ZoneComponent } from './zone/zone.component';
     NavBarComponent,
     PreAuditComponent,
     ZoneComponent,
+    TypeComponent,
   ],
   imports: [
     BrowserModule,
