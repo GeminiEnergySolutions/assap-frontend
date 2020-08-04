@@ -9,6 +9,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "./forms/forms.module";
 import {HttpClientModule} from "@angular/common/http";
 import { PreAuditComponent } from './pre-audit/pre-audit.component';
+import { ZoneComponent } from './zone/zone.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PreAuditComponent } from './pre-audit/pre-audit.component';
     MainComponent,
     NavBarComponent,
     PreAuditComponent,
+    ZoneComponent,
   ],
   imports: [
     BrowserModule,
