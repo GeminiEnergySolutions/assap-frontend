@@ -11,6 +11,8 @@ export class FormComponent implements OnInit {
   @Input() type: string;
   schema?: Schema;
 
+  data: object = {};
+
   constructor(
     private formsService: FormsService,
   ) {

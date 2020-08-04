@@ -4,28 +4,28 @@
     <div *ngFor="let element of section.elements" class="form-group">
       <label for="{{section.id}}-{{element.id}}">{{element.param}}</label>
       <ng-container [ngSwitch]="element.dataType">
-        <select *ngSwitchCase="'pickerinputrow'"
+        <select *ngSwitchCase="'pickerinputrow'" [(ngModel)]="data[element.id]"
                 class="form-control"
                 id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
           <option *ngFor="let value of element.defaultValues.split(',')"
                   [value]="value.substring(0, value.indexOf(':'))">{{value.substring(value.indexOf(':') + 1)}}</option>
         </select>
-        <input *ngSwitchCase="'emailrow'"
+        <input *ngSwitchCase="'emailrow'" [(ngModel)]="data[element.id]"
                type="email" class="form-control"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <input *ngSwitchCase="'phonerow'"
+        <input *ngSwitchCase="'phonerow'" [(ngModel)]="data[element.id]"
                type="tel" class="form-control"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <textarea *ngSwitchCase="'textarearow'"
+        <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]"
                   class="form-control"
                   id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help"></textarea>
-        <input *ngSwitchCase="'introw'"
+        <input *ngSwitchCase="'introw'" [(ngModel)]="data[element.id]"
                type="number" class="form-control" step="1"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <input *ngSwitchCase="'decimalrow'"
+        <input *ngSwitchCase="'decimalrow'" [(ngModel)]="data[element.id]"
                type="number" class="form-control"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <input *ngSwitchDefault
+        <input *ngSwitchDefault [(ngModel)]="data[element.id]"
                type="text" class="form-control"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
       </ng-container>
