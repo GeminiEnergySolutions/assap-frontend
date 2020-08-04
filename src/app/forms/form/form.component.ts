@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Schema} from "../forms.interface";
 import {FormsService} from "../forms.service";
 
@@ -11,7 +11,8 @@ export class FormComponent implements OnInit {
   @Input() type: string;
   schema?: Schema;
 
-  data: object = {};
+  @Input() data: object = {};
+  @Output() dataChanged = new EventEmitter<object>();
 
   constructor(
     private formsService: FormsService,
@@ -22,5 +23,9 @@ export class FormComponent implements OnInit {
     this.formsService.loadSchema(this.type).subscribe(schema => {
       this.schema = schema;
     });
+  }
+
+  save(): void {
+    this.dataChanged.emit(this.data);
   }
 }
