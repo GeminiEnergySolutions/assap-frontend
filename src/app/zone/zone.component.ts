@@ -3,6 +3,7 @@ import {Audit, Type, Zone} from "../model/audit.interface";
 import {ParseService} from "../parse/parse.service";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
+import {Types} from '../model/types';
 
 @Component({
   selector: 'app-zone',
@@ -12,7 +13,7 @@ import {Subscription} from "rxjs";
 export class ZoneComponent implements OnInit, OnDestroy {
   audit?: Audit;
   zones: Zone[] = [];
-  types: Type[] = [];
+  types = Types;
   groupedTypes: { [type: string]: Type[]; } = {};
   selectedZone?: Zone;
 
@@ -44,10 +45,10 @@ export class ZoneComponent implements OnInit, OnDestroy {
 
   private selectZone(zoneId: number) {
     this.selectedZone = this.zones.find(a => a.id === zoneId);
-    this.types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
+    const types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
 
     this.groupedTypes = {};
-    for (const type of this.types) {
+    for (const type of types) {
       let array = this.groupedTypes[type.type];
       if (!array) {
         this.groupedTypes[type.type] = array = [];
