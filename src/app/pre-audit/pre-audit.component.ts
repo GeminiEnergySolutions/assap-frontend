@@ -28,7 +28,7 @@ export class PreAuditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = combineLatest([this.parseService.getAudits(), this.route.params]).subscribe(([audits, params]) => {
-      this.audits = audits;
+      this.audits = this.merge(audits);
       const aid: string = params.aid;
       if (aid) {
         this.selectAudit(aid);
@@ -38,6 +38,30 @@ export class PreAuditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  private merge(audits: Audit[]): Audit[] {
+    const auditIds = new Map<string, Audit>();
+
+    for (const audit of audits) {
+      const existing = auditIds.get(audit.auditId);
+      if (!existing) {
+        auditIds.set(audit.auditId, audit);
+        continue;
+      }
+
+      // in case of conflict, use newest
+      if (existing.updatedAt < audit.updatedAt) {
+        existing.name = audit.name;
+        existing.type = {...existing.type, ...audit.type};
+        existing.zone = {...existing.zone, ...audit.zone};
+      } else {
+        existing.type = {...audit.type, ...existing.type};
+        existing.zone = {...audit.zone, ...existing.zone};
+      }
+    }
+
+    return [...auditIds.values()];
   }
 
   private selectAudit(auditId: string) {
