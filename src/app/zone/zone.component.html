@@ -1,18 +1,20 @@
-<ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
-  <li *ngFor="let type of types"
-      [ngbNavItem]="type.name">
-    <a ngbNavLink>{{type.name}}</a>
-    <ng-template ngbNavContent>
-      <div class="list-group rounded-0">
-        <a *ngFor="let item of groupedTypes[type.name]"
-           class="list-group-item list-group-item-action"
-           [routerLink]="['types', type.name, item.id]"
-           routerLinkActive="active text-white"
-        >
-          {{item.name}} <small class="text-muted">{{item.subtype}}</small>
-        </a>
-      </div>
-    </ng-template>
-  </li>
-</ul>
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<div class="container">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+    <li *ngFor="let type of types"
+        [ngbNavItem]="type.name">
+      <a ngbNavLink>{{type.name}}</a>
+      <ng-template ngbNavContent>
+        <div class="list-group rounded-0">
+          <a *ngFor="let item of groupedTypes[type.name]"
+             class="list-group-item list-group-item-action"
+             [routerLink]="['types', type.name, item.id]"
+             routerLinkActive="active text-white"
+          >
+            {{item.name}} <small class="text-muted">{{item.subtype}}</small>
+          </a>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>
