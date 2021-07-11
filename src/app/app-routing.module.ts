@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuditComponent} from './audit/audit.component';
 import {MainComponent} from './main/main.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
+import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
 import {TypeComponent} from './type/type.component';
 import {ZoneComponent} from './zone/zone.component';
@@ -24,7 +25,13 @@ const routes: Routes = [
       {path: ':zid', component: ZoneComponent},
     ],
   },
-  {path: 'audits/:aid/zones/:zid/types/:type/:tid', component: TypeComponent},
+  {
+    path: 'audits/:aid/zones/:zid/:type',
+    component: PreTypeComponent,
+    children: [
+      {path: ':tid', component: TypeComponent},
+    ],
+  },
 ];
 
 @NgModule({
