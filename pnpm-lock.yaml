@@ -18,6 +18,7 @@ specifiers:
   '@types/jasminewd2': ~2.0.3
   '@types/node': ^12.11.1
   bootstrap: ^4.6.0
+  bootstrap-darkmode: ^0.8.0
   codelyzer: ^6.0.0-next.1
   jasmine-core: ~3.5.0
   jasmine-spec-reporter: ~5.0.0
@@ -46,6 +47,7 @@ dependencies:
   '@angular/router': 12.1.1_4ae965db65e75a46fba257a31d7e3581
   '@ng-bootstrap/ng-bootstrap': 10.0.0_424a330c91f01653d9d8b838c29673aa
   bootstrap: 4.6.0
+  bootstrap-darkmode: 0.8.0_bootstrap@4.6.0
   rxjs: 6.5.5
   tslib: 2.0.0
   zone.js: 0.11.4
@@ -2630,6 +2632,15 @@ packages:
   /boolbase/1.0.0:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
     dev: true
+
+  /bootstrap-darkmode/0.8.0_bootstrap@4.6.0:
+    resolution: {integrity: sha512-B4ZHTqO1dImV+9EMgllFph/8VnzZC/KVKcdFyhHcI9kdOmMCNszBJuhgSDgTC317PZmGNAaUIb/XsA3MnoMGHA==}
+    peerDependencies:
+      bootstrap: '>=4.6'
+    dependencies:
+      bootstrap: 4.6.0
+      tslib: 2.3.0
+    dev: false
 
   /bootstrap/4.6.0:
     resolution: {integrity: sha512-Io55IuQY3kydzHtbGvQya3H+KorS/M9rSNyfCGCg9WZ4pyT/lCxIlpJgG1GXW/PswzC84Tr2fBYi+7+jFVQQBw==}
