@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuditComponent} from './audit/audit.component';
-import {MainComponent} from './main/main.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
@@ -10,7 +9,7 @@ import {ZoneComponent} from './zone/zone.component';
 
 
 const routes: Routes = [
-  {path: '', component: MainComponent},
+  {path: '', pathMatch: 'full', redirectTo: '/audits'},
   {
     path: 'audits',
     component: PreAuditComponent,
