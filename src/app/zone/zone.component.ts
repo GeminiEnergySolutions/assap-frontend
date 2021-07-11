@@ -1,25 +1,22 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Audit, Type, Zone} from "../model/audit.interface";
-import {ParseService} from "../parse/parse.service";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {Audit, Type, Zone} from '../model/audit.interface';
 import {Types} from '../model/types';
+import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
-  styleUrls: ['./zone.component.scss']
+  styleUrls: ['./zone.component.scss'],
 })
-export class ZoneComponent implements OnInit, OnDestroy {
+export class ZoneComponent implements OnInit {
   audit?: Audit;
-  zones: Zone[] = [];
   types = Types;
   groupedTypes: { [type: string]: Type[]; } = {};
   selectedZone?: Zone;
 
   activeTab: string;
-
-  subscription: Subscription;
 
   constructor(
     private parseService: ParseService,
@@ -28,32 +25,20 @@ export class ZoneComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.route.params.subscribe(params => {
-      const aid: string = params.aid;
-      const zid: number = +params.zid;
-      this.parseService.getAudits({auditId: aid}).subscribe(audits => {
-        this.audit = audits[0];
-        this.zones = Object.values(this.audit.zone);
-        this.selectZone(zid);
-      });
-    });
-  }
+    this.route.params.pipe(
+      switchMap(({aid, zid}) => this.parseService.getAudits({auditId: aid}).pipe(
+        map(audits => audits[0]),
+        tap(audit => this.audit = audit),
+        map(audit => audit.zone[zid]),
+      )),
+    ).subscribe(zone => {
+      this.selectedZone = zone;
+      const types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  private selectZone(zoneId: number) {
-    this.selectedZone = this.zones.find(a => a.id === zoneId);
-    const types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
-
-    this.groupedTypes = {};
-    for (const type of types) {
-      let array = this.groupedTypes[type.type];
-      if (!array) {
-        this.groupedTypes[type.type] = array = [];
+      this.groupedTypes = {};
+      for (const type of types) {
+        (this.groupedTypes[type.type] ??= []).push(type);
       }
-      array.push(type);
-    }
+    });
   }
 }

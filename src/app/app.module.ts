@@ -12,6 +12,7 @@ import { PreAuditComponent } from './pre-audit/pre-audit.component';
 import { ZoneComponent } from './zone/zone.component';
 import { TypeComponent } from './type/type.component';
 import { AuditComponent } from './audit/audit.component';
+import { PreZoneComponent } from './pre-zone/pre-zone.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AuditComponent } from './audit/audit.component';
     ZoneComponent,
     TypeComponent,
     AuditComponent,
+    PreZoneComponent,
   ],
   imports: [
     BrowserModule,
