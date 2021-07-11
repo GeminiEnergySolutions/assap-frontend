@@ -11,6 +11,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { PreAuditComponent } from './pre-audit/pre-audit.component';
 import { ZoneComponent } from './zone/zone.component';
 import { TypeComponent } from './type/type.component';
+import { AuditComponent } from './audit/audit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TypeComponent } from './type/type.component';
     PreAuditComponent,
     ZoneComponent,
     TypeComponent,
+    AuditComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,8 +26,32 @@ export class ParseService {
         where: JSON.stringify(filter),
       },
     }).pipe(
-      map(v => v.results),
+      map(v => this.merge(v.results)),
     );
+  }
+
+  private merge(audits: Audit[]): Audit[] {
+    const auditIds = new Map<string, Audit>();
+
+    for (const audit of audits) {
+      const existing = auditIds.get(audit.auditId);
+      if (!existing) {
+        auditIds.set(audit.auditId, audit);
+        continue;
+      }
+
+      // in case of conflict, use newest
+      if (existing.updatedAt < audit.updatedAt) {
+        existing.name = audit.name;
+        existing.type = {...existing.type, ...audit.type};
+        existing.zone = {...existing.zone, ...audit.zone};
+      } else {
+        existing.type = {...audit.type, ...existing.type};
+        existing.zone = {...audit.zone, ...existing.zone};
+      }
+    }
+
+    return [...auditIds.values()];
   }
 
   getFeatures(filter: Partial<Feature> = {}): Observable<Feature[]> {
