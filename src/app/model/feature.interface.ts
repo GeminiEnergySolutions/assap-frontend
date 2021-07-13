@@ -8,10 +8,10 @@ export interface Feature {
   belongsTo: string;
 
   // the following are all tab-separated lists
-  id: string;
-  dataType: string;
+  id?: string;
+  dataType?: string;
+  fields?: string;
   formId: string;
-  fields: string;
   values: string;
 
   createdAt: string; // UTC date

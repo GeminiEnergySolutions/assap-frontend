@@ -70,7 +70,13 @@ export class ParseService {
     );
   }
 
-  saveFeature(objectId: string, feature: Partial<Feature>): Observable<void> {
+  createFeature(feature: Omit<Feature, 'objectId' | 'createdAt' | 'updatedAt'>): Observable<Feature> {
+    return this.http.post<Pick<Feature, 'objectId' | 'createdAt'>>(this.url + '/classes/rFeature', feature).pipe(
+      map(result => ({...feature, ...result, updatedAt: result.createdAt})),
+    );
+  }
+
+  updateFeature(objectId: string, feature: Partial<Feature>): Observable<void> {
     return this.http.put<void>(`${this.url}/classes/rFeature/${objectId}`, feature);
   }
 
@@ -87,9 +93,13 @@ export class ParseService {
     return data;
   }
 
-  data2Feature(feature: Feature, data: Data): Partial<Feature> {
+  data2Feature(data: Data): Partial<Feature> {
+    const entries = Object.entries(data);
+    const formId = entries.map(e => e[0]).join('\u001F');
+    const values = entries.map(e => e[1]).join('\u001F');
     return {
-      values: feature.formId.split('\u001F').map(formId => data[formId]).join('\u001F'),
+      formId,
+      values,
     };
   }
 

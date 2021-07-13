@@ -3,7 +3,7 @@ import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Audit} from '../model/audit.interface';
-import {FeatureData, Feature} from '../model/feature.interface';
+import {Feature, FeatureData} from '../model/feature.interface';
 import {ParseService} from '../parse/parse.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {ParseService} from '../parse/parse.service';
 })
 export class AuditComponent implements OnInit {
   selectedAudit?: Audit;
-  selectedFeatures: Feature[] = [];
+  feature?: Feature;
   data: FeatureData = {};
   activeTab: 'preaudit' | 'zone' = 'preaudit';
 
@@ -31,14 +31,30 @@ export class AuditComponent implements OnInit {
       ])),
     ).subscribe(([audits, features]) => {
       this.selectedAudit = audits[0];
-      this.selectedFeatures = features;
+      this.feature = features[0];
       this.data = features[0] ? this.parseService.feature2Data(features[0]) : {};
     });
   }
 
   save(data: Data) {
-    const feature = this.selectedFeatures[0];
-    const update = this.parseService.data2Feature(feature, data);
-    this.parseService.saveFeature(feature.objectId, update).subscribe();
+    if (this.feature) {
+      const update = this.parseService.data2Feature(data);
+      this.parseService.updateFeature(this.feature.objectId, update).subscribe();
+      return;
+    }
+
+    const {formId, values} = this.parseService.data2Feature(data);
+    this.parseService.createFeature({
+      auditId: this.selectedAudit.auditId,
+      belongsTo: 'preaudit',
+      mod: new Date().valueOf().toString(),
+      zoneId: null,
+      typeId: null,
+      usn: 0,
+      formId,
+      values,
+    }).subscribe(feature => {
+      this.feature = feature;
+    });
   }
 }
