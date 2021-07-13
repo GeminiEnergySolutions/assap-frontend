@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Settings</h1>
+  <div class="form">
+    <div class="form-group">
+      <label for="url">Parse Server URL</label>
+      <input type="url" class="form-control" id="url" [(ngModel)]="url">
+    </div>
+    <div class="form-group">
+      <label for="appId">Parse App ID</label>
+      <input type="text" class="form-control" id="appId" [(ngModel)]="appId">
+    </div>
+    <div class="form-group">
+      <label for="masterKey">Parse Master Key</label>
+      <input type="password" class="form-control" id="masterKey" [(ngModel)]="masterKey">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="save()">
+      Save
+    </button>
+  </div>
+</div>

@@ -1,27 +1,26 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Audit} from "../model/audit.interface";
-import {Observable} from "rxjs";
-import {environment} from "../../environments/environment";
-import {map} from "rxjs/operators";
-import {Feature} from "../model/feature.interface";
-import {DataType, Element, Schema} from "../forms/forms.interface";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {DataType, Element, Schema} from '../forms/forms.interface';
+import {Audit} from '../model/audit.interface';
+import {Feature} from '../model/feature.interface';
+import {ParseCredentialService} from './parse-credential.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class ParseService {
-  private readonly _headers = {
-    'X-Parse-Application-Id': environment.parseAppId,
-    'X-Parse-Master-Key': environment.parseMasterKey,
-  };
-
   constructor(
     private http: HttpClient,
+    private parseCredentialService: ParseCredentialService,
   ) {
   }
 
+  private get url(): string {
+    return this.parseCredentialService.url;
+  }
+
   getAudits(filter: Partial<Audit> = {}): Observable<Audit[]> {
-    return this.http.get<{ results: Audit[] }>(`${environment.parseUrl}/classes/rAudit`, {
-      headers: this._headers,
+    return this.http.get<{ results: Audit[] }>(`${this.url}/classes/rAudit`, {
       params: {
         where: JSON.stringify(filter),
       },
@@ -55,8 +54,7 @@ export class ParseService {
   }
 
   getFeatures(filter: Partial<Feature> = {}): Observable<Feature[]> {
-    return this.http.get<{ results: Feature[] }>(`${environment.parseUrl}/classes/rFeature`, {
-      headers: this._headers,
+    return this.http.get<{ results: Feature[] }>(`${this.url}/classes/rFeature`, {
       params: {
         where: JSON.stringify(filter),
       },
@@ -88,12 +86,12 @@ export class ParseService {
     for (let i = 0; i < length; i++) {
       elements.push({
         dataType: dataTypes[i] as DataType,
-        defaultValues: "",
-        hint: "",
+        defaultValues: '',
+        hint: '',
         id: formIds[i],
         index: i,
         param: fields[i],
-        validation: "mandatory",
+        validation: 'mandatory',
       });
     }
 
@@ -104,8 +102,8 @@ export class ParseService {
           index: 0,
           section: '',
           elements,
-        }
-      ]
+        },
+      ],
     };
   }
 }
