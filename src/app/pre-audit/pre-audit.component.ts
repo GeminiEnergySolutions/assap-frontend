@@ -24,6 +24,10 @@ export class PreAuditComponent implements OnInit {
 
   create(): void {
     const name = prompt('New Audit Name');
+    if (!name) {
+      return;
+    }
+
     this.parseService.createAudit({
       auditId: UUID(),
       mod: new Date().valueOf().toString(),
