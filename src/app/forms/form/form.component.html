@@ -10,23 +10,11 @@
           <option *ngFor="let value of element.defaultValues.split(',')"
                   [value]="value.substring(0, value.indexOf(':'))">{{value.substring(value.indexOf(':') + 1)}}</option>
         </select>
-        <input *ngSwitchCase="'emailrow'" [(ngModel)]="data[element.id]"
-               type="email" class="form-control"
-               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <input *ngSwitchCase="'phonerow'" [(ngModel)]="data[element.id]"
-               type="tel" class="form-control"
-               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
         <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]"
                   class="form-control"
                   id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help"></textarea>
-        <input *ngSwitchCase="'introw'" [(ngModel)]="data[element.id]"
-               type="number" class="form-control" step="1"
-               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
-        <input *ngSwitchCase="'decimalrow'" [(ngModel)]="data[element.id]"
-               type="number" class="form-control"
-               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
         <input *ngSwitchDefault [(ngModel)]="data[element.id]"
-               type="text" class="form-control"
+               [type]="element.dataType | formInputType" class="form-control"
                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
       </ng-container>
       <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>

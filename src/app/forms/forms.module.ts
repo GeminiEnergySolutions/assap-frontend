@@ -4,11 +4,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {MasterDetailComponent} from './master-detail/master-detail.component';
 import {FormComponent} from './form/form.component';
 import {FormsModule as NgFormsModule} from "@angular/forms";
+import { FormInputTypePipe } from './form-input-type.pipe';
 
 @NgModule({
   declarations: [
     MasterDetailComponent,
     FormComponent,
+    FormInputTypePipe,
   ],
   exports: [
     MasterDetailComponent,
