@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Schema} from "../forms.interface";
-import {FormsService} from "../forms.service";
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Schema} from '../forms.interface';
+import {FormsService} from '../forms.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
   @Input() type: string;
@@ -13,6 +13,8 @@ export class FormComponent implements OnInit {
 
   @Input() data: object = {};
   @Output() dataChanged = new EventEmitter<object>();
+
+  private dirty = false;
 
   constructor(
     private formsService: FormsService,
@@ -29,5 +31,15 @@ export class FormComponent implements OnInit {
 
   save(): void {
     this.dataChanged.emit(this.data);
+    this.dirty = false;
+  }
+
+  setDirty() {
+    this.dirty = true;
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): boolean {
+    return !this.dirty;
   }
 }
