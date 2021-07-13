@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {v4 as UUID} from 'uuid';
 import {Audit} from '../model/audit.interface';
 import {ParseService} from '../parse/parse.service';
 
@@ -18,6 +19,20 @@ export class PreAuditComponent implements OnInit {
   ngOnInit(): void {
     this.parseService.getAudits().subscribe(audits => {
       this.audits = audits;
+    });
+  }
+
+  create(): void {
+    const name = prompt('New Audit Name');
+    this.parseService.createAudit({
+      auditId: UUID(),
+      mod: new Date().valueOf().toString(),
+      name,
+      type: {},
+      usn: 0,
+      zone: {},
+    }).subscribe(audit => {
+      this.audits.push(audit);
     });
   }
 }

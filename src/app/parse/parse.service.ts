@@ -54,6 +54,12 @@ export class ParseService {
     return [...auditIds.values()];
   }
 
+  createAudit(audit: Omit<Audit, 'objectId' | 'createdAt' | 'updatedAt'>): Observable<Audit> {
+    return this.http.post<Pick<Audit, 'objectId' | 'createdAt'>>(this.url + '/classes/rAudit', audit).pipe(
+      map(result => ({...audit, ...result, updatedAt: result.createdAt})),
+    );
+  }
+
   getFeatures(filter: Partial<Feature> = {}): Observable<Feature[]> {
     return this.http.get<{ results: Feature[] }>(`${this.url}/classes/rFeature`, {
       params: {
