@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  - push
+
+jobs:
+  deploy:
+    name: Angular CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Install PNPM
+        run: npm install -g pnpm
+      - name: Cache PNPM Store
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pnpm-store
+            /.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm
+      - name: Install Angular CLI
+        run: pnpm install -g @angular/cli
+      - name: Setup Angular CLI to use PNPM
+        run: ng config -g cli.packageManager pnpm
+      - name: Install
+        run: pnpm install
+      - name: Build
+        run: pnpm build
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: ng deploy --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
