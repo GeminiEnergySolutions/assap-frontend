@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Audit} from '../model/audit.interface';
-import {Feature} from '../model/feature.interface';
+import {FeatureData, Feature} from '../model/feature.interface';
 import {ParseService} from '../parse/parse.service';
 
 @Component({
@@ -14,7 +14,7 @@ import {ParseService} from '../parse/parse.service';
 export class AuditComponent implements OnInit {
   selectedAudit?: Audit;
   selectedFeatures: Feature[] = [];
-  data: object = {};
+  data: FeatureData = {};
   activeTab: 'preaudit' | 'zone' = 'preaudit';
 
   constructor(

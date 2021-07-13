@@ -17,3 +17,5 @@ export interface Feature {
   createdAt: string; // UTC date
   updatedAt: string; // UTC date
 }
+
+export type FeatureData = Record<string, string>;

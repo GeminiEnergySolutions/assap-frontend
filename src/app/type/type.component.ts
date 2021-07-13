@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Schema} from '../forms/forms.interface';
+import {FeatureData} from '../model/feature.interface';
 import {ParseService} from '../parse/parse.service';
 
 @Component({
@@ -10,7 +11,7 @@ import {ParseService} from '../parse/parse.service';
   styleUrls: ['./type.component.scss'],
 })
 export class TypeComponent implements OnInit {
-  data?: object;
+  data?: FeatureData;
   schema?: Schema;
 
   constructor(

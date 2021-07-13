@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DataType, Element, Schema} from '../forms/forms.interface';
 import {Audit} from '../model/audit.interface';
-import {Feature} from '../model/feature.interface';
+import {FeatureData, Feature} from '../model/feature.interface';
 import {ParseCredentialService} from './parse-credential.service';
 
 @Injectable()
@@ -63,8 +63,8 @@ export class ParseService {
     );
   }
 
-  feature2Data(feature: Feature): object {
-    const data = {};
+  feature2Data(feature: Feature): FeatureData {
+    const data: Record<string, string> = {};
     const formIds = feature.formId.split('\u001F');
     const values = feature.values.split('\u001F');
     const length = Math.min(formIds.length, values.length);
