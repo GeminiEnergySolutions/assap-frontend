@@ -14,6 +14,7 @@
          [routerLink]="[audit.auditId]" routerLinkActive="active text-white"
       >
         {{audit.name}}
+        <i class="bi-pencil" (click)="rename(audit); $event.stopPropagation(); $event.preventDefault()"></i>
       </a>
     </div>
   </div>

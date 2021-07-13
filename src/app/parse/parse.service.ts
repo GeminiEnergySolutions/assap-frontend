@@ -60,6 +60,10 @@ export class ParseService {
     );
   }
 
+  updateAudit(objectId: string, audit: Partial<Audit>): Observable<void> {
+    return this.http.put<void>(`${this.url}/classes/rAudit/${objectId}`, audit);
+  }
+
   getFeatures(filter: Partial<Feature> = {}): Observable<Feature[]> {
     return this.http.get<{ results: Feature[] }>(`${this.url}/classes/rFeature`, {
       params: {

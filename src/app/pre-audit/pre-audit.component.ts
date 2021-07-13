@@ -35,4 +35,16 @@ export class PreAuditComponent implements OnInit {
       this.audits.push(audit);
     });
   }
+
+  rename(audit: Audit) {
+    const name = prompt('Rename Audit', audit.name);
+    if (!name) {
+      return;
+    }
+    this.parseService.updateAudit(audit.objectId, {
+      name,
+    }).subscribe(() => {
+      audit.name = name;
+    });
+  }
 }
