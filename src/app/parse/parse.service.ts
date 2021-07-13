@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DataType, Element, Schema} from '../forms/forms.interface';
@@ -63,6 +64,10 @@ export class ParseService {
     );
   }
 
+  saveFeature(objectId: string, feature: Partial<Feature>): Observable<void> {
+    return this.http.put<void>(`${this.url}/classes/rFeature/${objectId}`, feature);
+  }
+
   feature2Data(feature: Feature): FeatureData {
     const data: Record<string, string> = {};
     const formIds = feature.formId.split('\u001F');
@@ -74,6 +79,12 @@ export class ParseService {
     }
 
     return data;
+  }
+
+  data2Feature(feature: Feature, data: Data): Partial<Feature> {
+    return {
+      values: feature.formId.split('\u001F').map(formId => data[formId]).join('\u001F'),
+    };
   }
 
   feature2Schema(feature: Feature): Schema {

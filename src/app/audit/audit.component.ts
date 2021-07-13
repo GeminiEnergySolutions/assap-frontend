@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Audit} from '../model/audit.interface';
@@ -27,12 +27,18 @@ export class AuditComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({aid}) => forkJoin([
         this.parseService.getAudits({auditId: aid}),
-        this.parseService.getFeatures({auditId: aid, zoneId: 'null'}),
+        this.parseService.getFeatures({auditId: aid, belongsTo: 'preaudit'}),
       ])),
     ).subscribe(([audits, features]) => {
       this.selectedAudit = audits[0];
       this.selectedFeatures = features;
       this.data = features[0] ? this.parseService.feature2Data(features[0]) : {};
     });
+  }
+
+  save(data: Data) {
+    const feature = this.selectedFeatures[0];
+    const update = this.parseService.data2Feature(feature, data);
+    this.parseService.saveFeature(feature.objectId, update).subscribe();
   }
 }
