@@ -38,4 +38,14 @@ export class TypeListComponent implements OnInit {
       this.types.push(type);
     });
   }
+
+  rename(type: Type) {
+    const name = prompt('Rename Type', type.name);
+    if (!name) {
+      return;
+    }
+    this.auditService.updateType(this.audit, type.id, {name}).subscribe(() => {
+      type.name = name;
+    });
+  }
 }

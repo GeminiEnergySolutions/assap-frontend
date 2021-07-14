@@ -12,6 +12,8 @@
      [routerLink]="[routerLink + item.id]"
      routerLinkActive="active text-white"
   >
-    {{item.name}} <small class="text-muted">{{item.subtype}}</small>
+    {{item.name}}
+    <i class="bi-pencil" (click)="rename(item); $event.preventDefault(); $event.stopPropagation()"></i>
+    <small class="text-muted">{{item.subtype}}</small>
   </a>
 </div>

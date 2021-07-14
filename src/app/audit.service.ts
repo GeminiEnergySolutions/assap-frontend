@@ -94,4 +94,12 @@ export class AuditService {
       mapTo(type),
     );
   }
+
+  updateType(audit: Audit, typeId: Type['id'], update: Partial<Type>): Observable<void> {
+    const updateAudit = {};
+    for (const [key, value] of Object.entries(update)) {
+      updateAudit[`type.${typeId}.${key}`] = value;
+    }
+    return this.update(audit.objectId, updateAudit);
+  }
 }
