@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
+import {FeatureService} from '../feature.service';
 import {Schema} from '../forms/forms.interface';
 import {FeatureData} from '../model/feature.interface';
-import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-type',
@@ -15,22 +15,22 @@ export class TypeComponent implements OnInit {
   schema?: Schema;
 
   constructor(
-    private parseService: ParseService,
+    private featureService: FeatureService,
     private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid, tid}) => this.parseService.getFeatures({
+      switchMap(({aid, zid, tid}) => this.featureService.findAll({
         auditId: aid,
         zoneId: zid,
         typeId: tid,
       })),
     ).subscribe(features => {
       const feature = features[0];
-      this.schema = feature ? this.parseService.feature2Schema(feature) : undefined;
-      this.data = feature ? this.parseService.feature2Data(feature) : {};
+      this.schema = feature ? this.featureService.feature2Schema(feature) : undefined;
+      this.data = feature ? this.featureService.feature2Data(feature) : {};
     });
   }
 }

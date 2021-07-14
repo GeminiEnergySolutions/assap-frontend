@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {Audit, Zone} from '../model/audit.interface';
+import {AuditService} from '../audit.service';
+import {FeatureService} from '../feature.service';
+import {Audit} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
-import {ParseService} from '../parse/parse.service';
-import {v4 as UUID} from 'uuid';
 
 @Component({
   selector: 'app-audit',
@@ -19,7 +19,8 @@ export class AuditComponent implements OnInit {
   activeTab: 'preaudit' | 'zone' = 'preaudit';
 
   constructor(
-    private parseService: ParseService,
+    private auditService: AuditService,
+    private featureService: FeatureService,
     private route: ActivatedRoute,
   ) {
   }
@@ -27,25 +28,25 @@ export class AuditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({aid}) => forkJoin([
-        this.parseService.getAudits({auditId: aid}),
-        this.parseService.getFeatures({auditId: aid, belongsTo: 'preaudit'}),
+        this.auditService.findAll({auditId: aid}),
+        this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'}),
       ])),
     ).subscribe(([audits, features]) => {
       this.selectedAudit = audits[0];
       this.feature = features[0];
-      this.data = features[0] ? this.parseService.feature2Data(features[0]) : {};
+      this.data = features[0] ? this.featureService.feature2Data(features[0]) : {};
     });
   }
 
   save(data: Data) {
     if (this.feature) {
-      const update = this.parseService.data2Feature(data);
-      this.parseService.updateFeature(this.feature.objectId, update).subscribe();
+      const update = this.featureService.data2Feature(data);
+      this.featureService.update(this.feature.objectId, update).subscribe();
       return;
     }
 
-    const {formId, values} = this.parseService.data2Feature(data);
-    this.parseService.createFeature({
+    const {formId, values} = this.featureService.data2Feature(data);
+    this.featureService.create({
       auditId: this.selectedAudit.auditId,
       belongsTo: 'preaudit',
       mod: new Date().valueOf().toString(),
@@ -65,7 +66,7 @@ export class AuditComponent implements OnInit {
       return;
     }
 
-    this.parseService.createZone(this.selectedAudit, {name}).subscribe(zone => {
+    this.auditService.createZone(this.selectedAudit, {name}).subscribe(zone => {
       this.selectedAudit.zone[zone.id] = zone;
     });
   }

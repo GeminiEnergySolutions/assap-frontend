@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {v4 as UUID} from 'uuid';
+import {AuditService} from '../audit.service';
 import {Audit} from '../model/audit.interface';
-import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-pre-audit',
@@ -12,12 +12,12 @@ export class PreAuditComponent implements OnInit {
   audits: Audit[] = [];
 
   constructor(
-    private parseService: ParseService,
+    private auditService: AuditService,
   ) {
   }
 
   ngOnInit(): void {
-    this.parseService.getAudits().subscribe(audits => {
+    this.auditService.findAll().subscribe(audits => {
       this.audits = audits;
     });
   }
@@ -28,7 +28,7 @@ export class PreAuditComponent implements OnInit {
       return;
     }
 
-    this.parseService.createAudit({
+    this.auditService.create({
       auditId: UUID(),
       mod: new Date().valueOf().toString(),
       name,
@@ -45,7 +45,7 @@ export class PreAuditComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.parseService.updateAudit(audit.objectId, {
+    this.auditService.update(audit.objectId, {
       name,
     }).subscribe(() => {
       audit.name = name;

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap, tap} from 'rxjs/operators';
+import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
 import {Types} from '../model/types';
-import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-zone',
@@ -19,14 +19,14 @@ export class ZoneComponent implements OnInit {
   activeTab: string;
 
   constructor(
-    private parseService: ParseService,
+    private auditService: AuditService,
     private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid}) => this.parseService.getAudits({auditId: aid}).pipe(
+      switchMap(({aid, zid}) => this.auditService.findAll({auditId: aid}).pipe(
         map(audits => audits[0]),
         tap(audit => this.audit = audit),
         map(audit => audit.zone[zid]),

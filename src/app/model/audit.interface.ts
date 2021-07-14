@@ -1,4 +1,6 @@
-export interface Audit {
+import {ParseObject} from '../parse/parse-object.interface';
+
+export interface Audit extends ParseObject {
   /** user-supplied name */
   name: string;
   /** contained Zones by ID */
@@ -13,14 +15,6 @@ export interface Audit {
   usn: number;
   /** modification time as string containing number of milliseconds since UNIX epoch */
   mod: string;
-
-  // Parse metadata
-  /** record ID */
-  objectId: string;
-  /** record creation date and time as ISO-8601 UTC timestamp */
-  createdAt: string;
-  /** record modification date and time as ISO-8601 UTC timestamp */
-  updatedAt: string;
 }
 
 export interface Zone {

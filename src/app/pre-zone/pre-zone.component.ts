@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
+import {AuditService} from '../audit.service';
 import {Audit, Zone} from '../model/audit.interface';
-import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-pre-zone',
@@ -15,13 +15,13 @@ export class PreZoneComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private parseService: ParseService,
+    private auditService: AuditService,
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => this.parseService.getAudits({auditId: aid})),
+      switchMap(({aid}) => this.auditService.findAll({auditId: aid})),
     ).subscribe(audits => {
       this.audit = audits[0];
       this.zones = Object.values(this.audit.zone);
@@ -34,7 +34,7 @@ export class PreZoneComponent implements OnInit {
       return;
     }
 
-    this.parseService.createZone(this.audit, {name}).subscribe(zone => {
+    this.auditService.createZone(this.audit, {name}).subscribe(zone => {
       this.audit.zone[zone.id] = zone;
       this.zones.push(zone);
     });

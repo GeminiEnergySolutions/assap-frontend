@@ -1,5 +1,6 @@
-export interface Feature {
-  objectId: string;
+import {ParseObject} from '../parse/parse-object.interface';
+
+export interface Feature extends ParseObject {
   usn: number;
   auditId: string;
   zoneId: string;
@@ -13,9 +14,6 @@ export interface Feature {
   fields?: string;
   formId: string;
   values: string;
-
-  createdAt: string; // UTC date
-  updatedAt: string; // UTC date
 }
 
 export type FeatureData = Record<string, string>;

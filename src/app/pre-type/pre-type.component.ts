@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap, tap} from 'rxjs/operators';
+import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
-import {ParseService} from '../parse/parse.service';
 
 @Component({
   selector: 'app-pre-type',
@@ -17,13 +17,13 @@ export class PreTypeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private parseService: ParseService,
+    private auditService: AuditService,
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid, type}) => this.parseService.getAudits({auditId: aid}).pipe(
+      switchMap(({aid, zid, type}) => this.auditService.findAll({auditId: aid}).pipe(
         map(audits => audits[0]),
         tap(audit => {
           this.typeName = type;
