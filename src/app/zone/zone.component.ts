@@ -41,4 +41,19 @@ export class ZoneComponent implements OnInit {
       }
     });
   }
+
+  createType(type: (typeof Types)[number], subType?: (typeof Types)[number]['subTypes'][number]) {
+    const name = prompt(`New ${subType?.name ?? type.name} Name`);
+    if (!name) {
+      return;
+    }
+    this.auditService.createType(this.audit, this.selectedZone, {
+      type: type.name,
+      subtype: subType?.name ?? null,
+      name,
+    }).subscribe(type => {
+      this.selectedZone.typeId.push(type.id);
+      this.audit.type[type.id] = type;
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, mapTo} from 'rxjs/operators';
-import {Audit, Zone} from './model/audit.interface';
+import {Audit, Type, Zone} from './model/audit.interface';
 import {ParseObject} from './parse/parse-object.interface';
 import {ParseService} from './parse/parse.service';
 
@@ -76,5 +76,22 @@ export class AuditService {
       updateAudit[`zone.${zoneId}.${key}`] = value;
     }
     return this.update(audit.objectId, updateAudit);
+  }
+
+  createType(audit: Audit, zone: Zone, dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
+    const typeId = new Date().valueOf();
+    const type: Type = {
+      id: typeId,
+      mod: typeId,
+      usn: 0,
+      zoneId: zone.id,
+      ...dto,
+    };
+    return this.update(audit.objectId, {
+      [`type.${typeId}`]: type,
+      [`zone.${zone.id}.typeId`]: {__op:'AddUnique','objects':[typeId]},
+    }).pipe(
+      mapTo(type),
+    );
   }
 }
