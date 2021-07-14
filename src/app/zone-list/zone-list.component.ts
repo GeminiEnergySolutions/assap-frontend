@@ -9,7 +9,7 @@ import {Audit, Zone} from '../model/audit.interface';
 })
 export class ZoneListComponent {
   @Input() audit: Audit;
-  @Input() routerLink = '';
+  @Input() routerPrefix = '';
 
   constructor(
     private auditService: AuditService,
