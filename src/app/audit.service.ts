@@ -15,6 +15,12 @@ export class AuditService {
   ) {
   }
 
+  private randomIdAndMod() {
+    const mod = new Date().valueOf();
+    const id = (mod / 1000) | 0;
+    return {id, mod};
+  }
+
   findAll(filter: Partial<Audit> = {}): Observable<Audit[]> {
     return this.parseService.findAll<Audit>(`rAudit`, filter).pipe(
       map(v => this.merge(v)),
@@ -45,7 +51,14 @@ export class AuditService {
     return [...auditIds.values()];
   }
 
-  create(audit: Omit<Audit, keyof ParseObject>): Observable<Audit> {
+  create(dto: Omit<Audit, keyof ParseObject | 'auditId' | 'mod' | 'usn'>): Observable<Audit> {
+    const {id, mod} = this.randomIdAndMod();
+    const audit: Omit<Audit, keyof ParseObject> = {
+      auditId: id.toString(),
+      mod: mod.toString(),
+      usn: 0,
+      ...dto,
+    };
     return this.parseService.create<Audit>('rAudit', audit);
   }
 
@@ -54,17 +67,17 @@ export class AuditService {
   }
 
   createZone(audit: Audit, dto: Partial<Zone>): Observable<Zone> {
-    const zoneId = new Date().valueOf();
+    const {id, mod} = this.randomIdAndMod();
     const zone: Zone = {
-      id: zoneId,
-      mod: zoneId,
+      id,
+      mod,
       usn: 0,
       name: '',
       typeId: [],
       ...dto,
     };
     return this.update(audit.objectId, {
-      [`zone.${zoneId}`]: zone,
+      [`zone.${id}`]: zone,
     }).pipe(
       mapTo(zone),
     );
@@ -79,17 +92,17 @@ export class AuditService {
   }
 
   createType(audit: Audit, zone: Zone, dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
-    const typeId = new Date().valueOf();
+    const {id, mod} = this.randomIdAndMod();
     const type: Type = {
-      id: typeId,
-      mod: typeId,
+      id,
+      mod,
       usn: 0,
       zoneId: zone.id,
       ...dto,
     };
     return this.update(audit.objectId, {
-      [`type.${typeId}`]: type,
-      [`zone.${zone.id}.typeId`]: {__op:'AddUnique','objects':[typeId]},
+      [`type.${id}`]: type,
+      [`zone.${zone.id}.typeId`]: {__op: 'AddUnique', 'objects': [id]},
     }).pipe(
       mapTo(type),
     );

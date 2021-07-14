@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {v4 as UUID} from 'uuid';
 import {AuditService} from '../audit.service';
 import {Audit} from '../model/audit.interface';
 
@@ -29,11 +28,8 @@ export class PreAuditComponent implements OnInit {
     }
 
     this.auditService.create({
-      auditId: UUID(),
-      mod: new Date().valueOf().toString(),
       name,
       type: {},
-      usn: 0,
       zone: {},
     }).subscribe(audit => {
       this.audits.push(audit);
