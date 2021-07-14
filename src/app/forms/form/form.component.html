@@ -9,8 +9,9 @@
                   class="form-control"
                   id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
             <option *ngFor="let value of element.defaultValues.split(',')"
-                    [value]="value.substring(0, value.indexOf(':'))">{{value.substring(
-              value.indexOf(':') + 1)}}</option>
+                    [value]="value.substring(value.indexOf(':') + 1)">
+              {{value.substring(value.indexOf(':') + 1)}}
+            </option>
           </select>
           <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
                     class="form-control"
