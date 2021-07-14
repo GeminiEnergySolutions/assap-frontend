@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
+import {Types} from '../model/types';
 
 @Component({
   selector: 'app-pre-type',
@@ -12,7 +13,7 @@ import {Audit, Type, Zone} from '../model/audit.interface';
 export class PreTypeComponent implements OnInit {
   audit?: Audit;
   zone?: Zone;
-  typeName?: string;
+  type?: (typeof Types)[number];
   types: Type[] = [];
 
   constructor(
@@ -26,7 +27,7 @@ export class PreTypeComponent implements OnInit {
       switchMap(({aid, zid, type}) => this.auditService.findAll({auditId: aid}).pipe(
         map(audits => audits[0]),
         tap(audit => {
-          this.typeName = type;
+          this.type = Types.find(t => t.name === type);
           this.audit = audit;
           this.zone = audit.zone[zid];
           this.types = Object.values(audit.type).filter(t => t.type === type && t.zoneId == zid);

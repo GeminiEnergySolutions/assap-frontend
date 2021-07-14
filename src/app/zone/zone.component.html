@@ -4,23 +4,8 @@
         [ngbNavItem]="type.name">
       <a ngbNavLink>{{type.name}}</a>
       <ng-template ngbNavContent>
-        <div class="list-group rounded-0">
-          <button *ngIf="!type.subTypes"
-            class="list-group-item list-group-item-action text-success" (click)="createType(type)">
-            New {{ type.name }}
-          </button>
-          <button *ngFor="let subType of type.subTypes"
-            class="list-group-item list-group-item-action text-success" (click)="createType(type, subType)">
-            New {{ subType.name }}
-          </button>
-          <a *ngFor="let item of groupedTypes[type.name]"
-             class="list-group-item list-group-item-action"
-             [routerLink]="[type.name, item.id]"
-             routerLinkActive="active text-white"
-          >
-            {{item.name}} <small class="text-muted">{{item.subtype}}</small>
-          </a>
-        </div>
+        <app-type-list [types]="groupedTypes[type.name]" [audit]="audit" [zone]="selectedZone" [type]="type"
+                       [routerLink]="type.name + '/'"></app-type-list>
       </ng-template>
     </li>
   </ul>
