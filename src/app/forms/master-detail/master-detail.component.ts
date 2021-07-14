@@ -5,11 +5,5 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './master-detail.component.html',
   styleUrls: ['./master-detail.component.scss']
 })
-export class MasterDetailComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class MasterDetailComponent {
 }

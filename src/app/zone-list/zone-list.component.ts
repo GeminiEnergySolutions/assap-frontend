@@ -7,16 +7,13 @@ import {Audit, Zone} from '../model/audit.interface';
   templateUrl: './zone-list.component.html',
   styleUrls: ['./zone-list.component.scss'],
 })
-export class ZoneListComponent implements OnInit {
+export class ZoneListComponent {
   @Input() audit: Audit;
   @Input() routerLink = '';
 
   constructor(
     private auditService: AuditService,
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   createZone() {

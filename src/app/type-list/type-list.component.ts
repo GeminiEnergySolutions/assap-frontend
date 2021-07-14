@@ -8,7 +8,7 @@ import {Types} from '../model/types';
   templateUrl: './type-list.component.html',
   styleUrls: ['./type-list.component.scss'],
 })
-export class TypeListComponent implements OnInit {
+export class TypeListComponent {
   @Input() audit: Audit;
   @Input() zone: Zone;
   @Input() types: Type[];
@@ -18,9 +18,6 @@ export class TypeListComponent implements OnInit {
   constructor(
     private auditService: AuditService,
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   createType(type: (typeof Types)[number], subType?: (typeof Types)[number]['subTypes'][number]) {
