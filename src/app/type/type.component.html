@@ -1,3 +1,3 @@
 <div class="container">
-  <app-form *ngIf="data" [schema]="schema" [data]="data" [type]="schemaId"></app-form>
+  <app-form *ngIf="data" [data]="data" [type]="schemaId" (dataChanged)="save(data)"></app-form>
 </div>

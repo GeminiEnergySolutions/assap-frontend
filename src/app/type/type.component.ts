@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Schema} from '../forms/forms.interface';
-import {FeatureData} from '../model/feature.interface';
+import {Type} from '../model/audit.interface';
+import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
 
 @Component({
@@ -14,8 +14,9 @@ import {Types} from '../model/types';
   styleUrls: ['./type.component.scss'],
 })
 export class TypeComponent implements OnInit {
+  feature?: Feature;
+  type?: Type;
   data?: FeatureData;
-  schema?: Schema;
   schemaId?: string;
 
   constructor(
@@ -40,9 +41,31 @@ export class TypeComponent implements OnInit {
       const type2 = type.subtype ? type1.subTypes.find(t => t.name === type.subtype) : type1;
       this.schemaId = type2.id;
 
-      const feature = features[0];
-      this.schema = feature ? this.featureService.feature2Schema(feature) : undefined;
-      this.data = feature ? this.featureService.feature2Data(feature) : {};
+      this.feature = features[0];
+      this.data = this.feature ? this.featureService.feature2Data(this.feature) : {};
+    });
+  }
+
+  save(data: Data) {
+    if (this.feature) {
+      const update = this.featureService.data2Feature(data);
+      this.featureService.update(this.feature.objectId, update).subscribe();
+      return;
+    }
+
+    const {formId, values} = this.featureService.data2Feature(data);
+    const {aid, zid, tid} = this.route.snapshot.params;
+    this.featureService.create({
+      auditId: aid,
+      zoneId: zid,
+      typeId: tid,
+      belongsTo: 'type',
+      mod: new Date().valueOf().toString(),
+      usn: 0,
+      formId,
+      values,
+    }).subscribe(feature => {
+      this.feature = feature;
     });
   }
 }
