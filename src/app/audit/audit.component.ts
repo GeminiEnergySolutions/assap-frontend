@@ -59,15 +59,4 @@ export class AuditComponent implements OnInit {
       this.feature = feature;
     });
   }
-
-  createZone() {
-    const name = prompt('New Zone Name');
-    if (!name) {
-      return;
-    }
-
-    this.auditService.createZone(this.selectedAudit, {name}).subscribe(zone => {
-      this.selectedAudit.zone[zone.id] = zone;
-    });
-  }
 }
