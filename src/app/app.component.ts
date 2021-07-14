@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.updates.available.subscribe(() => {
-      if (prompt('A new update is available. Do you want to install it? This will only take a second or two.')) {
+      if (prompt('A new app update is available. Do you want to install it? This will only take a second or two.')) {
         this.updates.activateUpdate().then(() => document.location.reload());
       }
     });
