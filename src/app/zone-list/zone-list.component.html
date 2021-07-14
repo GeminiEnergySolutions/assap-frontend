@@ -1,0 +1,11 @@
+<div class="list-group rounded-0">
+  <button class="list-group-item list-group-item-action text-success" (click)="createZone()">
+    New Zone
+  </button>
+  <a *ngFor="let keyValue of audit.zone | keyvalue"
+     class="list-group-item list-group-item-action"
+     [routerLink]="[routerLink + keyValue.value.id]"
+  >
+    {{keyValue.value.name}}
+  </a>
+</div>

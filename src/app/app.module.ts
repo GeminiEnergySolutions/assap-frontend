@@ -16,6 +16,7 @@ import {PreZoneComponent} from './pre-zone/pre-zone.component';
 import {SettingsComponent} from './settings/settings.component';
 import {TypeComponent} from './type/type.component';
 import {ZoneComponent} from './zone/zone.component';
+import { ZoneListComponent } from './zone-list/zone-list.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ZoneComponent} from './zone/zone.component';
     PreZoneComponent,
     PreTypeComponent,
     SettingsComponent,
+    ZoneListComponent,
   ],
   imports: [
     BrowserModule,

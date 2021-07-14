@@ -11,17 +11,7 @@
     <li ngbNavItem="zone">
       <a ngbNavLink>Zone</a>
       <ng-template ngbNavContent>
-        <div class="list-group rounded-0">
-          <button class="list-group-item list-group-item-action text-success" (click)="createZone()">
-            New Zone
-          </button>
-          <a *ngFor="let keyValue of selectedAudit?.zone | keyvalue"
-             class="list-group-item list-group-item-action"
-             [routerLink]="['zones', keyValue.value.id]"
-          >
-            {{keyValue.value.name}}
-          </a>
-        </div>
+        <app-zone-list [audit]="selectedAudit" routerLink="zones/"></app-zone-list>
       </ng-template>
     </li>
   </ul>
