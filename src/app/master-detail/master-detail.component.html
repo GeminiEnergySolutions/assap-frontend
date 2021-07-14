@@ -1,0 +1,9 @@
+<div class="row no-gutters h-100">
+  <div class="col-3 h-100 overflow-auto">
+    <ng-content select="[breadcrumb]"></ng-content>
+    <ng-content select="[list]"></ng-content>
+  </div>
+  <div class="col-9 h-100 overflow-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,17 +1,12 @@
-<div class="row no-gutters">
-  <div class="col-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="../../..">Audits</a></li>
-        <li class="breadcrumb-item"><a routerLink="../..">{{audit?.name}}</a></li>
-        <li class="breadcrumb-item"><a routerLink="..">{{zone?.name}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{type?.name}}</li>
-      </ol>
-    </nav>
-    <app-type-list *ngIf="type && audit && zone && types"
-      [audit]="audit" [zone]="zone" [types]="types" [type]="type"></app-type-list>
-  </div>
-  <div class="col-9">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<app-master-detail>
+  <nav breadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="../../..">Audits</a></li>
+      <li class="breadcrumb-item"><a routerLink="../..">{{audit?.name}}</a></li>
+      <li class="breadcrumb-item"><a routerLink="..">{{zone?.name}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{type?.name}}</li>
+    </ol>
+  </nav>
+  <app-type-list list *ngIf="type && audit && zone && types"
+                 [audit]="audit" [zone]="zone" [types]="types" [type]="type"></app-type-list>
+</app-master-detail>

@@ -1,16 +1,10 @@
-<div class="row no-gutters">
-  <div class="col-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="../..">Audits</a></li>
-        <li class="breadcrumb-item"><a routerLink="..">{{audit?.name}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Zones</li>
-      </ol>
-    </nav>
-    <app-zone-list *ngIf="audit"
-      [audit]="audit"></app-zone-list>
-  </div>
-  <div class="col-9">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<app-master-detail>
+  <nav breadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="../..">Audits</a></li>
+      <li class="breadcrumb-item"><a routerLink="..">{{audit?.name}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Zones</li>
+    </ol>
+  </nav>
+  <app-zone-list list *ngIf="audit" [audit]="audit"></app-zone-list>
+</app-master-detail>

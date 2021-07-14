@@ -1,24 +1,19 @@
-<div class="row no-gutters">
-  <div class="col-3">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Audits</li>
-      </ol>
-    </nav>
-    <div class="list-group rounded-0">
-      <button class="list-group-item list-group-item-action text-success" (click)="create()">
-        New Audit
-      </button>
-      <a *ngFor="let audit of audits"
-         class="list-group-item list-group-item-action"
-         [routerLink]="[audit.auditId]" routerLinkActive="active text-white"
-      >
-        {{audit.name}}
-        <i class="bi-pencil" (click)="rename(audit); $event.stopPropagation(); $event.preventDefault()"></i>
-      </a>
-    </div>
+<app-master-detail>
+  <nav breadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Audits</li>
+    </ol>
+  </nav>
+  <div list class="list-group rounded-0">
+    <button class="list-group-item list-group-item-action text-success" (click)="create()">
+      New Audit
+    </button>
+    <a *ngFor="let audit of audits"
+       class="list-group-item list-group-item-action"
+       [routerLink]="[audit.auditId]" routerLinkActive="active text-white"
+    >
+      {{audit.name}}
+      <i class="bi-pencil" (click)="rename(audit); $event.stopPropagation(); $event.preventDefault()"></i>
+    </a>
   </div>
-  <div class="col-9">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+</app-master-detail>

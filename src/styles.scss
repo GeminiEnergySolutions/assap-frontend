@@ -2,3 +2,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~bootstrap-darkmode/scss/darktheme";
+
+html, body {
+  height: 100%;
+}

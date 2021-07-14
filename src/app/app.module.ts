@@ -18,6 +18,7 @@ import {TypeComponent} from './type/type.component';
 import {ZoneComponent} from './zone/zone.component';
 import { ZoneListComponent } from './zone-list/zone-list.component';
 import { TypeListComponent } from './type-list/type-list.component';
+import { MasterDetailComponent } from './master-detail/master-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TypeListComponent } from './type-list/type-list.component';
     SettingsComponent,
     ZoneListComponent,
     TypeListComponent,
+    MasterDetailComponent,
   ],
   imports: [
     BrowserModule,
