@@ -75,10 +75,7 @@ export class ParseService {
       ...dto,
     };
     return this.updateAudit(audit.objectId, {
-      zone: {
-        ...audit.zone,
-        [zoneId]: zone,
-      },
+      [`zone.${zoneId}`]: zone,
     }).pipe(
       mapTo(zone),
     );
