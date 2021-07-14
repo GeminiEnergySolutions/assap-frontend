@@ -38,7 +38,6 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "aot": false,
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },
