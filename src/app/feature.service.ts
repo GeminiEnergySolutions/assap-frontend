@@ -50,35 +50,4 @@ export class FeatureService {
       values,
     };
   }
-
-  feature2Schema(feature: Feature): Schema {
-    const formIds = feature.formId.split('\u001F');
-    const fields = feature.fields.split('\u001F');
-    const dataTypes = feature.dataType.split('\u001F');
-    const length = Math.min(formIds.length, fields.length, dataTypes.length);
-
-    const elements: Element[] = [];
-    for (let i = 0; i < length; i++) {
-      elements.push({
-        dataType: dataTypes[i] as DataType,
-        defaultValues: '',
-        hint: '',
-        id: formIds[i],
-        index: i,
-        param: fields[i],
-        validation: 'mandatory',
-      });
-    }
-
-    return {
-      geminiForm: [
-        {
-          id: '0',
-          index: 0,
-          section: '',
-          elements,
-        },
-      ],
-    };
-  }
 }
