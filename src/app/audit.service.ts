@@ -69,4 +69,12 @@ export class AuditService {
       mapTo(zone),
     );
   }
+
+  updateZone(audit: Audit, zoneId: Zone['id'], update: Partial<Zone>): Observable<void> {
+    const updateAudit = {};
+    for (const [key, value] of Object.entries(update)) {
+      updateAudit[`zone.${zoneId}.${key}`] = value;
+    }
+    return this.update(audit.objectId, updateAudit);
+  }
 }

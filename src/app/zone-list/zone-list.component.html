@@ -7,5 +7,6 @@
      [routerLink]="[routerLink + keyValue.value.id]"
   >
     {{keyValue.value.name}}
+    <i class="bi-pencil" (click)="rename(keyValue.value); $event.preventDefault(); $event.stopPropagation()"></i>
   </a>
 </div>

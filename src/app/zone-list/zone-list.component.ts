@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuditService} from '../audit.service';
-import {Audit} from '../model/audit.interface';
+import {Audit, Zone} from '../model/audit.interface';
 
 @Component({
   selector: 'app-zone-list',
@@ -27,6 +27,16 @@ export class ZoneListComponent implements OnInit {
 
     this.auditService.createZone(this.audit, {name}).subscribe(zone => {
       this.audit.zone[zone.id] = zone;
+    });
+  }
+
+  rename(zone: Zone) {
+    const name = prompt('Rename Zone', zone.name);
+    if (!name) {
+      return;
+    }
+    this.auditService.updateZone(this.audit, zone.id, {name}).subscribe(() => {
+      zone.name = name;
     });
   }
 }
