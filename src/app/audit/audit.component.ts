@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {Audit} from '../model/audit.interface';
+import {Audit, Zone} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {ParseService} from '../parse/parse.service';
+import {v4 as UUID} from 'uuid';
 
 @Component({
   selector: 'app-audit',
@@ -55,6 +56,17 @@ export class AuditComponent implements OnInit {
       values,
     }).subscribe(feature => {
       this.feature = feature;
+    });
+  }
+
+  createZone() {
+    const name = prompt('New Zone Name');
+    if (!name) {
+      return;
+    }
+
+    this.parseService.createZone(this.selectedAudit, {name}).subscribe(zone => {
+      this.selectedAudit.zone[zone.id] = zone;
     });
   }
 }

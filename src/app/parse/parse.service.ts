@@ -2,9 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 import {DataType, Element, Schema} from '../forms/forms.interface';
-import {Audit} from '../model/audit.interface';
+import {Audit, Zone} from '../model/audit.interface';
 import {FeatureData, Feature} from '../model/feature.interface';
 import {ParseCredentialService} from './parse-credential.service';
 
@@ -62,6 +62,26 @@ export class ParseService {
 
   updateAudit(objectId: string, audit: Partial<Audit>): Observable<void> {
     return this.http.put<void>(`${this.url}/classes/rAudit/${objectId}`, audit);
+  }
+
+  createZone(audit: Audit, dto: Partial<Zone>): Observable<Zone> {
+    const zoneId = new Date().valueOf();
+    const zone: Zone = {
+      id: zoneId,
+      mod: zoneId,
+      usn: 0,
+      name: '',
+      typeId: [],
+      ...dto,
+    };
+    return this.updateAudit(audit.objectId, {
+      zone: {
+        ...audit.zone,
+        [zoneId]: zone,
+      },
+    }).pipe(
+      mapTo(zone),
+    );
   }
 
   getFeatures(filter: Partial<Feature> = {}): Observable<Feature[]> {
