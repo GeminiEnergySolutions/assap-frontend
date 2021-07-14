@@ -7,7 +7,8 @@
         <li class="breadcrumb-item active" aria-current="page">Zones</li>
       </ol>
     </nav>
-    <app-zone-list [audit]="audit"></app-zone-list>
+    <app-zone-list *ngIf="audit"
+      [audit]="audit"></app-zone-list>
   </div>
   <div class="col-9">
     <router-outlet></router-outlet>
