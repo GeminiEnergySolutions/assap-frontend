@@ -27,4 +27,16 @@ export class PreZoneComponent implements OnInit {
       this.zones = Object.values(this.audit.zone);
     });
   }
+
+  createZone() {
+    const name = prompt('New Zone Name');
+    if (!name) {
+      return;
+    }
+
+    this.parseService.createZone(this.audit, {name}).subscribe(zone => {
+      this.audit.zone[zone.id] = zone;
+      this.zones.push(zone);
+    });
+  }
 }

@@ -8,6 +8,9 @@
       </ol>
     </nav>
     <div class="list-group rounded-0">
+      <button class="list-group-item list-group-item-action text-success" (click)="createZone()">
+        New Zone
+      </button>
       <a *ngFor="let zone of zones"
          class="list-group-item list-group-item-action"
          [routerLink]="[zone.id]" routerLinkActive="active text-white"
