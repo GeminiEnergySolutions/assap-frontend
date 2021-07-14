@@ -6,16 +6,16 @@
       <ng-container [ngSwitch]="element.dataType">
         <select *ngSwitchCase="'pickerinputrow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
                 class="form-control"
-                id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+                id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
           <option *ngFor="let value of element.defaultValues.split(',')"
                   [value]="value.substring(0, value.indexOf(':'))">{{value.substring(value.indexOf(':') + 1)}}</option>
         </select>
         <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
                   class="form-control"
-                  id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help"></textarea>
+                  id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'"></textarea>
         <input *ngSwitchDefault [(ngModel)]="data[element.id]" (change)="setDirty()"
                [type]="element.dataType | formInputType" class="form-control"
-               id="{{section.id}}-{{element.id}}" aria-describedby="{{section.id}}-{{element.id}}-help">
+               id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
       </ng-container>
       <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>
     </div>
