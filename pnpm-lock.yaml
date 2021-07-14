@@ -18,6 +18,7 @@ specifiers:
   '@angular/platform-browser': ~12.1.1
   '@angular/platform-browser-dynamic': ~12.1.1
   '@angular/router': ~12.1.1
+  '@angular/service-worker': ~12.1.1
   '@ng-bootstrap/ng-bootstrap': ^10.0.0
   '@types/jasmine': ~3.6.0
   '@types/jasminewd2': ~2.0.3
@@ -54,6 +55,7 @@ dependencies:
   '@angular/platform-browser': 12.1.1_230a2a17d1c6a8b3714b56e861bac6c2
   '@angular/platform-browser-dynamic': 12.1.1_7bad67d3a4b10fea90d72aecabe50463
   '@angular/router': 12.1.1_4ae965db65e75a46fba257a31d7e3581
+  '@angular/service-worker': 12.1.2_09ab570107e4e7adac1eb322d034195d
   '@ng-bootstrap/ng-bootstrap': 10.0.0_424a330c91f01653d9d8b838c29673aa
   bootstrap: 4.6.0
   bootstrap-darkmode: 0.8.0_bootstrap@4.6.0
@@ -63,7 +65,7 @@ dependencies:
   zone.js: 0.11.4
 
 devDependencies:
-  '@angular-devkit/build-angular': 12.1.1_b8aef170391b9966cee6aebd7e632e6d
+  '@angular-devkit/build-angular': 12.1.1_fdbfdf0d43ab2719b76cf3a74d52a0a6
   '@angular-eslint/builder': 12.3.0_bd66981f225a56cacddf72343b7572e3
   '@angular-eslint/eslint-plugin': 12.3.0_352d82312f01a5d64e373a007ad5eceb
   '@angular-eslint/eslint-plugin-template': 12.3.0_352d82312f01a5d64e373a007ad5eceb
@@ -100,7 +102,7 @@ packages:
       rxjs: 6.6.7
     dev: true
 
-  /@angular-devkit/build-angular/12.1.1_b8aef170391b9966cee6aebd7e632e6d:
+  /@angular-devkit/build-angular/12.1.1_fdbfdf0d43ab2719b76cf3a74d52a0a6:
     resolution: {integrity: sha512-mJjpPuJlS55gwi/W2g8CIMjPVtUjKCKJdjn34eeYk1Kgw9JYRIsiEivx1hcGyLmiSTF8gRGvW1TEyO+k55/QqA==}
     engines: {node: ^12.14.1 || >=14.0.0, npm: ^6.11.0 || ^7.5.6, yarn: '>= 1.13.0'}
     peerDependencies:
@@ -135,6 +137,7 @@ packages:
       '@angular-devkit/core': 12.1.1
       '@angular/compiler-cli': 12.1.1_9f77f0dd3273b7700965b9c017043b74
       '@angular/localize': 12.1.1_2b43a5aa4fabad79e75e002f69b2fc38
+      '@angular/service-worker': 12.1.2_09ab570107e4e7adac1eb322d034195d
       '@babel/core': 7.14.6
       '@babel/generator': 7.14.5
       '@babel/helper-annotate-as-pure': 7.14.5
@@ -518,6 +521,19 @@ packages:
       '@angular/core': 12.1.1_rxjs@6.5.5+zone.js@0.11.4
       '@angular/platform-browser': 12.1.1_230a2a17d1c6a8b3714b56e861bac6c2
       rxjs: 6.5.5
+      tslib: 2.3.0
+    dev: false
+
+  /@angular/service-worker/12.1.2_09ab570107e4e7adac1eb322d034195d:
+    resolution: {integrity: sha512-4j40Sj/ujdy8Ualbx3aJlweE0YtHQnZxbiIVp4zir26imOQoVvxwBQoLohaUknyKbLNxWggQDrunEJ6Kd5R6HQ==}
+    engines: {node: ^12.14.1 || >=14.0.0}
+    hasBin: true
+    peerDependencies:
+      '@angular/common': 12.1.2
+      '@angular/core': 12.1.2
+    dependencies:
+      '@angular/common': 12.1.1_@angular+core@12.1.1+rxjs@6.5.5
+      '@angular/core': 12.1.1_rxjs@6.5.5+zone.js@0.11.4
       tslib: 2.3.0
     dev: false
 

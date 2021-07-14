@@ -19,6 +19,8 @@ import {ZoneComponent} from './zone/zone.component';
 import { ZoneListComponent } from './zone-list/zone-list.component';
 import { TypeListComponent } from './type-list/type-list.component';
 import { MasterDetailComponent } from './master-detail/master-detail.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,12 @@ import { MasterDetailComponent } from './master-detail/master-detail.component';
     FormsModule,
     AppFormsModule,
     ParseModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
