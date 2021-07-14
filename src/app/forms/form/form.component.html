@@ -1,26 +1,30 @@
-<div class="form">
-  <ng-container *ngFor="let section of schema?.geminiForm || []">
-    <h2>{{section.section}}</h2>
-    <div *ngFor="let element of section.elements" class="form-group">
-      <label for="{{section.id}}-{{element.id}}">{{element.param}}</label>
-      <ng-container [ngSwitch]="element.dataType">
-        <select *ngSwitchCase="'pickerinputrow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
-                class="form-control"
-                id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
-          <option *ngFor="let value of element.defaultValues.split(',')"
-                  [value]="value.substring(0, value.indexOf(':'))">{{value.substring(value.indexOf(':') + 1)}}</option>
-        </select>
-        <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
+<ngb-accordion closeOthers="closeOthers">
+  <ngb-panel *ngFor="let section of schema?.geminiForm || []" [id]="'s-' + section.id" [title]="section.section"
+             class="form">
+    <ng-template ngbPanelContent>
+      <div *ngFor="let element of section.elements" class="form-group">
+        <label for="{{section.id}}-{{element.id}}">{{element.param}}</label>
+        <ng-container [ngSwitch]="element.dataType">
+          <select *ngSwitchCase="'pickerinputrow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
                   class="form-control"
-                  id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'"></textarea>
-        <input *ngSwitchDefault [(ngModel)]="data[element.id]" (change)="setDirty()"
-               [type]="element.dataType | formInputType" class="form-control"
-               id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
-      </ng-container>
-      <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>
-    </div>
-  </ng-container>
-  <button type="button" class="btn btn-primary" (click)="save()">
-    Save
-  </button>
-</div>
+                  id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
+            <option *ngFor="let value of element.defaultValues.split(',')"
+                    [value]="value.substring(0, value.indexOf(':'))">{{value.substring(
+              value.indexOf(':') + 1)}}</option>
+          </select>
+          <textarea *ngSwitchCase="'textarearow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
+                    class="form-control"
+                    id="{{section.id}}-{{element.id}}"
+                    [attr.aria-describedby]="section.id + '-' + element.id + '-help'"></textarea>
+          <input *ngSwitchDefault [(ngModel)]="data[element.id]" (change)="setDirty()"
+                 [type]="element.dataType | formInputType" class="form-control"
+                 id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
+        </ng-container>
+        <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+<button type="button" class="btn btn-primary" (click)="save()">
+  Save
+</button>
