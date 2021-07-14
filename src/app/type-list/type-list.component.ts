@@ -13,7 +13,7 @@ export class TypeListComponent {
   @Input() zone: Zone;
   @Input() types: Type[];
   @Input() type: (typeof Types)[number];
-  @Input() routerLink = '';
+  @Input() routerPrefix = '';
 
   constructor(
     private auditService: AuditService,

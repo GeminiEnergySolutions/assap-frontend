@@ -5,7 +5,7 @@
       <a ngbNavLink>{{type.name}}</a>
       <ng-template ngbNavContent>
         <app-type-list [types]="groupedTypes[type.name]" [audit]="audit" [zone]="selectedZone" [type]="type"
-                       [routerLink]="type.name + '/'"></app-type-list>
+                       [routerPrefix]="type.name + '/'"></app-type-list>
       </ng-template>
     </li>
   </ul>

@@ -3,13 +3,16 @@
           class="list-group-item list-group-item-action text-success" (click)="createType(type)">
     New {{ type.name }}
   </button>
-  <button *ngFor="let subType of type.subTypes"
-          class="list-group-item list-group-item-action text-success" (click)="createType(type, subType)">
-    New {{ subType.name }}
-  </button>
+  <details *ngIf="type.subTypes" class="list-group-item text-success">
+    <summary>New</summary>
+    <button *ngFor="let subType of type.subTypes" class="btn btn-sm btn-link text-success"
+            (click)="createType(type, subType)">
+      {{ subType.name }}
+    </button>
+  </details>
   <a *ngFor="let item of types"
      class="list-group-item list-group-item-action"
-     [routerLink]="[routerLink + item.id]"
+     [routerLink]="[routerPrefix + item.id]"
      routerLinkActive="active text-white"
   >
     {{item.name}}
