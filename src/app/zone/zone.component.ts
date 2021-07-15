@@ -22,6 +22,9 @@ export class ZoneComponent implements OnInit {
     private auditService: AuditService,
     private route: ActivatedRoute,
   ) {
+    for (const type of Types) {
+      this.groupedTypes[type.id] = [];
+    }
   }
 
   ngOnInit(): void {
@@ -35,9 +38,8 @@ export class ZoneComponent implements OnInit {
       this.selectedZone = zone;
       const types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
 
-      this.groupedTypes = {};
       for (const type of types) {
-        (this.groupedTypes[type.type] ??= []).push(type);
+        this.groupedTypes[type.type].push(type);
       }
     });
   }
