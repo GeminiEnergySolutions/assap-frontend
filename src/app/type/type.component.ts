@@ -37,6 +37,8 @@ export class TypeComponent implements OnInit {
         }),
       ])),
     ).subscribe(([type, features]) => {
+      this.type = type;
+
       const type1 = Types.find(t => t.name === type.type);
       const type2 = type.subtype ? type1.subTypes.find(t => t.name === type.subtype) : type1;
       this.schemaId = type2.id;

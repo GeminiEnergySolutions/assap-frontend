@@ -1,4 +1,9 @@
 <div class="container">
+  <h1>
+    <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
+    {{ selectedAudit?.name }}
+  </h1>
+
   <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
     <li ngbNavItem="preaudit">
       <a ngbNavLink>Preaudit</a>
