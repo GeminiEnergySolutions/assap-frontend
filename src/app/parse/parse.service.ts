@@ -17,6 +17,10 @@ export class ParseService {
     return this.parseCredentialService.url;
   }
 
+  getConfig<T>(): Observable<T> {
+    return this.http.get<{ params: T }>(`${this.url}/config`).pipe(map(t => t.params));
+  }
+
   findAll<T>(className: string, where?: any): Observable<T[]> {
     const params = where ? {where: JSON.stringify(where)} : {};
     return this.http.get<{ results: T[] }>(`${this.url}/classes/${className}`, {
