@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
 import {Types} from '../model/types';
@@ -43,6 +43,26 @@ export class TypeListComponent {
     }
     this.auditService.updateType(this.audit, type.id, {name}).subscribe(() => {
       type.name = name;
+    });
+  }
+
+  delete(type: Type) {
+    if (!confirm(`Are you sure you want to delete '${type.name}'?`)) {
+      return;
+    }
+    this.auditService.deleteType(this.audit, type.zoneId, type.id).subscribe(() => {
+      delete this.audit.type[type.id];
+
+      const typeId = this.audit.zone[type.zoneId].typeId;
+      const index1 = typeId.indexOf(type.id);
+      if (index1 >= 0) {
+        typeId.splice(index1, 1);
+      }
+
+      const index2 = this.types.indexOf(type);
+      if (index2 >= 0) {
+        this.types.splice(index2, 1);
+      }
     });
   }
 }

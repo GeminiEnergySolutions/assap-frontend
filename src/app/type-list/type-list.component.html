@@ -18,5 +18,6 @@
     {{item.name}}
     <i class="bi-pencil" (click)="rename(item); $event.preventDefault(); $event.stopPropagation()"></i>
     <small class="text-muted">{{item.subtype}}</small>
+    <i class="bi-trash" (click)="delete(item); $event.preventDefault(); $event.stopPropagation()"></i>
   </a>
 </div>

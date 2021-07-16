@@ -115,4 +115,11 @@ export class AuditService {
     }
     return this.update(audit.objectId, updateAudit);
   }
+
+  deleteType(audit: Audit, zoneId: Type['zoneId'], typeId: Type['id']): Observable<void> {
+    return this.update(audit.objectId, {
+      [`type.${typeId}`]: {__op: 'Delete'},
+      [`zone.${zoneId}.typeId`]: {__op: 'Remove', objects: [typeId]},
+    });
+  }
 }
