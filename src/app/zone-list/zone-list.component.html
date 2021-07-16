@@ -4,7 +4,7 @@
   </button>
   <a *ngFor="let keyValue of audit.zone | keyvalue"
      class="list-group-item list-group-item-action"
-     [routerLink]="[routerPrefix + keyValue.value.id]"
+     [routerLink]="[routerPrefix + keyValue.value.id]" routerLinkActive="active"
   >
     {{keyValue.value.name}}
     <i class="bi-pencil" (click)="rename(keyValue.value); $event.preventDefault(); $event.stopPropagation()"></i>
