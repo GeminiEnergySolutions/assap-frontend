@@ -1,4 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+$appPrimary: #3f51b5;
+$appPrimaryDark: #303f9f;
+$appAccent: #ff4081;
+$appToolbarBackground: #689f38;
+$websitePrimary: #1c9d12;
+
+$primary: $appToolbarBackground;
+
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~bootstrap-darkmode/scss/darktheme";
