@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AuditService} from '../audit.service';
 import {Audit, Zone} from '../model/audit.interface';
 
@@ -34,6 +34,18 @@ export class ZoneListComponent {
     }
     this.auditService.updateZone(this.audit, zone.id, {name}).subscribe(() => {
       zone.name = name;
+    });
+  }
+
+  delete(zone: Zone) {
+    if (!confirm(`Are you sure you want to delete '${zone.name}'?`)) {
+      return;
+    }
+    this.auditService.deleteZone(this.audit, zone).subscribe(() => {
+      delete this.audit.zone[zone.id];
+      for (const id of zone.typeId) {
+        delete this.audit.type[id];
+      }
     });
   }
 }

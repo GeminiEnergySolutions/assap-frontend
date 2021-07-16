@@ -8,5 +8,6 @@
   >
     {{keyValue.value.name}}
     <i class="bi-pencil" (click)="rename(keyValue.value); $event.preventDefault(); $event.stopPropagation()"></i>
+    <i class="bi-trash" (click)="delete(keyValue.value); $event.preventDefault(); $event.stopPropagation()"></i>
   </a>
 </div>

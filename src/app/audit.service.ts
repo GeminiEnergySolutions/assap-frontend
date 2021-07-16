@@ -91,6 +91,16 @@ export class AuditService {
     return this.update(audit.objectId, updateAudit);
   }
 
+  deleteZone(audit: Audit, { id, typeId }: Pick<Zone, 'id' | 'typeId'>): Observable<void> {
+    const update = {
+      [`zone.${id}`]: {__op: 'Delete'},
+    };
+    for (const id of typeId) {
+      update[`type.${id}`] = {__op: 'Delete'};
+    }
+    return this.update(audit.objectId, update);
+  }
+
   createType(audit: Audit, zone: Zone, dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
     const {id, mod} = this.randomIdAndMod();
     const type: Type = {
