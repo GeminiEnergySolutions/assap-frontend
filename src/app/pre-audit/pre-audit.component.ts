@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuditService} from '../audit.service';
+import {FeatureService} from '../feature.service';
 import {Audit} from '../model/audit.interface';
 
 @Component({
@@ -12,6 +13,7 @@ export class PreAuditComponent implements OnInit {
 
   constructor(
     private auditService: AuditService,
+    private featureService: FeatureService,
   ) {
   }
 
@@ -58,5 +60,6 @@ export class PreAuditComponent implements OnInit {
         this.audits.splice(index1, 1);
       }
     });
+    this.featureService.deleteAll({auditId: audit.auditId}).subscribe();
   }
 }

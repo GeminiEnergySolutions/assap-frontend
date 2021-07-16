@@ -29,8 +29,14 @@ export class ParseService {
     return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
   }
 
-  findAll<T>(className: string, where?: any): Observable<T[]> {
-    const params = where ? {where: JSON.stringify(where)} : {};
+  findAll<T>(className: string, where?: any, keys?: readonly (keyof T)[]): Observable<T[]> {
+    const params: Record<string, string> = {};
+    if (where) {
+      params.where = JSON.stringify(where);
+    }
+    if (keys) {
+      params.keys = keys.join(',');
+    }
     return this.http.get<{ results: T[] }>(`${this.url}/classes/${className}`, {
       params,
     }).pipe(map(r => r.results));
@@ -48,5 +54,9 @@ export class ParseService {
 
   delete(className: string, objectId: string): Observable<void> {
     return this.http.delete<void>(`${this.url}/classes/${className}/${objectId}`);
+  }
+
+  batch(requests: { path: string; method: string, body?: any }[]): Observable<any> {
+    return this.http.post(`${this.url}/batch`, { requests });
   }
 }

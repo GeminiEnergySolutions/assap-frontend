@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AuditService} from '../audit.service';
+import {FeatureService} from '../feature.service';
 import {Audit, Zone} from '../model/audit.interface';
 
 @Component({
@@ -13,6 +14,7 @@ export class ZoneListComponent {
 
   constructor(
     private auditService: AuditService,
+    private featureService: FeatureService,
   ) {
   }
 
@@ -47,5 +49,6 @@ export class ZoneListComponent {
         delete this.audit.type[id];
       }
     });
+    this.featureService.deleteAll({zoneId: zone.id.toString()}).subscribe();
   }
 }
