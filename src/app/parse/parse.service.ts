@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
 
@@ -17,8 +17,16 @@ export class ParseService {
     return this.parseCredentialService.url;
   }
 
+  private _getConfig<T>(url: string): Observable<T> {
+    return this.http.get<{ params: T }>(`${url}/config`).pipe(map(t => t.params))
+  }
+
   getConfig<T>(): Observable<T> {
-    return this.http.get<{ params: T }>(`${this.url}/config`).pipe(map(t => t.params));
+    return this._getConfig(this.parseCredentialService.url);
+  }
+
+  getConfig$<T>(): Observable<T> {
+    return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
   }
 
   findAll<T>(className: string, where?: any): Observable<T[]> {

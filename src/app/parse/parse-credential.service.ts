@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable()
 export class ParseCredentialService {
   #appId: string;
   #masterKey: string;
-  #url: string;
+  #url = new BehaviorSubject<string>(localStorage.getItem('parse/url') || '');
 
   get appId(): string {
     return this.#appId || localStorage.getItem('parse/appId') || '';
@@ -25,11 +26,15 @@ export class ParseCredentialService {
   }
 
   get url(): string {
-    return this.#url || localStorage.getItem('parse/url') || '';
+    return this.#url.value;
+  }
+
+  get url$(): Observable<string> {
+    return this.#url;
   }
 
   set url(value: string) {
-    this.#url = value;
+    this.#url.next(value);
     localStorage.setItem('parse/url', value);
   }
 }
