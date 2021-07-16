@@ -47,4 +47,16 @@ export class PreAuditComponent implements OnInit {
       audit.name = name;
     });
   }
+
+  delete(audit: Audit) {
+    if (!confirm(`Are you sure you want to delete '${audit.name}'?`)) {
+      return;
+    }
+    this.auditService.delete(audit).subscribe(() => {
+      const index1 = this.audits.indexOf(audit);
+      if (index1 >= 0) {
+        this.audits.splice(index1, 1);
+      }
+    });
+  }
 }

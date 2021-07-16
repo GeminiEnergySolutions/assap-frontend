@@ -45,4 +45,8 @@ export class ParseService {
   update<T extends ParseObject>(className: string, objectId: string, object: any): Observable<void> {
     return this.http.put<void>(`${this.url}/classes/${className}/${objectId}`, object);
   }
+
+  delete(className: string, objectId: string): Observable<void> {
+    return this.http.delete<void>(`${this.url}/classes/${className}/${objectId}`);
+  }
 }

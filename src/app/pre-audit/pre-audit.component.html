@@ -14,6 +14,7 @@
     >
       {{audit.name}}
       <i class="bi-pencil" (click)="rename(audit); $event.stopPropagation(); $event.preventDefault()"></i>
+      <i class="bi-trash" (click)="delete(audit); $event.preventDefault(); $event.stopPropagation()"></i>
     </a>
   </div>
 </app-master-detail>

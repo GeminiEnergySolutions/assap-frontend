@@ -66,6 +66,10 @@ export class AuditService {
     return this.parseService.update('rAudit', objectId, audit);
   }
 
+  delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
+    return this.parseService.delete('rAudit', objectId);
+  }
+
   createZone(audit: Audit, dto: Partial<Zone>): Observable<Zone> {
     const {id, mod} = this.randomIdAndMod();
     const zone: Zone = {
@@ -91,7 +95,7 @@ export class AuditService {
     return this.update(audit.objectId, updateAudit);
   }
 
-  deleteZone(audit: Audit, { id, typeId }: Pick<Zone, 'id' | 'typeId'>): Observable<void> {
+  deleteZone(audit: Audit, {id, typeId}: Pick<Zone, 'id' | 'typeId'>): Observable<void> {
     const update = {
       [`zone.${id}`]: {__op: 'Delete'},
     };
