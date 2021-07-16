@@ -23,7 +23,7 @@ export class ZoneComponent implements OnInit {
     private route: ActivatedRoute,
   ) {
     for (const type of Types) {
-      this.groupedTypes[type.id] = [];
+      this.groupedTypes[type.name] = [];
     }
   }
 
