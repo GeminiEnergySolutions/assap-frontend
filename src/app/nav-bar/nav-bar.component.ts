@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Config} from '../model/config.interface';
+import {Config} from '../audits/model/config.interface';
 import {ParseService} from '../parse/parse.service';
 
 @Component({

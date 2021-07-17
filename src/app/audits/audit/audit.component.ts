@@ -4,10 +4,10 @@ import {forkJoin, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {FormComponent} from '../forms/form/form.component';
+import {FormComponent} from '../../forms/form/form.component';
 import {Audit} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
-import {SaveableChangesComponent} from '../unsaved-changes.guard';
+import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 
 @Component({
   selector: 'app-audit',

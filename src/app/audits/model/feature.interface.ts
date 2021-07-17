@@ -1,4 +1,4 @@
-import {ParseObject} from '../parse/parse-object.interface';
+import {ParseObject} from '../../parse/parse-object.interface';
 
 export interface Feature extends ParseObject {
   usn: number;

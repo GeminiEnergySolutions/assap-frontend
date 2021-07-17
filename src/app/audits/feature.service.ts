@@ -3,12 +3,10 @@ import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Feature, FeatureData} from './model/feature.interface';
-import {ParseObject} from './parse/parse-object.interface';
-import {ParseService} from './parse/parse.service';
+import {ParseObject} from '../parse/parse-object.interface';
+import {ParseService} from '../parse/parse.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FeatureService {
 
   constructor(

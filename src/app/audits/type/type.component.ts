@@ -4,11 +4,11 @@ import {forkJoin} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {FormComponent} from '../forms/form/form.component';
+import {FormComponent} from '../../forms/form/form.component';
 import {Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
-import {SaveableChangesComponent} from '../unsaved-changes.guard';
+import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 
 @Component({
   selector: 'app-type',

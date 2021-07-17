@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, mapTo} from 'rxjs/operators';
 import {Audit, Type, Zone} from './model/audit.interface';
-import {ParseObject} from './parse/parse-object.interface';
-import {ParseService} from './parse/parse.service';
+import {ParseObject} from '../parse/parse-object.interface';
+import {ParseService} from '../parse/parse.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuditService {
 
   constructor(
