@@ -1,19 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
+import {FormComponent} from '../forms/form/form.component';
 import {Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
+import {SaveableChangesComponent} from '../unsaved-changes.guard';
 
 @Component({
   selector: 'app-type',
   templateUrl: './type.component.html',
   styleUrls: ['./type.component.scss'],
 })
-export class TypeComponent implements OnInit {
+export class TypeComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form', {static: false}) form?: FormComponent;
+
   feature?: Feature;
   type?: Type;
   data?: FeatureData;
@@ -46,6 +50,10 @@ export class TypeComponent implements OnInit {
       this.feature = features[0];
       this.data = this.feature ? this.featureService.feature2Data(this.feature) : {};
     });
+  }
+
+  isSaved(): boolean {
+    return !this.form?.dirty;
   }
 
   save(data: Data) {

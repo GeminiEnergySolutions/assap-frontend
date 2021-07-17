@@ -14,7 +14,7 @@ export class FormComponent implements OnInit {
   @Input() data: object = {};
   @Output() dataChanged = new EventEmitter<object>();
 
-  private dirty = false;
+  dirty = false;
 
   constructor(
     private formsService: FormsService,

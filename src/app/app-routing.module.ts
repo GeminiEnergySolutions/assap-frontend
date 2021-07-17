@@ -6,6 +6,7 @@ import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
 import {SettingsComponent} from './settings/settings.component';
 import {TypeComponent} from './type/type.component';
+import {UnsavedChangesGuard} from './unsaved-changes.guard';
 import {ZoneComponent} from './zone/zone.component';
 
 
@@ -16,7 +17,7 @@ const routes: Routes = [
     path: 'audits',
     component: PreAuditComponent,
     children: [
-      {path: ':aid', component: AuditComponent},
+      {path: ':aid', component: AuditComponent, canDeactivate: [UnsavedChangesGuard]},
     ],
   },
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
     path: 'audits/:aid/zones/:zid/:type',
     component: PreTypeComponent,
     children: [
-      {path: ':tid', component: TypeComponent},
+      {path: ':tid', component: TypeComponent, canDeactivate: [UnsavedChangesGuard]},
     ],
   },
 ];

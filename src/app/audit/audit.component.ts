@@ -1,18 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
+import {FormComponent} from '../forms/form/form.component';
 import {Audit} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
+import {SaveableChangesComponent} from '../unsaved-changes.guard';
 
 @Component({
   selector: 'app-audit',
   templateUrl: './audit.component.html',
   styleUrls: ['./audit.component.scss'],
 })
-export class AuditComponent implements OnInit {
+export class AuditComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form', {static: false}) form?: FormComponent;
+
   selectedAudit?: Audit;
   feature?: Feature;
   data: FeatureData = {};
@@ -36,6 +40,10 @@ export class AuditComponent implements OnInit {
       this.feature = features[0];
       this.data = features[0] ? this.featureService.feature2Data(features[0]) : {};
     });
+  }
+
+  isSaved(): boolean {
+    return !this.form?.dirty;
   }
 
   save(data: Data) {

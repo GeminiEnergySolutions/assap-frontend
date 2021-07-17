@@ -9,7 +9,7 @@
       <a ngbNavLink>Preaudit</a>
       <ng-template ngbNavContent>
         <div class="container">
-          <app-form *ngIf="selectedAudit" type="preaudit" [data]="data" (dataChanged)="save($event)"></app-form>
+          <app-form #form *ngIf="selectedAudit" type="preaudit" [data]="data" (dataChanged)="save($event)"></app-form>
         </div>
       </ng-template>
     </li>
