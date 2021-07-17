@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ParseCredentialService} from '../parse/parse-credential.service';
-import {ParseService} from '../parse/parse.service';
+import {ParseCredentialService} from '../../parse/parse-credential.service';
+import {ParseService} from '../../parse/parse.service';
 
 @Component({
   selector: 'app-settings',

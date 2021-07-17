@@ -4,14 +4,13 @@ import {AuditComponent} from './audit/audit.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
-import {SettingsComponent} from './settings/settings.component';
 import {TypeComponent} from './type/type.component';
 import {UnsavedChangesGuard} from './unsaved-changes.guard';
 import {ZoneComponent} from './zone/zone.component';
 
 
 const routes: Routes = [
-  {path: 'settings', component: SettingsComponent},
+  {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   {path: '', pathMatch: 'full', redirectTo: '/audits'},
   {
     path: 'audits',
