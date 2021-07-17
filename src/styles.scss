@@ -14,6 +14,12 @@ html, body {
   height: 100%;
 }
 
+.btn-floating-action {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+
 .visible-hover {
   visibility: hidden;
 }
