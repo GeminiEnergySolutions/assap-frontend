@@ -12,8 +12,10 @@ import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
 import {TypeListComponent} from './type-list/type-list.component';
+import {TypeService} from './type.service';
 import {TypeComponent} from './type/type.component';
 import {ZoneListComponent} from './zone-list/zone-list.component';
+import {ZoneService} from './zone.service';
 import {ZoneComponent} from './zone/zone.component';
 
 
@@ -28,6 +30,8 @@ import {ZoneComponent} from './zone/zone.component';
   ],
   providers: [
     AuditService,
+    ZoneService,
+    TypeService,
     FeatureService,
   ],
   declarations: [

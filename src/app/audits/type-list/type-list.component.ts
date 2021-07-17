@@ -3,6 +3,7 @@ import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
 import {Types} from '../model/types';
+import {TypeService} from '../type.service';
 
 @Component({
   selector: 'app-type-list',
@@ -18,6 +19,7 @@ export class TypeListComponent {
 
   constructor(
     private auditService: AuditService,
+    private typeService: TypeService,
     private featureService: FeatureService,
   ) {
   }
@@ -27,7 +29,7 @@ export class TypeListComponent {
     if (!name) {
       return;
     }
-    this.auditService.createType(this.audit, this.zone, {
+    this.typeService.create(this.audit, this.zone, {
       type: type.name,
       subtype: subType?.name ?? null,
       name,
@@ -43,7 +45,7 @@ export class TypeListComponent {
     if (!name) {
       return;
     }
-    this.auditService.updateType(this.audit, type.id, {name}).subscribe(() => {
+    this.typeService.update(this.audit, type.id, {name}).subscribe(() => {
       type.name = name;
     });
   }
@@ -52,7 +54,7 @@ export class TypeListComponent {
     if (!confirm(`Are you sure you want to delete '${type.name}'?`)) {
       return;
     }
-    this.auditService.deleteType(this.audit, type.zoneId, type.id).subscribe(() => {
+    this.typeService.delete(this.audit, type.zoneId, type.id).subscribe(() => {
       delete this.audit.type[type.id];
 
       const typeId = this.audit.zone[type.zoneId].typeId;
