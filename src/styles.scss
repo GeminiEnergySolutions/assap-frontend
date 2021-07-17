@@ -13,3 +13,21 @@ $primary: $appToolbarBackground;
 html, body {
   height: 100%;
 }
+
+.visible-hover {
+  visibility: hidden;
+}
+
+:hover > .visible-hover {
+  visibility: unset;
+}
+
+:hover + .visible-hover {
+  visibility: unset;
+}
+
+@media (hover: none) {
+  .visible-hover {
+    visibility: unset;
+  }
+}

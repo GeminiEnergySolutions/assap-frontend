@@ -21,6 +21,7 @@ import { TypeListComponent } from './type-list/type-list.component';
 import { MasterDetailComponent } from './master-detail/master-detail.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { OptionsDropdownComponent } from './options-dropdown/options-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { environment } from '../environments/environment';
     ZoneListComponent,
     TypeListComponent,
     MasterDetailComponent,
+    OptionsDropdownComponent,
   ],
   imports: [
     BrowserModule,

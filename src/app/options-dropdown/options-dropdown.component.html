@@ -1,0 +1,8 @@
+<div ngbDropdown placement="bottom-right" container="body" (click)="$event.stopPropagation(); $event.preventDefault()">
+  <button class="btn btn-secondary btn-sm" id="actions-dropdown-{{ id }}" ngbDropdownToggle>
+    Options
+  </button>
+  <div ngbDropdownMenu [attr.aria-labelledby]="'actions-dropdown-' + id">
+    <ng-content></ng-content>
+  </div>
+</div>

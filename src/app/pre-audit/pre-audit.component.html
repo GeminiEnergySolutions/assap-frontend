@@ -9,12 +9,17 @@
       New Audit
     </button>
     <a *ngFor="let audit of audits"
-       class="list-group-item list-group-item-action"
+       class="list-group-item list-group-item-action d-flex align-items-center"
        [routerLink]="[audit.auditId]" routerLinkActive="active text-white"
     >
-      {{audit.name}}
-      <i class="bi-pencil" (click)="rename(audit); $event.stopPropagation(); $event.preventDefault()"></i>
-      <i class="bi-trash" (click)="delete(audit); $event.preventDefault(); $event.stopPropagation()"></i>
+      <div class="flex-grow-1">
+        {{audit.name}}
+      </div>
+      <app-options-dropdown class="visible-hover" [id]="audit.auditId">
+        <button ngbDropdownItem (click)="rename(audit)">Rename</button>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="text-danger" (click)="delete(audit)">Delete</button>
+      </app-options-dropdown>
     </a>
   </div>
 </app-master-detail>
