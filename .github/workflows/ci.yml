@@ -24,10 +24,6 @@ jobs:
             /.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm
-      - name: Install Angular CLI
-        run: pnpm install -g @angular/cli
-      - name: Setup Angular CLI to use PNPM
-        run: ng config -g cli.packageManager pnpm
       - name: Install
         run: pnpm install
       - name: Build
@@ -36,4 +32,4 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: ng deploy --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
+        run: pnpm run -- ng deploy --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
