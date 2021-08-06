@@ -19,7 +19,7 @@ export class AuditService {
     const offlineAudits = this.offlineAuditService.findAll(filter);
     return this.parseAuditService.findAll(filter).pipe(
       catchError(() => of([])),
-      map(parseAudits => this.merge([...parseAudits, ...offlineAudits])),
+      map(parseAudits => this.mergeAll([...parseAudits, ...offlineAudits])),
     );
   }
 
@@ -27,33 +27,46 @@ export class AuditService {
     const offlineAudit = this.offlineAuditService.findOne(auditId);
     return this.parseAuditService.findAll({auditId}).pipe(
       catchError(() => of([])),
-      map(parseAudits => this.merge(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits)),
+      map(parseAudits => this.mergeAll(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits)),
       map(audits => audits[0]),
     );
   }
 
-  private merge(audits: Audit[]): Audit[] {
+  private mergeAll(audits: Audit[]): Audit[] {
+    if (audits.length <= 1) {
+      return audits;
+    }
+
     const auditIds = new Map<string, Audit>();
 
     for (const audit of audits) {
-      const existing = auditIds.get(audit.auditId);
+      const auditId = audit.auditId;
+      const existing = auditIds.get(auditId);
       if (!existing) {
-        auditIds.set(audit.auditId, audit);
+        auditIds.set(auditId, audit);
         continue;
       }
 
+      let merged: Audit;
       // in case of conflict, use newest
       if (existing.updatedAt < audit.updatedAt) {
-        existing.name = audit.name;
-        existing.type = {...existing.type, ...audit.type};
-        existing.zone = {...existing.zone, ...audit.zone};
+        merged = this.merge(existing, audit);
       } else {
-        existing.type = {...audit.type, ...existing.type};
-        existing.zone = {...audit.zone, ...existing.zone};
+        merged = this.merge(audit, existing);
       }
+      auditIds.set(auditId, merged);
     }
 
     return [...auditIds.values()];
+  }
+
+  private merge(a1: Audit, a2: Audit): Audit {
+    return {
+      ...a1,
+      ...a2,
+      type: {...a1.type, ...a2.type},
+      zone: {...a1.zone, ...a2.zone},
+    };
   }
 
   create(dto: Omit<Audit, keyof ParseObject | 'auditId' | 'mod' | 'usn'>): Observable<Audit> {

@@ -65,6 +65,25 @@ export class PreAuditComponent implements OnInit {
   }
 
   download(audit: Audit) {
+    if (audit.pendingChanges && !confirm(`Are you sure you want to discard ${audit.pendingChanges} pending changes? This cannot be undone.`)) {
+      return;
+    }
     this.offlineAuditService.save(audit);
+  }
+
+  upload(audit: Audit) {
+    // TODO
+  }
+
+  deleteOffline(audit: Audit) {
+    const message = 'Are you sure you want to discard the offline copy' + (
+      audit.pendingChanges
+        ? ', including ' + audit.pendingChanges + ' pending changes? This cannot be undone.'
+        : '? This can be undone once an internet connection is available.'
+    );
+    if (!confirm(message)) {
+      return;
+    }
+    this.offlineAuditService.delete(audit);
   }
 }

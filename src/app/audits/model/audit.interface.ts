@@ -15,6 +15,8 @@ export interface Audit extends ParseObject {
   usn: number;
   /** modification time as string containing number of milliseconds since UNIX epoch */
   mod: string;
+
+  pendingChanges?: number;
 }
 
 export interface Zone {

@@ -44,6 +44,8 @@ export class OfflineAuditService {
   }
 
   save(audit: Audit): void {
+    this.delete(audit);
+    audit.pendingChanges = 0;
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }
 
@@ -56,6 +58,7 @@ export class OfflineAuditService {
     }
 
     const applied = apply(audit);
+    applied.pendingChanges = (applied.pendingChanges || 0) + (delta ? 1 : 0);
     localStorage.setItem(key, JSON.stringify(applied));
 
     if (delta) {
@@ -66,13 +69,14 @@ export class OfflineAuditService {
     return applied;
   }
 
-  delete({auditId}: Pick<Audit, 'auditId'>): void {
-    const prefix = 'audits/' + auditId;
+  delete(audit: Pick<Audit, 'auditId' | 'pendingChanges'>): void {
+    const prefix = 'audits/' + audit.auditId;
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
       if (key.startsWith(prefix)) {
         localStorage.removeItem(key);
       }
     }
+    delete audit.pendingChanges;
   }
 }

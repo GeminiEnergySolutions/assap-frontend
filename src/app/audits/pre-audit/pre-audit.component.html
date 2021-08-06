@@ -14,10 +14,26 @@
     >
       <div class="flex-grow-1">
         {{audit.name}}
+        <i *ngIf="audit.pendingChanges !== undefined" class="bi-wifi-off" ngbTooltip="Available Offline"></i>
       </div>
       <app-options-dropdown class="visible-hover" [id]="audit.auditId">
         <button ngbDropdownItem (click)="rename(audit)">Rename</button>
-        <button ngbDropdownItem (click)="download(audit)">Download</button>
+        <div class="dropdown-divider"></div>
+        <button *ngIf="audit.pendingChanges === undefined else offlineOptions" ngbDropdownItem (click)="download(audit)">
+          Download Offline Copy
+        </button>
+        <ng-template #offlineOptions>
+          <div class="dropdown-header">{{ audit.pendingChanges }} Pending Changes</div>
+          <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-success" (click)="upload(audit)">
+            Upload
+          </button>
+          <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-danger" (click)="download(audit)">
+            Discard
+          </button>
+          <button ngbDropdownItem class="text-danger" (click)="deleteOffline(audit)">
+            Remove Offline Copy
+          </button>
+        </ng-template>
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="text-danger" (click)="delete(audit)">Delete</button>
       </app-options-dropdown>

@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '../forms/forms.module';
 import {SharedModule} from '../shared/shared.module';
 import {AuditService} from './audit.service';
@@ -30,6 +30,7 @@ import {ZoneComponent} from './zone/zone.component';
     NgbNavModule,
     NgbDropdownModule,
     AuditsRoutingModule,
+    NgbTooltipModule,
   ],
   providers: [
     IdService,
