@@ -43,9 +43,29 @@ export class OfflineAuditService {
     return JSON.parse(value);
   }
 
+  getDeltas(auditId: string): Partial<Audit>[] {
+    const deltas: Record<string, Partial<Audit>> = {};
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const match = new RegExp(`^audits/${auditId}/delta/(\d+)$`).exec(key);
+      if (!match) {
+        continue;
+      }
+
+      const [, timestamp] = match;
+      const value = localStorage.getItem(key);
+      deltas[timestamp] = JSON.parse(value);
+    }
+
+    return Object.entries(deltas)
+      .sort((a, b) => +a[0] - +b[0])
+      .map(([, delta]) => delta)
+      ;
+  }
+
   save(audit: Audit): void {
-    this.delete(audit);
-    audit.pendingChanges = 0;
+    this.deleteDeltas(audit);
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }
 
@@ -57,7 +77,7 @@ export class OfflineAuditService {
       return undefined;
     }
 
-    const applied = apply(audit);
+    const applied = apply ? apply(audit) : audit;
     applied.pendingChanges = (applied.pendingChanges || 0) + (delta ? 1 : 0);
     localStorage.setItem(key, JSON.stringify(applied));
 
@@ -69,14 +89,22 @@ export class OfflineAuditService {
     return applied;
   }
 
+  deleteDeltas(audit: Pick<Audit, 'auditId' | 'pendingChanges'>): void {
+    this.deleteWithPrefix(`audits/${audit.auditId}/delta`);
+    audit.pendingChanges = 0;
+  }
+
   delete(audit: Pick<Audit, 'auditId' | 'pendingChanges'>): void {
-    const prefix = 'audits/' + audit.auditId;
+    this.deleteWithPrefix(`audits/${audit.auditId}`);
+    delete audit.pendingChanges;
+  }
+
+  private deleteWithPrefix(prefix: string): void {
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
       if (key.startsWith(prefix)) {
         localStorage.removeItem(key);
       }
     }
-    delete audit.pendingChanges;
   }
 }

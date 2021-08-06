@@ -33,6 +33,14 @@ export class ParseAuditService {
     return this.parseService.update('rAudit', objectId, audit);
   }
 
+  updateMany(objectId: string, updates: Partial<Audit>[]): Observable<void> {
+    return this.parseService.batch(updates.map(update => ({
+      method: 'PUT',
+      path: `/classes/rAudit/${objectId}`,
+      body: update,
+    })));
+  }
+
   delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
     return this.parseService.delete('rAudit', objectId);
   }

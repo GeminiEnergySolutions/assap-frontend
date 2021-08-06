@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Audit} from './model/audit.interface';
 import {OfflineAuditService} from './offline-audit.service';
@@ -84,6 +84,13 @@ export class AuditService {
         const applied = this.offlineAuditService.update(audit, delta, apply);
         return applied ? of(applied) : throwError(error);
       }),
+    );
+  }
+
+  upload(audit: Audit): Observable<void> {
+    const deltas = this.offlineAuditService.getDeltas(audit.auditId);
+    return this.parseAuditService.updateMany(audit.objectId, deltas).pipe(
+      tap(() => this.offlineAuditService.deleteDeltas(audit)),
     );
   }
 

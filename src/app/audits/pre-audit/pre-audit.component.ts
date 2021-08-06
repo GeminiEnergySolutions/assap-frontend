@@ -72,7 +72,7 @@ export class PreAuditComponent implements OnInit {
   }
 
   upload(audit: Audit) {
-    // TODO
+    this.auditService.upload(audit).subscribe();
   }
 
   deleteOffline(audit: Audit) {
