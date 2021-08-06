@@ -45,11 +45,10 @@ export class PreAuditComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.auditService.update(audit.objectId, {
-      name,
-    }).subscribe(() => {
-      audit.name = name;
-    });
+    this.auditService.update(audit, {name}, a => {
+      a.name = name;
+      return a;
+    }).subscribe();
   }
 
   delete(audit: Audit) {

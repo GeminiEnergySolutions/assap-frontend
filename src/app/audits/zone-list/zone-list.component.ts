@@ -45,12 +45,7 @@ export class ZoneListComponent {
     if (!confirm(`Are you sure you want to delete '${zone.name}'?`)) {
       return;
     }
-    this.zoneService.delete(this.audit, zone).subscribe(() => {
-      delete this.audit.zone[zone.id];
-      for (const id of zone.typeId) {
-        delete this.audit.type[id];
-      }
-    });
+    this.zoneService.delete(this.audit, zone).subscribe();
     this.featureService.deleteAll({zoneId: zone.id.toString()}).subscribe();
   }
 }

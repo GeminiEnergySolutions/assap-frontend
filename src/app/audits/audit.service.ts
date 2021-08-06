@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Audit} from './model/audit.interface';
@@ -60,8 +60,18 @@ export class AuditService {
     return this.parseAuditService.create(dto);
   }
 
-  update(objectId: string, audit: Partial<Audit>): Observable<void> {
-    return this.parseAuditService.update(objectId, audit);
+  update(audit: Audit, delta: Partial<Audit>, apply: (a: Audit) => Audit): Observable<Audit> {
+    return this.parseAuditService.update(audit.auditId, delta).pipe(
+      map(() => {
+        const applied = apply(audit);
+        this.offlineAuditService.update(applied);
+        return applied;
+      }),
+      catchError(error => {
+        const applied = this.offlineAuditService.update(audit, delta, apply);
+        return applied ? of(applied) : throwError(error);
+      }),
+    );
   }
 
   delete(audit: Pick<Audit, 'objectId' | 'auditId'>): Observable<void> {

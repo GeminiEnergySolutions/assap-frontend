@@ -34,8 +34,6 @@ export class TypeListComponent {
       subtype: subType?.name ?? null,
       name,
     }).subscribe(type => {
-      this.zone.typeId.push(type.id);
-      this.audit.type[type.id] = type;
       this.types.push(type);
     });
   }
@@ -45,9 +43,7 @@ export class TypeListComponent {
     if (!name) {
       return;
     }
-    this.typeService.update(this.audit, type.id, {name}).subscribe(() => {
-      type.name = name;
-    });
+    this.typeService.update(this.audit, type.id, {name}).subscribe();
   }
 
   delete(type: Type) {
@@ -55,17 +51,9 @@ export class TypeListComponent {
       return;
     }
     this.typeService.delete(this.audit, type.zoneId, type.id).subscribe(() => {
-      delete this.audit.type[type.id];
-
-      const typeId = this.audit.zone[type.zoneId].typeId;
-      const index1 = typeId.indexOf(type.id);
-      if (index1 >= 0) {
-        typeId.splice(index1, 1);
-      }
-
-      const index2 = this.types.indexOf(type);
-      if (index2 >= 0) {
-        this.types.splice(index2, 1);
+      const index = this.types.indexOf(type);
+      if (index >= 0) {
+        this.types.splice(index, 1);
       }
     });
     this.featureService.deleteAll({typeId: type.id.toString()}).subscribe();

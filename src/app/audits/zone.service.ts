@@ -24,28 +24,38 @@ export class ZoneService {
       typeId: [],
       ...dto,
     };
-    return this.auditService.update(audit.objectId, {
-      [`zone.${id}`]: zone,
+    return this.auditService.update(audit, {[`zone.${id}`]: zone}, audit => {
+      audit.zone[id] = zone;
+      return audit;
     }).pipe(
       mapTo(zone),
     );
   }
 
-  update(audit: Audit, zoneId: Zone['id'], update: Partial<Zone>): Observable<void> {
+  update(audit: Audit, zoneId: Zone['id'], update: Partial<Zone>): Observable<Audit> {
     const updateAudit = {};
     for (const [key, value] of Object.entries(update)) {
       updateAudit[`zone.${zoneId}.${key}`] = value;
     }
-    return this.auditService.update(audit.objectId, updateAudit);
+    return this.auditService.update(audit, updateAudit, audit => {
+      Object.assign(audit.zone[zoneId], update);
+      return audit;
+    });
   }
 
-  delete(audit: Audit, {id, typeId}: Pick<Zone, 'id' | 'typeId'>): Observable<void> {
+  delete(audit: Audit, {id, typeId}: Pick<Zone, 'id' | 'typeId'>): Observable<Audit> {
     const update = {
       [`zone.${id}`]: {__op: 'Delete'},
     };
     for (const id of typeId) {
       update[`type.${id}`] = {__op: 'Delete'};
     }
-    return this.auditService.update(audit.objectId, update);
+    return this.auditService.update(audit, update, audit => {
+      delete audit.zone[id];
+      for (const tid of typeId) {
+        delete audit.type[tid];
+      }
+      return audit;
+    });
   }
 }

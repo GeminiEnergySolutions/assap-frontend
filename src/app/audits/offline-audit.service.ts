@@ -12,7 +12,7 @@ export class OfflineAuditService {
 
     outer: for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (!key.startsWith('audits/')) {
+      if (!key.startsWith('audits/') || key.indexOf('/', 'audits/'.length) >= 0) {
         continue;
       }
 
@@ -47,7 +47,32 @@ export class OfflineAuditService {
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }
 
+  update(audit: Audit, delta?: Partial<Audit>, apply?: (a: Audit) => Audit): Audit | undefined {
+    const key = `audits/${audit.auditId}`;
+    const value = localStorage.getItem(key);
+    if (!value) {
+      // not saved offline
+      return undefined;
+    }
+
+    const applied = apply(audit);
+    localStorage.setItem(key, JSON.stringify(applied));
+
+    if (delta) {
+      const deltaKey = `audits/${applied.auditId}/delta/${+new Date()}`;
+      localStorage.setItem(deltaKey, JSON.stringify(delta));
+    }
+
+    return applied;
+  }
+
   delete({auditId}: Pick<Audit, 'auditId'>): void {
-    localStorage.removeItem(`audits/${auditId}`);
+    const prefix = 'audits/' + auditId;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key.startsWith(prefix)) {
+        localStorage.removeItem(key);
+      }
+    }
   }
 }
