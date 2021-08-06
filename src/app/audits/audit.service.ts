@@ -1,27 +1,25 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
-import {ParseService} from '../parse/parse.service';
 import {Audit} from './model/audit.interface';
+import {OfflineAuditService} from './offline-audit.service';
+import {ParseAuditService} from './parse-audit.service';
 
 @Injectable()
 export class AuditService {
 
   constructor(
-    private parseService: ParseService,
+    private offlineAuditService: OfflineAuditService,
+    private parseAuditService: ParseAuditService,
   ) {
   }
 
-  randomIdAndMod() {
-    const mod = new Date().valueOf();
-    const id = (mod / 1000) | 0;
-    return {id, mod};
-  }
-
   findAll(filter: Partial<Audit> = {}): Observable<Audit[]> {
-    return this.parseService.findAll<Audit>(`rAudit`, filter).pipe(
-      map(v => this.merge(v)),
+    const offlineAudits = this.offlineAuditService.findAll(filter);
+    return this.parseAuditService.findAll(filter).pipe(
+      catchError(() => of([])),
+      map(parseAudits => this.merge([...parseAudits, ...offlineAudits])),
     );
   }
 
@@ -50,21 +48,15 @@ export class AuditService {
   }
 
   create(dto: Omit<Audit, keyof ParseObject | 'auditId' | 'mod' | 'usn'>): Observable<Audit> {
-    const {id, mod} = this.randomIdAndMod();
-    const audit: Omit<Audit, keyof ParseObject> = {
-      auditId: id.toString(),
-      mod: mod.toString(),
-      usn: 0,
-      ...dto,
-    };
-    return this.parseService.create<Audit>('rAudit', audit);
+    return this.parseAuditService.create(dto);
   }
 
   update(objectId: string, audit: Partial<Audit>): Observable<void> {
-    return this.parseService.update('rAudit', objectId, audit);
+    return this.parseAuditService.update(objectId, audit);
   }
 
-  delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
-    return this.parseService.delete('rAudit', objectId);
+  delete(audit: Pick<Audit, 'objectId' | 'auditId'>): Observable<void> {
+    this.offlineAuditService.delete(audit);
+    return this.parseAuditService.delete(audit);
   }
 }

@@ -2,18 +2,20 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
+import {IdService} from './id.service';
 import {Audit, Type, Zone} from './model/audit.interface';
 
 @Injectable()
 export class TypeService {
 
   constructor(
+    private idService: IdService,
     private auditService: AuditService,
   ) {
   }
 
   create(audit: Audit, zone: Zone, dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
-    const {id, mod} = this.auditService.randomIdAndMod();
+    const {id, mod} = this.idService.randomIdAndMod();
     const type: Type = {
       id,
       mod,

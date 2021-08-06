@@ -2,18 +2,20 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
+import {IdService} from './id.service';
 import {Audit, Zone} from './model/audit.interface';
 
 @Injectable()
 export class ZoneService {
 
   constructor(
+    private idService: IdService,
     private auditService: AuditService,
   ) {
   }
 
   create(audit: Audit, dto: Partial<Zone>): Observable<Zone> {
-    const {id, mod} = this.auditService.randomIdAndMod();
+    const {id, mod} = this.idService.randomIdAndMod();
     const zone: Zone = {
       id,
       mod,
