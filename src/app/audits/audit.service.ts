@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mapTo, tap} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Audit} from './model/audit.interface';
 import {OfflineAuditService} from './offline-audit.service';
@@ -74,17 +74,11 @@ export class AuditService {
   }
 
   update(audit: Audit, delta: Partial<Audit>, apply: (a: Audit) => Audit): Observable<Audit> {
-    return this.parseAuditService.update(audit.objectId, delta).pipe(
-      map(() => {
-        const applied = apply(audit);
-        this.offlineAuditService.update(applied);
-        return applied;
-      }),
-      catchError(error => {
-        const applied = this.offlineAuditService.update(audit, delta, apply);
-        return applied ? of(applied) : throwError(error);
-      }),
-    );
+    const offline = this.offlineAuditService.update(audit, delta, apply);
+    if (offline) {
+      return of(offline);
+    }
+    return this.parseAuditService.update(audit.objectId, delta).pipe(mapTo(audit), map(apply));
   }
 
   upload(audit: Audit): Observable<void> {
