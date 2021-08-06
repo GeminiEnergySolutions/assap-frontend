@@ -74,7 +74,7 @@ export class AuditService {
   }
 
   update(audit: Audit, delta: Partial<Audit>, apply: (a: Audit) => Audit): Observable<Audit> {
-    return this.parseAuditService.update(audit.auditId, delta).pipe(
+    return this.parseAuditService.update(audit.objectId, delta).pipe(
       map(() => {
         const applied = apply(audit);
         this.offlineAuditService.update(applied);
