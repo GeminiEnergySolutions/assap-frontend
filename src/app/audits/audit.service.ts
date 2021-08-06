@@ -48,8 +48,8 @@ export class AuditService {
       }
 
       let merged: Audit;
-      // in case of conflict, use newest
-      if (existing.updatedAt < audit.updatedAt) {
+      // in case of conflict, prefer newest
+      if (existing.updatedAt <= audit.updatedAt) {
         merged = this.merge(existing, audit);
       } else {
         merged = this.merge(audit, existing);
