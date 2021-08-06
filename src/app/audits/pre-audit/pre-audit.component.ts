@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit} from '../model/audit.interface';
+import {OfflineAuditService} from '../offline-audit.service';
 
 @Component({
   selector: 'app-pre-audit',
@@ -13,6 +14,7 @@ export class PreAuditComponent implements OnInit {
 
   constructor(
     private auditService: AuditService,
+    private offlineAuditService: OfflineAuditService,
     private featureService: FeatureService,
   ) {
   }
@@ -61,5 +63,9 @@ export class PreAuditComponent implements OnInit {
       }
     });
     this.featureService.deleteAll({auditId: audit.auditId}).subscribe();
+  }
+
+  download(audit: Audit) {
+    this.offlineAuditService.save(audit);
   }
 }
