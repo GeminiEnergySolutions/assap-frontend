@@ -23,6 +23,15 @@ export class AuditService {
     );
   }
 
+  findOne(auditId: string): Observable<Audit | undefined> {
+    const offlineAudit = this.offlineAuditService.findOne(auditId);
+    return this.parseAuditService.findAll({auditId}).pipe(
+      catchError(() => of([])),
+      map(parseAudits => this.merge(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits)),
+      map(audits => audits[0]),
+    );
+  }
+
   private merge(audits: Audit[]): Audit[] {
     const auditIds = new Map<string, Audit>();
 

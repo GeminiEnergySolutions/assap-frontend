@@ -20,9 +20,9 @@ export class PreZoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findAll({auditId: aid})),
-    ).subscribe(audits => {
-      this.audit = audits[0];
+      switchMap(({aid}) => this.auditService.findOne(aid)),
+    ).subscribe(audit => {
+      this.audit = audit;
     });
   }
 }

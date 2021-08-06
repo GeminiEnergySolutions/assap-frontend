@@ -33,7 +33,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({aid, zid, tid}) => forkJoin([
-        this.auditService.findAll({auditId: aid}).pipe(map(audits => audits[0].type[tid])),
+        this.auditService.findOne(aid).pipe(map(audit => audit.type[tid])),
         this.featureService.findAll({
           auditId: aid,
           zoneId: zid,

@@ -29,8 +29,7 @@ export class ZoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid}) => this.auditService.findAll({auditId: aid}).pipe(
-        map(audits => audits[0]),
+      switchMap(({aid, zid}) => this.auditService.findOne(aid).pipe(
         tap(audit => this.audit = audit),
         map(audit => audit.zone[zid]),
       )),

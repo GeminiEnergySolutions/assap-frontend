@@ -32,11 +32,11 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({aid}) => forkJoin([
-        this.auditService.findAll({auditId: aid}),
+        this.auditService.findOne(aid),
         this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'}),
       ])),
-    ).subscribe(([audits, features]) => {
-      this.selectedAudit = audits[0];
+    ).subscribe(([audit, features]) => {
+      this.selectedAudit = audit;
       this.feature = features[0];
       this.data = features[0] ? this.featureService.feature2Data(features[0]) : {};
     });

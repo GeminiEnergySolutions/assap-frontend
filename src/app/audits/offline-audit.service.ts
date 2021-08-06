@@ -34,6 +34,15 @@ export class OfflineAuditService {
     return result;
   }
 
+  findOne(auditId: string): Audit | undefined {
+    const value = localStorage.getItem(`audits/${auditId}`);
+    if (!value) {
+      return undefined;
+    }
+
+    return JSON.parse(value);
+  }
+
   save(audit: Audit): void {
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }

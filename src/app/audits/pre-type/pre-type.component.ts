@@ -24,8 +24,7 @@ export class PreTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid, type}) => this.auditService.findAll({auditId: aid}).pipe(
-        map(audits => audits[0]),
+      switchMap(({aid, zid, type}) => this.auditService.findOne(aid).pipe(
         tap(audit => {
           this.type = Types.find(t => t.name === type);
           this.audit = audit;
