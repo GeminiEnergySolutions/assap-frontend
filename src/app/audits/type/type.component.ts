@@ -59,7 +59,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   save(data: Data) {
     if (this.feature) {
       const update = this.featureService.data2Feature(data);
-      this.featureService.update(this.feature.objectId, update).subscribe();
+      this.featureService.update(this.feature, update).subscribe();
       return;
     }
 

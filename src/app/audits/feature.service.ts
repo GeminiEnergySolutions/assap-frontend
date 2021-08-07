@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable, of} from 'rxjs';
+import {mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Feature, FeatureData} from './model/feature.interface';
 import {OfflineFeatureService} from './offline-feature.service';
@@ -27,12 +28,12 @@ export class FeatureService {
     return this.parseFeatureService.create(feature);
   }
 
-  update(objectId: string, feature: Partial<Feature>): Observable<void> {
-    return this.parseFeatureService.update(objectId, feature);
+  update(feature: Feature, delta: Partial<Feature>): Observable<void> {
+    return this.parseFeatureService.update(feature.objectId, delta);
   }
 
-  delete(objectId: string): Observable<void> {
-    return this.parseFeatureService.delete(objectId);
+  delete(feature: Feature): Observable<void> {
+    return this.parseFeatureService.delete(feature.objectId);
   }
 
   deleteAll(filter: Partial<Feature> = {}) {
