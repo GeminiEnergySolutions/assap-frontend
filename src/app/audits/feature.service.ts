@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Feature, FeatureData} from './model/feature.interface';
+import {OfflineFeatureService} from './offline-feature.service';
 import {ParseFeatureService} from './parse-feature.service';
 
 @Injectable()
@@ -10,10 +11,15 @@ export class FeatureService {
 
   constructor(
     private parseFeatureService: ParseFeatureService,
+    private offlineFeatureService: OfflineFeatureService,
   ) {
   }
 
   findAll<K extends keyof Feature = keyof Feature>(filter: Partial<Feature> = {}, keys?: readonly K[]): Observable<Pick<Feature, K>[]> {
+    const offline = this.offlineFeatureService.findAll(filter);
+    if (offline.length >= 0) {
+      return of(offline);
+    }
     return this.parseFeatureService.findAll<K>(filter, keys);
   }
 

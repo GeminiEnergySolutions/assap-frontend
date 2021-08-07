@@ -10,6 +10,7 @@ import {AuditsRoutingModule} from './audits-routing.module';
 import {FeatureService} from './feature.service';
 import {IdService} from './id.service';
 import {OfflineAuditService} from './offline-audit.service';
+import {OfflineFeatureService} from './offline-feature.service';
 import {ParseAuditService} from './parse-audit.service';
 import {ParseFeatureService} from './parse-feature.service';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
@@ -41,6 +42,7 @@ import {ZoneComponent} from './zone/zone.component';
     ZoneService,
     TypeService,
     FeatureService,
+    OfflineFeatureService,
     ParseFeatureService,
   ],
   declarations: [
