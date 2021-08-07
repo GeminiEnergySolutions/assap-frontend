@@ -11,6 +11,7 @@ import {FeatureService} from './feature.service';
 import {IdService} from './id.service';
 import {OfflineAuditService} from './offline-audit.service';
 import {ParseAuditService} from './parse-audit.service';
+import {ParseFeatureService} from './parse-feature.service';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
@@ -40,6 +41,7 @@ import {ZoneComponent} from './zone/zone.component';
     ZoneService,
     TypeService,
     FeatureService,
+    ParseFeatureService,
   ],
   declarations: [
     PreAuditComponent,

@@ -1,43 +1,36 @@
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {Feature, FeatureData} from './model/feature.interface';
 import {ParseObject} from '../parse/parse-object.interface';
-import {ParseService} from '../parse/parse.service';
+import {Feature, FeatureData} from './model/feature.interface';
+import {ParseFeatureService} from './parse-feature.service';
 
 @Injectable()
 export class FeatureService {
 
   constructor(
-    private parseService: ParseService,
+    private parseFeatureService: ParseFeatureService,
   ) {
   }
 
   findAll<K extends keyof Feature = keyof Feature>(filter: Partial<Feature> = {}, keys?: readonly K[]): Observable<Pick<Feature, K>[]> {
-    return this.parseService.findAll<Feature>('rFeature', filter, keys);
+    return this.parseFeatureService.findAll<K>(filter, keys);
   }
 
   create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
-    return this.parseService.create<Feature>('rFeature', feature);
+    return this.parseFeatureService.create(feature);
   }
 
   update(objectId: string, feature: Partial<Feature>): Observable<void> {
-    return this.parseService.update('rFeature', objectId, feature);
+    return this.parseFeatureService.update(objectId, feature);
   }
 
   delete(objectId: string): Observable<void> {
-    return this.parseService.delete('rFeature', objectId);
+    return this.parseFeatureService.delete(objectId);
   }
 
   deleteAll(filter: Partial<Feature> = {}) {
-    return this.findAll(filter, ['objectId'] as const).pipe(switchMap(features => {
-      const requests = features.map(f => ({
-        method: 'DELETE',
-        path: '/parse/classes/rFeature/' + f.objectId,
-      }));
-      return this.parseService.batch(requests);
-    }));
+    return this.parseFeatureService.deleteAll(filter);
   }
 
   feature2Data(feature: Feature): FeatureData {
