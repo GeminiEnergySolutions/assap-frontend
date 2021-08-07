@@ -37,4 +37,14 @@ export class OfflineFeatureService {
   }
 
 
+  update(feature: Feature, delta: Partial<Feature>): Feature | undefined {
+    const key = `audits/${feature.auditId}/features/${feature.typeId || 'preaudit'}`;
+    if (!localStorage.getItem(key)) {
+      return undefined;
+    }
+
+    const updated = {...feature, ...delta};
+    localStorage.setItem(key, JSON.stringify(updated));
+    return updated;
+  }
 }

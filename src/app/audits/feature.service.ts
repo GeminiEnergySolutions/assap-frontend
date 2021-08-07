@@ -28,8 +28,12 @@ export class FeatureService {
     return this.parseFeatureService.create(feature);
   }
 
-  update(feature: Feature, delta: Partial<Feature>): Observable<void> {
-    return this.parseFeatureService.update(feature.objectId, delta);
+  update(feature: Feature, delta: Partial<Feature>): Observable<Feature> {
+    const offline = this.offlineFeatureService.update(feature, delta);
+    if (offline) {
+      return of(offline);
+    }
+    return this.parseFeatureService.update(feature.objectId, delta).pipe(mapTo({...feature, ...delta}));
   }
 
   delete(feature: Feature): Observable<void> {
