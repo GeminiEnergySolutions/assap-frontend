@@ -24,6 +24,14 @@ export class FeatureService {
     return this.parseFeatureService.findAll<K>(filter, keys);
   }
 
+  saveAll(filter: Partial<Feature>) {
+    this.parseFeatureService.findAll(filter).subscribe(features => {
+      for (const feature of features) {
+        this.offlineFeatureService.save(feature);
+      }
+    });
+  }
+
   create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
     return this.parseFeatureService.create(feature);
   }

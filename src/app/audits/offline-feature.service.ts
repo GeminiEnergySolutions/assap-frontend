@@ -36,9 +36,13 @@ export class OfflineFeatureService {
     return result;
   }
 
+  save(feature: Feature) {
+    const key = this.getKey(feature);
+    localStorage.setItem(key, JSON.stringify(feature));
+  }
 
   update(feature: Feature, delta: Partial<Feature>): Feature | undefined {
-    const key = `audits/${feature.auditId}/features/${feature.typeId || 'preaudit'}`;
+    const key = this.getKey(feature);
     if (!localStorage.getItem(key)) {
       return undefined;
     }
@@ -46,5 +50,9 @@ export class OfflineFeatureService {
     const updated = {...feature, ...delta};
     localStorage.setItem(key, JSON.stringify(updated));
     return updated;
+  }
+
+  private getKey(feature: Feature) {
+    return `audits/${feature.auditId}/features/${feature.typeId || 'preaudit'}`;
   }
 }

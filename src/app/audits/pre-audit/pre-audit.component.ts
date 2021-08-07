@@ -69,6 +69,7 @@ export class PreAuditComponent implements OnInit {
       return;
     }
     this.offlineAuditService.save(audit);
+    this.featureService.saveAll({auditId: audit.auditId});
   }
 
   upload(audit: Audit) {
