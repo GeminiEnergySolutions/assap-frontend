@@ -4,6 +4,7 @@ import {Observable, of} from 'rxjs';
 import {mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {Feature, FeatureData} from './model/feature.interface';
+import {OfflineAuditService} from './offline-audit.service';
 import {OfflineFeatureService} from './offline-feature.service';
 import {ParseFeatureService} from './parse-feature.service';
 
@@ -13,6 +14,7 @@ export class FeatureService {
   constructor(
     private parseFeatureService: ParseFeatureService,
     private offlineFeatureService: OfflineFeatureService,
+    private offlineAuditService: OfflineAuditService,
   ) {
   }
 
@@ -33,6 +35,18 @@ export class FeatureService {
   }
 
   create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
+    if (this.offlineAuditService.findOne(feature.auditId)) {
+      const objectId = (parseInt('local', 36) + Math.random()).toString(36);
+      const timestamp = new Date().toJSON();
+      const result: Feature = {
+        objectId,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        ...feature,
+      }
+      this.offlineFeatureService.save(result);
+      return of(result);
+    }
     return this.parseFeatureService.create(feature);
   }
 
