@@ -74,6 +74,7 @@ export class PreAuditComponent implements OnInit {
 
   upload(audit: Audit) {
     this.auditService.upload(audit).subscribe();
+    this.featureService.upload({auditId: audit.auditId}).subscribe();
   }
 
   deleteOffline(audit: Audit) {

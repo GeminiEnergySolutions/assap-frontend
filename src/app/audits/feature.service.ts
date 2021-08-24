@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {mapTo} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
+import {ParseService} from '../parse/parse.service';
 import {Feature, FeatureData} from './model/feature.interface';
 import {OfflineAuditService} from './offline-audit.service';
 import {OfflineFeatureService} from './offline-feature.service';
@@ -12,6 +13,7 @@ import {ParseFeatureService} from './parse-feature.service';
 export class FeatureService {
 
   constructor(
+    private parseService: ParseService,
     private parseFeatureService: ParseFeatureService,
     private offlineFeatureService: OfflineFeatureService,
     private offlineAuditService: OfflineAuditService,
@@ -56,6 +58,48 @@ export class FeatureService {
       return of(offline);
     }
     return this.parseFeatureService.update(feature.objectId, delta).pipe(mapTo({...feature, ...delta}));
+  }
+
+  upload(filter: Partial<Feature>): Observable<void> {
+    const features = this.offlineFeatureService.findAll(filter);
+    return this.parseService.batch(features.map(f => {
+      const {objectId, createdAt, updatedAt, ...body} = f;
+      if (objectId.startsWith('local.')) {
+        return {
+          path: '/classes/rFeature',
+          method: 'POST',
+          body,
+        };
+      } else {
+        return {
+          path: `/classes/rFeature/${objectId}`,
+          method: 'PUT',
+          body,
+        };
+      }
+    })).pipe(map(results => {
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        const feature = features[i];
+        if ('error' in result) {
+          continue;
+        }
+
+        const success = result.success;
+        if ('objectId' in success) {
+          feature.objectId = success.objectId;
+        }
+        if ('createdAt' in success) {
+          feature.createdAt = success.createdAt;
+        }
+        if ('updatedAt' in success) {
+          feature.updatedAt = success.updatedAt;
+        }
+
+        this.offlineFeatureService.save(feature);
+      }
+      return undefined;
+    }));
   }
 
   delete(feature: Feature): Observable<void> {
