@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {mapTo, switchMap} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
 import {Feature} from './model/feature.interface';
@@ -22,7 +22,7 @@ export class ParseFeatureService {
   }
 
   update(objectId: string, feature: Partial<Feature>): Observable<void> {
-    return this.parseService.update('rFeature', objectId, feature);
+    return this.parseService.update('rFeature', objectId, feature).pipe(mapTo(undefined));
   }
 
   delete(objectId: string): Observable<void> {

@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+import {ParseCreateResponse, ParseResponse, ParseUpdateResponse} from '../audits/model/parse.interface';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
 
@@ -43,20 +44,20 @@ export class ParseService {
   }
 
   create<T extends ParseObject>(className: string, object: Omit<T, keyof ParseObject>): Observable<T> {
-    return this.http.post<Pick<T, 'objectId' | 'createdAt'>>(`${this.url}/classes/${className}`, object).pipe(
+    return this.http.post<ParseCreateResponse>(`${this.url}/classes/${className}`, object).pipe(
       map(result => ({...object, ...result, updatedAt: result.createdAt} as T)),
     );
   }
 
-  update<T extends ParseObject>(className: string, objectId: string, object: any): Observable<void> {
-    return this.http.put<void>(`${this.url}/classes/${className}/${objectId}`, object);
+  update<T extends ParseObject>(className: string, objectId: string, object: any): Observable<ParseUpdateResponse> {
+    return this.http.put<ParseUpdateResponse>(`${this.url}/classes/${className}/${objectId}`, object);
   }
 
   delete(className: string, objectId: string): Observable<void> {
     return this.http.delete<void>(`${this.url}/classes/${className}/${objectId}`);
   }
 
-  batch(requests: { path: string; method: string, body?: any }[]): Observable<any> {
-    return this.http.post(`${this.url}/batch`, { requests });
+  batch(requests: { path: string; method: string, body?: any }[]): Observable<ParseResponse[]> {
+    return this.http.post<ParseResponse[]>(`${this.url}/batch`, { requests });
   }
 }

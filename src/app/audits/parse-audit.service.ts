@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
 import {IdService} from './id.service';
@@ -30,7 +31,7 @@ export class ParseAuditService {
   }
 
   update(objectId: string, audit: Partial<Audit>): Observable<void> {
-    return this.parseService.update('rAudit', objectId, audit);
+    return this.parseService.update('rAudit', objectId, audit).pipe(mapTo(undefined));
   }
 
   updateMany(objectId: string, updates: Partial<Audit>[]): Observable<void> {
@@ -38,7 +39,7 @@ export class ParseAuditService {
       method: 'PUT',
       path: `/classes/rAudit/${objectId}`,
       body: update,
-    })));
+    }))).pipe(mapTo(undefined));
   }
 
   delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
