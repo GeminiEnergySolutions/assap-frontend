@@ -2,9 +2,12 @@ import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {Feature, FeatureData} from './model/feature.interface';
+import {Element, Schema} from '../forms/forms.interface';
 import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
+import {Feature, FeatureData} from './model/feature.interface';
+
+const RECORD_SEPARATOR = '\u001F';
 
 @Injectable()
 export class FeatureService {
@@ -42,8 +45,8 @@ export class FeatureService {
 
   feature2Data(feature: Feature): FeatureData {
     const data: Record<string, string> = {};
-    const formIds = feature.formId.split('\u001F');
-    const values = feature.values.split('\u001F');
+    const formIds = feature.formId.split(RECORD_SEPARATOR);
+    const values = feature.values.split(RECORD_SEPARATOR);
     const length = Math.min(formIds.length, values.length);
 
     for (let i = 0; i < length; i++) {
@@ -53,13 +56,26 @@ export class FeatureService {
     return data;
   }
 
-  data2Feature(data: Data): Partial<Feature> {
+  data2Feature(schema: Schema, data: Data): Pick<Feature, 'dataType' | 'fields' | 'formId' | 'values'> {
     const entries = Object.entries(data);
-    const formId = entries.map(e => e[0]).join('\u001F');
-    const values = entries.map(e => e[1]).join('\u001F');
+    const keys = entries.map(([key]) => key);
+    const elements = keys.map(k => this.findElement(schema, k));
     return {
-      formId,
-      values,
+      dataType: elements.map(e => e.dataType).join(RECORD_SEPARATOR),
+      fields: elements.map(e => e.param).join(RECORD_SEPARATOR),
+      formId: keys.join(RECORD_SEPARATOR),
+      values: entries.map(e => e[1]).join(RECORD_SEPARATOR),
     };
+  }
+
+  private findElement(schema: Schema, id: string): Element | undefined {
+    for (let section of schema.geminiForm) {
+      for (let element of section.elements) {
+        if (element.id === id) {
+          return element;
+        }
+      }
+    }
+    return undefined;
   }
 }

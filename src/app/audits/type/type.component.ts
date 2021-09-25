@@ -1,14 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Data} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {forkJoin} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+import {FormComponent} from '../../forms/form/form.component';
+import {Schema} from '../../forms/forms.interface';
+import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {FormComponent} from '../../forms/form/form.component';
 import {Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
-import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 
 @Component({
   selector: 'app-type',
@@ -56,14 +57,14 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     return !this.form?.dirty;
   }
 
-  save(data: Data) {
+  save(schema: Schema, data: object) {
     if (this.feature) {
-      const update = this.featureService.data2Feature(data);
+      const update = this.featureService.data2Feature(schema, data);
       this.featureService.update(this.feature.objectId, update).subscribe();
       return;
     }
 
-    const {formId, values} = this.featureService.data2Feature(data);
+    const {formId, values} = this.featureService.data2Feature(schema, data);
     const {aid, zid, tid} = this.route.snapshot.params;
     this.featureService.create({
       auditId: aid,

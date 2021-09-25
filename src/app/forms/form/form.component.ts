@@ -12,7 +12,7 @@ export class FormComponent implements OnInit {
   @Input() schema?: Schema;
 
   @Input() data: object = {};
-  @Output() dataChanged = new EventEmitter<object>();
+  @Output() saved = new EventEmitter<[Schema, object]>();
 
   dirty = false;
 
@@ -30,7 +30,7 @@ export class FormComponent implements OnInit {
   }
 
   save(): void {
-    this.dataChanged.emit(this.data);
+    this.saved.emit([this.schema, this.data]);
     this.dirty = false;
   }
 

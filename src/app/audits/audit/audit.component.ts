@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Data} from '@angular/router';
-import {forkJoin, Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {FormComponent} from '../../forms/form/form.component';
+import {Schema} from '../../forms/forms.interface';
+import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {FormComponent} from '../../forms/form/form.component';
 import {Audit} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
-import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 
 @Component({
   selector: 'app-audit',
@@ -46,14 +47,14 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
     return !this.form?.dirty;
   }
 
-  save(data: Data) {
+  save(schema: Schema, data: object) {
     if (this.feature) {
-      const update = this.featureService.data2Feature(data);
+      const update = this.featureService.data2Feature(schema, data);
       this.featureService.update(this.feature.objectId, update).subscribe();
       return;
     }
 
-    const {formId, values} = this.featureService.data2Feature(data);
+    const {formId, values} = this.featureService.data2Feature(schema, data);
     this.featureService.create({
       auditId: this.selectedAudit.auditId,
       belongsTo: 'preaudit',
