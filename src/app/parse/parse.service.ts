@@ -5,6 +5,12 @@ import {map, switchMap} from 'rxjs/operators';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
 
+export interface FindOptions<T> {
+  keys?: readonly (keyof T)[];
+  limit?: number;
+  sort?: (keyof T | `-${keyof T & string}`)[];
+}
+
 @Injectable()
 export class ParseService {
   constructor(
@@ -29,16 +35,14 @@ export class ParseService {
     return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
   }
 
-  findAll<T>(className: string, where?: any, keys?: readonly (keyof T)[]): Observable<T[]> {
-    const params: Record<string, string> = {};
-    if (where) {
-      params.where = JSON.stringify(where);
-    }
-    if (keys) {
-      params.keys = keys.join(',');
-    }
+  findAll<T>(className: string, where?: any, options: FindOptions<T> = {}): Observable<T[]> {
     return this.http.get<{ results: T[] }>(`${this.url}/classes/${className}`, {
-      params,
+      params: {
+        where: where ? JSON.stringify(where) : undefined,
+        keys: options.keys?.join(','),
+        limit: options.limit,
+        sort: options.sort?.join(','),
+      },
     }).pipe(map(r => r.results));
   }
 

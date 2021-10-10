@@ -18,7 +18,7 @@ export class FeatureService {
   }
 
   findAll<K extends keyof Feature = keyof Feature>(filter: Partial<Feature> = {}, keys?: readonly K[]): Observable<Pick<Feature, K>[]> {
-    return this.parseService.findAll<Feature>('rFeature', filter, keys);
+    return this.parseService.findAll<Feature>('rFeature', filter, {keys});
   }
 
   create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
