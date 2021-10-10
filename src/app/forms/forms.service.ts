@@ -19,7 +19,7 @@ export class FormsService {
   loadSchema(name: string): Observable<Schema> {
     return this.parseService.findAll<Schema>('Form', {name}, {
       limit: 1,
-      sort: ['-updatedAt'],
+      order: ['-updatedAt'],
     }).pipe(
       switchMap(schemas => schemas.length ? of(schemas[0]) : this.http.get<Schema>(`/assets/${name}.json`)),
     );
