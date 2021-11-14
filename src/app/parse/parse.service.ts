@@ -1,10 +1,16 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {ParseCreateResponse, ParseResponse, ParseUpdateResponse} from '../audits/model/parse.interface';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
+
+export interface FindOptions<T> {
+  keys?: readonly (keyof T)[];
+  limit?: number;
+  order?: (keyof T | `-${keyof T & string}`)[];
+}
 
 @Injectable()
 export class ParseService {
@@ -30,17 +36,13 @@ export class ParseService {
     return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
   }
 
-  findAll<T>(className: string, where?: any, keys?: readonly (keyof T)[]): Observable<T[]> {
+  findAll<T>(className: string, where?: any, options: FindOptions<T> = {}): Observable<T[]> {
     const params: Record<string, string> = {};
-    if (where) {
-      params.where = JSON.stringify(where);
-    }
-    if (keys) {
-      params.keys = keys.join(',');
-    }
-    return this.http.get<{ results: T[] }>(`${this.url}/classes/${className}`, {
-      params,
-    }).pipe(map(r => r.results));
+    where && (params.where = JSON.stringify(where));
+    options.keys && (params.keys = options.keys.join(','));
+    options.limit && (params.limit = options.limit.toString());
+    options.order && (params.order = options.order.join(','));
+    return this.http.get<{ results: T[] }>(`${this.url}/classes/${className}`, {params}).pipe(map(r => r.results));
   }
 
   create<T extends ParseObject>(className: string, object: Omit<T, keyof ParseObject>): Observable<T> {
