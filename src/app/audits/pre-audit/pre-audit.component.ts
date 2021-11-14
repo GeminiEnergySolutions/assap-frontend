@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FormsService} from '../../forms/forms.service';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit} from '../model/audit.interface';
@@ -16,6 +17,7 @@ export class PreAuditComponent implements OnInit {
     private auditService: AuditService,
     private offlineAuditService: OfflineAuditService,
     private featureService: FeatureService,
+    private formsService: FormsService,
   ) {
   }
 
@@ -68,6 +70,7 @@ export class PreAuditComponent implements OnInit {
     if (audit.pendingChanges && !confirm(`Are you sure you want to discard ${audit.pendingChanges} pending changes? This cannot be undone.`)) {
       return;
     }
+    this.formsService.loadSchemas().subscribe();
     this.offlineAuditService.save(audit);
     this.featureService.saveAll({auditId: audit.auditId});
   }

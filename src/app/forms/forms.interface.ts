@@ -1,6 +1,7 @@
 import {ParseObject} from '../parse/parse-object.interface';
 
 export interface Schema extends Partial<ParseObject> {
+  name: string;
   geminiForm: Section[];
 }
 
