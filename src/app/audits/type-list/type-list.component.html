@@ -21,8 +21,10 @@
     </div>
     <app-options-dropdown class="visible-hover" [id]="item.id">
       <button ngbDropdownItem (click)="rename(item)">Rename</button>
-      <div class="dropdown-divider"></div>
-      <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
+      <ng-container *ngIf="audit.pendingChanges === undefined">
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
+      </ng-container>
     </app-options-dropdown>
   </a>
 </div>

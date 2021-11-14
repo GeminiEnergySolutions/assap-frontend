@@ -106,10 +106,12 @@ export class FeatureService {
   }
 
   delete(feature: Feature): Observable<void> {
+    // FIXME delete does not work in offline mode
     return this.parseFeatureService.delete(feature.objectId);
   }
 
   deleteAll(filter: Partial<Feature> = {}) {
+    // FIXME deleteAll does not work in offline mode
     return this.parseFeatureService.deleteAll(filter);
   }
 
