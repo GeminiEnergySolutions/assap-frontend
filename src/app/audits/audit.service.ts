@@ -89,7 +89,7 @@ export class AuditService {
   }
 
   delete(audit: Pick<Audit, 'objectId' | 'auditId'>): Observable<void> {
-    this.offlineAuditService.delete(audit);
+    // FIXME delete does not work in offline mode
     return this.parseAuditService.delete(audit);
   }
 }
