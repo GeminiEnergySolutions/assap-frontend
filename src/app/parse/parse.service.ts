@@ -50,6 +50,12 @@ export class ParseService {
     return this.http.get<User>(`${this.url}/users/me`);
   }
 
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.url}/logout`, {}).pipe(tap(() => {
+      this.parseCredentialService.sessionToken = '';
+    }));
+  }
+
   findAll<T>(className: string, where?: any, options: FindOptions<T> = {}): Observable<T[]> {
     const params: Record<string, string> = {};
     where && (params.where = JSON.stringify(where));
