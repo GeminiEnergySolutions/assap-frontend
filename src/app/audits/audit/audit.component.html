@@ -19,6 +19,12 @@
         <app-zone-list [audit]="selectedAudit" routerPrefix="zones/"></app-zone-list>
       </ng-template>
     </li>
+    <li ngbNavItem="access">
+      <a ngbNavLink>Access Control</a>
+      <ng-template ngbNavContent>
+        <app-access-control [audit]="selectedAudit"></app-access-control>
+      </ng-template>
+    </li>
   </ul>
 
   <div [ngbNavOutlet]="nav" class="mt-2"></div>

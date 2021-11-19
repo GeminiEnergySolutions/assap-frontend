@@ -1,0 +1,49 @@
+<table class="table table-sm table-striped">
+  <thead>
+  <tr>
+    <th>User or Role</th>
+    <th>Can Read?</th>
+    <th>Can Write?</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let entry of acl; let index = index">
+    <td>
+      {{entry.key}}
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="entry.read">
+    </td>
+    <td>
+      <input type="checkbox" [(ngModel)]="entry.write">
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="delete(index)">
+        <i class="bi-trash"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td>
+      <input type="text" class="form-control" placeholder="User ID or role:Rolename or *" #keyInput>
+    </td>
+    <td>
+      <input type="checkbox" #readCheck>
+    </td>
+    <td>
+      <input type="checkbox" #writeCheck>
+    </td>
+    <td>
+      <button type="button" class="btn btn-success" (click)="this.add(keyInput.value, readCheck.checked, writeCheck.checked)">
+        <i class="bi-plus-circle"></i>
+      </button>
+    </td>
+  </tr>
+  </tfoot>
+</table>
+<button class="btn btn-primary" (click)="save()">
+  Save
+</button>

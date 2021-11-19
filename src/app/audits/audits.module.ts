@@ -1,8 +1,10 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '../forms/forms.module';
+import {FormsModule as AppFormsModule} from '../forms/forms.module';
 import {SharedModule} from '../shared/shared.module';
+import {AccessControlComponent} from './access-control/access-control.component';
 import {AuditService} from './audit.service';
 import {AuditComponent} from './audit/audit.component';
 
@@ -33,6 +35,8 @@ import {ZoneComponent} from './zone/zone.component';
     NgbDropdownModule,
     AuditsRoutingModule,
     NgbTooltipModule,
+    FormsModule,
+    AppFormsModule,
   ],
   providers: [
     IdService,
@@ -54,6 +58,7 @@ import {ZoneComponent} from './zone/zone.component';
     PreTypeComponent,
     ZoneListComponent,
     TypeListComponent,
+    AccessControlComponent,
   ],
 })
 export class AuditsModule {
