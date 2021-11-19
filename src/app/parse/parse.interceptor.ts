@@ -11,13 +11,18 @@ export class ParseInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const headers = req.headers
-      .set('X-Parse-Application-Id', this.parseCredentialService.appId)
-      .set('X-Parse-Master-Key', this.parseCredentialService.masterKey)
-    ;
-    const newReq = req.clone({
-      headers: headers,
-    });
+    const {appId, masterKey, sessionToken} = this.parseCredentialService;
+    let headers = req.headers;
+    if (appId) {
+      headers = headers.set('X-Parse-Application-Id', appId);
+    }
+    if (masterKey) {
+      headers = headers.set('X-Parse-Master-Key', masterKey);
+    }
+    if (sessionToken) {
+      headers = headers.set('X-Parse-Session-Token', sessionToken);
+    }
+    const newReq = req.clone({headers});
     return next.handle(newReq);
   }
 }

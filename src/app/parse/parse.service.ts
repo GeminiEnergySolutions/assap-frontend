@@ -1,10 +1,11 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {ParseCreateResponse, ParseResponse, ParseUpdateResponse} from '../audits/model/parse.interface';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
+import {User} from './user.interface';
 
 export interface FindOptions<T> {
   keys?: readonly (keyof T)[];
@@ -34,6 +35,19 @@ export class ParseService {
 
   getConfig$<T>(): Observable<T> {
     return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
+  }
+
+  login(username: string, password: string): Observable<User> {
+    return this.http.get<User>(`${this.url}/login`, {
+      params: {
+        username,
+        password,
+      },
+    }).pipe(tap(user => this.parseCredentialService.sessionToken = user.sessionToken));
+  }
+
+  refresh(token: string): Observable<User> {
+    return this.http.get<User>(`${this.url}/users/me`);
   }
 
   findAll<T>(className: string, where?: any, options: FindOptions<T> = {}): Observable<T[]> {

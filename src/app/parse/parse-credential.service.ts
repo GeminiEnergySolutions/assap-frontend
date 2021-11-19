@@ -6,6 +6,7 @@ export class ParseCredentialService {
   #appId: string;
   #masterKey: string;
   #url = new BehaviorSubject<string>(localStorage.getItem('parse/url') || '');
+  #sessionToken: string;
 
   get appId(): string {
     return this.#appId || localStorage.getItem('parse/appId') || '';
@@ -23,6 +24,15 @@ export class ParseCredentialService {
   set masterKey(value: string) {
     this.#masterKey = value;
     localStorage.setItem('parse/masterKey', value);
+  }
+
+  get sessionToken(): string {
+    return this.#sessionToken || localStorage.getItem('parse/sessionToken') || '';
+  }
+
+  set sessionToken(sessionToken: string) {
+    this.#sessionToken = sessionToken;
+    localStorage.setItem('parse/sessionToken', sessionToken);
   }
 
   get url(): string {
