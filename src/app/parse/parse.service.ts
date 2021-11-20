@@ -46,7 +46,7 @@ export class ParseService {
     }).pipe(tap(user => this.parseCredentialService.sessionToken = user.sessionToken));
   }
 
-  refresh(token: string): Observable<User> {
+  getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.url}/users/me`);
   }
 

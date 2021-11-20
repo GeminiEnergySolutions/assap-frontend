@@ -29,9 +29,8 @@ export class SettingsComponent implements OnInit {
     this.appId = this.parseCredentialService.appId;
     this.masterKey = this.parseCredentialService.masterKey;
 
-    const {sessionToken} = this.parseCredentialService;
-    if (sessionToken) {
-      this.parseService.refresh(sessionToken).subscribe(user => this.user = user);
+    if (this.parseCredentialService.sessionToken) {
+      this.parseService.getCurrentUser().subscribe(user => this.user = user);
     }
   }
 

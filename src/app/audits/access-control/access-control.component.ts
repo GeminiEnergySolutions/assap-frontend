@@ -3,6 +3,7 @@ import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {ACL} from '../../parse/parse-object.interface';
 import {ParseService} from '../../parse/parse.service';
+import {User} from '../../parse/user.interface';
 import {AuditService} from '../audit.service';
 import {Audit} from '../model/audit.interface';
 
@@ -13,6 +14,8 @@ import {Audit} from '../model/audit.interface';
 })
 export class AccessControlComponent implements OnInit, OnChanges {
   @Input() audit: Audit;
+
+  user?: User;
 
   acl: { key: string; read: boolean; write: boolean; }[] = [];
 
@@ -38,6 +41,8 @@ export class AccessControlComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.parseService.getCurrentUser().subscribe(user => this.user = user);
+
     this.parseService.getUsers().subscribe(users => {
       for (let user of users) {
         this.userIdToName[user.objectId] = user.username;
@@ -69,6 +74,13 @@ export class AccessControlComponent implements OnInit, OnChanges {
     for (const {key, ...rest} of this.acl) {
       ACL[key] = rest;
     }
+
+    // prevent current user from removing their own write access
+    if (this.user && !(ACL[this.user.objectId].write || ACL['*'].write)) {
+      // TODO toast
+      return;
+    }
+
     this.auditService.update(this.audit, {ACL}, a => {
       a.ACL = ACL;
       return a;
