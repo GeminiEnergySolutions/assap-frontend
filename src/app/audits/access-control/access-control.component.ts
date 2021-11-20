@@ -78,8 +78,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
     }
 
     // prevent current user from removing their own write access
-    if (this.user && !(ACL[this.user.objectId].write || ACL['*'].write)) {
-      // TODO toast
+    if (this.user && !(ACL[this.user.objectId]?.write || ACL['*']?.write) && !confirm('The current settings would remove your write access. Are you sure you want to save?')) {
       return;
     }
 
