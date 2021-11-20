@@ -48,7 +48,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.audit) {
-      this.acl = Object.entries(this.audit.ACL)
+      this.acl = Object.entries(this.audit.ACL ?? {'*': {read: true, write: true}})
         .map(([key, rest]) => ({key, ...rest}))
         .sort(({key: k1}, {key: k2}) => k1.localeCompare(k2))
       ;
