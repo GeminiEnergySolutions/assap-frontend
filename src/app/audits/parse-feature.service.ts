@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {mapTo, switchMap} from 'rxjs/operators';
-import {ParseObject} from '../parse/parse-object.interface';
+import {mapTo} from 'rxjs/operators';
 import {ParseService} from '../parse/parse.service';
-import {Feature} from './model/feature.interface';
+import {CreateFeatureDto, Feature} from './model/feature.interface';
 
 @Injectable()
 export class ParseFeatureService {
@@ -17,7 +16,7 @@ export class ParseFeatureService {
     return this.parseService.findAll<Feature>('rFeature', filter, {keys});
   }
 
-  create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
+  create(feature: CreateFeatureDto): Observable<Feature> {
     return this.parseService.create<Feature>('rFeature', feature);
   }
 

@@ -16,4 +16,6 @@ export interface Feature extends ParseObject {
   values: string;
 }
 
+export type CreateFeatureDto = Omit<Feature, Exclude<keyof ParseObject, 'ACL'>>;
+
 export type FeatureData = Record<string, string>;

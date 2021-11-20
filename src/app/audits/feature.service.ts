@@ -3,9 +3,8 @@ import {Data} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {map, mapTo} from 'rxjs/operators';
 import {Element, Schema} from '../forms/forms.interface';
-import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
-import {Feature, FeatureData} from './model/feature.interface';
+import {CreateFeatureDto, Feature, FeatureData} from './model/feature.interface';
 import {OfflineAuditService} from './offline-audit.service';
 import {OfflineFeatureService} from './offline-feature.service';
 import {ParseFeatureService} from './parse-feature.service';
@@ -39,7 +38,7 @@ export class FeatureService {
     });
   }
 
-  create(feature: Omit<Feature, keyof ParseObject>): Observable<Feature> {
+  create(feature: CreateFeatureDto): Observable<Feature> {
     if (this.offlineAuditService.findOne(feature.auditId)) {
       const objectId = (parseInt('local', 36) + Math.random()).toString(36);
       const timestamp = new Date().toJSON();

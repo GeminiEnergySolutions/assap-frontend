@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/forms.interface';
 import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Type} from '../model/audit.interface';
+import {Audit, Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
 
@@ -21,6 +21,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   @ViewChild('form', {static: false}) form?: FormComponent;
 
   feature?: Feature;
+  audit?: Audit;
   type?: Type;
   data?: FeatureData;
   schemaId?: string;
@@ -36,18 +37,20 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({aid, zid, tid}) => forkJoin([
-        this.auditService.findOne(aid).pipe(map(audit => audit.type[tid])),
+        of(tid),
+        this.auditService.findOne(aid),
         this.featureService.findAll({
           auditId: aid,
           zoneId: zid,
           typeId: tid,
         }),
       ])),
-    ).subscribe(([type, features]) => {
-      this.type = type;
+    ).subscribe(([typeId, audit, features]) => {
+      this.audit = audit;
+      this.type = audit.type[typeId];
 
-      const type1 = Types.find(t => t.name === type.type);
-      const type2 = type.subtype ? type1.subTypes.find(t => t.name === type.subtype) : type1;
+      const type1 = Types.find(t => t.name === this.type.type);
+      const type2 = this.type.subtype ? type1.subTypes.find(t => t.name === this.type.subtype) : type1;
       this.schemaId = type2.id;
 
       this.feature = features[0];
@@ -74,6 +77,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
         belongsTo: 'type',
         mod: new Date().valueOf().toString(),
         usn: 0,
+        ACL: this.audit.ACL,
         ...feature,
       });
     }

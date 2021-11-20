@@ -63,6 +63,7 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
         zoneId: null,
         typeId: null,
         usn: 0,
+        ACL: this.selectedAudit.ACL,
         ...feature,
       });
     }
