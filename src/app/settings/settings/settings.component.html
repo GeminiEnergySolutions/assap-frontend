@@ -20,9 +20,6 @@
       Test
     </button>
   </div>
-  <div *ngIf="testResult" class="alert alert-{{testResult.status}}">
-    {{ testResult.message }}
-  </div>
   <h4 *ngIf="user">
     Logged in as <b>{{user.username}}</b>.
     <button type="button" class="btn btn-danger" (click)="logout()">

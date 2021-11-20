@@ -1,4 +1,6 @@
 import {Component, Input} from '@angular/core';
+import {ToastService} from 'ng-bootstrap-ext';
+import {forkJoin} from 'rxjs';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit, Zone} from '../model/audit.interface';
@@ -17,6 +19,7 @@ export class ZoneListComponent {
     private auditService: AuditService,
     private zoneService: ZoneService,
     private featureService: FeatureService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -28,6 +31,8 @@ export class ZoneListComponent {
 
     this.zoneService.create(this.audit, {name}).subscribe(zone => {
       this.audit.zone[zone.id] = zone;
+    }, error => {
+      this.toastService.error('Zone', 'Failed to create zone', error);
     });
   }
 
@@ -38,6 +43,8 @@ export class ZoneListComponent {
     }
     this.zoneService.update(this.audit, zone.id, {name}).subscribe(() => {
       zone.name = name;
+    }, error => {
+      this.toastService.error('Zone', 'Failed to rename zone', error);
     });
   }
 
@@ -45,7 +52,11 @@ export class ZoneListComponent {
     if (!confirm(`Are you sure you want to delete '${zone.name}'?`)) {
       return;
     }
-    this.zoneService.delete(this.audit, zone).subscribe();
-    this.featureService.deleteAll({zoneId: zone.id.toString()}).subscribe();
+    forkJoin([
+      this.zoneService.delete(this.audit, zone),
+      this.featureService.deleteAll({zoneId: zone.id.toString()}),
+    ]).subscribe(undefined, error => {
+      this.toastService.error('Zone', 'Failed to delete zone', error);
+    });
   }
 }

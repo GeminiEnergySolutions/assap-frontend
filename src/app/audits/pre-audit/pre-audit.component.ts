@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ToastService} from 'ng-bootstrap-ext';
+import {forkJoin} from 'rxjs';
 import {FormsService} from '../../forms/forms.service';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
@@ -18,6 +20,7 @@ export class PreAuditComponent implements OnInit {
     private offlineAuditService: OfflineAuditService,
     private featureService: FeatureService,
     private formsService: FormsService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -39,6 +42,8 @@ export class PreAuditComponent implements OnInit {
       zone: {},
     }).subscribe(audit => {
       this.audits.push(audit);
+    }, error => {
+      this.toastService.error('Audit', 'Failed to create audit', error);
     });
   }
 
@@ -50,20 +55,26 @@ export class PreAuditComponent implements OnInit {
     this.auditService.update(audit, {name}, a => {
       a.name = name;
       return a;
-    }).subscribe();
+    }).subscribe(undefined, error => {
+      this.toastService.error('Audit', 'Failed to rename audit', error);
+    });
   }
 
   delete(audit: Audit) {
     if (!confirm(`Are you sure you want to delete '${audit.name}'?`)) {
       return;
     }
-    this.auditService.delete(audit).subscribe(() => {
+    forkJoin([
+      this.auditService.delete(audit),
+      this.featureService.deleteAll({auditId: audit.auditId}),
+    ]).subscribe(() => {
       const index1 = this.audits.indexOf(audit);
       if (index1 >= 0) {
         this.audits.splice(index1, 1);
       }
+    }, error => {
+      this.toastService.error('Audit', 'Failed to delete audit', error);
     });
-    this.featureService.deleteAll({auditId: audit.auditId}).subscribe();
   }
 
   download(audit: Audit) {
@@ -76,8 +87,12 @@ export class PreAuditComponent implements OnInit {
   }
 
   upload(audit: Audit) {
-    this.auditService.upload(audit).subscribe();
-    this.featureService.upload({auditId: audit.auditId}).subscribe();
+    forkJoin([
+      this.auditService.upload(audit),
+      this.featureService.upload({auditId: audit.auditId}),
+    ]).subscribe(undefined, error => {
+      this.toastService.error('Audit', 'Failed to upload audit', error);
+    });
   }
 
   deleteOffline(audit: Audit) {

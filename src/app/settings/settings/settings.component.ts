@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ToastService} from 'ng-bootstrap-ext';
 import {ParseCredentialService} from '../../parse/parse-credential.service';
 import {ParseService} from '../../parse/parse.service';
 import {User} from '../../parse/user.interface';
@@ -12,7 +13,6 @@ export class SettingsComponent implements OnInit {
   url: string;
   appId: string;
   masterKey: string;
-  testResult?: { status: string, message: string };
 
   username: string;
   password: string;
@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private parseCredentialService: ParseCredentialService,
     private parseService: ParseService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -47,7 +48,7 @@ export class SettingsComponent implements OnInit {
       : this.parseService.getConfig()
     ;
     op.subscribe(() => {
-      this.testResult = {status: 'success', message: 'Successfully connected to Parse server.'};
+      this.toastService.success('Parse Server', 'Successfully connected to Parse server.');
     }, error => {
       console.error(error);
       const explanation = error.error?.error ?? {
@@ -55,10 +56,7 @@ export class SettingsComponent implements OnInit {
         404: 'Invalid server URL.',
         0: 'Can\'t connect to server.',
       }[error.status];
-      this.testResult = {
-        status: 'danger',
-        message: `Failed to connect to Parse server: ${explanation} (${error.status} ${error.statusText})`,
-      };
+      this.toastService.error('Parse Server', `Failed to connect to Parse server: ${explanation}`, error);
     });
   }
 

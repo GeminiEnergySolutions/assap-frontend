@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {forkJoin} from 'rxjs';
+import {ToastService} from 'ng-bootstrap-ext';
+import {forkJoin, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/forms.interface';
@@ -26,6 +27,7 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   constructor(
     private auditService: AuditService,
     private featureService: FeatureService,
+    private toastService: ToastService,
     private route: ActivatedRoute,
   ) {
   }
@@ -48,24 +50,28 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   }
 
   save(schema: Schema, data: object) {
+    let op: Observable<Feature>;
     if (this.feature) {
       const update = this.featureService.data2Feature(schema, data);
-      this.featureService.update(this.feature, update).subscribe();
-      return;
+      op = this.featureService.update(this.feature, update);
+    } else {
+      const feature = this.featureService.data2Feature(schema, data);
+      op = this.featureService.create({
+        auditId: this.selectedAudit.auditId,
+        belongsTo: 'preaudit',
+        mod: new Date().valueOf().toString(),
+        zoneId: null,
+        typeId: null,
+        usn: 0,
+        ...feature,
+      });
     }
 
-    const {formId, values} = this.featureService.data2Feature(schema, data);
-    this.featureService.create({
-      auditId: this.selectedAudit.auditId,
-      belongsTo: 'preaudit',
-      mod: new Date().valueOf().toString(),
-      zoneId: null,
-      typeId: null,
-      usn: 0,
-      formId,
-      values,
-    }).subscribe(feature => {
+    op.subscribe(feature => {
       this.feature = feature;
+      this.toastService.success('Form', 'Successfully saved form input');
+    }, error => {
+      this.toastService.error('Form', 'Failed to save form input', error);
     });
   }
 }
