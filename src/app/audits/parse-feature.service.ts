@@ -30,12 +30,6 @@ export class ParseFeatureService {
   }
 
   deleteAll(filter: Partial<Feature> = {}) {
-    return this.findAll(filter, ['objectId'] as const).pipe(switchMap(features => {
-      const requests = features.map(f => ({
-        method: 'DELETE',
-        path: '/parse/classes/rFeature/' + f.objectId,
-      }));
-      return this.parseService.batch(requests);
-    }));
+    return this.parseService.deleteAll('rFeature', filter);
   }
 }
