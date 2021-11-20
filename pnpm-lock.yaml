@@ -38,6 +38,7 @@ specifiers:
   karma-coverage-istanbul-reporter: ~3.0.3
   karma-jasmine: ~4.0.1
   karma-jasmine-html-reporter: ^1.7.0
+  ng-bootstrap-ext: ^0.1.0
   protractor: ~7.0.0
   rxjs: ~6.5.5
   ts-node: ~10.1.0
@@ -60,6 +61,7 @@ dependencies:
   bootstrap: 4.6.1
   bootstrap-darkmode: 0.9.1_bootstrap@4.6.1
   bootstrap-icons: 1.7.1
+  ng-bootstrap-ext: 0.1.0_8e20f6afdaf26af34c281cd08cfa748e
   rxjs: 6.5.5
   tslib: 2.3.1
   zone.js: 0.11.4
@@ -6545,6 +6547,17 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /ng-bootstrap-ext/0.1.0_8e20f6afdaf26af34c281cd08cfa748e:
+    resolution: {integrity: sha512-hpBfkPs2Y32eSozezgcOHFAPphPyef4S6WVxGTNNRotIEgeZLLmD2HtbV7nx+h2GzhXoeL07B6gpIfVQg07eUQ==}
+    peerDependencies:
+      '@angular/common': ^12.2.0
+      '@angular/core': ^12.2.0
+    dependencies:
+      '@angular/common': 12.2.13_@angular+core@12.2.13+rxjs@6.5.5
+      '@angular/core': 12.2.13_rxjs@6.5.5+zone.js@0.11.4
+      tslib: 2.3.1
+    dev: false
 
   /nice-napi/1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}
