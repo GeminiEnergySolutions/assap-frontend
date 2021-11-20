@@ -62,6 +62,17 @@ export class FeatureService {
     return this.parseFeatureService.update(feature.objectId, delta).pipe(mapTo({...feature, ...delta}));
   }
 
+  updateAll(filter: Partial<Feature>, update: Partial<Feature>) {
+    const offline = this.offlineFeatureService.findAll(filter);
+    if (offline.length) {
+      for (let feature of offline) {
+        this.offlineFeatureService.update(feature, update);
+      }
+      return of([]);
+    }
+    return this.parseFeatureService.updateAll(filter, update);
+  }
+
   upload(filter: Partial<Feature>): Observable<void> {
     const features = this.offlineFeatureService.findAll(filter);
     return this.parseService.batch(features.map(f => {

@@ -1,11 +1,12 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ToastService} from 'ng-bootstrap-ext';
-import {Observable, OperatorFunction} from 'rxjs';
+import {forkJoin, Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {ACL} from '../../parse/parse-object.interface';
 import {ParseService} from '../../parse/parse.service';
 import {User} from '../../parse/user.interface';
 import {AuditService} from '../audit.service';
+import {FeatureService} from '../feature.service';
 import {Audit} from '../model/audit.interface';
 
 @Component({
@@ -36,6 +37,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
   );
 
   constructor(
+    private featureService: FeatureService,
     private auditService: AuditService,
     private parseService: ParseService,
     private toastService: ToastService,
@@ -82,10 +84,13 @@ export class AccessControlComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.auditService.update(this.audit, {ACL}, a => {
-      a.ACL = ACL;
-      return a;
-    }).subscribe(undefined, error => {
+    forkJoin([
+      this.auditService.update(this.audit, {ACL}, a => {
+        a.ACL = ACL;
+        return a;
+      }),
+      this.featureService.updateAll({auditId: this.audit.auditId}, {ACL}),
+    ]).subscribe(undefined, error => {
       this.toastService.error('Access Control', 'Failed to update access control', error);
     });
   }

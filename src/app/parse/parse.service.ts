@@ -79,6 +79,17 @@ export class ParseService {
     return this.http.put<ParseUpdateResponse>(`${this.url}/classes/${className}/${objectId}`, object);
   }
 
+  updateAll<T extends ParseObject>(className: string, filter: Partial<T>, object: any) {
+    return this.findAll(className, filter, {keys: ['objectId']}).pipe(switchMap(objects => {
+      const requests = objects.map(obj => ({
+        method: 'PUT',
+        path: `/parse/classes/${className}/${obj.objectId}`,
+        body: object,
+      }));
+      return this.batch(requests);
+    }))
+  }
+
   delete(className: string, objectId: string): Observable<void> {
     return this.http.delete<void>(`${this.url}/classes/${className}/${objectId}`);
   }

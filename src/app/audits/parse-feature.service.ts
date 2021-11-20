@@ -24,6 +24,10 @@ export class ParseFeatureService {
     return this.parseService.update('rFeature', objectId, feature).pipe(mapTo(undefined));
   }
 
+  updateAll(filter: Partial<Feature>, update: Partial<Feature>) {
+    return this.parseService.updateAll('rFeature', filter, update);
+  }
+
   delete(objectId: string): Observable<void> {
     return this.parseService.delete('rFeature', objectId);
   }
