@@ -1,4 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {ACL} from '../../parse/parse-object.interface';
 import {ParseService} from '../../parse/parse.service';
 import {AuditService} from '../audit.service';
@@ -16,6 +18,18 @@ export class AccessControlComponent implements OnInit, OnChanges {
 
   userIdToName: Record<string, string> = {};
   userNameToId: Record<string, string> = {};
+
+  typeahead: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    map(term => {
+      if (term.length < 2) {
+        return [];
+      }
+      const lowerTerm = term.toLowerCase();
+      return Object.keys(this.userNameToId).filter(v => v.toLowerCase().includes(lowerTerm)).slice(0, 10);
+    }),
+  );
 
   constructor(
     private auditService: AuditService,

@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbNavModule, NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule as AppFormsModule} from '../forms/forms.module';
 import {SharedModule} from '../shared/shared.module';
 import {AccessControlComponent} from './access-control/access-control.component';
@@ -37,6 +37,7 @@ import {ZoneComponent} from './zone/zone.component';
     NgbTooltipModule,
     FormsModule,
     AppFormsModule,
+    NgbTypeaheadModule,
   ],
   providers: [
     IdService,
