@@ -28,7 +28,7 @@ specifiers:
   '@typescript-eslint/parser': ~4.29.3
   angular-cli-ghpages: ~1.0.0
   bootstrap: ^4.6.1
-  bootstrap-darkmode: ^0.8.1
+  bootstrap-darkmode: ^0.9.1
   bootstrap-icons: ^1.7.1
   eslint: ^7.32.0
   jasmine-core: ~3.6.0
@@ -58,7 +58,7 @@ dependencies:
   '@angular/service-worker': 12.2.13_8e20f6afdaf26af34c281cd08cfa748e
   '@ng-bootstrap/ng-bootstrap': 10.0.0_7fa69a7e901e0f7ea213c483cf4a25b7
   bootstrap: 4.6.1
-  bootstrap-darkmode: 0.8.1_bootstrap@4.6.1
+  bootstrap-darkmode: 0.9.1_bootstrap@4.6.1
   bootstrap-icons: 1.7.1
   rxjs: 6.5.5
   tslib: 2.3.1
@@ -2952,8 +2952,8 @@ packages:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
     dev: true
 
-  /bootstrap-darkmode/0.8.1_bootstrap@4.6.1:
-    resolution: {integrity: sha512-og3Jm6Hr/CPovn5ylCQCPv16koRc5de2GpFhBTB3UcAwF/wPq/iKosFpXvw8X0mGGU1ekAXSmAyUU/F25Tz3GA==}
+  /bootstrap-darkmode/0.9.1_bootstrap@4.6.1:
+    resolution: {integrity: sha512-uoJEo8jpi0bpNyHRmQ0dmDJUNYsTFSnqEJZikqGrLUDRomcVcgh4qF6WC3lU8nMyH0hAzxlzU2Xzn0NjSXMlCA==}
     peerDependencies:
       bootstrap: '>=4.6'
     dependencies:
