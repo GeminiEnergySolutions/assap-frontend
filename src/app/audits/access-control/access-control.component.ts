@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ToastService} from 'ng-bootstrap-ext';
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {ACL} from '../../parse/parse-object.interface';
@@ -37,6 +38,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
   constructor(
     private auditService: AuditService,
     private parseService: ParseService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -84,6 +86,8 @@ export class AccessControlComponent implements OnInit, OnChanges {
     this.auditService.update(this.audit, {ACL}, a => {
       a.ACL = ACL;
       return a;
-    }).subscribe();
+    }).subscribe(undefined, error => {
+      this.toastService.error('Access Control', 'Failed to update access control', error);
+    });
   }
 }

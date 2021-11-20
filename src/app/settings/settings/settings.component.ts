@@ -61,10 +61,18 @@ export class SettingsComponent implements OnInit {
   }
 
   logout() {
-    this.parseService.logout().subscribe(() => delete this.user);
+    this.parseService.logout().subscribe(() => {
+      delete this.user;
+    }, error => {
+      this.toastService.error('Log out', 'Failed to log out', error);
+    });
   }
 
   login() {
-    this.parseService.login(this.username, this.password).subscribe(user => this.user = user);
+    this.parseService.login(this.username, this.password).subscribe(user => {
+      this.user = user;
+    }, error => {
+      this.toastService.error('Log in', 'Failed to log in', error);
+    });
   }
 }
