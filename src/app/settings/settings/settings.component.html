@@ -11,7 +11,7 @@
     </div>
     <div class="form-group">
       <label for="masterKey">Parse Master Key (Optional)</label>
-      <input type="password" class="form-control" id="masterKey" [(ngModel)]="masterKey">
+      <input type="password" class="form-control" id="masterKey" autocomplete="new-password" [(ngModel)]="masterKey">
     </div>
     <button type="button" class="btn btn-primary mr-2" (click)="save()">
       Save
@@ -32,11 +32,11 @@
   <div *ngIf="!user" class="form">
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" [(ngModel)]="username">
+      <input type="text" class="form-control" id="username" autocomplete="username" [(ngModel)]="username">
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" [(ngModel)]="password">
+      <input type="password" class="form-control" id="password" autocomplete="password" [(ngModel)]="password">
     </div>
     <button type="button" class="btn btn-primary" (click)="login()">
       Log in
