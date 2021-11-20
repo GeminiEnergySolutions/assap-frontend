@@ -10,7 +10,7 @@
   <tbody>
   <tr *ngFor="let entry of acl; let index = index">
     <td>
-      {{entry.key}}
+      {{userIdToName[entry.key] || entry.key}}
     </td>
     <td>
       <input type="checkbox" [(ngModel)]="entry.read">
@@ -28,7 +28,7 @@
   <tfoot>
   <tr>
     <td>
-      <input type="text" class="form-control" placeholder="User ID or role:Rolename or *" #keyInput>
+      <input type="text" class="form-control" placeholder="User Name or ID or role:Rolename or *" #keyInput>
     </td>
     <td>
       <input type="checkbox" #readCheck>

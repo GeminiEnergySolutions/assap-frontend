@@ -1,5 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ACL} from '../../parse/parse-object.interface';
+import {ParseService} from '../../parse/parse.service';
 import {AuditService} from '../audit.service';
 import {Audit} from '../model/audit.interface';
 
@@ -8,14 +9,27 @@ import {Audit} from '../model/audit.interface';
   templateUrl: './access-control.component.html',
   styleUrls: ['./access-control.component.scss'],
 })
-export class AccessControlComponent implements OnChanges {
+export class AccessControlComponent implements OnInit, OnChanges {
   @Input() audit: Audit;
 
   acl: { key: string; read: boolean; write: boolean; }[] = [];
 
+  userIdToName: Record<string, string> = {};
+  userNameToId: Record<string, string> = {};
+
   constructor(
     private auditService: AuditService,
+    private parseService: ParseService,
   ) {
+  }
+
+  ngOnInit() {
+    this.parseService.getUsers().subscribe(users => {
+      for (let user of users) {
+        this.userIdToName[user.objectId] = user.username;
+        this.userNameToId[user.username] = user.objectId;
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -32,6 +46,7 @@ export class AccessControlComponent implements OnChanges {
   }
 
   add(key: string, read: boolean, write: boolean) {
+    key = this.userNameToId[key] || key;
     this.acl.push({key, read, write});
   }
 

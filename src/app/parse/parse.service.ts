@@ -56,6 +56,10 @@ export class ParseService {
     }));
   }
 
+  getUsers(): Observable<User[]> {
+    return this.http.get<{ results: User[] }>(`${this.url}/users`).pipe(map(({results}) => results));
+  }
+
   findAll<T>(className: string, where?: any, options: FindOptions<T> = {}): Observable<T[]> {
     const params: Record<string, string> = {};
     where && (params.where = JSON.stringify(where));
