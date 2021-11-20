@@ -90,7 +90,9 @@ export class AccessControlComponent implements OnInit, OnChanges {
         return a;
       }),
       this.featureService.updateAll({auditId: this.audit.auditId}, {ACL}),
-    ]).subscribe(undefined, error => {
+    ]).subscribe(() => {
+      this.toastService.success('Access Control', 'Successfully saved access control');
+    }, error => {
       this.toastService.error('Access Control', 'Failed to update access control', error);
     });
   }
