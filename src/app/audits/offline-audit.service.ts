@@ -1,10 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Audit, UpdateAuditDto} from './model/audit.interface';
+import {ParseObject} from '../parse/parse-object.interface';
+import {IdService} from './id.service';
+import {Audit, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
 
 @Injectable()
 export class OfflineAuditService {
 
-  constructor() {
+  constructor(
+    private idService: IdService,
+  ) {
   }
 
   findAll(filter?: Partial<Audit>): Audit[] {
@@ -69,6 +73,23 @@ export class OfflineAuditService {
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }
 
+  create(dto: CreateAuditDto): Audit {
+    const {id, mod} = this.idService.randomIdAndMod();
+    const timestamp = new Date().toISOString();
+    const audit: Audit = {
+      ...dto,
+      objectId: this.idService.randomObjectId(),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      auditId: id.toString(),
+      mod: mod.toString(),
+      usn: 0,
+      pendingChanges: 1,
+    };
+    localStorage.setItem(`audits/${id}`, JSON.stringify(audit));
+    return audit;
+  }
+
   update(audit: Audit, delta?: UpdateAuditDto, apply?: (a: Audit) => Audit): Audit | undefined {
     const key = `audits/${audit.auditId}`;
     const value = localStorage.getItem(key);
@@ -81,7 +102,7 @@ export class OfflineAuditService {
     applied.pendingChanges = (applied.pendingChanges || 0) + (delta ? 1 : 0);
     localStorage.setItem(key, JSON.stringify(applied));
 
-    if (delta) {
+    if (delta && !applied.objectId.startsWith('local.')) {
       const deltaKey = `audits/${applied.auditId}/delta/${+new Date()}`;
       localStorage.setItem(deltaKey, JSON.stringify(delta));
     }

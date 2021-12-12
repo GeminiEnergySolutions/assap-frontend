@@ -10,4 +10,8 @@ export class IdService {
     const id = (mod / 1000) | 0;
     return {id, mod};
   }
+
+  randomObjectId() {
+    return (parseInt('local', 36) + Math.random()).toString(36);
+  }
 }

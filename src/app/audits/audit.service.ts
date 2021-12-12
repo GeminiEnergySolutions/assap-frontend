@@ -69,7 +69,9 @@ export class AuditService {
   }
 
   create(dto: CreateAuditDto): Observable<Audit> {
-    return this.parseAuditService.create(dto);
+    return this.parseAuditService.create(dto).pipe(catchError(() => {
+      return of(this.offlineAuditService.create(dto));
+    }));
   }
 
   update(audit: Audit, delta: UpdateAuditDto, apply: (a: Audit) => Audit): Observable<Audit> {
@@ -81,6 +83,14 @@ export class AuditService {
   }
 
   upload(audit: Audit): Observable<void> {
+    if (audit.objectId.startsWith('local.')) {
+      const {objectId, updatedAt, createdAt, pendingChanges, ...rest} = audit;
+      return this.parseAuditService.createFromLocal(rest).pipe(
+        tap(created => this.offlineAuditService.save(created)),
+        mapTo(undefined),
+      );
+    }
+
     const deltas = this.offlineAuditService.getDeltas(audit.auditId);
     return this.parseAuditService.updateMany(audit.objectId, deltas).pipe(
       tap(() => this.offlineAuditService.deleteDeltas(audit)),

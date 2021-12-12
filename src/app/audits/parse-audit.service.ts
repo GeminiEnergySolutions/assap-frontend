@@ -27,6 +27,10 @@ export class ParseAuditService {
       usn: 0,
       ...dto,
     };
+    return this.createFromLocal(audit);
+  }
+
+  createFromLocal(audit: Omit<Audit, keyof ParseObject>) {
     return this.parseService.create<Audit>('rAudit', audit);
   }
 
