@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Audit} from './model/audit.interface';
+import {Audit, UpdateAuditDto} from './model/audit.interface';
 
 @Injectable()
 export class OfflineAuditService {
@@ -69,7 +69,7 @@ export class OfflineAuditService {
     localStorage.setItem(`audits/${audit.auditId}`, JSON.stringify(audit));
   }
 
-  update(audit: Audit, delta?: Partial<Audit>, apply?: (a: Audit) => Audit): Audit | undefined {
+  update(audit: Audit, delta?: UpdateAuditDto, apply?: (a: Audit) => Audit): Audit | undefined {
     const key = `audits/${audit.auditId}`;
     const value = localStorage.getItem(key);
     if (!value) {

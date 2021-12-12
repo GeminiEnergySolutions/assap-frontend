@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mapTo, tap} from 'rxjs/operators';
-import {ParseObject} from '../parse/parse-object.interface';
-import {Audit} from './model/audit.interface';
+import {Audit, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
 import {OfflineAuditService} from './offline-audit.service';
 import {ParseAuditService} from './parse-audit.service';
 
@@ -69,11 +68,11 @@ export class AuditService {
     };
   }
 
-  create(dto: Omit<Audit, keyof ParseObject | 'auditId' | 'mod' | 'usn'>): Observable<Audit> {
+  create(dto: CreateAuditDto): Observable<Audit> {
     return this.parseAuditService.create(dto);
   }
 
-  update(audit: Audit, delta: Partial<Audit>, apply: (a: Audit) => Audit): Observable<Audit> {
+  update(audit: Audit, delta: UpdateAuditDto, apply: (a: Audit) => Audit): Observable<Audit> {
     const offline = this.offlineAuditService.update(audit, delta, apply);
     if (offline) {
       return of(offline);

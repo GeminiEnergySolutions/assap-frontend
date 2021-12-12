@@ -4,7 +4,7 @@ import {mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
 import {IdService} from './id.service';
-import {Audit} from './model/audit.interface';
+import {Audit, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
 
 @Injectable()
 export class ParseAuditService {
@@ -19,7 +19,7 @@ export class ParseAuditService {
     return this.parseService.findAll<Audit>(`rAudit`, filter);
   }
 
-  create(dto: Omit<Audit, keyof ParseObject | 'auditId' | 'mod' | 'usn'>): Observable<Audit> {
+  create(dto: CreateAuditDto): Observable<Audit> {
     const {id, mod} = this.idService.randomIdAndMod();
     const audit: Omit<Audit, keyof ParseObject> = {
       auditId: id.toString(),
@@ -30,11 +30,11 @@ export class ParseAuditService {
     return this.parseService.create<Audit>('rAudit', audit);
   }
 
-  update(objectId: string, audit: Partial<Audit>): Observable<void> {
+  update(objectId: string, audit: UpdateAuditDto): Observable<void> {
     return this.parseService.update('rAudit', objectId, audit).pipe(mapTo(undefined));
   }
 
-  updateMany(objectId: string, updates: Partial<Audit>[]): Observable<void> {
+  updateMany(objectId: string, updates: UpdateAuditDto[]): Observable<void> {
     return this.parseService.batch(updates.map(update => ({
       method: 'PUT',
       path: `/classes/rAudit/${objectId}`,
