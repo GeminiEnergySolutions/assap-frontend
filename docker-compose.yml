@@ -24,7 +24,7 @@ services:
       - PARSE_DATABASE_NAME=parse
       - PARSE_DATABASE_PASSWORD=local
   parse-dashboard:
-    image: docker.io/bitnami/parse-dashboard:2
+    image: docker.io/bitnami/parse-dashboard:3
     ports:
       - '4040:4040'
     volumes:
