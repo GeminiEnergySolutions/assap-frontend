@@ -140,12 +140,11 @@ export class FeatureService {
     return data;
   }
 
-  data2Feature(schema: Schema, data: Data): Pick<Feature, 'id' | 'dataType' | 'fields' | 'formId' | 'values'> {
+  data2Feature(schema: Schema, data: Data): Pick<Feature, 'dataType' | 'fields' | 'formId' | 'values'> {
     const entries = Object.entries(data);
     const keys = entries.map(([key]) => key);
     const elements = keys.map(k => this.findElement(schema, k));
     return {
-      id: entries.map((e, index) => index).join(RECORD_SEPARATOR),
       dataType: elements.map(e => e.dataType).join(RECORD_SEPARATOR),
       fields: elements.map(e => e.param).join(RECORD_SEPARATOR),
       formId: keys.join(RECORD_SEPARATOR),

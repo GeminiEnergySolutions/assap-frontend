@@ -9,7 +9,6 @@ export interface Feature extends ParseObject {
   belongsTo: string;
 
   // the following are all tab-separated lists
-  id?: string;
   dataType?: string;
   fields?: string;
   formId: string;
