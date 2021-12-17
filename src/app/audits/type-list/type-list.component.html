@@ -19,7 +19,7 @@
       {{item.name}}
       <small class="text-muted">{{item.subtype}}</small>
     </div>
-    <app-options-dropdown class="visible-hover" [id]="item.id">
+    <app-options-dropdown class="visible-hover">
       <button ngbDropdownItem (click)="rename(item)">Rename</button>
       <ng-container *ngIf="audit.pendingChanges === undefined">
         <div class="dropdown-divider"></div>

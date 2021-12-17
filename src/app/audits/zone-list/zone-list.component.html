@@ -9,7 +9,7 @@
     <div class="flex-grow-1">
       {{keyValue.value.name}}
     </div>
-    <app-options-dropdown class="visible-hover" [id]="keyValue.value.id">
+    <app-options-dropdown class="visible-hover">
       <button ngbDropdownItem (click)="rename(keyValue.value)">Rename</button>
       <ng-container *ngIf="audit.pendingChanges === undefined">
         <div class="dropdown-divider"></div>

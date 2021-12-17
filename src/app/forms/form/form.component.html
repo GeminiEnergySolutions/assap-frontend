@@ -1,4 +1,4 @@
-<ngb-accordion closeOthers="closeOthers">
+<ngb-accordion [closeOthers]="true">
   <ngb-panel *ngFor="let section of schema?.geminiForm || []" [id]="'s-' + section.id" [title]="section.section"
              class="form">
     <ng-template ngbPanelContent>
