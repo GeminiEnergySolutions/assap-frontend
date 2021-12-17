@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Schema} from '../forms.interface';
 import {FormsService} from '../forms.service';
 
@@ -38,7 +38,6 @@ export class FormComponent implements OnInit {
     this.dirty = true;
   }
 
-  @HostListener('window:beforeunload')
   canDeactivate(): boolean {
     return !this.dirty;
   }
