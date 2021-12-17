@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
 import {Config} from '../audits/model/config.interface';
 import {ParseService} from '../parse/parse.service';
 
@@ -7,10 +8,12 @@ import {ParseService} from '../parse/parse.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
   menuCollapsed: boolean = true;
 
   config?: Config;
+
+  subscription?: Subscription;
 
   constructor(
     private parseService: ParseService,
@@ -18,8 +21,12 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.parseService.getConfig$<Config>().subscribe(config => {
+    this.subscription = this.parseService.getConfig$<Config>().subscribe(config => {
       this.config = config;
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" [href]="config?.brand.url">
-    <img *ngIf="config" [src]="config?.brand.logo" height="32">
-    {{ config?.brand.name }}
+  <a *ngIf="config" class="navbar-brand" [href]="config.brand.url">
+    <img [src]="config.brand.logo" height="32" [alt]="config.brand.name">
+    {{ config.brand.name }}
   </a>
   <button class="navbar-toggler" type="button" (click)="menuCollapsed = !menuCollapsed">
     &#9776;
