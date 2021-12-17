@@ -40,6 +40,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
         of(tid),
         this.auditService.findOne(aid),
         this.featureService.findAll({
+          belongsTo: 'type',
           auditId: aid,
           zoneId: zid,
           typeId: tid,

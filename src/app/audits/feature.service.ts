@@ -26,7 +26,7 @@ export class FeatureService {
 
   findAll<K extends keyof Feature = keyof Feature>(filter: Partial<Feature> = {}, keys?: readonly K[]): Observable<Pick<Feature, K>[]> {
     const offline = this.offlineFeatureService.findAll(filter);
-    if (offline.length >= 0) {
+    if (offline.length) {
       return of(offline);
     }
     return this.parseFeatureService.findAll<K>(filter, keys);
