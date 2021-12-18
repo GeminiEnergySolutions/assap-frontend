@@ -15,7 +15,7 @@ import {Audit} from '../model/audit.interface';
   styleUrls: ['./access-control.component.scss'],
 })
 export class AccessControlComponent implements OnInit, OnChanges {
-  @Input() audit: Audit;
+  @Input() audit!: Audit;
 
   user?: User;
 

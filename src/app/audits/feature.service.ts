@@ -145,8 +145,8 @@ export class FeatureService {
     const keys = entries.map(([key]) => key);
     const elements = keys.map(k => this.findElement(schema, k));
     return {
-      dataType: elements.map(e => e.dataType).join(RECORD_SEPARATOR),
-      fields: elements.map(e => e.param).join(RECORD_SEPARATOR),
+      dataType: elements.map(e => e?.dataType ?? '').join(RECORD_SEPARATOR),
+      fields: elements.map(e => e?.param ?? '').join(RECORD_SEPARATOR),
       formId: keys.join(RECORD_SEPARATOR),
       values: entries.map(e => e[1]).join(RECORD_SEPARATOR),
     };

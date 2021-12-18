@@ -50,20 +50,25 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   }
 
   save(schema: Schema, data: object) {
+    if (!this.selectedAudit) {
+      return;
+    }
+
     let op: Observable<Feature>;
     if (this.feature) {
       const update = this.featureService.data2Feature(schema, data);
       op = this.featureService.update(this.feature, update);
     } else {
       const feature = this.featureService.data2Feature(schema, data);
+      const {auditId, ACL} = this.selectedAudit;
       op = this.featureService.create({
-        auditId: this.selectedAudit.auditId,
+        auditId,
         belongsTo: 'preaudit',
         mod: new Date().valueOf().toString(),
         zoneId: null,
         typeId: null,
         usn: 0,
-        ACL: this.selectedAudit.ACL,
+        ACL,
         ...feature,
       });
     }

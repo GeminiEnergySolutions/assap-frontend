@@ -6,5 +6,5 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./options-dropdown.component.scss'],
 })
 export class OptionsDropdownComponent {
-  @Input() id: string;
+  @Input() id!: string;
 }

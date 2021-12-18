@@ -3,13 +3,13 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable()
 export class ParseCredentialService {
-  #appId: string;
-  #masterKey: string;
+  #appId = localStorage.getItem('parse/appId');
+  #masterKey = localStorage.getItem('parse/masterKey');
   #url = new BehaviorSubject<string>(localStorage.getItem('parse/url') || '');
-  #sessionToken: string;
+  #sessionToken = localStorage.getItem('parse/sessionToken');
 
   get appId(): string {
-    return this.#appId || localStorage.getItem('parse/appId') || '';
+    return this.#appId || '';
   }
 
   set appId(value: string) {
@@ -18,7 +18,7 @@ export class ParseCredentialService {
   }
 
   get masterKey(): string {
-    return this.#masterKey || localStorage.getItem('parse/masterKey') || '';
+    return this.#masterKey || '';
   }
 
   set masterKey(value: string) {
@@ -27,7 +27,7 @@ export class ParseCredentialService {
   }
 
   get sessionToken(): string {
-    return this.#sessionToken || localStorage.getItem('parse/sessionToken') || '';
+    return this.#sessionToken || '';
   }
 
   set sessionToken(sessionToken: string) {

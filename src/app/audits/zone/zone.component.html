@@ -9,8 +9,14 @@
         [ngbNavItem]="type.name">
       <a ngbNavLink>{{type.name}}</a>
       <ng-template ngbNavContent>
-        <app-type-list [types]="groupedTypes[type.name]" [audit]="audit" [zone]="selectedZone" [type]="type"
-                       [routerPrefix]="type.name + '/'"></app-type-list>
+        <app-type-list
+          *ngIf="audit && selectedZone"
+          [types]="groupedTypes[type.name]"
+          [audit]="audit"
+          [zone]="selectedZone"
+          [type]="type"
+          [routerPrefix]="type.name + '/'"
+        ></app-type-list>
       </ng-template>
     </li>
   </ul>

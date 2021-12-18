@@ -16,16 +16,19 @@ export class OfflineAuditService {
 
     outer: for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (!key.startsWith('audits/') || key.indexOf('/', 'audits/'.length) >= 0) {
+      if (!key || !key.startsWith('audits/') || key.indexOf('/', 'audits/'.length) >= 0) {
         continue;
       }
 
       const value = localStorage.getItem(key);
+      if (!value) {
+        continue;
+      }
+
       const audit = JSON.parse(value);
 
       if (filter) {
-        for (const filterKey of Object.keys(filter)) {
-          const filterValue = filter[filterKey];
+        for (const [filterKey, filterValue] of Object.entries(filter)) {
           if (audit[filterKey] !== filterValue) {
             continue outer;
           }
@@ -52,6 +55,10 @@ export class OfflineAuditService {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
+      if (!key) {
+        continue;
+      }
+
       const match = new RegExp(`^audits/${auditId}/delta/(\d+)$`).exec(key);
       if (!match) {
         continue;
@@ -59,6 +66,10 @@ export class OfflineAuditService {
 
       const [, timestamp] = match;
       const value = localStorage.getItem(key);
+      if (!value) {
+        continue;
+      }
+
       deltas[timestamp] = JSON.parse(value);
     }
 
@@ -123,7 +134,7 @@ export class OfflineAuditService {
   private deleteWithPrefix(prefix: string): void {
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
-      if (key.startsWith(prefix)) {
+      if (key && key.startsWith(prefix)) {
         localStorage.removeItem(key);
       }
     }

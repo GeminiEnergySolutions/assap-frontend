@@ -44,7 +44,7 @@ export interface Type {
   /** type of appliance, e.g. HVAC, Lighting, PlugLoad, ... */
   type: string;
   /** additional information about appliance type, e.g. what type of lighting */
-  subtype: string;
+  subtype: string | null;
   /** ID of enclosing Zone */
   zoneId: number;
 

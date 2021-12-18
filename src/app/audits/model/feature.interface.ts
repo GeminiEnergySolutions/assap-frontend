@@ -3,10 +3,10 @@ import {ParseObject} from '../../parse/parse-object.interface';
 export interface Feature extends ParseObject {
   usn: number;
   auditId: string;
-  zoneId: string;
-  typeId: string;
+  zoneId: string | null;
+  typeId: string | null;
   mod: string; // string containing number of milliseconds since UNIX epoch
-  belongsTo: string;
+  belongsTo: 'preaudit' | 'type';
 
   // the following are all tab-separated lists
   dataType?: string;

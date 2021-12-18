@@ -17,15 +17,18 @@ export class OfflineFeatureService {
     const result: Feature[] = [];
     outer: for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (!pattern.test(key)) {
+      if (!key || !pattern.test(key)) {
         continue;
       }
 
       const value = localStorage.getItem(key);
-      const feature = JSON.parse(value);
+      if (!value) {
+        continue;
+      }
 
-      for (const filterKey of Object.keys(filter)) {
-        if (feature[filterKey] !== filter[filterKey]) {
+      const feature = JSON.parse(value);
+      for (const [filterKey, filterValue] of Object.entries(filter)) {
+        if (feature[filterKey] !== filterValue) {
           continue outer;
         }
       }

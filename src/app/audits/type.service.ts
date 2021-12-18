@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
 import {IdService} from './id.service';
-import {Audit, Type, Zone} from './model/audit.interface';
+import {Audit, CreateAuditDto, Type, Zone} from './model/audit.interface';
 
 @Injectable()
 export class TypeService {
@@ -34,7 +34,7 @@ export class TypeService {
   }
 
   update(audit: Audit, typeId: Type['id'], update: Partial<Type>): Observable<Audit> {
-    const updateAudit = {};
+    const updateAudit: any = {};
     for (const [key, value] of Object.entries(update)) {
       updateAudit[`type.${typeId}.${key}`] = value;
     }

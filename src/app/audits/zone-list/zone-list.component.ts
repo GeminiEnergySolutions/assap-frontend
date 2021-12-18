@@ -12,7 +12,7 @@ import {ZoneService} from '../zone.service';
   styleUrls: ['./zone-list.component.scss'],
 })
 export class ZoneListComponent {
-  @Input() audit: Audit;
+  @Input() audit!: Audit;
   @Input() routerPrefix = '';
 
   constructor(

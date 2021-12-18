@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {forkJoin, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
 import {Types} from '../model/types';
@@ -16,7 +17,7 @@ export class ZoneComponent implements OnInit {
   groupedTypes: { [type: string]: Type[]; } = {};
   selectedZone?: Zone;
 
-  activeTab: string;
+  activeTab?: string;
 
   constructor(
     private auditService: AuditService,
@@ -26,14 +27,17 @@ export class ZoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid}) => this.auditService.findOne(aid).pipe(
-        tap(audit => this.audit = audit),
-        map(audit => audit.zone[zid]),
-      )),
-    ).subscribe(zone => {
-      this.selectedZone = zone;
-      const types = this.selectedZone?.typeId.map(tid => this.audit.type[tid]) ?? [];
+      switchMap(({aid, zid}) => forkJoin([
+        this.auditService.findOne(aid),
+        of(zid),
+      ])),
+    ).subscribe(([audit, zoneId]) => {
+      this.audit = audit;
 
+      const zone = audit?.zone[zoneId];
+      this.selectedZone = zone;
+
+      const types = audit && zone ? zone.typeId.map(tid => audit.type[tid]) : [];
       for (const type of Types) {
         this.groupedTypes[type.name] = [];
       }

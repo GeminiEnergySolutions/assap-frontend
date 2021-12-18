@@ -4,7 +4,7 @@ import {forkJoin} from 'rxjs';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
-import {Types} from '../model/types';
+import {ApplianceType} from '../model/types';
 import {TypeService} from '../type.service';
 
 @Component({
@@ -13,10 +13,10 @@ import {TypeService} from '../type.service';
   styleUrls: ['./type-list.component.scss'],
 })
 export class TypeListComponent {
-  @Input() audit: Audit;
-  @Input() zone: Zone;
-  @Input() types: Type[];
-  @Input() type: (typeof Types)[number];
+  @Input() audit!: Audit;
+  @Input() zone!: Zone;
+  @Input() types!: Type[];
+  @Input() type!: ApplianceType;
   @Input() routerPrefix = '';
 
   constructor(
@@ -27,7 +27,7 @@ export class TypeListComponent {
   ) {
   }
 
-  createType(type: (typeof Types)[number], subType?: (typeof Types)[number]['subTypes'][number]) {
+  createType(type: ApplianceType, subType?: ApplianceType) {
     const typeOrSubType = subType?.name ?? type.name;
     const name = prompt(`New ${typeOrSubType} Name`);
     if (!name) {

@@ -1,4 +1,10 @@
-export const RefrigerationTypes = [
+export interface ApplianceType {
+  id: string;
+  name: string;
+  subTypes?: ApplianceType[];
+}
+
+export const RefrigerationTypes: ApplianceType[] = [
   {id: 'walkin_refrigerator', name: 'Walk-In Refrigerator'},
   {id: 'walkin_freezer', name: 'Walk-In Freezer'},
   {id: 'refrigerator', name: 'Refrigerator'},
@@ -6,7 +12,7 @@ export const RefrigerationTypes = [
   {id: 'walkin_coolbot', name: 'Walk-In Cooler Box'}, // [sic]
 ];
 
-export const PlugloadApplianceTypes = [
+export const PlugloadApplianceTypes: ApplianceType[] = [
   {id: 'combination_oven', name: 'Combination Oven'},
   {id: 'convection_oven', name: 'Convection Oven'},
   {id: 'conveyor_oven', name: 'Conveyor Oven'},
@@ -22,7 +28,7 @@ export const PlugloadApplianceTypes = [
   {id: 'sample_appliance', name: 'Sample Appliance'},
 ];
 
-export const LightingTypes = [
+export const LightingTypes: ApplianceType[] = [
   {id: 'halogen', name: 'Halogen'},
   {id: 'cfl', name: 'CFL'},
   {id: 'linearfluorescent', name: 'Linear Fluorescent'},
@@ -31,7 +37,7 @@ export const LightingTypes = [
   {id: 'lpsodium', name: 'Low Pressure Sodium'},
 ];
 
-export const Types = [
+export const Types: ApplianceType[] = [
   {id: 'plugload', name: 'Plugload', subTypes: PlugloadApplianceTypes},
   {id: 'hvac', name: 'HVAC'},
   {id: 'hotwater', name: 'WaterHeater'},

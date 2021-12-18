@@ -48,15 +48,30 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
       ])),
     ).subscribe(([typeId, audit, features]) => {
       this.audit = audit;
-      this.type = audit.type[typeId];
-
-      const type1 = Types.find(t => t.name === this.type.type);
-      const type2 = this.type.subtype ? type1.subTypes.find(t => t.name === this.type.subtype) : type1;
-      this.schemaId = type2.id;
+      const type = audit?.type[typeId];
+      this.type = type;
+      this.schemaId = this.getSchemaId(type);
 
       this.feature = features[0];
       this.data = this.feature ? this.featureService.feature2Data(this.feature) : {};
     });
+  }
+
+  private getSchemaId(type: Type | undefined) {
+    if (!type) {
+      return undefined;
+    }
+
+    const type1 = Types.find(t => t.name === type.type);
+    if (!type1) {
+      return undefined;
+    }
+    if (!type.subtype || !type1.subTypes) {
+      return type1.id;
+    }
+
+    const type2 = type1.subTypes.find(t => t.name === type.subtype);
+    return type2?.id;
   }
 
   isSaved(): boolean {
@@ -64,6 +79,10 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   }
 
   save(schema: Schema, data: object) {
+    if (!this.audit) {
+      return;
+    }
+
     let op: Observable<Feature>;
     if (this.feature) {
       const update = this.featureService.data2Feature(schema, data);
@@ -71,6 +90,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     } else {
       const feature = this.featureService.data2Feature(schema, data);
       const {aid, zid, tid} = this.route.snapshot.params;
+      const {ACL} = this.audit;
       op = this.featureService.create({
         auditId: aid,
         zoneId: zid,
@@ -78,7 +98,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
         belongsTo: 'type',
         mod: new Date().valueOf().toString(),
         usn: 0,
-        ACL: this.audit.ACL,
+        ACL,
         ...feature,
       });
     }

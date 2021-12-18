@@ -16,13 +16,13 @@
     <li ngbNavItem="zone">
       <a ngbNavLink>Zone</a>
       <ng-template ngbNavContent>
-        <app-zone-list [audit]="selectedAudit" routerPrefix="zones/"></app-zone-list>
+        <app-zone-list *ngIf="selectedAudit" [audit]="selectedAudit" routerPrefix="zones/"></app-zone-list>
       </ng-template>
     </li>
     <li ngbNavItem="access">
       <a ngbNavLink>Access Control</a>
       <ng-template ngbNavContent>
-        <app-access-control [audit]="selectedAudit"></app-access-control>
+        <app-access-control *ngIf="selectedAudit" [audit]="selectedAudit"></app-access-control>
       </ng-template>
     </li>
   </ul>

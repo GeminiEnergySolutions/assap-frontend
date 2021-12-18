@@ -33,7 +33,7 @@ export class ZoneService {
   }
 
   update(audit: Audit, zoneId: Zone['id'], update: Partial<Zone>): Observable<Audit> {
-    const updateAudit = {};
+    const updateAudit: any = {};
     for (const [key, value] of Object.entries(update)) {
       updateAudit[`zone.${zoneId}.${key}`] = value;
     }
