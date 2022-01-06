@@ -1,6 +1,14 @@
-<a [href]="project?.project_url" class="btn btn-primary" target="_blank">
-  View Project on Companycam
-</a>
+<div class="form-inline">
+  <a [href]="project?.project_url" class="btn btn-primary mr-2" target="_blank">
+    View Project on Companycam
+  </a>
+  <div class="custom-file w-50">
+    <input type="file" class="custom-file-input" id="imageInput" accept="image/*" capture="environment" #imageInput (change)="setFiles(imageInput.files!)">
+    <label class="custom-file-label" for="imageInput">
+      {{ files.length ? files.length + ' Images' : 'Upload Image'}}
+    </label>
+  </div>
+</div>
 <ul class="list-group">
   <li *ngFor="let photo of photos" class="list-group-item">
     <a [href]="photo.photo_url" target="_blank">

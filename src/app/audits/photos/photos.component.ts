@@ -16,6 +16,8 @@ export class PhotosComponent implements OnInit {
   project?: Project;
   photos: Photo[] = [];
 
+  files: File[] = [];
+
   constructor(
     private companycamService: CompanycamService,
   ) {
@@ -30,4 +32,7 @@ export class PhotosComponent implements OnInit {
     });
   }
 
+  setFiles(files: FileList) {
+    this.files = Array.from(files);
+  }
 }
