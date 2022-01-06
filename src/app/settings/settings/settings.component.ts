@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ToastService} from 'ng-bootstrap-ext';
+import {CompanycamCredentialService} from '../../companycam/companycam-credential.service';
+import {CompanycamService} from '../../companycam/companycam.service';
 import {ParseCredentialService} from '../../parse/parse-credential.service';
 import {ParseService} from '../../parse/parse.service';
 import {User} from '../../parse/user.interface';
@@ -24,10 +26,14 @@ export class SettingsComponent implements OnInit {
   password?: string;
   user?: User;
 
+  companycamApiKey!: string;
+
   constructor(
     private parseCredentialService: ParseCredentialService,
+    private companycamCredentialService: CompanycamCredentialService,
     private parseService: ParseService,
     private toastService: ToastService,
+    private companycamService: CompanycamService,
   ) {
   }
 
@@ -35,6 +41,7 @@ export class SettingsComponent implements OnInit {
     this.url = this.parseCredentialService.url;
     this.appId = this.parseCredentialService.appId;
     this.masterKey = this.parseCredentialService.masterKey;
+    this.companycamApiKey = this.companycamCredentialService.apiKey;
 
     if (this.parseCredentialService.sessionToken) {
       this.parseService.getCurrentUser().subscribe(user => this.user = user);
@@ -79,6 +86,22 @@ export class SettingsComponent implements OnInit {
       this.user = user;
     }, error => {
       this.toastService.error('Log in', 'Failed to log in', error);
+    });
+  }
+
+  saveCompanycam() {
+    this.companycamCredentialService.apiKey = this.companycamApiKey;
+  }
+
+  testCompanycam() {
+    if (!this.companycamApiKey) {
+      return;
+    }
+
+    this.companycamService.test(this.companycamApiKey).subscribe(user => {
+      this.toastService.success('Companycam', `Logged in as ${user.first_name} ${user.last_name}`);
+    }, error => {
+      this.toastService.error('Companycam', 'Failed to log in', error);
     });
   }
 }

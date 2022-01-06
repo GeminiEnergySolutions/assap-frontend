@@ -1,5 +1,6 @@
 <div class="container">
   <h1>Settings</h1>
+  <h2>Parse Server</h2>
   <div class="form mb-3">
     <div class="form-group">
       <label for="url">Parse Server URL</label>
@@ -20,6 +21,7 @@
       Test
     </button>
   </div>
+  <h2>User</h2>
   <h4 *ngIf="user">
     Logged in as <b>{{user.username}}</b>.
     <button type="button" class="btn btn-danger" (click)="logout()">
@@ -37,6 +39,19 @@
     </div>
     <button type="button" class="btn btn-primary" (click)="login()">
       Log in
+    </button>
+  </div>
+  <h2>CompanyCam</h2>
+  <div class="form">
+    <div class="form-group">
+      <label for="companyCamApiKeyInput">API Key</label>
+      <input type="password" class="form-control" id="companyCamApiKeyInput" autocomplete="off" [(ngModel)]="companycamApiKey">
+    </div>
+    <button type="button" class="btn btn-primary mr-2" (click)="saveCompanycam()">
+      Save
+    </button>
+    <button type="button" class="btn btn-success" (click)="testCompanycam()">
+      Test
     </button>
   </div>
 </div>
