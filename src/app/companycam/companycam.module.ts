@@ -1,7 +1,8 @@
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {CompanycamCredentialService} from './companycam-credential.service';
+import {CompanycamInterceptor} from './companycam.interceptor';
 import {CompanycamService} from './companycam.service';
 
 
@@ -14,6 +15,11 @@ import {CompanycamService} from './companycam.service';
   providers: [
     CompanycamService,
     CompanycamCredentialService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: CompanycamInterceptor,
+    },
   ],
 })
 export class CompanycamModule {

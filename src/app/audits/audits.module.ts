@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbDropdownModule, NgbNavModule, NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import {CompanycamModule} from '../companycam/companycam.module';
 import {FormsModule as AppFormsModule} from '../forms/forms.module';
 import {SharedModule} from '../shared/shared.module';
 import {AccessControlComponent} from './access-control/access-control.component';
@@ -15,6 +16,7 @@ import {OfflineAuditService} from './offline-audit.service';
 import {OfflineFeatureService} from './offline-feature.service';
 import {ParseAuditService} from './parse-audit.service';
 import {ParseFeatureService} from './parse-feature.service';
+import {PhotosComponent} from './photos/photos.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
@@ -38,6 +40,7 @@ import {ZoneComponent} from './zone/zone.component';
     FormsModule,
     AppFormsModule,
     NgbTypeaheadModule,
+    CompanycamModule,
   ],
   providers: [
     IdService,
@@ -60,6 +63,7 @@ import {ZoneComponent} from './zone/zone.component';
     ZoneListComponent,
     TypeListComponent,
     AccessControlComponent,
+    PhotosComponent,
   ],
 })
 export class AuditsModule {

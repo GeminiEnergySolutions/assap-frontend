@@ -19,6 +19,12 @@
         <app-zone-list *ngIf="selectedAudit" [audit]="selectedAudit" routerPrefix="zones/"></app-zone-list>
       </ng-template>
     </li>
+    <li ngbNavItem="photos">
+      <a ngbNavLink>Photos</a>
+      <ng-template ngbNavContent>
+        <app-photos *ngIf="selectedAudit" [audit]="selectedAudit"></app-photos>
+      </ng-template>
+    </li>
     <li ngbNavItem="access">
       <a ngbNavLink>Access Control</a>
       <ng-template ngbNavContent>

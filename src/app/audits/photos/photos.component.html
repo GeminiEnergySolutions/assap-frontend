@@ -1,0 +1,12 @@
+<a [href]="project?.project_url" class="btn btn-primary" target="_blank">
+  View Project on Companycam
+</a>
+<ul class="list-group">
+  <li *ngFor="let photo of photos" class="list-group-item">
+    <a [href]="photo.photo_url" target="_blank">
+      <img [src]="photo.uris[1].url" [alt]="photo.id" height="128" class="float-right">
+    </a>
+    <h4>{{ photo.creator_name }}</h4>
+    <span class="text-muted">{{ photo.captured_at * 1000 | date:'medium' }}</span>
+  </li>
+</ul>
