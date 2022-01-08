@@ -1,11 +1,24 @@
-<div class="mb-3">
-  <a [href]="'ccam://camera/' + project?.id | safe:'url'" class="btn btn-primary mr-2" target="_blank">
+<div *ngIf="!apiKey" class="alert alert-danger">
+  CompanyCam API Key is not configured.
+  Please create or use an
+  <a href="https://app.companycam.com/access_tokens" target="_blank">access token</a>
+  and enter it in
+  <a routerLink="/settings" fragment="companyCamApiKeyInput">Settings</a>.
+</div>
+<div *ngIf="apiKey && !project" class="alert alert-warning">
+  Could not find project on CompanyCam with the same name as the audit <b>{{ audit?.name }}</b>.
+  Please check the spelling and wording and rename the audit, or
+  <a href="https://app.companycam.com/projects/new">create a project</a>
+  if not yet done.
+</div>
+<div *ngIf="project" class="mb-3">
+  <a [href]="'ccam://camera/' + project.id | safe:'url'" class="btn btn-primary mr-2" target="_blank">
     Capture Photo
   </a>
-  <a [href]="'ccam://projects/' + project?.id | safe:'url'" class="btn btn-secondary mr-2" target="_blank">
+  <a [href]="'ccam://projects/' + project.id | safe:'url'" class="btn btn-secondary mr-2" target="_blank">
     View in App
   </a>
-  <a [href]="project?.project_url" class="btn btn-secondary mr-2" target="_blank">
+  <a [href]="project.project_url" class="btn btn-secondary mr-2" target="_blank">
     View in Browser
   </a>
 </div>
