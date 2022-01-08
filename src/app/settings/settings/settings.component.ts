@@ -94,10 +94,7 @@ export class SettingsComponent implements OnInit {
   }
 
   testCompanycam() {
-    if (!this.companycamApiKey) {
-      return;
-    }
-
+    this.saveCompanycam();
     this.companycamService.test(this.companycamApiKey).subscribe(user => {
       this.toastService.success('Companycam', `Logged in as ${user.first_name} ${user.last_name}`);
     }, error => {
