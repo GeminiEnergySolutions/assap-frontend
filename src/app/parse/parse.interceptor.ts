@@ -11,6 +11,11 @@ export class ParseInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const {url} = this.parseCredentialService;
+    if (!req.url.startsWith(url)) {
+      return next.handle(req);
+    }
+
     const {appId, masterKey, sessionToken} = this.parseCredentialService;
     let headers = req.headers;
     if (appId) {

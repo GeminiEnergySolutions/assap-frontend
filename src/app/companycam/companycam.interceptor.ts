@@ -11,11 +11,11 @@ export class CompanycamInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const {apiKey} = this.companycamCredentialService;
     if (!req.url.startsWith('https://api.companycam.com')) {
       return next.handle(req);
     }
 
+    const {apiKey} = this.companycamCredentialService;
     let headers = req.headers;
     if (apiKey) {
       headers = headers.set('Authorization', 'Bearer ' + apiKey);
