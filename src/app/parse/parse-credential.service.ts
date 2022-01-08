@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ParseCredentialService {
   #appId = localStorage.getItem('parse/appId');
   #masterKey = localStorage.getItem('parse/masterKey');
