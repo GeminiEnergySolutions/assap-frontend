@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {of} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import {CompanycamService} from '../../companycam/companycam.service';
 import {Photo} from '../../companycam/model/photo';
 import {Project} from '../../companycam/model/project';
-import {Audit} from '../model/audit.interface';
+import {AuditService} from '../audit.service';
 
 @Component({
   selector: 'app-photos',
@@ -11,22 +13,24 @@ import {Audit} from '../model/audit.interface';
   styleUrls: ['./photos.component.scss'],
 })
 export class PhotosComponent implements OnInit {
-  @Input() audit!: Audit;
-
   project?: Project;
   photos: Photo[] = [];
 
   files: File[] = [];
 
   constructor(
+    private route: ActivatedRoute,
+    private auditService: AuditService,
     private companycamService: CompanycamService,
   ) {
   }
 
   ngOnInit(): void {
-    this.companycamService.getProjects(this.audit.name).pipe(
+    this.route.params.pipe(
+      switchMap(({audit}) => this.auditService.findOne(audit)),
+      switchMap(audit => audit ? this.companycamService.getProjects(audit.name) : of([])),
       tap(([project]) => this.project = project),
-      switchMap(([project]) => this.companycamService.getPhotos(project.id)),
+      switchMap(([project]) => project ? this.companycamService.getPhotos(project.id) : []),
     ).subscribe(photos => {
       this.photos = photos;
     });
