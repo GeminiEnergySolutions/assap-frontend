@@ -1,6 +1,12 @@
-<div class="form-inline">
-  <a [href]="project?.project_url" class="btn btn-primary mr-2" target="_blank">
-    View Project on Companycam
+<div class="form-inline mb-3">
+  <a [href]="'ccam://camera/' + project?.id" class="btn btn-primary mr-2" target="_blank">
+    Capture Photo
+  </a>
+  <a [href]="project?.project_url" class="btn btn-secondary mr-2" target="_blank">
+    View in Browser
+  </a>
+  <a [href]="'ccam://projects/' + project?.id" class="btn btn-secondary mr-2" target="_blank">
+    View in App
   </a>
   <div class="custom-file w-50">
     <input type="file" class="custom-file-input" id="imageInput" accept="image/*" capture="environment" #imageInput (change)="setFiles(imageInput.files!)">
@@ -11,10 +17,19 @@
 </div>
 <ul class="list-group">
   <li *ngFor="let photo of photos" class="list-group-item">
-    <a [href]="photo.photo_url" target="_blank">
+    <a [href]="photo.uris[1].url" target="_blank">
       <img [src]="photo.uris[1].url" [alt]="photo.id" height="128" class="float-right">
     </a>
     <h4>{{ photo.creator_name }}</h4>
-    <span class="text-muted">{{ photo.captured_at * 1000 | date:'medium' }}</span>
+    <div class="text-muted">
+      {{ photo.captured_at * 1000 | date:'medium' }}
+    </div>
+    <a [href]="'ccam://photos/' + photo.id">
+      Open in App
+    </a>
+    <span class="text-muted">&bull;</span>
+    <a [href]="photo.photo_url" target="_blank">
+      Open in Browser
+    </a>
   </li>
 </ul>

@@ -27,7 +27,7 @@ export class PhotosComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({audit}) => this.auditService.findOne(audit)),
+      switchMap(({aid}) => this.auditService.findOne(aid)),
       switchMap(audit => audit ? this.companycamService.getProjects(audit.name) : of([])),
       tap(([project]) => this.project = project),
       switchMap(([project]) => project ? this.companycamService.getPhotos(project.id) : []),
