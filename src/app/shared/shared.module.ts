@@ -4,12 +4,14 @@ import {RouterModule} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {MasterDetailComponent} from './master-detail/master-detail.component';
 import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
+import {SafePipe} from './safe.pipe';
 
 
 @NgModule({
   declarations: [
     MasterDetailComponent,
     OptionsDropdownComponent,
+    SafePipe,
   ],
   imports: [
     CommonModule,
@@ -19,6 +21,7 @@ import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.comp
   exports: [
     MasterDetailComponent,
     OptionsDropdownComponent,
+    SafePipe,
   ],
 })
 export class SharedModule {
