@@ -1,4 +1,4 @@
-<div class="form-inline mb-3">
+<div class="mb-3">
   <a [href]="'ccam://camera/' + project?.id | safe:'url'" class="btn btn-primary mr-2" target="_blank">
     Capture Photo
   </a>
@@ -8,12 +8,6 @@
   <a [href]="project?.project_url" class="btn btn-secondary mr-2" target="_blank">
     View in Browser
   </a>
-  <div class="custom-file w-50">
-    <input type="file" class="custom-file-input" id="imageInput" accept="image/*" capture="environment" #imageInput (change)="setFiles(imageInput.files!)">
-    <label class="custom-file-label" for="imageInput">
-      {{ files.length ? files.length + ' Images' : 'Upload Image'}}
-    </label>
-  </div>
 </div>
 <ul class="list-group">
   <li *ngFor="let photo of photos" class="list-group-item">

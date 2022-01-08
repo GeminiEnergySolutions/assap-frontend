@@ -16,8 +16,6 @@ export class PhotosComponent implements OnInit {
   project?: Project;
   photos: Photo[] = [];
 
-  files: File[] = [];
-
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
@@ -34,9 +32,5 @@ export class PhotosComponent implements OnInit {
     ).subscribe(photos => {
       this.photos = photos;
     });
-  }
-
-  setFiles(files: FileList) {
-    this.files = Array.from(files);
   }
 }
