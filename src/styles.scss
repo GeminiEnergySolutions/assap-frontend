@@ -8,7 +8,7 @@ $primary: $appToolbarBackground;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
-@import "~bootstrap-darkmode/scss/darktheme";
+@import "node_modules/bootstrap-darkmode/scss/darktheme";
 
 html, body {
   height: 100%;

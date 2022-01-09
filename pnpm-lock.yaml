@@ -19,7 +19,8 @@ specifiers:
   '@angular/platform-browser-dynamic': ~13.1.1
   '@angular/router': ~13.1.1
   '@angular/service-worker': ~13.1.1
-  '@ng-bootstrap/ng-bootstrap': ^11.0.0
+  '@ng-bootstrap/ng-bootstrap': ^12.0.0-beta.4
+  '@popperjs/core': ^2.11.2
   '@types/jasmine': ~3.6.11
   '@types/jasminewd2': ~2.0.10
   '@types/node': ^16.11.19
@@ -27,8 +28,8 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.9.0
   '@typescript-eslint/parser': ^5.9.0
   angular-cli-ghpages: ~1.0.0
-  bootstrap: ^4.6.1
-  bootstrap-darkmode: ^0.9.1
+  bootstrap: ^5.1.3
+  bootstrap-darkmode: ^5.0.0-beta.1
   bootstrap-icons: ^1.7.2
   eslint: ^8.6.0
   jasmine-core: ~3.6.0
@@ -57,9 +58,10 @@ dependencies:
   '@angular/platform-browser-dynamic': 13.1.1_53ae741ee19166964f64e7b56404e938
   '@angular/router': 13.1.1_08b80eec157f3b321ee2225dd1a68122
   '@angular/service-worker': 13.1.1_97c374658fb8cefbe875884a7f473e47
-  '@ng-bootstrap/ng-bootstrap': 11.0.0_b573d6817ea37f219a6ad3cbdf3db8ae
-  bootstrap: 4.6.1
-  bootstrap-darkmode: 0.9.1_bootstrap@4.6.1
+  '@ng-bootstrap/ng-bootstrap': 12.0.0-beta.4_1095a8ec7c9016229fa44c7704de9018
+  '@popperjs/core': 2.11.2
+  bootstrap: 5.1.3_@popperjs+core@2.11.2
+  bootstrap-darkmode: 5.0.0-beta.1_bootstrap@5.1.3
   bootstrap-icons: 1.7.2
   ng-bootstrap-ext: 0.1.0_97c374658fb8cefbe875884a7f473e47
   rxjs: 7.5.1
@@ -1863,19 +1865,21 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: true
 
-  /@ng-bootstrap/ng-bootstrap/11.0.0_b573d6817ea37f219a6ad3cbdf3db8ae:
-    resolution: {integrity: sha512-qDnB0+jbpQ4wjXpM4NPRAtwmgTDUCjGavoeRDZHOvFfYvx/MBf1RTjZEqTJ1Yqq1pKP4BWpzxCgVTunfnpmsjA==}
+  /@ng-bootstrap/ng-bootstrap/12.0.0-beta.4_1095a8ec7c9016229fa44c7704de9018:
+    resolution: {integrity: sha512-iOXZT4FLouAGJDRw4ruogyR+lg648nywNWKUxW7l+mtMC9i4kdpfo4beQ/nqb4Uq2zMDs9zj4MbKVI391+kMnA==}
     peerDependencies:
       '@angular/common': ^13.0.0
       '@angular/core': ^13.0.0
       '@angular/forms': ^13.0.0
       '@angular/localize': ^13.0.0
+      '@popperjs/core': ^2.10.2
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 13.1.1_@angular+core@13.1.1+rxjs@7.5.1
       '@angular/core': 13.1.1_rxjs@7.5.1+zone.js@0.11.4
       '@angular/forms': 13.1.1_08b80eec157f3b321ee2225dd1a68122
       '@angular/localize': 13.1.1_8c9cbf9f52813daa0196579292d829a7
+      '@popperjs/core': 2.11.2
       rxjs: 7.5.1
       tslib: 2.3.1
     dev: false
@@ -2031,6 +2035,10 @@ packages:
       tslib: 2.3.1
       yargs-parser: 20.0.0
     dev: true
+
+  /@popperjs/core/2.11.2:
+    resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
+    dev: false
 
   /@schematics/angular/13.1.2:
     resolution: {integrity: sha512-OMbuOsnzUFjIGeo99NYwIPwjX6udJAiT5Sj5K7QZZYj66HuAqNBMV57J8GPA56edx5mOHZZApWMjXLlOxRXbJA==}
@@ -2930,12 +2938,12 @@ packages:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
     dev: true
 
-  /bootstrap-darkmode/0.9.1_bootstrap@4.6.1:
-    resolution: {integrity: sha512-uoJEo8jpi0bpNyHRmQ0dmDJUNYsTFSnqEJZikqGrLUDRomcVcgh4qF6WC3lU8nMyH0hAzxlzU2Xzn0NjSXMlCA==}
+  /bootstrap-darkmode/5.0.0-beta.1_bootstrap@5.1.3:
+    resolution: {integrity: sha512-jAZYUlq+CpzckJqj8NdNIfz9Qy/KcATG5GDDoKKmOcW6h9xFQv2ptbEcjEnXHjWGX21Ilum2N+Z0GU48GUpSDA==}
     peerDependencies:
-      bootstrap: '>=4.6'
+      bootstrap: '>=5'
     dependencies:
-      bootstrap: 4.6.1
+      bootstrap: 5.1.3_@popperjs+core@2.11.2
       tslib: 2.3.1
     dev: false
 
@@ -2944,11 +2952,12 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /bootstrap/4.6.1:
-    resolution: {integrity: sha512-0dj+VgI9Ecom+rvvpNZ4MUZJz8dcX7WCX+eTID9+/8HgOkv3dsRzi8BGeZJCQU6flWQVYxwTQnEZFrmJSEO7og==}
+  /bootstrap/5.1.3_@popperjs+core@2.11.2:
+    resolution: {integrity: sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==}
     peerDependencies:
-      jquery: 1.9.1 - 3
-      popper.js: ^1.16.1
+      '@popperjs/core': ^2.10.2
+    dependencies:
+      '@popperjs/core': 2.11.2
     dev: false
 
   /brace-expansion/1.1.11:
