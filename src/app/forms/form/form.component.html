@@ -1,12 +1,11 @@
 <ngb-accordion [closeOthers]="true">
-  <ngb-panel *ngFor="let section of schema?.geminiForm || []" [id]="'s-' + section.id" [title]="section.section"
-             class="form">
+  <ngb-panel *ngFor="let section of schema?.geminiForm || []" [id]="'s-' + section.id" [title]="section.section">
     <ng-template ngbPanelContent>
-      <div *ngFor="let element of section.elements" class="form-group">
-        <label for="{{section.id}}-{{element.id}}">{{element.param}}</label>
+      <div *ngFor="let element of section.elements" class="mb-3">
+        <label for="{{section.id}}-{{element.id}}" class="form-label">{{element.param}}</label>
         <ng-container [ngSwitch]="element.dataType">
           <select *ngSwitchCase="'pickerinputrow'" [(ngModel)]="data[element.id]" (change)="setDirty()"
-                  class="form-control"
+                  class="form-select"
                   id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
             <option *ngFor="let value of element.defaultValues.split(',')"
                     [value]="value.substring(value.indexOf(':') + 1)">
@@ -21,7 +20,7 @@
                  [type]="element.dataType | formInputType" class="form-control"
                  id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
         </ng-container>
-        <small id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</small>
+        <div id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</div>
       </div>
     </ng-template>
   </ngb-panel>
