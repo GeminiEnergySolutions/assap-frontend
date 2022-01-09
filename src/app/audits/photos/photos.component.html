@@ -12,31 +12,29 @@
   if not yet done.
 </div>
 <div *ngIf="project" class="mb-3">
-  <a [href]="'ccam://camera/' + project.id | safe:'url'" class="btn btn-primary mr-2" target="_blank">
+  <a [href]="'ccam://camera/' + project.id | safe:'url'" class="btn btn-primary me-2" target="_blank">
     Capture Photo
   </a>
-  <a [href]="'ccam://projects/' + project.id | safe:'url'" class="btn btn-secondary mr-2" target="_blank">
+  <a [href]="'ccam://projects/' + project.id | safe:'url'" class="btn btn-secondary me-2" target="_blank">
     View in App
   </a>
-  <a [href]="project.project_url" class="btn btn-secondary mr-2" target="_blank">
+  <a [href]="project.project_url" class="btn btn-secondary me-2" target="_blank">
     View in Browser
   </a>
 </div>
 <ul class="list-group">
   <li *ngFor="let photo of photos" class="list-group-item">
     <a [href]="photo.uris[1].url" target="_blank">
-      <img [src]="photo.uris[1].url" [alt]="photo.id" height="128" class="float-right">
+      <img [src]="photo.uris[1].url" [alt]="photo.id" height="128" class="float-end">
     </a>
     <h4>{{ photo.creator_name }}</h4>
     <div class="text-muted">
       {{ photo.captured_at * 1000 | date:'medium' }}
     </div>
-    <a [href]="'ccam://photos/' + photo.id | safe:'url'">
-      Open in App
-    </a>
-    <span class="text-muted">&bull;</span>
-    <a [href]="photo.photo_url" target="_blank">
-      Open in Browser
-    </a>
+    <a [href]="'ccam://photos/' + photo.id | safe:'url'">Open in App</a>
+    <span class="text-muted">
+      &bull;
+    </span>
+    <a [href]="photo.photo_url" target="_blank">Open in Browser</a>
   </li>
 </ul>
