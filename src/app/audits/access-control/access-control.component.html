@@ -13,10 +13,10 @@
       {{userIdToName[entry.key] || entry.key}}
     </td>
     <td>
-      <input type="checkbox" [(ngModel)]="entry.read">
+      <input type="checkbox" class="form-check-input" [(ngModel)]="entry.read">
     </td>
     <td>
-      <input type="checkbox" [(ngModel)]="entry.write">
+      <input type="checkbox" class="form-check-input" [(ngModel)]="entry.write">
     </td>
     <td>
       <button type="button" class="btn btn-danger" (click)="delete(index)">
@@ -37,10 +37,10 @@
       >
     </td>
     <td>
-      <input type="checkbox" #readCheck>
+      <input type="checkbox" class="form-check-input" #readCheck>
     </td>
     <td>
-      <input type="checkbox" #writeCheck>
+      <input type="checkbox" class="form-check-input" #writeCheck>
     </td>
     <td>
       <button type="button" class="btn btn-success" (click)="this.add(keyInput.value, readCheck.checked, writeCheck.checked)">
