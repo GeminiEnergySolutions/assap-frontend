@@ -85,6 +85,7 @@ export class EditProfileComponent implements OnInit {
   logout() {
     this.parseService.logout(this.credentials).subscribe(() => {
       delete this.user;
+      delete this.credentials.sessionToken;
     }, error => {
       this.toastService.error('Log out', 'Failed to log out', error);
     });
@@ -97,6 +98,7 @@ export class EditProfileComponent implements OnInit {
 
     this.parseService.login(this.username, this.password, this.credentials).subscribe(user => {
       this.user = user;
+      this.credentials.sessionToken = user.sessionToken;
     }, error => {
       this.toastService.error('Log in', 'Failed to log in', error);
     });
