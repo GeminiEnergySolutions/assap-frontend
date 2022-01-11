@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {of} from 'rxjs';
 import {map, switchMap, tap} from 'rxjs/operators';
+import {Config} from '../../audits/model/config.interface';
 import {ParseCredentialService} from '../../parse/parse-credential.service';
 import {ParseCredentials} from '../../parse/parse-credentials';
 import {ParseService} from '../../parse/parse.service';
@@ -54,7 +55,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   test() {
-    this.parseService.getConfig(this.credentials).subscribe(() => {
+    this.parseService.getConfig<Config>(this.credentials).subscribe(config => {
+      this.credentials.name ||= config.brand.name;
       this.toastService.success('Parse Server', 'Successfully connected to Parse server.');
     }, error => {
       console.error(error);

@@ -12,7 +12,10 @@
       class="list-group-item d-flex align-items-center"
     >
       <div class="mr-auto">
-        {{ profile.value.url }}
+        {{ profile.value.name }}
+        <span class="text-muted">
+          {{ profile.value.url }}
+        </span>
       </div>
       <div *ngIf="profile.key === activeProfile" class="bi-check-circle text-primary">
         Active
