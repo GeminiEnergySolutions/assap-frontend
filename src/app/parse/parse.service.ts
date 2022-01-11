@@ -28,10 +28,6 @@ export class ParseService {
     return this.parseCredentialService.url;
   }
 
-  private _getConfig<T>(url: string): Observable<T> {
-    return this.http.get<{ params: T }>(`${url}/config`).pipe(map(t => t.params));
-  }
-
   private getOptions(credentials?: ParseCredentials) {
     if (!credentials) {
       return {};
@@ -41,11 +37,14 @@ export class ParseService {
   }
 
   getConfig<T>(credentials = this.parseCredentialService.credentials): Observable<T> {
-    return credentials ? this._getConfig(credentials.url) : throwError('Invalid credentials');
+    if (!credentials) {
+      return throwError('Invalid credentials');
+    }
+    return this.http.get<{ params: T }>(`${credentials.url}/config`, this.getOptions(credentials)).pipe(map(t => t.params));
   }
 
   getConfig$<T>(): Observable<T> {
-    return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
+    return this.parseCredentialService.credentials$.pipe(switchMap(credentials => this.getConfig<T>(credentials)));
   }
 
   login(username: string, password: string, credentials = this.parseCredentialService.credentials): Observable<User> {
