@@ -56,8 +56,12 @@ export class EditProfileComponent implements OnInit {
 
   test() {
     this.parseService.getConfig<Config>(this.credentials).subscribe(config => {
-      this.credentials.name ||= config.brand.name;
-      this.toastService.success('Parse Server', 'Successfully connected to Parse server.');
+      if (config.brand) {
+        this.credentials.name ||= config.brand.name;
+        this.toastService.success('Parse Server', 'Successfully connected to Parse server.');
+      } else {
+        this.toastService.warn('Parse Server', 'Successfully connected to Parse server, but it is not configured correctly (brand parameter missing)');
+      }
     }, error => {
       console.error(error);
       const explanation = error.error?.error ?? errorExplanations[error.status];
