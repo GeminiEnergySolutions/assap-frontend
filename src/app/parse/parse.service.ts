@@ -1,7 +1,7 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {ParseCreateResponse, ParseResponse, ParseUpdateResponse} from '../audits/model/parse.interface';
 import {ParseCredentialService} from './parse-credential.service';
 import {ParseObject} from './parse-object.interface';
@@ -26,7 +26,7 @@ export class ParseService {
   }
 
   private _getConfig<T>(url: string): Observable<T> {
-    return this.http.get<{ params: T }>(`${url}/config`).pipe(map(t => t.params))
+    return this.http.get<{ params: T }>(`${url}/config`).pipe(map(t => t.params));
   }
 
   getConfig<T>(): Observable<T> {
@@ -43,7 +43,7 @@ export class ParseService {
         username,
         password,
       },
-    }).pipe(tap(user => this.parseCredentialService.sessionToken = user.sessionToken));
+    });
   }
 
   getCurrentUser(): Observable<User> {
@@ -51,9 +51,7 @@ export class ParseService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${this.url}/logout`, {}).pipe(tap(() => {
-      this.parseCredentialService.sessionToken = '';
-    }));
+    return this.http.post<void>(`${this.url}/logout`, {});
   }
 
   getUsers(): Observable<User[]> {
@@ -87,7 +85,7 @@ export class ParseService {
         body: object,
       }));
       return this.batch(requests);
-    }))
+    }));
   }
 
   delete(className: string, objectId: string): Observable<void> {
@@ -101,10 +99,10 @@ export class ParseService {
         path: `/parse/classes/${className}/${obj.objectId}`,
       }));
       return this.batch(requests);
-    }))
+    }));
   }
 
   batch(requests: { path: string; method: string, body?: any }[]): Observable<ParseResponse[]> {
-    return this.http.post<ParseResponse[]>(`${this.url}/batch`, { requests });
+    return this.http.post<ParseResponse[]>(`${this.url}/batch`, {requests});
   }
 }
