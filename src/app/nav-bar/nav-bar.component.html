@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a *ngIf="config" class="navbar-brand" [href]="config.brand.url">
+  <a *ngIf="config && config.brand" class="navbar-brand" [href]="config.brand.url">
     <img [src]="config.brand.logo" height="32" [alt]="config.brand.name">
     {{ config.brand.name }}
   </a>
