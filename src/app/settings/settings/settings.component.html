@@ -1,46 +1,33 @@
 <div class="container">
   <h1>Settings</h1>
-  <h2>Parse Server</h2>
-  <div class="form mb-3">
-    <div class="form-group">
-      <label for="url">Parse Server URL</label>
-      <input type="url" class="form-control" id="url" [(ngModel)]="url">
-    </div>
-    <div class="form-group">
-      <label for="appId">Parse App ID</label>
-      <input type="text" class="form-control" id="appId" [(ngModel)]="appId">
-    </div>
-    <div class="form-group">
-      <label for="masterKey">Parse Master Key (Optional)</label>
-      <input type="password" class="form-control" id="masterKey" autocomplete="new-password" [(ngModel)]="masterKey">
-    </div>
-    <button type="button" class="btn btn-primary mr-2" (click)="save()">
-      Save
-    </button>
-    <button type="button" class="btn btn-success" (click)="test()">
-      Test
-    </button>
-  </div>
-  <h2>User</h2>
-  <h4 *ngIf="user">
-    Logged in as <b>{{user.username}}</b>.
-    <button type="button" class="btn btn-danger" (click)="logout()">
-      Log out
-    </button>
-  </h4>
-  <div *ngIf="!user" class="form">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" autocomplete="username" [(ngModel)]="username">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" autocomplete="password" [(ngModel)]="password">
-    </div>
-    <button type="button" class="btn btn-primary" (click)="login()">
-      Log in
-    </button>
-  </div>
+  <h2 class="d-flex align-items-center">
+    Parse Server Profiles
+    <a class="btn btn-success bi-plus-circle ml-auto" [routerLink]="['profiles', 'new']">
+      Add
+    </a>
+  </h2>
+  <ul class="list-group mb-3">
+    <li
+      *ngFor="let profile of profiles | keyvalue"
+      class="list-group-item d-flex align-items-center"
+    >
+      <div class="mr-auto">
+        {{ profile.value.name }}
+        <span class="text-muted">
+          {{ profile.value.url }}
+        </span>
+      </div>
+      <div *ngIf="profile.key === activeProfile" class="bi-check-circle text-primary">
+        Active
+      </div>
+      <button class="btn btn-primary bi-check-circle ml-2" *ngIf="profile.key !== activeProfile" (click)="setActiveProfile(profile.key)">
+        Select
+      </button>
+      <a class="btn btn-secondary bi-pencil ml-2" [routerLink]="['profiles', profile.key]">
+        Edit
+      </a>
+    </li>
+  </ul>
   <h2>CompanyCam</h2>
   <div class="form">
     <div class="form-group">

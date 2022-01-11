@@ -1,5 +1,5 @@
 export interface Config {
-  brand: {
+  brand?: {
     name: string;
     logo: string;
     url: string;
