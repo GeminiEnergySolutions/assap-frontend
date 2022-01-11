@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit {
       tap(({id}) => this.id = id),
       map(({id}) => this.parseCredentialService.getProfile(id)),
       tap(credentials => credentials && (this.credentials = credentials)),
-      switchMap(c => c?.sessionToken ? this.parseService.getCurrentUser() : of(undefined)),
+      switchMap(c => c?.sessionToken ? this.parseService.getCurrentUser(c) : of(undefined)),
     ).subscribe(user => {
       this.user = user;
     });
@@ -69,7 +69,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   logout() {
-    this.parseService.logout().subscribe(() => {
+    this.parseService.logout(this.credentials).subscribe(() => {
       delete this.user;
     }, error => {
       this.toastService.error('Log out', 'Failed to log out', error);
@@ -81,7 +81,7 @@ export class EditProfileComponent implements OnInit {
       return;
     }
 
-    this.parseService.login(this.username, this.password).subscribe(user => {
+    this.parseService.login(this.username, this.password, this.credentials).subscribe(user => {
       this.user = user;
     }, error => {
       this.toastService.error('Log in', 'Failed to log in', error);
