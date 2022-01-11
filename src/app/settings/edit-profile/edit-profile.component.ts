@@ -54,12 +54,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   test() {
-    this.save();
-    const op = this.username && this.password
-      ? this.parseService.login(this.username, this.password)
-      : this.parseService.getConfig()
-    ;
-    op.subscribe(() => {
+    this.parseService.getConfig(this.credentials).subscribe(() => {
       this.toastService.success('Parse Server', 'Successfully connected to Parse server.');
     }, error => {
       console.error(error);

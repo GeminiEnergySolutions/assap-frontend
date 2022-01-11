@@ -14,6 +14,9 @@
       <label for="masterKey" class="form-label">Parse Master Key (Optional)</label>
       <input type="password" class="form-control" id="masterKey" autocomplete="new-password" [(ngModel)]="credentials.masterKey">
     </div>
+    <button type="button" class="btn btn-success" (click)="test()">
+      Test
+    </button>
   </div>
   <h2>User</h2>
   <h4 *ngIf="user">
@@ -37,8 +40,5 @@
   </div>
   <button type="button" class="btn btn-primary me-2" (click)="save()">
     Save
-  </button>
-  <button type="button" class="btn btn-success" (click)="test()">
-    Test
   </button>
 </div>
