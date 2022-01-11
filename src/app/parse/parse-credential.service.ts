@@ -85,6 +85,10 @@ export class ParseCredentialService {
     localStorage.setItem(KEY_PREFIX + id, JSON.stringify(credentials));
   }
 
+  deleteProfile(id: string) {
+    localStorage.removeItem(KEY_PREFIX + id);
+  }
+
   get credentials(): ParseCredentials | undefined {
     return this.#credentials.value;
   }

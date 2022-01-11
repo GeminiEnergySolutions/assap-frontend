@@ -51,6 +51,19 @@ export class EditProfileComponent implements OnInit {
   save(): void {
     const id = this.id === 'new' ? Math.random().toString(36) : this.id;
     this.parseCredentialService.saveProfile(id, this.credentials);
+    this.goBack();
+  }
+
+  delete(): void {
+    if (!confirm('Are you sure you want to delete this profile? This cannot be undone.')) {
+      return;
+    }
+
+    this.parseCredentialService.deleteProfile(this.id);
+    this.goBack();
+  }
+
+  private goBack() {
     this.router.navigate(['../..'], {relativeTo: this.route});
   }
 
