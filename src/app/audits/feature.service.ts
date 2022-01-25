@@ -81,13 +81,13 @@ export class FeatureService {
       const {objectId, createdAt, updatedAt, ...body} = f;
       if (objectId.startsWith('local.')) {
         return {
-          path: '/classes/rFeature',
+          path: '/parse/classes/rFeature',
           method: 'POST',
           body,
         };
       } else {
         return {
-          path: `/classes/rFeature/${objectId}`,
+          path: `/parse/classes/rFeature/${objectId}`,
           method: 'PUT',
           body,
         };
