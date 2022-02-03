@@ -19,6 +19,8 @@ export interface Audit extends ParseObject {
   pendingChanges?: number;
 }
 
+export type AuditIdDto = Pick<Audit, 'objectId' | 'auditId'>;
+
 export type CreateAuditDto = Omit<Audit, Exclude<keyof ParseObject, 'ACL'> | 'auditId' | 'usn' | 'mod'>;
 
 export type UpdateAuditDto = Partial<CreateAuditDto>;

@@ -33,7 +33,7 @@ export class TypeListComponent {
     if (!name) {
       return;
     }
-    this.typeService.create(this.audit, this.zone, {
+    this.typeService.create(this.audit, this.zone.id, {
       type: type.name,
       subtype: subType?.name ?? null,
       name,

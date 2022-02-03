@@ -85,10 +85,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
     }
 
     forkJoin([
-      this.auditService.update(this.audit, {ACL}, a => {
-        a.ACL = ACL;
-        return a;
-      }),
+      this.auditService.update(this.audit, {ACL}, a => a.ACL = ACL),
       this.featureService.updateAll({auditId: this.audit.auditId}, {ACL}),
     ]).subscribe(() => {
       this.toastService.success('Access Control', 'Successfully saved access control');

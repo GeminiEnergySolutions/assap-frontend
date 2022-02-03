@@ -46,7 +46,7 @@ export class ParseAuditService {
     }))).pipe(mapTo(undefined));
   }
 
-  delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
+  delete(objectId: string): Observable<void> {
     return this.parseService.delete('rAudit', objectId);
   }
 }

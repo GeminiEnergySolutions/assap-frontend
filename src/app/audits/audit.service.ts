@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mapTo, tap} from 'rxjs/operators';
-import {Audit, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
+import {Audit, AuditIdDto, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
 import {OfflineAuditService} from './offline-audit.service';
 import {ParseAuditService} from './parse-audit.service';
 
@@ -74,12 +74,12 @@ export class AuditService {
     }));
   }
 
-  update(audit: Audit, delta: UpdateAuditDto, apply: (a: Audit) => Audit): Observable<Audit> {
-    const offline = this.offlineAuditService.update(audit, delta, apply);
+  update({objectId, auditId}: AuditIdDto, delta: UpdateAuditDto, apply: (a: Audit) => void): Observable<void> {
+    const offline = this.offlineAuditService.update(auditId, delta, apply);
     if (offline) {
-      return of(offline);
+      return of(undefined);
     }
-    return this.parseAuditService.update(audit.objectId, delta).pipe(mapTo(audit), map(apply));
+    return this.parseAuditService.update(objectId, delta);
   }
 
   upload(audit: Audit): Observable<void> {
@@ -97,8 +97,8 @@ export class AuditService {
     );
   }
 
-  delete(audit: Pick<Audit, 'objectId' | 'auditId'>): Observable<void> {
+  delete({objectId}: AuditIdDto): Observable<void> {
     // FIXME delete does not work in offline mode
-    return this.parseAuditService.delete(audit);
+    return this.parseAuditService.delete(objectId);
   }
 }

@@ -52,10 +52,7 @@ export class PreAuditComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.auditService.update(audit, {name}, a => {
-      a.name = name;
-      return a;
-    }).subscribe(undefined, error => {
+    this.auditService.update(audit, {name}, a => a.name = name).subscribe(undefined, error => {
       this.toastService.error('Audit', 'Failed to rename audit', error);
     });
   }
