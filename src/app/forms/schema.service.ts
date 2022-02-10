@@ -8,7 +8,7 @@ import {Schema, SchemaId} from './forms.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class FormsService {
+export class SchemaService {
 
   constructor(
     private http: HttpClient,

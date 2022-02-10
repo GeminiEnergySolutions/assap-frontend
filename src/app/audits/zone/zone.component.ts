@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {forkJoin, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {FormsService} from '../../forms/forms.service';
+import {SchemaService} from '../../forms/schema.service';
 import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
 
@@ -22,7 +22,7 @@ export class ZoneComponent implements OnInit {
 
   constructor(
     private auditService: AuditService,
-    private formsService: FormsService,
+    private schemaService: SchemaService,
     private route: ActivatedRoute,
   ) {
   }
@@ -31,7 +31,7 @@ export class ZoneComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({aid, zid}) => forkJoin([
         this.auditService.findOne(aid),
-        this.formsService.loadSchemas(undefined, undefined, ['type']),
+        this.schemaService.loadSchemas(undefined, undefined, ['type']),
         of(zid),
       ])),
     ).subscribe(([audit, schemas, zoneId]) => {

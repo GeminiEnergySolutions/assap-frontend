@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
-import {Schema} from '../../forms/forms.interface';
-import {FormsService} from '../../forms/forms.service';
+import {SchemaService} from '../../forms/schema.service';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
@@ -27,12 +26,12 @@ export class TypeListComponent implements OnInit {
     private typeService: TypeService,
     private featureService: FeatureService,
     private toastService: ToastService,
-    private formsService: FormsService,
+    private schemaService: SchemaService,
   ) {
   }
 
   ngOnInit() {
-    this.formsService.loadSchemas(this.type, undefined, ['subtype']).subscribe(schemas => {
+    this.schemaService.loadSchemas(this.type, undefined, ['subtype']).subscribe(schemas => {
       this.subtypes = Array.from(new Set(schemas.filter(s => s.subtype).map(s => s.subtype!))).sort();
     });
   }

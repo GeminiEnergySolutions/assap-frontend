@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {BehaviorSubject, of} from 'rxjs';
 import {distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Schema, SchemaId} from '../forms.interface';
-import {FormsService} from '../forms.service';
+import {SchemaService} from '../schema.service';
 
 @Component({
   selector: 'app-form',
@@ -20,7 +20,7 @@ export class FormComponent implements OnInit, OnDestroy {
   dirty = false;
 
   constructor(
-    private formsService: FormsService,
+    private schemaService: SchemaService,
   ) {
   }
 
@@ -32,7 +32,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.#schemaId.pipe(
       distinctUntilChanged(),
-      switchMap(id => id ? this.formsService.loadSchema(id) : of(undefined)),
+      switchMap(id => id ? this.schemaService.loadSchema(id) : of(undefined)),
     ).subscribe(schema => {
       this.schema = schema;
     });
