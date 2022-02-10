@@ -19,6 +19,9 @@ export class SchemaService {
   loadSchemas<K extends keyof Schema>(type?: string, subtype?: string | null, keys?: K[]): Observable<Pick<Schema, K>[]> {
     return this.parseService.findAll<Schema>('Form', {type, subtype}, {keys}).pipe(
       tap(schemas => {
+        if (keys) {
+          return;
+        }
         for (let schema of schemas) {
           this.saveLocal(schema);
         }
@@ -47,7 +50,7 @@ export class SchemaService {
   }
 
   private getKey({type, subtype}: SchemaId): string {
-    return `schemas/${type}${subtype ? '/' : ''}${subtype}`;
+    return `schemas/${type}${subtype ? '/' + subtype: ''}`;
   }
 
   private getLocal(id: SchemaId): Schema | undefined {
