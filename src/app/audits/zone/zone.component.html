@@ -5,17 +5,16 @@
   </h1>
 
   <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
-    <li *ngFor="let type of types"
-        [ngbNavItem]="type.name">
-      <a ngbNavLink>{{type.name}}</a>
+    <li *ngFor="let type of types" [ngbNavItem]="type">
+      <a ngbNavLink>{{type}}</a>
       <ng-template ngbNavContent>
         <app-type-list
           *ngIf="audit && selectedZone"
-          [types]="groupedTypes[type.name]"
+          [types]="groupedTypes[type]"
           [audit]="audit"
           [zone]="selectedZone"
           [type]="type"
-          [routerPrefix]="type.name + '/'"
+          [routerPrefix]="type + '/'"
         ></app-type-list>
       </ng-template>
     </li>

@@ -1,9 +1,12 @@
 import {ParseObject} from '../parse/parse-object.interface';
 
 export interface Schema extends ParseObject {
-  name: string;
+  type: string;
+  subtype: string | null;
   geminiForm: Section[];
 }
+
+export type SchemaId = Pick<Schema, 'type' | 'subtype'>;
 
 export interface Section {
   index: number;

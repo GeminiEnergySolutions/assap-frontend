@@ -4,7 +4,6 @@ import {forkJoin, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {Audit, Type, Zone} from '../model/audit.interface';
-import {ApplianceType, Types} from '../model/types';
 
 @Component({
   selector: 'app-pre-type',
@@ -14,7 +13,7 @@ import {ApplianceType, Types} from '../model/types';
 export class PreTypeComponent implements OnInit {
   audit?: Audit;
   zone?: Zone;
-  type?: ApplianceType;
+  type?: string;
   types: Type[] = [];
 
   constructor(
@@ -30,11 +29,11 @@ export class PreTypeComponent implements OnInit {
         of(zid),
         of(type),
       ])),
-    ).subscribe(([audit, zoneId, typeId]) => {
-      this.type = Types.find(t => t.name === typeId);
+    ).subscribe(([audit, zoneId, type]) => {
+      this.type = type;
       this.audit = audit;
       this.zone = audit?.zone[zoneId];
-      this.types = audit ? Object.values(audit.type).filter(t => t.type === typeId && t.zoneId == zoneId) : [];
+      this.types = audit ? Object.values(audit.type).filter(t => t.type === type && t.zoneId == zoneId) : [];
     });
   }
 }

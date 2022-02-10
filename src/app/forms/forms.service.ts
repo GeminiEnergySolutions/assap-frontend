@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {ParseService} from '../parse/parse.service';
-import {Schema} from './forms.interface';
+import {Schema, SchemaId} from './forms.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,16 +16,20 @@ export class FormsService {
   ) {
   }
 
-  loadSchemas(): Observable<Schema[]> {
-    return this.parseService.findAll<Schema>('Form').pipe(tap(schemas => {
-      for (let schema of schemas) {
-        this.saveLocal(schema);
-      }
-    }));
+  loadSchemas(type?: string, subtype?: string | null): Observable<Schema[]> {
+    return this.parseService.findAll<Schema>('Form', {type, subtype}).pipe(
+      tap(schemas => {
+        for (let schema of schemas) {
+          this.saveLocal(schema);
+        }
+      }),
+      // TODO catchError load local
+    );
   }
 
-  loadSchema(name: string): Observable<Schema | undefined> {
-    return this.parseService.findAll<Schema>('Form', {name}, {
+  loadSchema(id: SchemaId): Observable<Schema | undefined> {
+    const {type, subtype} = id;
+    return this.parseService.findAll<Schema>('Form', {type, subtype}, {
       limit: 1,
       order: ['-updatedAt'],
     }).pipe(
@@ -38,21 +42,25 @@ export class FormsService {
           return schema;
         }
       }),
-      catchError(() => of(this.getLocal(name))),
+      catchError(() => of(this.getLocal(id))),
     );
   }
 
-  private getLocal(name: string): Schema | undefined {
-    const local = localStorage.getItem(`schemas/${name}`);
+  private getKey({type, subtype}: SchemaId): string {
+    return `schemas/${type}${subtype ? '/' : ''}${subtype}`;
+  }
+
+  private getLocal(id: SchemaId): Schema | undefined {
+    const local = localStorage.getItem(this.getKey(id));
     return local ? JSON.parse(local) : undefined;
   }
 
   private saveLocal(schema: Schema) {
-    const {name, updatedAt} = schema;
-    const updatedLocal = localStorage.getItem(`schemas/${name}/updatedAt`);
+    const {updatedAt} = schema;
+    const updatedLocal = localStorage.getItem(`${this.getKey(schema)}/updatedAt`);
     if (!updatedLocal || updatedLocal < updatedAt) {
-      localStorage.setItem(`schemas/${name}`, JSON.stringify(schema));
-      localStorage.setItem(`schemas/${name}/updatedAt`, updatedAt);
+      localStorage.setItem(this.getKey(schema), JSON.stringify(schema));
+      localStorage.setItem(`${this.getKey(schema)}/updatedAt`, updatedAt);
     }
   }
 }

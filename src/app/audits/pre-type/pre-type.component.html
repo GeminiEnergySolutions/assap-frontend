@@ -5,7 +5,7 @@
       <li class="breadcrumb-item"><a routerLink="../../..">{{audit?.name}}</a></li>
       <li class="breadcrumb-item"><a routerLink="../..">Zones</a></li>
       <li class="breadcrumb-item"><a routerLink="..">{{zone?.name}}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{type?.name}}</li>
+      <li class="breadcrumb-item active" aria-current="page">{{type}}</li>
     </ol>
   </nav>
   <app-type-list list *ngIf="type && audit && zone && types"

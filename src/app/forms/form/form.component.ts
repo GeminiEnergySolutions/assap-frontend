@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, of} from 'rxjs';
 import {distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {Schema} from '../forms.interface';
+import {Schema, SchemaId} from '../forms.interface';
 import {FormsService} from '../forms.service';
 
 @Component({
@@ -10,7 +10,7 @@ import {FormsService} from '../forms.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit, OnDestroy {
-  #schemaId = new BehaviorSubject<string | undefined>(undefined);
+  #schemaId = new BehaviorSubject<SchemaId | undefined>(undefined);
 
   @Input() schema?: Schema;
 
@@ -25,7 +25,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  set schemaId(id: string) {
+  set schemaId(id: SchemaId) {
     this.#schemaId.next(id);
   }
 

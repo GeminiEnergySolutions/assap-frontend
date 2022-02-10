@@ -10,7 +10,6 @@ import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit, Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
-import {Types} from '../model/types';
 
 @Component({
   selector: 'app-type',
@@ -24,7 +23,6 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   audit?: Audit;
   type?: Type;
   data?: FeatureData;
-  schemaId?: string;
 
   constructor(
     private auditService: AuditService,
@@ -48,30 +46,10 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
       ])),
     ).subscribe(([typeId, audit, features]) => {
       this.audit = audit;
-      const type = audit?.type[typeId];
-      this.type = type;
-      this.schemaId = this.getSchemaId(type);
-
+      this.type = audit?.type[typeId];
       this.feature = features[0];
       this.data = this.feature ? this.featureService.feature2Data(this.feature) : {};
     });
-  }
-
-  private getSchemaId(type: Type | undefined) {
-    if (!type) {
-      return undefined;
-    }
-
-    const type1 = Types.find(t => t.name === type.type);
-    if (!type1) {
-      return undefined;
-    }
-    if (!type.subtype || !type1.subTypes) {
-      return type1.id;
-    }
-
-    const type2 = type1.subTypes.find(t => t.name === type.subtype);
-    return type2?.id;
   }
 
   isSaved(): boolean {
