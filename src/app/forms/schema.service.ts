@@ -26,7 +26,7 @@ export class SchemaService {
           this.saveLocal(schema);
         }
       }),
-      // TODO catchError load local
+      catchError(() => of(this.getAllLocal(type, subtype))),
     );
   }
 
@@ -47,6 +47,42 @@ export class SchemaService {
       }),
       catchError(() => of(this.getLocal(id))),
     );
+  }
+
+  private getAllLocal(type?: string, subtype?: string | null): Schema[] {
+    const result: Schema[] = [];
+    const pattern: RegExp = /^schemas\/([^\/]*)(?:\/([^\/]*))?$/;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)!;
+      if (!key.startsWith('schemas/')) { // faster than regex
+        continue;
+      }
+
+      const match = pattern.exec(key);
+      if (!match) {
+        continue;
+      }
+
+      const [, _type, _subtype] = match;
+      if (type !== undefined && _type !== type) {
+        continue;
+      }
+      if (subtype === null && _subtype) {
+        continue;
+      }
+      if (subtype !== undefined && _subtype !== subtype) {
+        continue;
+      }
+
+      const value = localStorage.getItem(key);
+      if (!value) {
+        continue;
+      }
+
+      const schema = JSON.parse(value);
+      result.push(schema);
+    }
+    return result;
   }
 
   private getKey({type, subtype}: SchemaId): string {
