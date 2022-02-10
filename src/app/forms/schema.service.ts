@@ -64,6 +64,9 @@ export class SchemaService {
       }
 
       const [, _type, _subtype] = match;
+      if (_subtype === 'updatedAt') {
+        continue;
+      }
       if (type !== undefined && _type !== type) {
         continue;
       }
