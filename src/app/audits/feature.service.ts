@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {map, mapTo} from 'rxjs/operators';
+import {catchError, map, mapTo} from 'rxjs/operators';
 import {Element, Schema} from '../forms/schema';
 import {ParseService} from '../parse/parse.service';
 import {IdService} from './id.service';
@@ -29,7 +29,9 @@ export class FeatureService {
     if (offline.length) {
       return of(offline);
     }
-    return this.parseFeatureService.findAll<K>(filter, keys);
+    return this.parseFeatureService.findAll<K>(filter, keys).pipe(
+      catchError(() => of(offline)),
+    );
   }
 
   saveAll(filter: Partial<Feature>) {
