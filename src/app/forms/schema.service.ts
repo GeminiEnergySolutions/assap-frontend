@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {ParseService} from '../parse/parse.service';
-import {Schema, SchemaId} from './forms.interface';
+import {Schema, SchemaId} from './schema';
 
 @Injectable({
   providedIn: 'root',

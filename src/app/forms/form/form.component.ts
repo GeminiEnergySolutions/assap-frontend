@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, of} from 'rxjs';
 import {distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {Schema, SchemaId} from '../forms.interface';
+import {Schema, SchemaId} from '../schema';
 import {SchemaService} from '../schema.service';
 
 @Component({

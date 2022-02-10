@@ -4,7 +4,7 @@ import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin, Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
-import {Schema} from '../../forms/forms.interface';
+import {Schema} from '../../forms/schema';
 import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Data} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {map, mapTo} from 'rxjs/operators';
-import {Element, Schema} from '../forms/forms.interface';
+import {Element, Schema} from '../forms/schema';
 import {ParseService} from '../parse/parse.service';
 import {IdService} from './id.service';
 import {CreateFeatureDto, Feature, FeatureData} from './model/feature.interface';
