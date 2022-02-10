@@ -43,6 +43,8 @@ export class ZoneComponent implements OnInit {
       const types = audit && zone ? zone.typeId.map(tid => audit.type[tid]) : [];
 
       this.types = Array.from(new Set<string>(schemas.map(s => s.type).filter(s => s !== 'Preaudit'))).sort();
+      this.activeTab = this.types[0];
+
       for (const type of this.types) {
         this.groupedTypes[type] = [];
       }
