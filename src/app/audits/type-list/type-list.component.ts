@@ -32,7 +32,7 @@ export class TypeListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formsService.loadSchemas(this.type).subscribe(schemas => {
+    this.formsService.loadSchemas(this.type, undefined, ['subtype']).subscribe(schemas => {
       this.subtypes = Array.from(new Set(schemas.filter(s => s.subtype).map(s => s.subtype!))).sort();
     });
   }

@@ -31,7 +31,7 @@ export class ZoneComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({aid, zid}) => forkJoin([
         this.auditService.findOne(aid),
-        this.formsService.loadSchemas(),
+        this.formsService.loadSchemas(undefined, undefined, ['type']),
         of(zid),
       ])),
     ).subscribe(([audit, schemas, zoneId]) => {

@@ -16,8 +16,8 @@ export class FormsService {
   ) {
   }
 
-  loadSchemas(type?: string, subtype?: string | null): Observable<Schema[]> {
-    return this.parseService.findAll<Schema>('Form', {type, subtype}).pipe(
+  loadSchemas<K extends keyof Schema>(type?: string, subtype?: string | null, keys?: K[]): Observable<Pick<Schema, K>[]> {
+    return this.parseService.findAll<Schema>('Form', {type, subtype}, {keys}).pipe(
       tap(schemas => {
         for (let schema of schemas) {
           this.saveLocal(schema);
