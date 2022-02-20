@@ -17,9 +17,9 @@
           {{ profile.value.url }}
         </span>
       </div>
-      <div *ngIf="profile.key === activeProfile" class="bi-check-circle text-primary">
+      <button *ngIf="profile.key === activeProfile" class="btn btn-outline-secondary bi-check-circle" disabled>
         Active
-      </div>
+      </button>
       <button class="btn btn-primary bi-check-circle ms-2" *ngIf="profile.key !== activeProfile" (click)="setActiveProfile(profile.key)">
         Select
       </button>
