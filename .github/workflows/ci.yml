@@ -32,4 +32,4 @@ jobs:
         if: github.ref == 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: pnpm run -- ng deploy --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
+        run: pnpm run -- ng deploy --no-build --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
