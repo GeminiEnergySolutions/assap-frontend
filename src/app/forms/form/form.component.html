@@ -20,7 +20,7 @@
                  [type]="element.dataType | formInputType" class="form-control"
                  id="{{section.id}}-{{element.id}}" [attr.aria-describedby]="section.id + '-' + element.id + '-help'">
         </ng-container>
-        <div id="{{section.id}}-{{element.id}}-help" class="form-text text-muted">{{element.hint}}</div>
+        <div id="{{section.id}}-{{element.id}}-help" class="form-text">{{element.hint}}</div>
       </div>
     </ng-template>
   </ngb-panel>
