@@ -1,10 +1,12 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {ParseCreateResponse, ParseResponse, ParseUpdateResponse} from '../audits/model/parse.interface';
 import {ParseCredentialService} from './parse-credential.service';
+import {ParseCredentials} from './parse-credentials';
 import {ParseObject} from './parse-object.interface';
+import {ParseInterceptor} from './parse.interceptor';
 import {User} from './user.interface';
 
 export interface FindOptions<T> {
@@ -18,6 +20,7 @@ export class ParseService {
   constructor(
     private http: HttpClient,
     private parseCredentialService: ParseCredentialService,
+    private parseInterceptor: ParseInterceptor,
   ) {
   }
 
@@ -25,35 +28,41 @@ export class ParseService {
     return this.parseCredentialService.url;
   }
 
-  private _getConfig<T>(url: string): Observable<T> {
-    return this.http.get<{ params: T }>(`${url}/config`).pipe(map(t => t.params))
+  private getOptions(credentials?: ParseCredentials) {
+    if (!credentials) {
+      return {};
+    }
+    const headers = this.parseInterceptor.buildHeaders(new HttpHeaders(), credentials);
+    return {headers};
   }
 
-  getConfig<T>(): Observable<T> {
-    return this._getConfig(this.parseCredentialService.url);
+  getConfig<T>(credentials = this.parseCredentialService.credentials): Observable<T> {
+    if (!credentials) {
+      return throwError('Invalid credentials');
+    }
+    return this.http.get<{ params: T }>(`${credentials.url}/config`, this.getOptions(credentials)).pipe(map(t => t.params));
   }
 
   getConfig$<T>(): Observable<T> {
-    return this.parseCredentialService.url$.pipe(switchMap(url => this._getConfig<T>(url)));
+    return this.parseCredentialService.credentials$.pipe(switchMap(credentials => this.getConfig<T>(credentials)));
   }
 
-  login(username: string, password: string): Observable<User> {
-    return this.http.get<User>(`${this.url}/login`, {
+  login(username: string, password: string, credentials = this.parseCredentialService.credentials): Observable<User> {
+    return this.http.get<User>(`${credentials?.url}/login`, {
+      ...this.getOptions(credentials),
       params: {
         username,
         password,
       },
-    }).pipe(tap(user => this.parseCredentialService.sessionToken = user.sessionToken));
+    });
   }
 
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.url}/users/me`);
+  getCurrentUser(credentials = this.parseCredentialService.credentials): Observable<User> {
+    return this.http.get<User>(`${credentials?.url}/users/me`, this.getOptions(credentials));
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(`${this.url}/logout`, {}).pipe(tap(() => {
-      this.parseCredentialService.sessionToken = '';
-    }));
+  logout(credentials = this.parseCredentialService.credentials): Observable<void> {
+    return this.http.post<void>(`${credentials?.url}/logout`, {}, this.getOptions(credentials));
   }
 
   getUsers(): Observable<User[]> {
@@ -87,7 +96,7 @@ export class ParseService {
         body: object,
       }));
       return this.batch(requests);
-    }))
+    }));
   }
 
   delete(className: string, objectId: string): Observable<void> {
@@ -101,10 +110,10 @@ export class ParseService {
         path: `/parse/classes/${className}/${obj.objectId}`,
       }));
       return this.batch(requests);
-    }))
+    }));
   }
 
   batch(requests: { path: string; method: string, body?: any }[]): Observable<ParseResponse[]> {
-    return this.http.post<ParseResponse[]>(`${this.url}/batch`, { requests });
+    return this.http.post<ParseResponse[]>(`${this.url}/batch`, {requests});
   }
 }

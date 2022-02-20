@@ -5,6 +5,7 @@ services:
     volumes:
       - 'mongodb_data:/bitnami/mongodb'
     environment:
+      - ALLOW_EMPTY_PASSWORD=yes
       - MONGODB_USERNAME=local
       - MONGODB_DATABASE=parse
       - MONGODB_PASSWORD=local

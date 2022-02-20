@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>Edit Profile</h1>
+  <div class="form">
+    <div class="mb-3">
+      <label for="name" class="form-label">Profile Name</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="credentials.name">
+    </div>
+  </div>
+  <h2>Parse Server</h2>
+  <div class="mb-3">
+    <div class="mb-3">
+      <label for="url" class="form-label">Parse Server URL</label>
+      <input type="url" class="form-control" id="url" [(ngModel)]="credentials.url">
+    </div>
+    <div class="mb-3">
+      <label for="appId" class="form-label">Parse App ID</label>
+      <input type="text" class="form-control" id="appId" [(ngModel)]="credentials.appId">
+    </div>
+    <div class="mb-3">
+      <label for="masterKey" class="form-label">Parse Master Key (Optional)</label>
+      <input type="password" class="form-control" id="masterKey" autocomplete="new-password" [(ngModel)]="credentials.masterKey">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="test()">
+      Test
+    </button>
+  </div>
+  <h2>User</h2>
+  <h4 *ngIf="user">
+    Logged in as <b>{{user.username}}</b>.
+    <button type="button" class="btn btn-danger" (click)="logout()">
+      Log out
+    </button>
+  </h4>
+  <div *ngIf="!user" class="mb-3">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" id="username" autocomplete="username" [(ngModel)]="username">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" autocomplete="password" [(ngModel)]="password">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="login()">
+      Log in
+    </button>
+  </div>
+  <button type="button" class="btn btn-primary mr-2" (click)="save()">
+    Save
+  </button>
+  <button *ngIf="id !== 'new'" type="button" class="btn btn-danger mr-2" (click)="delete()">
+    Delete
+  </button>
+  <a class="btn btn-secondary" routerLink="../..">
+    Cancel
+  </a>
+</div>

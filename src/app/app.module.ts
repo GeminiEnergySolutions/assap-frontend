@@ -11,11 +11,13 @@ import {AppComponent} from './app.component';
 import {FormsModule as AppFormsModule} from './forms/forms.module';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {ParseModule} from './parse/parse.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
+    HomeComponent,
   ],
     imports: [
         BrowserModule,
