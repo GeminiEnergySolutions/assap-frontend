@@ -1,22 +1,22 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable, OperatorFunction} from 'rxjs';
+import {forkJoin, Observable, OperatorFunction, switchMap} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {ACL} from '../../parse/parse-object.interface';
 import {ParseService} from '../../parse/parse.service';
 import {User} from '../../parse/user.interface';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Audit} from '../model/audit.interface';
+import {AuditIdDto} from '../model/audit.interface';
 
 @Component({
   selector: 'app-access-control',
   templateUrl: './access-control.component.html',
   styleUrls: ['./access-control.component.scss'],
 })
-export class AccessControlComponent implements OnInit, OnChanges {
-  @Input() audit!: Audit;
-
+export class AccessControlComponent implements OnInit {
+  audit?: AuditIdDto;
   user?: User;
 
   acl: { key: string; read: boolean; write: boolean; }[] = [];
@@ -37,6 +37,7 @@ export class AccessControlComponent implements OnInit, OnChanges {
   );
 
   constructor(
+    private route: ActivatedRoute,
     private featureService: FeatureService,
     private auditService: AuditService,
     private parseService: ParseService,
@@ -45,6 +46,16 @@ export class AccessControlComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.findOne(aid, ['ACL'])),
+    ).subscribe(audit => {
+      this.audit = audit;
+      this.acl = Object.entries(audit?.ACL ?? {'*': {read: true, write: true}})
+        .map(([key, rest]) => ({key, ...rest}))
+        .sort(({key: k1}, {key: k2}) => k1.localeCompare(k2))
+      ;
+    });
+
     this.parseService.getCurrentUser().subscribe(user => this.user = user);
 
     this.parseService.getUsers().subscribe(users => {
@@ -53,15 +64,6 @@ export class AccessControlComponent implements OnInit, OnChanges {
         this.userNameToId[user.username] = user.objectId;
       }
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.audit) {
-      this.acl = Object.entries(this.audit.ACL ?? {'*': {read: true, write: true}})
-        .map(([key, rest]) => ({key, ...rest}))
-        .sort(({key: k1}, {key: k2}) => k1.localeCompare(k2))
-      ;
-    }
   }
 
   delete(index: number) {
@@ -85,8 +87,8 @@ export class AccessControlComponent implements OnInit, OnChanges {
     }
 
     forkJoin([
-      this.auditService.update(this.audit, {ACL}, a => a.ACL = ACL),
-      this.featureService.updateAll({auditId: this.audit.auditId}, {ACL}),
+      this.auditService.update(this.audit!, {ACL}, a => a.ACL = ACL),
+      this.featureService.updateAll({auditId: this.audit!.auditId}, {ACL}),
     ]).subscribe(() => {
       this.toastService.success('Access Control', 'Successfully saved access control');
     }, error => {
