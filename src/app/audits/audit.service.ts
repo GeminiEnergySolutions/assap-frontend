@@ -14,18 +14,17 @@ export class AuditService {
   ) {
   }
 
-  findAll(filter: Partial<Audit> = {}): Observable<Audit[]> {
+  findAll<K extends keyof Audit>(filter: Partial<Audit> = {}, keys?: K[]): Observable<Pick<Audit, K | MinAuditKeys>[]> {
     const offlineAudits = this.offlineAuditService.findAll(filter);
-    return this.parseAuditService.findAll(filter).pipe(
+    return this.parseAuditService.findAll(filter, keys).pipe(
       catchError(() => of([])),
-      map(parseAudits => this.mergeAll([...parseAudits, ...offlineAudits])),
+      map(parseAudits => this.mergeAll([...parseAudits, ...offlineAudits] as any)),
     );
   }
 
   findOne<K extends keyof Audit>(auditId: string, keys?: K[]): Observable<Pick<Audit, K | MinAuditKeys> | undefined> {
-    const realKeys: (K | MinAuditKeys)[] | undefined = keys ? [...keys, 'auditId'] : undefined;
     const offlineAudit = this.offlineAuditService.findOne(auditId);
-    return this.parseAuditService.findAll({auditId}, realKeys).pipe(
+    return this.parseAuditService.findAll({auditId}, keys).pipe(
       catchError(() => of([])),
       map(parseAudits => this.mergeAll(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits as any)),
       map(audits => audits[0]),
