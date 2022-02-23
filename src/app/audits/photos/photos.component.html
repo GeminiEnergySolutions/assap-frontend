@@ -5,8 +5,8 @@
   and enter it in
   <a routerLink="/settings" fragment="companyCamApiKeyInput">Settings</a>.
 </div>
-<div *ngIf="apiKey && !project" class="alert alert-warning">
-  Could not find project on CompanyCam with the same name as the audit <b>{{ audit?.name }}</b>.
+<div *ngIf="apiKey && audit && project === null" class="alert alert-warning">
+  Could not find project on CompanyCam with the same name as the audit <b>{{ audit.name }}</b>.
   Please check the spelling and wording and rename the audit, or
   <a href="https://app.companycam.com/projects/new">create a project</a>
   if not yet done.
