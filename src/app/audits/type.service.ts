@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {mapTo} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
 import {IdService} from './id.service';
 import {AuditIdDto, Type, Zone} from './model/audit.interface';
@@ -12,6 +12,18 @@ export class TypeService {
     private idService: IdService,
     private auditService: AuditService,
   ) {
+  }
+
+  get(audit: AuditIdDto, zoneId: Zone['id'], typeId: Type['id']): Observable<Type> {
+    return this.auditService.findOne(audit.auditId).pipe(
+      map(audit => audit?.type[typeId]!),
+    );
+  }
+
+  getAll(audit: AuditIdDto, zoneId: Zone['id']): Observable<Type[]> {
+    return this.auditService.findOne(audit.auditId).pipe(
+      map(audit => audit ? audit.zone[zoneId].typeId.map(t => audit.type[t]) : []),
+    );
   }
 
   create(audit: AuditIdDto, zoneId: Zone['id'], dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
