@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/forms.interface';
@@ -22,13 +22,12 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   audit?: Pick<Audit, 'name' | 'auditId' | 'ACL'>;
   feature?: Feature;
   data?: FeatureData;
-  activeTab: 'preaudit' | 'zone' = 'preaudit';
 
   constructor(
     private auditService: AuditService,
     private featureService: FeatureService,
     private toastService: ToastService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
   ) {
   }
 

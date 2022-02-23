@@ -17,8 +17,6 @@ export class ZoneListComponent implements OnInit {
   audit?: AuditIdDto;
   zones?: Zone[];
 
-  @Input() routerPrefix = '';
-
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,

@@ -4,7 +4,7 @@
   </button>
   <a *ngFor="let zone of zones"
      class="list-group-item list-group-item-action d-flex align-items-center"
-     [routerLink]="[routerPrefix + zone.id]" routerLinkActive="active"
+     [routerLink]="''+zone.id" routerLinkActive="active"
   >
     <div class="flex-grow-1">
       {{zone.name}}
