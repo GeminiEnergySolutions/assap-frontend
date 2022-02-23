@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {forkJoin, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
-import {Audit, Type, Zone} from '../model/audit.interface';
+import {Audit, Zone} from '../model/audit.interface';
 import {ApplianceType, Types} from '../model/types';
+import {ZoneService} from '../zone.service';
 
 @Component({
   selector: 'app-pre-type',
@@ -12,29 +12,32 @@ import {ApplianceType, Types} from '../model/types';
   styleUrls: ['./pre-type.component.scss'],
 })
 export class PreTypeComponent implements OnInit {
-  audit?: Audit;
+  audit?: Pick<Audit, 'name'>;
   zone?: Zone;
   type?: ApplianceType;
-  types: Type[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private zoneService: ZoneService,
   ) {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(({type}) => {
+      this.type = Types.find(t => t.name === type);
+    });
+
     this.route.params.pipe(
-      switchMap(({aid, zid, type}) => forkJoin([
-        this.auditService.findOne(aid),
-        of(zid),
-        of(type),
-      ])),
-    ).subscribe(([audit, zoneId, typeId]) => {
-      this.type = Types.find(t => t.name === typeId);
+      switchMap(({aid}) => this.auditService.findOne(aid, ['name'])),
+    ).subscribe(audit => {
       this.audit = audit;
-      this.zone = audit?.zone[zoneId];
-      this.types = audit ? Object.values(audit.type).filter(t => t.type === typeId && t.zoneId == zoneId) : [];
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid}) => this.zoneService.get(aid, +zid)),
+    ).subscribe(zone => {
+      this.zone = zone;
     });
   }
 }
