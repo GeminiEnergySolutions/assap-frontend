@@ -20,8 +20,8 @@ export class ZoneService {
     );
   }
 
-  getAll(audit: AuditIdDto): Observable<Zone[]> {
-    return this.auditService.findOne(audit.auditId).pipe(
+  getAll(auditId: string): Observable<Zone[]> {
+    return this.auditService.findOne(auditId).pipe(
       map(audit => audit ? Object.values(audit.zone) : []),
     );
   }

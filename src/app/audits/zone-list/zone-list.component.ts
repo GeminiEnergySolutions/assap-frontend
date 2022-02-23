@@ -33,7 +33,12 @@ export class ZoneListComponent implements OnInit {
       switchMap(({aid}) => this.auditService.findOne(aid, ['zone'])),
     ).subscribe(audit => {
       this.audit = audit;
-      this.zones = Object.values(audit?.zone ?? {});
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.zoneService.getAll(aid)),
+    ).subscribe(zones => {
+      this.zones = zones;
     });
   };
 
