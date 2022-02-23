@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mapTo, tap} from 'rxjs/operators';
-import {Audit, AuditIdDto, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
+import {Audit, AuditIdDto, CreateAuditDto, MinAuditKeys, UpdateAuditDto} from './model/audit.interface';
 import {OfflineAuditService} from './offline-audit.service';
 import {ParseAuditService} from './parse-audit.service';
 
@@ -22,11 +22,12 @@ export class AuditService {
     );
   }
 
-  findOne(auditId: string): Observable<Audit | undefined> {
+  findOne<K extends keyof Audit>(auditId: string, keys?: K[]): Observable<Pick<Audit, K | MinAuditKeys> | undefined> {
+    const realKeys: (K | MinAuditKeys)[] = [...(keys ?? []), 'auditId'];
     const offlineAudit = this.offlineAuditService.findOne(auditId);
-    return this.parseAuditService.findAll({auditId}).pipe(
+    return this.parseAuditService.findAll({auditId}, realKeys).pipe(
       catchError(() => of([])),
-      map(parseAudits => this.mergeAll(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits)),
+      map(parseAudits => this.mergeAll(offlineAudit ? [...parseAudits, offlineAudit] : parseAudits as any)),
       map(audits => audits[0]),
     );
   }

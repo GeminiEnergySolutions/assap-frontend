@@ -15,8 +15,8 @@ export class ParseAuditService {
   ) {
   }
 
-  findAll(filter: Partial<Audit> = {}): Observable<Audit[]> {
-    return this.parseService.findAll<Audit>(`rAudit`, filter);
+  findAll<K extends keyof Audit>(filter: Partial<Audit> = {}, keys?: K[]): Observable<Pick<Audit, K>[]> {
+    return this.parseService.findAll<Audit>(`rAudit`, filter, {keys});
   }
 
   create(dto: CreateAuditDto): Observable<Audit> {
