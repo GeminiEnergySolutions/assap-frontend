@@ -1,7 +1,7 @@
 <div class="container">
   <h1>
     <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-    {{ selectedAudit?.name }}
+    {{ audit?.name }}
   </h1>
 
   <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
@@ -9,7 +9,7 @@
       <a ngbNavLink>Preaudit</a>
       <ng-template ngbNavContent>
         <div class="container">
-          <app-form #form *ngIf="selectedAudit" schemaId="preaudit" [data]="data" (saved)="save($event[0], $event[1])"></app-form>
+          <app-form #form *ngIf="data" schemaId="preaudit" [data]="data" (saved)="save($event[0], $event[1])"></app-form>
         </div>
       </ng-template>
     </li>
