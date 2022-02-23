@@ -1,6 +1,6 @@
 <app-master-detail>
   <nav breadcrumb aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb p-3 bg-light bg-darkmode-dark">
       <li class="breadcrumb-item active" aria-current="page">Audits</li>
     </ol>
   </nav>
@@ -35,7 +35,7 @@
           <div class="dropdown-header">
             <i class="bi-wifi-off"></i>
             Pending Changes
-            <span class="badge badge-primary">{{ audit.pendingChanges }}</span>
+            <span class="badge bg-primary">{{ audit.pendingChanges }}</span>
           </div>
           <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-success" (click)="upload(audit)">
             Upload

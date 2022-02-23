@@ -1,4 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {BehaviorSubject, of} from 'rxjs';
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Schema} from '../forms.interface';
 import {FormsService} from '../forms.service';
 
@@ -7,8 +9,9 @@ import {FormsService} from '../forms.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
-  @Input() type!: string;
+export class FormComponent implements OnInit, OnDestroy {
+  #schemaId = new BehaviorSubject<string | undefined>(undefined);
+
   @Input() schema?: Schema;
 
   @Input() data: Record<string, string> = {};
@@ -21,12 +24,22 @@ export class FormComponent implements OnInit {
   ) {
   }
 
+  @Input()
+  set schemaId(id: string) {
+    this.#schemaId.next(id);
+  }
+
   ngOnInit(): void {
-    if (this.type && !this.schema) {
-      this.formsService.loadSchema(this.type).subscribe(schema => {
-        this.schema = schema;
-      });
-    }
+    this.#schemaId.pipe(
+      distinctUntilChanged(),
+      switchMap(id => id ? this.formsService.loadSchema(id) : of(undefined)),
+    ).subscribe(schema => {
+      this.schema = schema;
+    });
+  }
+
+  ngOnDestroy() {
+    this.#schemaId.complete();
   }
 
   save(): void {
