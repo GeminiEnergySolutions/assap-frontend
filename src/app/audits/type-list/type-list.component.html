@@ -21,7 +21,7 @@
     </div>
     <app-options-dropdown class="visible-hover">
       <button ngbDropdownItem (click)="rename(item)">Rename</button>
-      <ng-container *ngIf="audit && $any(audit).pendingChanges === undefined">
+      <ng-container *ngIf="audit && audit.pendingChanges === undefined">
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
       </ng-container>

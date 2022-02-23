@@ -1,12 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {AuditIdDto, Zone} from '../model/audit.interface';
+import {Audit, MinAuditKeys, Zone} from '../model/audit.interface';
 import {ZoneService} from '../zone.service';
+
+type MyAudit = Pick<Audit, MinAuditKeys>;
 
 @Component({
   selector: 'app-zone-list',
@@ -14,7 +16,7 @@ import {ZoneService} from '../zone.service';
   styleUrls: ['./zone-list.component.scss'],
 })
 export class ZoneListComponent implements OnInit {
-  audit?: AuditIdDto;
+  audit?: MyAudit;
   zones?: Zone[];
 
   constructor(

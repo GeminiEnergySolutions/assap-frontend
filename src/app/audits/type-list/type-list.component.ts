@@ -1,13 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Audit, AuditIdDto, Type, Zone} from '../model/audit.interface';
+import {Audit, MinAuditKeys, Type} from '../model/audit.interface';
 import {ApplianceType, Types} from '../model/types';
 import {TypeService} from '../type.service';
+
+type MyAudit = Pick<Audit, MinAuditKeys>;
 
 @Component({
   selector: 'app-type-list',
@@ -15,12 +17,13 @@ import {TypeService} from '../type.service';
   styleUrls: ['./type-list.component.scss'],
 })
 export class TypeListComponent implements OnInit {
-  audit?: AuditIdDto;
+  audit?: MyAudit;
   type?: ApplianceType;
   types?: Type[];
 
   constructor(
     private route: ActivatedRoute,
+    private auditService: AuditService,
     private typeService: TypeService,
     private featureService: FeatureService,
     private toastService: ToastService,
@@ -34,6 +37,12 @@ export class TypeListComponent implements OnInit {
         map(ts => ts.filter(t => t.type === type)),
       )),
     ).subscribe(types => this.types = types);
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.findOne(aid, [])),
+    ).subscribe(audit => {
+      this.audit = audit;
+    });
   }
 
   createType(type: ApplianceType, subType?: ApplianceType) {
