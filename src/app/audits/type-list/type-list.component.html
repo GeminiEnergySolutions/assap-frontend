@@ -1,9 +1,9 @@
 <div class="list-group rounded-0">
-  <button *ngIf="!type.subTypes"
+  <button *ngIf="type && !type.subTypes"
           class="list-group-item list-group-item-action text-success" (click)="createType(type)">
     New {{ type.name }}
   </button>
-  <details *ngIf="type.subTypes" class="list-group-item text-success">
+  <details *ngIf="type && type.subTypes" class="list-group-item text-success">
     <summary>New</summary>
     <button *ngFor="let subType of type.subTypes" class="btn btn-sm btn-link text-success"
             (click)="createType(type, subType)">
@@ -12,7 +12,7 @@
   </details>
   <a *ngFor="let item of types"
      class="list-group-item list-group-item-action d-flex align-items-center"
-     [routerLink]="[routerPrefix + item.id]"
+     [routerLink]="''+item.id"
      routerLinkActive="active text-white"
   >
     <div class="flex-grow-1">
@@ -21,7 +21,7 @@
     </div>
     <app-options-dropdown class="visible-hover">
       <button ngbDropdownItem (click)="rename(item)">Rename</button>
-      <ng-container *ngIf="audit.pendingChanges === undefined">
+      <ng-container *ngIf="audit && $any(audit).pendingChanges === undefined">
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
       </ng-container>

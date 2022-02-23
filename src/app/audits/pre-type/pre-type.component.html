@@ -8,6 +8,5 @@
       <li class="breadcrumb-item active" aria-current="page">{{type?.name}}</li>
     </ol>
   </nav>
-  <app-type-list list *ngIf="type && audit && zone && types"
-                 [audit]="audit" [zone]="zone" [types]="types" [type]="type"></app-type-list>
+  <app-type-list list></app-type-list>
 </app-master-detail>

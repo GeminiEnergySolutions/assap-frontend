@@ -7,6 +7,7 @@ import {PhotosComponent} from './photos/photos.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
+import {TypeListComponent} from './type-list/type-list.component';
 import {TypeComponent} from './type/type.component';
 import {ZoneListComponent} from './zone-list/zone-list.component';
 import {ZoneComponent} from './zone/zone.component';
@@ -32,7 +33,13 @@ const routes: Routes = [
     path: ':aid/zones',
     component: PreZoneComponent,
     children: [
-      {path: ':zid', component: ZoneComponent},
+      {
+        path: ':zid',
+        component: ZoneComponent,
+        children: [
+          {path: ':type', component: TypeListComponent},
+        ],
+      },
     ],
   },
   {

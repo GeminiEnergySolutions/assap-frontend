@@ -14,8 +14,8 @@ export class ZoneService {
   ) {
   }
 
-  get(audit: AuditIdDto, zoneId: Zone['id']): Observable<Zone> {
-    return this.auditService.findOne(audit.auditId).pipe(
+  get(auditId: string, zoneId: Zone['id']): Observable<Zone> {
+    return this.auditService.findOne(auditId).pipe(
       map(audit => audit?.zone[zoneId]!),
     );
   }
