@@ -14,14 +14,14 @@ export class TypeService {
   ) {
   }
 
-  get(audit: AuditIdDto, zoneId: Zone['id'], typeId: Type['id']): Observable<Type> {
-    return this.auditService.findOne(audit.auditId).pipe(
+  get(auditId: string, zoneId: Zone['id'], typeId: Type['id']): Observable<Type> {
+    return this.auditService.findOne(auditId, ['type']).pipe(
       map(audit => audit?.type[typeId]!),
     );
   }
 
-  getAll(audit: AuditIdDto, zoneId: Zone['id']): Observable<Type[]> {
-    return this.auditService.findOne(audit.auditId).pipe(
+  getAll(auditId: string, zoneId: Zone['id']): Observable<Type[]> {
+    return this.auditService.findOne(auditId, ['zone', 'type']).pipe(
       map(audit => audit ? audit.zone[zoneId].typeId.map(t => audit.type[t]) : []),
     );
   }

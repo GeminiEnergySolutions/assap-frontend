@@ -15,13 +15,13 @@ export class ZoneService {
   }
 
   get(auditId: string, zoneId: Zone['id']): Observable<Zone> {
-    return this.auditService.findOne(auditId).pipe(
+    return this.auditService.findOne(auditId, ['zone']).pipe(
       map(audit => audit?.zone[zoneId]!),
     );
   }
 
   getAll(auditId: string): Observable<Zone[]> {
-    return this.auditService.findOne(auditId).pipe(
+    return this.auditService.findOne(auditId, ['zone']).pipe(
       map(audit => audit ? Object.values(audit.zone) : []),
     );
   }

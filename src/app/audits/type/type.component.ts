@@ -47,7 +47,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     });
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findOne(aid)),
+      switchMap(({aid}) => this.auditService.findOne(aid, ['ACL'])),
     ).subscribe(audit => {
       this.audit = audit;
     });
