@@ -1,9 +1,11 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Audit, Zone} from '../model/audit.interface';
+import {AuditIdDto, Zone} from '../model/audit.interface';
 import {ZoneService} from '../zone.service';
 
 @Component({
@@ -11,11 +13,14 @@ import {ZoneService} from '../zone.service';
   templateUrl: './zone-list.component.html',
   styleUrls: ['./zone-list.component.scss'],
 })
-export class ZoneListComponent {
-  @Input() audit!: Audit;
+export class ZoneListComponent implements OnInit {
+  audit?: AuditIdDto;
+  zones?: Zone[];
+
   @Input() routerPrefix = '';
 
   constructor(
+    private route: ActivatedRoute,
     private auditService: AuditService,
     private zoneService: ZoneService,
     private featureService: FeatureService,
@@ -23,14 +28,23 @@ export class ZoneListComponent {
   ) {
   }
 
+  ngOnInit() {
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.findOne(aid, ['zone'])),
+    ).subscribe(audit => {
+      this.audit = audit;
+      this.zones = Object.values(audit?.zone ?? {});
+    });
+  };
+
   createZone() {
     const name = prompt('New Zone Name');
     if (!name) {
       return;
     }
 
-    this.zoneService.create(this.audit, {name}).subscribe(zone => {
-      this.audit.zone[zone.id] = zone;
+    this.zoneService.create(this.audit!, {name}).subscribe(zone => {
+      this.zones?.push(zone);
     }, error => {
       this.toastService.error('Zone', 'Failed to create zone', error);
     });
@@ -41,7 +55,7 @@ export class ZoneListComponent {
     if (!name) {
       return;
     }
-    this.zoneService.update(this.audit, zone.id, {name}).subscribe(() => {
+    this.zoneService.update(this.audit!, zone.id, {name}).subscribe(() => {
       zone.name = name;
     }, error => {
       this.toastService.error('Zone', 'Failed to rename zone', error);
@@ -53,9 +67,18 @@ export class ZoneListComponent {
       return;
     }
     forkJoin([
-      this.zoneService.delete(this.audit, zone),
+      this.zoneService.delete(this.audit!, zone),
       this.featureService.deleteAll({zoneId: zone.id.toString()}),
-    ]).subscribe(undefined, error => {
+    ]).subscribe(() => {
+      if (!this.zones) {
+        return;
+      }
+
+      const index = this.zones.indexOf(zone);
+      if (index >= 0) {
+        this.zones.splice(index, 1);
+      }
+    }, error => {
       this.toastService.error('Zone', 'Failed to delete zone', error);
     });
   }

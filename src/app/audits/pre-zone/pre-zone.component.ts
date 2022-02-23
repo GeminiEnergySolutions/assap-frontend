@@ -10,7 +10,7 @@ import {Audit} from '../model/audit.interface';
   styleUrls: ['./pre-zone.component.scss'],
 })
 export class PreZoneComponent implements OnInit {
-  audit?: Audit;
+  audit?: Pick<Audit, 'name'>;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,7 +20,7 @@ export class PreZoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findOne(aid)),
+      switchMap(({aid}) => this.auditService.findOne(aid, ['name'])),
     ).subscribe(audit => {
       this.audit = audit;
     });
