@@ -1,16 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/forms.interface';
 import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Audit, Type} from '../model/audit.interface';
+import {Audit, MinAuditKeys, Type} from '../model/audit.interface';
 import {Feature, FeatureData} from '../model/feature.interface';
 import {Types} from '../model/types';
+import {TypeService} from '../type.service';
+
+type MyAudit = Pick<Audit, 'ACL' | MinAuditKeys>;
 
 @Component({
   selector: 'app-type',
@@ -21,12 +24,13 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
   @ViewChild('form', {static: false}) form?: FormComponent;
 
   feature?: Feature;
-  audit?: Audit;
+  audit?: MyAudit;
   type?: Type;
   data?: FeatureData;
   schemaId?: string;
 
   constructor(
+    private typeService: TypeService,
     private auditService: AuditService,
     private featureService: FeatureService,
     private toastService: ToastService,
@@ -36,24 +40,28 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid, zid, tid}) => forkJoin([
-        of(tid),
-        this.auditService.findOne(aid),
-        this.featureService.findAll({
-          belongsTo: 'type',
-          auditId: aid,
-          zoneId: zid,
-          typeId: tid,
-        }),
-      ])),
-    ).subscribe(([typeId, audit, features]) => {
-      this.audit = audit;
-      const type = audit?.type[typeId];
+      switchMap(({aid, zid, tid}) => this.typeService.get(aid, +zid, +tid)),
+    ).subscribe(type => {
       this.type = type;
       this.schemaId = this.getSchemaId(type);
+    });
 
-      this.feature = features[0];
-      this.data = this.feature ? this.featureService.feature2Data(this.feature) : {};
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.findOne(aid)),
+    ).subscribe(audit => {
+      this.audit = audit;
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid, tid}) => this.featureService.findAll({
+        belongsTo: 'type',
+        auditId: aid,
+        zoneId: zid,
+        typeId: tid,
+      })),
+    ).subscribe(([feature]) => {
+      this.feature = feature;
+      this.data = feature ? this.featureService.feature2Data(this.feature) : {};
     });
   }
 
