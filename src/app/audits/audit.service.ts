@@ -23,7 +23,7 @@ export class AuditService {
   }
 
   findOne<K extends keyof Audit>(auditId: string, keys?: K[]): Observable<Pick<Audit, K | MinAuditKeys> | undefined> {
-    const realKeys: (K | MinAuditKeys)[] = [...(keys ?? []), 'auditId'];
+    const realKeys: (K | MinAuditKeys)[] | undefined = keys ? [...keys, 'auditId'] : undefined;
     const offlineAudit = this.offlineAuditService.findOne(auditId);
     return this.parseAuditService.findAll({auditId}, realKeys).pipe(
       catchError(() => of([])),
