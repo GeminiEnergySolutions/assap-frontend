@@ -30,7 +30,7 @@ export class ZoneListComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findOne(aid, ['zone'])),
+      switchMap(({aid}) => this.auditService.findOne(aid, [])),
     ).subscribe(audit => {
       this.audit = audit;
     });
