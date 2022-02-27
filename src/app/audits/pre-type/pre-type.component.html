@@ -1,6 +1,6 @@
 <app-master-detail>
   <nav breadcrumb aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb p-3 bg-light bg-darkmode-dark">
       <li class="breadcrumb-item"><a routerLink="../../../..">Audits</a></li>
       <li class="breadcrumb-item"><a routerLink="../../..">{{audit?.name}}</a></li>
       <li class="breadcrumb-item"><a routerLink="../..">Zones</a></li>
@@ -8,6 +8,5 @@
       <li class="breadcrumb-item active" aria-current="page">{{type}}</li>
     </ol>
   </nav>
-  <app-type-list list *ngIf="type && audit && zone && types"
-                 [audit]="audit" [zone]="zone" [types]="types" [type]="type"></app-type-list>
+  <app-type-list list></app-type-list>
 </app-master-detail>

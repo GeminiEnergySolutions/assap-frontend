@@ -101,24 +101,25 @@ export class OfflineAuditService {
     return audit;
   }
 
-  update(audit: Audit, delta?: UpdateAuditDto, apply?: (a: Audit) => Audit): Audit | undefined {
-    const key = `audits/${audit.auditId}`;
+  update(auditId: string, delta: UpdateAuditDto, apply: (a: Audit) => void): boolean {
+    const key = `audits/${auditId}`;
     const value = localStorage.getItem(key);
     if (!value) {
       // not saved offline
-      return undefined;
+      return false;
     }
 
-    const applied = apply ? apply(audit) : audit;
-    applied.pendingChanges = (applied.pendingChanges || 0) + (delta ? 1 : 0);
-    localStorage.setItem(key, JSON.stringify(applied));
+    const audit = JSON.parse(value);
+    apply(audit);
+    audit.pendingChanges = (audit.pendingChanges || 0) + (delta ? 1 : 0);
+    localStorage.setItem(key, JSON.stringify(audit));
 
-    if (delta && !applied.objectId.startsWith('local.')) {
-      const deltaKey = `audits/${applied.auditId}/delta/${+new Date()}`;
+    if (delta && !audit.objectId.startsWith('local.')) {
+      const deltaKey = `audits/${audit.auditId}/delta/${+new Date()}`;
       localStorage.setItem(deltaKey, JSON.stringify(delta));
     }
 
-    return applied;
+    return true;
   }
 
   deleteDeltas(audit: Pick<Audit, 'auditId' | 'pendingChanges'>): void {

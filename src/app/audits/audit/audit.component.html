@@ -1,17 +1,17 @@
 <div class="container">
   <h1>
     <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-    {{ selectedAudit?.name }}
+    {{ audit?.name }}
   </h1>
 
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+  <ul ngbNav #nav="ngbNav" [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">
-      <a ngbNavLink>Preaudit</a>
+      <a ngbNavLink routerLink=".">Preaudit</a>
       <ng-template ngbNavContent>
         <div class="container">
           <app-form
             #form
-            *ngIf="selectedAudit"
+            *ngIf="data"
             [schemaId]="{type: 'Preaudit', subtype: null}"
             [data]="data"
             (saved)="save($event[0], $event[1])"
@@ -19,25 +19,17 @@
         </div>
       </ng-template>
     </li>
-    <li ngbNavItem="zone">
-      <a ngbNavLink>Zone</a>
-      <ng-template ngbNavContent>
-        <app-zone-list *ngIf="selectedAudit" [audit]="selectedAudit" routerPrefix="zones/"></app-zone-list>
-      </ng-template>
+    <li ngbNavItem="zones">
+      <a ngbNavLink routerLink="zones">Zone</a>
     </li>
     <li ngbNavItem="photos">
-      <a ngbNavLink>Photos</a>
-      <ng-template ngbNavContent>
-        <app-photos></app-photos>
-      </ng-template>
+      <a ngbNavLink routerLink="photos">Photos</a>
     </li>
     <li ngbNavItem="access">
-      <a ngbNavLink>Access Control</a>
-      <ng-template ngbNavContent>
-        <app-access-control *ngIf="selectedAudit" [audit]="selectedAudit"></app-access-control>
-      </ng-template>
+      <a ngbNavLink routerLink="access">Access Control</a>
     </li>
   </ul>
 
+  <router-outlet></router-outlet>
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>

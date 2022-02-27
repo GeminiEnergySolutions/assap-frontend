@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {AuditService} from '../audit.service';
-import {Audit} from '../model/audit.interface';
+import {Audit, MinAuditKeys} from '../model/audit.interface';
+
+type MyAudit = Pick<Audit, 'name' | MinAuditKeys>;
 
 @Component({
   selector: 'app-pre-zone',
@@ -10,7 +12,7 @@ import {Audit} from '../model/audit.interface';
   styleUrls: ['./pre-zone.component.scss'],
 })
 export class PreZoneComponent implements OnInit {
-  audit?: Audit;
+  audit?: MyAudit;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,7 +22,7 @@ export class PreZoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findOne(aid)),
+      switchMap(({aid}) => this.auditService.findOne(aid, ['name'])),
     ).subscribe(audit => {
       this.audit = audit;
     });

@@ -1,23 +1,13 @@
 <div class="container">
   <h1>
     <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-    {{ selectedZone?.name }}
+    {{ zone?.name }}
   </h1>
 
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+  <ul ngbNav [activeId]="route.firstChild?.snapshot?.params?.type" class="nav-tabs">
     <li *ngFor="let type of types" [ngbNavItem]="type">
-      <a ngbNavLink>{{type}}</a>
-      <ng-template ngbNavContent>
-        <app-type-list
-          *ngIf="audit && selectedZone"
-          [types]="groupedTypes[type]"
-          [audit]="audit"
-          [zone]="selectedZone"
-          [type]="type"
-          [routerPrefix]="type + '/'"
-        ></app-type-list>
-      </ng-template>
+      <a ngbNavLink [routerLink]="type">{{type}}</a>
     </li>
   </ul>
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  <router-outlet></router-outlet>
 </div>

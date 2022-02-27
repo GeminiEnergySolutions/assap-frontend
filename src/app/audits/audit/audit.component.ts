@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/schema';
@@ -19,27 +19,28 @@ import {Feature, FeatureData} from '../model/feature.interface';
 export class AuditComponent implements OnInit, SaveableChangesComponent {
   @ViewChild('form', {static: false}) form?: FormComponent;
 
-  selectedAudit?: Audit;
+  audit?: Pick<Audit, 'name' | 'auditId' | 'ACL'>;
   feature?: Feature;
-  data: FeatureData = {};
-  activeTab: 'preaudit' | 'zone' = 'preaudit';
+  data?: FeatureData;
 
   constructor(
     private auditService: AuditService,
     private featureService: FeatureService,
     private toastService: ToastService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => forkJoin([
-        this.auditService.findOne(aid),
-        this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'}),
-      ])),
-    ).subscribe(([audit, features]) => {
-      this.selectedAudit = audit;
+      switchMap(({aid}) => this.auditService.findOne(aid, ['name', 'ACL'])),
+    ).subscribe(audit => {
+      this.audit = audit;
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'})),
+    ).subscribe(features => {
       this.feature = features[0];
       this.data = features[0] ? this.featureService.feature2Data(features[0]) : {};
     });
@@ -50,7 +51,7 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   }
 
   save(schema: Schema, data: object) {
-    if (!this.selectedAudit) {
+    if (!this.audit) {
       return;
     }
 
@@ -60,7 +61,7 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
       op = this.featureService.update(this.feature, update);
     } else {
       const feature = this.featureService.data2Feature(schema, data);
-      const {auditId, ACL} = this.selectedAudit;
+      const {auditId, ACL} = this.audit;
       op = this.featureService.create({
         auditId,
         belongsTo: 'preaudit',

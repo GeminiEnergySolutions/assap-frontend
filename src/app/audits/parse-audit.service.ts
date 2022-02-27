@@ -4,7 +4,7 @@ import {mapTo} from 'rxjs/operators';
 import {ParseObject} from '../parse/parse-object.interface';
 import {ParseService} from '../parse/parse.service';
 import {IdService} from './id.service';
-import {Audit, CreateAuditDto, UpdateAuditDto} from './model/audit.interface';
+import {Audit, CreateAuditDto, MinAuditKeys, UpdateAuditDto} from './model/audit.interface';
 
 @Injectable()
 export class ParseAuditService {
@@ -15,8 +15,11 @@ export class ParseAuditService {
   ) {
   }
 
-  findAll(filter: Partial<Audit> = {}): Observable<Audit[]> {
-    return this.parseService.findAll<Audit>(`rAudit`, filter);
+  findAll<K extends keyof Audit>(filter: Partial<Audit> = {}, keys?: (K | MinAuditKeys)[]): Observable<Pick<Audit, K | MinAuditKeys>[]> {
+    if (keys && !keys.includes('auditId')) {
+      keys.push('auditId');
+    }
+    return this.parseService.findAll<Audit>(`rAudit`, filter, {keys});
   }
 
   create(dto: CreateAuditDto): Observable<Audit> {
@@ -46,7 +49,7 @@ export class ParseAuditService {
     }))).pipe(mapTo(undefined));
   }
 
-  delete({objectId}: Pick<Audit, 'objectId'>): Observable<void> {
+  delete(objectId: string): Observable<void> {
     return this.parseService.delete('rAudit', objectId);
   }
 }

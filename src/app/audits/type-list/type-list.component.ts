@@ -1,11 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
 import {forkJoin} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {SchemaService} from '../../forms/schema.service';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
-import {Audit, Type, Zone} from '../model/audit.interface';
+import {Audit, MinAuditKeys, Type} from '../model/audit.interface';
 import {TypeService} from '../type.service';
+
+type MyAudit = Pick<Audit, MinAuditKeys>;
 
 @Component({
   selector: 'app-type-list',
@@ -13,15 +17,14 @@ import {TypeService} from '../type.service';
   styleUrls: ['./type-list.component.scss'],
 })
 export class TypeListComponent implements OnInit {
-  @Input() audit!: Audit;
-  @Input() zone!: Zone;
-  @Input() types!: Type[];
-  @Input() type!: string;
-  @Input() routerPrefix = '';
+  audit?: MyAudit;
+  type!: string;
+  types?: Type[];
 
   subtypes: string[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private auditService: AuditService,
     private typeService: TypeService,
     private featureService: FeatureService,
@@ -31,24 +34,40 @@ export class TypeListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.schemaService.loadSchemas(this.type, undefined, ['subtype']).subscribe(schemas => {
+    this.route.params.pipe(
+      tap(({type}) => this.type = type),
+      switchMap(({type}) => this.schemaService.loadSchemas(type, undefined, ['subtype'])),
+    ).subscribe(schemas => {
       this.subtypes = Array.from(new Set(schemas.filter(s => s.subtype).map(s => s.subtype!))).sort();
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid, type}) => this.typeService.getAll(aid, +zid).pipe(
+        map(ts => ts.filter(t => t.type === type)),
+      )),
+    ).subscribe(types => this.types = types);
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.findOne(aid, [])),
+    ).subscribe(audit => {
+      this.audit = audit;
     });
   }
 
   createType(type: string, subtype: string | null) {
-    const name = prompt(`New ${subtype || type} Name`);
+    const displayType = subtype || type;
+    const name = prompt(`New ${displayType} Name`);
     if (!name) {
       return;
     }
-    this.typeService.create(this.audit, this.zone, {
+    this.typeService.create(this.audit!, +this.route.snapshot.params.zid, {
       type,
       subtype,
       name,
     }).subscribe(type => {
-      this.types.push(type);
+      this.types?.push(type);
     }, error => {
-      this.toastService.error(subtype || type, `Failed to create ${subtype || type}`, error);
+      this.toastService.error(subtype || type, `Failed to create ${displayType}`, error);
     });
   }
 
@@ -57,7 +76,7 @@ export class TypeListComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.typeService.update(this.audit, type.id, {name}).subscribe(undefined, error => {
+    this.typeService.update(this.audit!, type.id, {name}).subscribe(undefined, error => {
       this.toastService.error('Type', 'Failed to rename type', error);
     });
   }
@@ -67,9 +86,13 @@ export class TypeListComponent implements OnInit {
       return;
     }
     forkJoin([
-      this.typeService.delete(this.audit, type.zoneId, type.id),
+      this.typeService.delete(this.audit!, type.zoneId, type.id),
       this.featureService.deleteAll({typeId: type.id.toString()}),
     ]).subscribe(() => {
+      if (!this.types) {
+        return;
+      }
+
       const index = this.types.indexOf(type);
       if (index >= 0) {
         this.types.splice(index, 1);

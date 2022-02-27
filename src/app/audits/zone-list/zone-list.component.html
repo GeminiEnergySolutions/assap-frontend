@@ -2,18 +2,18 @@
   <button class="list-group-item list-group-item-action text-success" (click)="createZone()">
     New Zone
   </button>
-  <a *ngFor="let keyValue of audit.zone | keyvalue"
+  <a *ngFor="let zone of zones"
      class="list-group-item list-group-item-action d-flex align-items-center"
-     [routerLink]="[routerPrefix + keyValue.value.id]" routerLinkActive="active"
+     [routerLink]="''+zone.id" routerLinkActive="active"
   >
     <div class="flex-grow-1">
-      {{keyValue.value.name}}
+      {{zone.name}}
     </div>
     <app-options-dropdown class="visible-hover">
-      <button ngbDropdownItem (click)="rename(keyValue.value)">Rename</button>
-      <ng-container *ngIf="audit.pendingChanges === undefined">
+      <button ngbDropdownItem (click)="rename(zone)">Rename</button>
+      <ng-container *ngIf="audit && audit.pendingChanges === undefined">
         <div class="dropdown-divider"></div>
-        <button ngbDropdownItem class="text-danger" (click)="delete(keyValue.value)">Delete</button>
+        <button ngbDropdownItem class="text-danger" (click)="delete(zone)">Delete</button>
       </ng-container>
     </app-options-dropdown>
   </a>

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {mapTo} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
 import {IdService} from './id.service';
-import {Audit, Zone} from './model/audit.interface';
+import {AuditIdDto, Zone} from './model/audit.interface';
 
 @Injectable()
 export class ZoneService {
@@ -14,7 +14,19 @@ export class ZoneService {
   ) {
   }
 
-  create(audit: Audit, dto: Partial<Zone>): Observable<Zone> {
+  get(auditId: string, zoneId: Zone['id']): Observable<Zone> {
+    return this.auditService.findOne(auditId, ['zone']).pipe(
+      map(audit => audit?.zone[zoneId]!),
+    );
+  }
+
+  getAll(auditId: string): Observable<Zone[]> {
+    return this.auditService.findOne(auditId, ['zone']).pipe(
+      map(audit => audit ? Object.values(audit.zone) : []),
+    );
+  }
+
+  create(audit: AuditIdDto, dto: Partial<Zone>): Observable<Zone> {
     const {id, mod} = this.idService.randomIdAndMod();
     const zone: Zone = {
       id,
@@ -24,26 +36,20 @@ export class ZoneService {
       typeId: [],
       ...dto,
     };
-    return this.auditService.update(audit, {[`zone.${id}`]: zone}, audit => {
-      audit.zone[id] = zone;
-      return audit;
-    }).pipe(
+    return this.auditService.update(audit, {[`zone.${id}`]: zone}, audit => audit.zone[id] = zone).pipe(
       mapTo(zone),
     );
   }
 
-  update(audit: Audit, zoneId: Zone['id'], update: Partial<Zone>): Observable<Audit> {
+  update(audit: AuditIdDto, zoneId: Zone['id'], update: Partial<Zone>): Observable<void> {
     const updateAudit: any = {};
     for (const [key, value] of Object.entries(update)) {
       updateAudit[`zone.${zoneId}.${key}`] = value;
     }
-    return this.auditService.update(audit, updateAudit, audit => {
-      Object.assign(audit.zone[zoneId], update);
-      return audit;
-    });
+    return this.auditService.update(audit, updateAudit, audit => Object.assign(audit.zone[zoneId], update));
   }
 
-  delete(audit: Audit, {id, typeId}: Pick<Zone, 'id' | 'typeId'>): Observable<Audit> {
+  delete(audit: AuditIdDto, {id, typeId}: Pick<Zone, 'id' | 'typeId'>): Observable<void> {
     const update = {
       [`zone.${id}`]: {__op: 'Delete'},
     };
@@ -55,7 +61,6 @@ export class ZoneService {
       for (const tid of typeId) {
         delete audit.type[tid];
       }
-      return audit;
     });
   }
 }

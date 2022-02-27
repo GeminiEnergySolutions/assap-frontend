@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {mapTo} from 'rxjs/operators';
+import {map, mapTo} from 'rxjs/operators';
 import {AuditService} from './audit.service';
 import {IdService} from './id.service';
-import {Audit, CreateAuditDto, Type, Zone} from './model/audit.interface';
+import {AuditIdDto, Type, Zone} from './model/audit.interface';
 
 @Injectable()
 export class TypeService {
@@ -14,37 +14,45 @@ export class TypeService {
   ) {
   }
 
-  create(audit: Audit, zone: Zone, dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
+  get(auditId: string, zoneId: Zone['id'], typeId: Type['id']): Observable<Type> {
+    return this.auditService.findOne(auditId, ['type']).pipe(
+      map(audit => audit?.type[typeId]!),
+    );
+  }
+
+  getAll(auditId: string, zoneId: Zone['id']): Observable<Type[]> {
+    return this.auditService.findOne(auditId, ['zone', 'type']).pipe(
+      map(audit => audit ? audit.zone[zoneId].typeId.map(t => audit.type[t]) : []),
+    );
+  }
+
+  create(audit: AuditIdDto, zoneId: Zone['id'], dto: Omit<Type, 'id' | 'mod' | 'usn' | 'zoneId'>): Observable<Type> {
     const {id, mod} = this.idService.randomIdAndMod();
     const type: Type = {
       id,
       mod,
       usn: 0,
-      zoneId: zone.id,
+      zoneId,
       ...dto,
     };
     return this.auditService.update(audit, {
       [`type.${id}`]: type,
-      [`zone.${zone.id}.typeId`]: {__op: 'AddUnique', 'objects': [id]},
+      [`zone.${zoneId}.typeId`]: {__op: 'AddUnique', 'objects': [id]},
     }, audit => {
       audit.type[id] = type;
-      zone.typeId.push(id);
-      return audit;
+      audit.zone[zoneId].typeId.push(id);
     }).pipe(mapTo(type));
   }
 
-  update(audit: Audit, typeId: Type['id'], update: Partial<Type>): Observable<Audit> {
+  update(audit: AuditIdDto, typeId: Type['id'], update: Partial<Type>): Observable<void> {
     const updateAudit: any = {};
     for (const [key, value] of Object.entries(update)) {
       updateAudit[`type.${typeId}.${key}`] = value;
     }
-    return this.auditService.update(audit, updateAudit, audit => {
-      Object.assign(audit.type[typeId], update);
-      return audit;
-    });
+    return this.auditService.update(audit, updateAudit, audit => Object.assign(audit.type[typeId], update));
   }
 
-  delete(audit: Audit, zoneId: Type['zoneId'], typeId: Type['id']): Observable<Audit> {
+  delete(audit: AuditIdDto, zoneId: Type['zoneId'], typeId: Type['id']): Observable<void> {
     return this.auditService.update(audit, {
       [`type.${typeId}`]: {__op: 'Delete'},
       [`zone.${zoneId}.typeId`]: {__op: 'Remove', objects: [typeId]},
@@ -55,7 +63,6 @@ export class TypeService {
       if (index >= 0) {
         zone.typeId.splice(index, 1);
       }
-      return audit;
     });
   }
 }

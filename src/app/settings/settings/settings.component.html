@@ -2,7 +2,7 @@
   <h1>Settings</h1>
   <h2 class="d-flex align-items-center">
     Parse Server Profiles
-    <a class="btn btn-success bi-plus-circle ml-auto" [routerLink]="['profiles', 'new']">
+    <a class="btn btn-success bi-plus-circle ms-auto" [routerLink]="['profiles', 'new']">
       Add
     </a>
   </h2>
@@ -11,30 +11,30 @@
       *ngFor="let profile of profiles | keyvalue"
       class="list-group-item d-flex align-items-center"
     >
-      <div class="mr-auto">
+      <div class="me-auto">
         {{ profile.value.name }}
         <span class="text-muted">
           {{ profile.value.url }}
         </span>
       </div>
-      <div *ngIf="profile.key === activeProfile" class="bi-check-circle text-primary">
+      <button *ngIf="profile.key === activeProfile" class="btn btn-outline-secondary bi-check-circle" disabled>
         Active
-      </div>
-      <button class="btn btn-primary bi-check-circle ml-2" *ngIf="profile.key !== activeProfile" (click)="setActiveProfile(profile.key)">
+      </button>
+      <button class="btn btn-primary bi-check-circle ms-2" *ngIf="profile.key !== activeProfile" (click)="setActiveProfile(profile.key)">
         Select
       </button>
-      <a class="btn btn-secondary bi-pencil ml-2" [routerLink]="['profiles', profile.key]">
+      <a class="btn btn-secondary bi-pencil ms-2" [routerLink]="['profiles', profile.key]">
         Edit
       </a>
     </li>
   </ul>
   <h2>CompanyCam</h2>
-  <div class="form">
-    <div class="form-group">
-      <label for="companyCamApiKeyInput">API Key</label>
+  <div class="mb-3">
+    <div class="mb-3">
+      <label for="companyCamApiKeyInput" class="form-label">API Key</label>
       <input type="password" class="form-control" id="companyCamApiKeyInput" autocomplete="off" [(ngModel)]="companycamApiKey">
     </div>
-    <button type="button" class="btn btn-primary mr-2" (click)="saveCompanycam()">
+    <button type="button" class="btn btn-primary me-2" (click)="saveCompanycam()">
       Save
     </button>
     <button type="button" class="btn btn-success" (click)="testCompanycam()">

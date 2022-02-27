@@ -9,14 +9,16 @@ import {Project} from '../../companycam/model/project';
 import {AuditService} from '../audit.service';
 import {Audit} from '../model/audit.interface';
 
+type MyAudit = Pick<Audit, 'name'>;
+
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
 })
 export class PhotosComponent implements OnInit {
-  audit?: Audit;
-  project?: Project;
+  audit?: MyAudit;
+  project?: Project | null;
   photos: Photo[] = [];
 
   apiKey = true;
@@ -36,10 +38,10 @@ export class PhotosComponent implements OnInit {
     }
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.findOne(aid)),
+      switchMap(({aid}) => this.auditService.findOne(aid, ['name'])),
       tap(audit => this.audit = audit),
       switchMap(audit => audit ? this.companycamService.getProjects(audit.name) : of([])),
-      tap(([project]) => this.project = project),
+      tap(projects => this.project = projects.length ? projects[0] : null),
       switchMap(([project]) => project ? this.companycamService.getPhotos(project.id) : []),
     ).subscribe(photos => {
       this.photos = photos;
