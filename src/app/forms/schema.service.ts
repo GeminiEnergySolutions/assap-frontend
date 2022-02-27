@@ -17,7 +17,18 @@ export class SchemaService {
   }
 
   loadSchemas<K extends keyof Schema>(type?: string, subtype?: string | null, keys?: K[]): Observable<Pick<Schema, K>[]> {
-    return this.parseService.findAll<Schema>('Form', {type, subtype}, {keys}).pipe(
+    return this.parseService.findAll<Schema>('Form', {type, subtype}, {
+      keys,
+      order: ['updatedAt'],
+    }).pipe(
+      map(schemas => {
+        if (keys && !(keys.includes('type' as K) || !keys.includes('subtype' as K))) {
+          return schemas;
+        }
+
+        const mapped = new Map<string, Schema>(schemas.map(s => [s.type + '/' + s.subtype, s]));
+        return Array.from(mapped.values());
+      }),
       tap(schemas => {
         if (keys) {
           return;
