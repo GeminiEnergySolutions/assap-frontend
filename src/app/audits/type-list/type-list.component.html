@@ -5,7 +5,7 @@
   </button>
   <details *ngIf="subtypes.length" class="list-group-item text-success">
     <summary>New</summary>
-    <button *ngFor="let subtype of subtypes" class="btn btn-sm btn-link text-success"
+    <button *ngFor="let subtype of subtypes" class="btn btn-sm btn-link link-success"
             (click)="createType(type, subtype)">
       {{ subtype }}
     </button>
