@@ -23,7 +23,7 @@ export class ZoneComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.schemaService.loadSchemas(undefined, null, ['type']).subscribe(schemas => {
+    this.schemaService.loadSchemas(undefined, undefined, ['type']).subscribe(schemas => {
       this.types = Array.from(new Set(schemas.map(s => s.type).filter(t => t !== 'Preaudit')));
     });
 
