@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Feature} from './model/feature.interface';
 
 @Injectable()
@@ -7,13 +7,15 @@ export class OfflineFeatureService {
   constructor() { }
 
   findAll(filter: Partial<Feature>): Feature[] {
-    if (filter.auditId && !filter.typeId) {
+    if (filter.auditId && filter.typeId === null) {
       const key = `audits/${filter.auditId}/features/preaudit`;
       const value = localStorage.getItem(key);
       return value ? [JSON.parse(value)] : [];
     }
 
-    const pattern = new RegExp(`^audits/${filter.auditId || '\\w+'}/features/${filter.typeId || 'preaudit'}$`);
+    const auditIdPattern = filter.auditId || '\\w+';
+    const typeIdPattern = filter.typeId === null ? 'preaudit' : filter.typeId === undefined ? '\\w+' : filter.typeId;
+    const pattern = new RegExp(`^audits/${auditIdPattern}/features/${typeIdPattern}$`);
     const result: Feature[] = [];
     outer: for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
