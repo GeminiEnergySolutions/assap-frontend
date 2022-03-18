@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {Observable} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/schema';
+import {SchemaService} from '../../forms/schema.service';
 import {SaveableChangesComponent} from '../../unsaved-changes.guard';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
@@ -22,11 +23,14 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   audit?: Pick<Audit, 'name' | 'auditId' | 'ACL'>;
   feature?: Feature;
   data?: FeatureData;
+  schema?: Schema;
+  serverUrl!: string;
 
   constructor(
     private auditService: AuditService,
     private featureService: FeatureService,
     private toastService: ToastService,
+    private schemaService: SchemaService,
     public route: ActivatedRoute,
   ) {
   }
@@ -39,10 +43,14 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
     });
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'})),
-    ).subscribe(features => {
-      this.feature = features[0];
-      this.data = features[0] ? this.featureService.feature2Data(features[0]) : {};
+      switchMap(({aid}) => forkJoin([
+        this.featureService.findAll({auditId: aid, belongsTo: 'preaudit'}),
+        this.schemaService.loadSchema({type: 'Preaudit', subtype: null}),
+      ])),
+    ).subscribe(([[feature], schema]) => {
+      this.feature = feature;
+      this.schema = schema;
+      this.data = schema && feature ? this.featureService.feature2Data(schema, feature) : {};
     });
   }
 
@@ -50,17 +58,17 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
     return !this.form?.dirty;
   }
 
-  save(schema: Schema, data: object) {
-    if (!this.audit) {
+  save(data: FeatureData) {
+    if (!this.audit || !this.schema) {
       return;
     }
 
     let op: Observable<Feature>;
     if (this.feature) {
-      const update = this.featureService.data2Feature(schema, data);
+      const update = this.featureService.data2Feature(this.schema, data);
       op = this.featureService.update(this.feature, update);
     } else {
-      const feature = this.featureService.data2Feature(schema, data);
+      const feature = this.featureService.data2Feature(this.schema, data);
       const {auditId, ACL} = this.audit;
       op = this.featureService.create({
         auditId,

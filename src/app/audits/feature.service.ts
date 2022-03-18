@@ -129,8 +129,8 @@ export class FeatureService {
     return this.parseFeatureService.deleteAll(filter);
   }
 
-  feature2Data(feature: Feature): FeatureData {
-    const data: Record<string, string> = {};
+  feature2Data(schema: Schema, feature: Feature): FeatureData {
+    const data: FeatureData = {};
     const formIds = feature.formId.split(RECORD_SEPARATOR);
     const values = feature.values.split(RECORD_SEPARATOR);
     const length = Math.min(formIds.length, values.length);
@@ -142,7 +142,7 @@ export class FeatureService {
     return data;
   }
 
-  data2Feature(schema: Schema, data: Data): Pick<Feature, 'dataType' | 'fields' | 'formId' | 'values'> {
+  data2Feature(schema: Schema, data: FeatureData): Pick<Feature, 'dataType' | 'fields' | 'formId' | 'values'> {
     const entries = Object.entries(data);
     const keys = entries.map(([key]) => key);
     const elements = keys.map(k => this.findElement(schema, k));

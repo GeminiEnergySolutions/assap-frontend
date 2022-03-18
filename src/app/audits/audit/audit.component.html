@@ -9,13 +9,7 @@
       <a ngbNavLink routerLink=".">Preaudit</a>
       <ng-template ngbNavContent>
         <div class="container">
-          <app-form
-            #form
-            *ngIf="data"
-            [schemaId]="{type: 'Preaudit', subtype: null}"
-            [data]="data"
-            (saved)="save($event[0], $event[1])"
-          ></app-form>
+          <app-form #form *ngIf="data && schema" [schema]="schema" [data]="data" (saved)="save($event)"></app-form>
         </div>
       </ng-template>
     </li>
