@@ -133,10 +133,25 @@ export class FeatureService {
     const data: FeatureData = {};
     const formIds = feature.formId.split(RECORD_SEPARATOR);
     const values = feature.values.split(RECORD_SEPARATOR);
-    const length = Math.min(formIds.length, values.length);
+    const fields = feature.fields.split(RECORD_SEPARATOR)
+    const length = Math.min(formIds.length, values.length, fields.length);
 
     for (let i = 0; i < length; i++) {
-      data[formIds[i]] = values[i];
+      const id = formIds[i];
+      const value = values[i];
+      const elementById = this.findElement(schema, 'id', id);
+      if (elementById) {
+        data[id] = value;
+      } else {
+        // form id no longer exists, try to migrate using field name
+        const elementByName = this.findElement(schema, 'param', fields[i]);
+        if (elementByName) {
+          data[elementByName.id] = value;
+        } else {
+          // not even found by name - keep it with the old id
+          data[id] = value
+        }
+      }
     }
 
     return data;
@@ -145,7 +160,7 @@ export class FeatureService {
   data2Feature(schema: Schema, data: FeatureData): Pick<Feature, 'dataType' | 'fields' | 'formId' | 'values'> {
     const entries = Object.entries(data);
     const keys = entries.map(([key]) => key);
-    const elements = keys.map(k => this.findElement(schema, k));
+    const elements = keys.map(k => this.findElement(schema, 'id', k));
     return {
       dataType: elements.map(e => e?.dataType ?? '').join(RECORD_SEPARATOR),
       fields: elements.map(e => e?.param ?? '').join(RECORD_SEPARATOR),
@@ -154,10 +169,10 @@ export class FeatureService {
     };
   }
 
-  private findElement(schema: Schema, id: string): Element | undefined {
+  private findElement(schema: Schema, key: keyof Element, value: string): Element | undefined {
     for (let section of schema.geminiForm) {
       for (let element of section.elements) {
-        if (element.id === id) {
+        if (element[key] === value) {
           return element;
         }
       }

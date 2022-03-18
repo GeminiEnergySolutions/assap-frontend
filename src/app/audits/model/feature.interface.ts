@@ -10,7 +10,7 @@ export interface Feature extends ParseObject {
 
   // the following are all tab-separated lists
   dataType?: string;
-  fields?: string;
+  fields: string;
   formId: string;
   values: string;
 }
