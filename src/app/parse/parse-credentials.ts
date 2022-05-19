@@ -4,4 +4,5 @@ export interface ParseCredentials {
   appId: string;
   masterKey?: string;
   sessionToken?: string;
+  reportUrl?: string;
 }

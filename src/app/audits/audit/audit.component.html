@@ -3,6 +3,9 @@
     <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
     {{ audit?.name }}
   </h1>
+  <a class="btn btn-success" [href]="serverUrl + '/api/v1/audits/' + audit?.auditId + '/report'" download="report.docx">
+    Generate Report
+  </a>
 
   <ul ngbNav #nav="ngbNav" [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">

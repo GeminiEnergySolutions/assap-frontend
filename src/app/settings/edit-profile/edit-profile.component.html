@@ -24,6 +24,11 @@
       Test
     </button>
   </div>
+  <h2>Reports</h2>
+  <div class="mb-3">
+    <label for="reportUrl" class="form-label">Report Service URL</label>
+    <input type="url" class="form-control" id="reportUrl" [(ngModel)]="credentials.reportUrl">
+  </div>
   <h2>User</h2>
   <h4 *ngIf="user">
     Logged in as <b>{{user.username}}</b>.

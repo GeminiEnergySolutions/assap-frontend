@@ -7,6 +7,7 @@ import {FormComponent} from '../../forms/form/form.component';
 import {Schema} from '../../forms/schema';
 import {SchemaService} from '../../forms/schema.service';
 import {SaveableChangesComponent} from '../../unsaved-changes.guard';
+import {ParseCredentialService} from '../../parse/parse-credential.service';
 import {AuditService} from '../audit.service';
 import {FeatureService} from '../feature.service';
 import {Audit} from '../model/audit.interface';
@@ -24,9 +25,10 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   feature?: Feature;
   data?: FeatureData;
   schema?: Schema;
-  serverUrl!: string;
+  serverUrl?: string;
 
   constructor(
+    private parseCredentialService: ParseCredentialService,
     private auditService: AuditService,
     private featureService: FeatureService,
     private toastService: ToastService,
@@ -36,6 +38,8 @@ export class AuditComponent implements OnInit, SaveableChangesComponent {
   }
 
   ngOnInit(): void {
+    this.serverUrl = this.parseCredentialService.credentials?.reportUrl;
+
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.findOne(aid, ['name', 'ACL'])),
     ).subscribe(audit => {
