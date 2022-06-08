@@ -32,10 +32,7 @@
     "zone.js": "~0.11.5"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1400.0",
     "@angular-devkit/build-angular": "^14.0.0",
-    "@angular-devkit/core": "^14.0.0",
-    "@angular-devkit/schematics": "^14.0.0",
     "@angular-eslint/builder": "~13.2.1",
     "@angular-eslint/eslint-plugin": "~13.2.1",
     "@angular-eslint/eslint-plugin-template": "~13.2.1",
@@ -49,7 +46,6 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
-    "angular-cli-ghpages": "~1.0.0",
     "eslint": "^8.17.0",
     "jasmine-core": "~3.8.0",
     "jasmine-spec-reporter": "~5.0.2",
