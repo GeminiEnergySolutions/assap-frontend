@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Deploy
-        if: github.ref == 'refs/heads/master'
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: pnpm run -- ng deploy --no-build --cname=conserve.clashsoft.de --name=Clashsoft --email=${{ secrets.EMAIL }}
