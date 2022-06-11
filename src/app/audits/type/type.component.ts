@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastService} from 'ng-bootstrap-ext';
 import {count, EMPTY, filter, forkJoin, from, mergeMap, Observable, of} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
@@ -45,6 +46,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     private route: ActivatedRoute,
     private companycamService: CompanycamService,
     private zoneService: ZoneService,
+    public modalService: NgbModal,
   ) {
   }
 
@@ -142,7 +144,7 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
         this.toastService.success('Tag', `Tagged ${count} new photos`);
         delete this.capturedSince;
       } else {
-        this.toastService.warn('Tag', 'No new photos to tag');
+        this.toastService.warn('Tag', 'No new photos to be tagged');
       }
     });
   }
