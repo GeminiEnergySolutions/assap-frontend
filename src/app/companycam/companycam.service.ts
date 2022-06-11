@@ -26,7 +26,13 @@ export class CompanycamService {
     });
   }
 
-  getPhotos(project: string): Observable<Photo[]> {
-    return this.http.get<Photo[]>(`https://api.companycam.com/v2/projects/${project}/photos`);
+  getPhotos(project: string, after?: Date): Observable<Photo[]> {
+    const params: Record<string, string> = {};
+    after && (params.start_date = after.toISOString());
+    return this.http.get<Photo[]>(`https://api.companycam.com/v2/projects/${project}/photos`, {params});
+  }
+
+  addTags(photo: string, tags: string[]): Observable<void> {
+    return this.http.post<void>(`https://api.companycam.com/v2/photos/${photo}/tags`, {tags});
   }
 }

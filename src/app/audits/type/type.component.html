@@ -5,6 +5,12 @@
     <span class="text-muted small">
       {{ type?.subtype }}
     </span>
+    <a class="btn btn-primary ms-2 bi-camera" [href]="'ccam://camera/' + project?.id | safe:'url'" (click)="startCapture()">
+      Capture Photo
+    </a>
+    <button [disabled]="!capturedSince" class="btn btn-warning ms-2 bi-tags" (click)="tag()">
+      Tag New Photos
+    </button>
   </h1>
 
   <app-form #form *ngIf="data && schema" [data]="data" [schema]="schema" (saved)="save($event)"></app-form>
