@@ -32,6 +32,10 @@ export class CompanycamService {
     return this.http.get<Photo[]>(`https://api.companycam.com/v2/projects/${project}/photos`, {params});
   }
 
+  createTag(tag: string): Observable<void> {
+    return this.http.post<void>('https://api.companycam.com/v2/tags', {tag: {display_value: tag}});
+  }
+
   addTags(photo: string, tags: string[]): Observable<void> {
     return this.http.post<void>(`https://api.companycam.com/v2/photos/${photo}/tags`, {tags});
   }

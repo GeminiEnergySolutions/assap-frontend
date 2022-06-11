@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {count, EMPTY, filter, forkJoin, from, mergeMap, Observable, of} from 'rxjs';
+import {catchError, switchMap, tap} from 'rxjs/operators';
 import {CompanycamService} from '../../companycam/companycam.service';
 import {Project} from '../../companycam/model/project';
 import {FormComponent} from '../../forms/form/form.component';
@@ -126,14 +126,18 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     if (!project || !type || !zone || !capturedSince) {
       return;
     }
-    this.companycamService.getPhotos(project.id).subscribe(photos => {
-      let count = 0;
-      for (let photo of photos) {
-        if (photo.captured_at * 1000 >= capturedSince.getTime()) {
-          this.companycamService.addTags(photo.id, [type.name, zone.name]).subscribe();
-          count++;
-        }
-      }
+    forkJoin([
+      this.companycamService.getPhotos(project.id),
+      this.companycamService.createTag(type.name),
+      this.companycamService.createTag(zone.name),
+    ]).pipe(
+      mergeMap(([photos]) => from(photos)),
+      filter(photo => photo.captured_at * 1000 >= +capturedSince),
+      mergeMap(photo => this.companycamService.addTags(photo.id, [type.name, zone.name]).pipe(
+        catchError(() => EMPTY),
+      )),
+      count(),
+    ).subscribe(count => {
       if (count > 0) {
         this.toastService.success('Tag', `Tagged ${count} new photos`);
         delete this.capturedSince;
