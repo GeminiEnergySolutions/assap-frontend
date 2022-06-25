@@ -123,19 +123,29 @@ export class TypeComponent implements OnInit, SaveableChangesComponent {
     this.capturedSince = new Date();
   }
 
+  tags(): [string, string][] {
+    return [
+      [this.zone?.name, 'Zone'],
+      [this.type?.name, 'Name'],
+      [this.type?.type, 'Type'],
+      [this.type?.subtype, 'Subtype'],
+    ].filter((s): s is [string, string] => !!s[0]);
+  }
+
   tag() {
     const {project, zone, type, capturedSince} = this;
     if (!project || !type || !zone || !capturedSince) {
       return;
     }
+
+    const tags = this.tags().map(([tag]) => tag);
     forkJoin([
       this.companycamService.getPhotos(project.id),
-      this.companycamService.createTag(type.name),
-      this.companycamService.createTag(zone.name),
+      ...tags.map(tag => this.companycamService.createTag(tag)),
     ]).pipe(
       mergeMap(([photos]) => from(photos)),
       filter(photo => photo.captured_at * 1000 >= +capturedSince),
-      mergeMap(photo => this.companycamService.addTags(photo.id, [type.name, zone.name]).pipe(
+      mergeMap(photo => this.companycamService.addTags(photo.id, tags).pipe(
         catchError(() => EMPTY),
       )),
       count(),

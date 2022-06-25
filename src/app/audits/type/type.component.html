@@ -29,11 +29,8 @@
       The following tags will be added:
     </p>
     <ul>
-      <li>
-        <code>{{ zone?.name }}</code> (Zone)
-      </li>
-      <li>
-        <code>{{ type?.name }}</code> (Type)
+      <li *ngFor="let tag of tags()">
+        <span class="badge bg-secondary text-white">{{ tag[0] }}</span> ({{tag[1]}})
       </li>
     </ul>
   </div>
