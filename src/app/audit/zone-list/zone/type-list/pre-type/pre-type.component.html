@@ -1,0 +1,13 @@
+<app-master-detail [overFlow]="overFlow">
+  <nav breadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb p-3 bg-light bg-darkmode-dark">
+      <li class="breadcrumb-item"><a routerLink="../../../../..">Audits</a></li>
+      <li class="breadcrumb-item"><a routerLink="../../../..">{{audit?.auditName | titlecase}}</a></li>
+      <li class="breadcrumb-item"><a routerLink="../../..">Zones</a></li>
+      <li class="breadcrumb-item"><a routerLink="..">{{zone?.zoneName | titlecase}}</a></li>
+      <li class="breadcrumb-item"><a routerLink=".">{{equipment?.equipmentName | titlecase}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{equipmentService.equipmentSubTypeData?.type ? equipmentService.equipmentSubTypeData?.type.name : equipmentService.equipmentSubTypeData?.typeChild.name | titlecase}}</li>
+    </ol>
+  </nav>
+  <app-type-list list (outPutOverFlow)="getOverFlow($event)"></app-type-list>
+</app-master-detail>

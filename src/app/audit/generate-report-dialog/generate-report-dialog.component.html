@@ -1,0 +1,50 @@
+<h2 class="text-center">Generate Report</h2>
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem="energyAudit" (click)="changeNav('energyAudit')">
+    <a ngbNavLink>Energy Audit</a>
+  </li>
+  <li ngbNavItem="cleanEnergyHub" (click)="changeNav('cleanEnergyHub')">
+    <a ngbNavLink>Clean Energy Hub</a>
+  </li>
+</ul>
+
+<div mat-dialog-content>
+  <div class="row mt-2">
+    <span class="text-danger">Just Single Click and wait untill File Downloaded</span>
+    <!-- <span class="text-danger">Need To Save City And ZipCode First, If already saved then wait atleast 2 minutes.</span> -->
+  </div>
+</div>
+
+<div class="row mt-3">
+      <div class="col" *ngIf="tabType === 'energyAudit'">
+        <!-- <a class="btn btn-primary text-white"
+          [href]="serverUrl + 'api/download/'+dialogData.auditId+'/'" download="report.docx">
+          Download
+        </a> -->
+        <button class="btn btn-primary text-white" [disabled]="!auditService.isCompleted && this.reportType == 'auditEnergy'" 
+        (click)="generateReport('energyAuditReport')">
+          Download Energy Audit <span *ngIf="!auditService.isCompleted && this.reportType == 'auditEnergy'"><i class="fa fa-spinner"></i></span>
+        </button>
+      </div>
+      <div class="col" *ngIf="tabType === 'cleanEnergyHub'">
+        <button class="btn btn-primary text-white" [disabled]="!auditService.isCompleted && this.reportType == 'feasibility'" 
+        (click)="generateReport('feasibilityReport')">
+          Download Feasibility <span *ngIf="!auditService.isCompleted && this.reportType == 'feasibility'"><i class="fa fa-spinner"></i></span>
+        </button>
+      </div>
+      <div class="col" *ngIf="tabType === 'cleanEnergyHub'">
+        <button class="btn btn-primary text-white" [disabled]="!auditService.isCompleted && this.reportType == 'ceh'" 
+        (click)="generateReport('cehMicrogridSheet')">
+          Download Microgrid <span *ngIf="!auditService.isCompleted && this.reportType == 'ceh'"><i class="fa fa-spinner"></i></span>
+        </button>
+      </div>
+</div>
+<div class="row mt-2">
+  <div class="col" style="text-align: right;">
+    <button class="btn btn-secondary text-white" [disabled]="!auditService.isCompleted" 
+    (click)="onClose()" style="margin-right: 5px;">
+      Close
+    </button>
+  </div>
+</div>
+<!-- mat-dialog-close -->

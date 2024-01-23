@@ -1,0 +1,66 @@
+<div>
+
+  <div class="row">
+    <h1>
+      <a class="bi-chevron-left d-lg-none" routerLink=".  ."></a>
+      {{ audit?.auditName | titlecase }}
+      <!-- {{audit.pre_audit_form?.data?.client_state ? audit.pre_audit_form.data?.client_state : 'Unclassified'}} -->
+    </h1>
+  </div>
+  <div class="row m-0" style="margin-bottom: 10px !important;">
+    <!-- [href]="serverUrl + 'api/download/'+this.route.snapshot.params.aid+'/'" download="report.docx" -->
+    <a class="btn btn-primary text-white col-lg-2 col-6" (click)="generateReportDialog()">
+      Generate Report
+    </a>
+    
+
+
+    <div class="offset-lg-6 offset-0 col-lg-4 col-6" style="text-align: right;">
+      <a class="btn btn-primary text-white" (click)="captureDialog()" style="margin-right: 5px;">Capture</a>
+      <!-- </div>
+    <div class="col-lg-2 col-4" style="text-align: right;"> -->
+      <!-- <a class="btn btn-primary text-white" (click)="uploadFileDialog()">Upload</a> -->
+    </div>
+  </div>
+  <div class="my-2">
+    <p style="margin-bottom:0px">Audit Energy Progress</p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercent">{{auditService.progressPercent}}</div>
+    </div>
+  </div>
+  <div>
+    <p style="margin-bottom:0px">Clean Energy Hub Progress</p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" [style]="'width: ' + auditService.progressPercentCEH">{{ auditService.progressPercentCEH }}</div>
+    </div>
+  </div>
+  <br>
+  <ul ngbNav #nav="ngbNav" [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
+    <li ngbNavItem="preaudit">
+      <a ngbNavLink routerLink=".">Preaudit</a>
+      <ng-template ngbNavContent>
+        <div style="margin-top: -7px;">
+          <app-form #form></app-form>
+        </div>
+      </ng-template>
+    </li>
+    <li ngbNavItem="zones">
+      <a ngbNavLink routerLink="zones">Zone</a>
+    </li>
+    <li ngbNavItem="photos">
+      <a ngbNavLink routerLink="photos">Photos</a>
+    </li>
+    <li ngbNavItem="grants">
+      <a ngbNavLink routerLink="grants">Grants</a>
+    </li>
+    <li ngbNavItem="cleanenergyhub">
+      <a ngbNavLink routerLink="cleanenergyhub">Clean Energy Hub</a>
+    </li>
+    <!-- <li ngbNavItem="access">
+      <a ngbNavLink routerLink="access">Access Control</a>
+    </li> -->
+  </ul>
+
+  <router-outlet></router-outlet>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>

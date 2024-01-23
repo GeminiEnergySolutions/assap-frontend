@@ -1,14 +1,16 @@
 $appPrimary: #3f51b5;
 $appPrimaryDark: #303f9f;
 $appAccent: #ff4081;
-$appToolbarBackground: #689f38;
+$appToolbarBackground: #1c9d12;
 $websitePrimary: #1c9d12;
 
 $primary: $appToolbarBackground;
 
-@import "~bootstrap/scss/bootstrap";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
-@import "node_modules/bootstrap-darkmode/scss/darktheme";
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "../node_modules/@angular/material/theming";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+@import "../node_modules/bootstrap-darkmode/scss/darktheme.scss";
 
 html, body {
   height: 100%;
@@ -37,3 +39,24 @@ html, body {
     visibility: unset;
   }
 }
+
+//Hide Arrow From Input Box
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Add this CSS to your component's styles or in your global stylesheet */
+.data-collector-item {
+  list-style-type: none; /* Remove the dot before the checkbox */
+  padding: 5px; /* Add some padding for better spacing */
+}
+
+
+

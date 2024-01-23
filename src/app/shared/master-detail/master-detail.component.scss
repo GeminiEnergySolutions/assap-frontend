@@ -1,9 +1,0 @@
-@media (max-width: 991px) {
-  .master:not(.master-active) {
-    display: none !important;
-  }
-
-  .master-active + .detail {
-    display: none !important;
-  }
-}

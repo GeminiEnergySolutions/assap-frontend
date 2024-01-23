@@ -1,0 +1,34 @@
+<div class="list-group rounded-0">
+  <!-- <button *ngIf="!equipment?.subTypeExist"
+          class="list-group-item list-group-item-action text-primary" (click)="createType(null, type)">
+    New {{ type }}
+  </button> -->
+  <details class="list-group-item text-primary">
+    <summary>New</summary>
+    <button *ngFor="let item of types" class="btn btn-sm btn-link link-primary" (click)="createType(item)">
+      {{ item.name | uppercase }}
+      <details class="list-group-item text-primary" *ngIf="item.name == 'Fluorescent'">
+        <summary>New</summary>
+        <button *ngFor="let item1 of typeChilds" class="btn btn-sm btn-link link-primary" (click)="createType(item1)">
+          {{ item1.name | uppercase }}
+        </button>
+      </details>
+    </button>
+  </details>
+  <a *ngFor="let item of subtypes" class="list-group-item list-group-item-action d-flex align-items-center"
+    [routerLink]="'types/'+item.id" routerLinkActive="active text-white">
+    <div class="flex-grow-1">
+      {{item.name | titlecase}}
+      <small class="text-muted">{{item.type?.name | titlecase}}</small>
+      <small *ngIf="item.typeChild"> ({{item.typeChild?.name | titlecase}}) </small>
+      <small class="text-muted">{{item.typeChild?.equipmentType.name | titlecase}}</small>
+    </div>
+    <app-option-dropdown class="visible-hover">
+      <button ngbDropdownItem (click)="rename(item)">Rename</button>
+      <ng-container>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
+      </ng-container>
+    </app-option-dropdown>
+  </a>
+</div>

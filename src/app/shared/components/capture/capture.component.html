@@ -1,0 +1,51 @@
+<div class="video-contatiner">
+	<canvas #canvas></canvas>
+</div>
+<div *ngIf="pictureData" class="image-contatiner">
+	<img [src]="pictureData" />
+</div>
+<div class="top-layer">
+	<mat-toolbar>
+		<mat-toolbar-row>
+			<!-- <button mat-icon-button (click)="rotate()" [disabled]="pictureData">
+        <mat-icon>rotate_left</mat-icon>
+      </button> -->
+			<button *ngIf="canSwapCamera" mat-icon-button (click)="swapCamera()" [disabled]="pictureData">
+        <!-- <mat-icon>camera_rear</mat-icon> -->
+        <!-- <span>Swap</span> -->
+        <i class="fas fa-sync fa-2x"></i>
+      </button>
+			<button *ngIf="canTorch" mat-icon-button (click)="toggleTorch()">
+        <!-- <mat-icon *ngIf="!torchOn">flash_on</mat-icon>
+          <mat-icon *ngIf="torchOn">flash_off</mat-icon> -->
+          <!-- <span *ngIf="!torchOn">Flash On</span> -->
+          <!-- <span *ngIf="torchOn">Flash Off</span> -->
+          <!-- <i class="fas fa-bolt fa-2x"></i> -->
+          <img *ngIf="!torchOn" src="assets/icons/flash_on.svg" width="40px" height="40px" />
+          <img *ngIf="torchOn" src="assets/icons/flash_off.svg" width="40px" height="40px" />
+        </button>
+			<span class="flex-fill"></span>
+			<button mat-icon-button (click)="close()">
+        <!-- <mat-icon>close</mat-icon> -->
+        <!-- <span>Close</span> -->
+        <i class="fas fa-times fa-2x"></i>
+      </button>
+		</mat-toolbar-row>
+	</mat-toolbar>
+	<mat-slider *ngIf="canZoom" vertical [value]="zoomValue" [max]="zoomMax" [min]="zoomMin" [step]="zoomStep" (change)="onZoomChange($event)" [disabled]="pictureData"></mat-slider>
+	<div class="flex-fill"></div>
+	<div *ngIf="!pictureData" class="take-picture-container">
+		<button mat-icon-button (click)="takePicture()">
+      <!-- <mat-icon>camera</mat-icon> -->
+      <!-- <span>Capture</span> -->
+      <i class="fas fa-camera fa-3x"></i>
+    </button>
+	</div>
+	<mat-toolbar *ngIf="pictureData">
+		<mat-toolbar-row>
+			<button mat-button (click)="retake()">RETAKE</button>
+			<span class="flex-fill"></span>
+			<button mat-button (click)="use()">Save</button>
+		</mat-toolbar-row>
+	</mat-toolbar>
+</div>

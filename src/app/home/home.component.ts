@@ -1,25 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {ParseCredentialService} from '../parse/parse-credential.service';
-import {ParseCredentials} from '../parse/parse-credentials';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  profiles: Map<string, ParseCredentials>;
 
-  constructor(
-    private parseCredentialService: ParseCredentialService,
-  ) {
-    this.profiles = parseCredentialService.getProfiles();
-  }
+  constructor() { }
 
   ngOnInit(): void {
+    console.log('')
   }
 
   setActiveProfile(id: string) {
-    this.parseCredentialService.activeProfile = id;
+    // this.parseCredentialService.activeProfile = id;
   }
+
 }

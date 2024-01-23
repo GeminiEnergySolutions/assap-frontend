@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SwUpdate} from '@angular/service-worker';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,9 @@ import {SwUpdate} from '@angular/service-worker';
 export class AppComponent implements OnInit {
   title = 'conserve';
 
-  constructor(private updates: SwUpdate) {
-  }
+  constructor(public authService: AuthService,
+    private updates: SwUpdate
+    ) { }
 
   ngOnInit() {
     this.updates.available.subscribe(() => {

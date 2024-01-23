@@ -1,0 +1,10 @@
+<app-master-detail [overFlow]="overFlow">
+  <nav breadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb p-3 bg-light bg-darkmode-dark">
+      <li class="breadcrumb-item"><a routerLink="../..">Audits</a></li>
+      <li class="breadcrumb-item"><a routerLink="..">{{audit?.auditName | titlecase}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Zones</li>
+    </ol>
+  </nav>
+  <app-zone-list list (outPutOverFlow)="getOverFlow($event)"></app-zone-list>
+</app-master-detail>

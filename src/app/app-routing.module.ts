@@ -1,12 +1,43 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './home/home.component';
-
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeRedirectComponent } from './home.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { PageNotFoundGuard } from './shared/page-not-found.guard';
+import { AuthGuard } from './auth.guard';
+import { LoginGuard } from './login.guard';
+import { ChangePasswordComponent } from './shared/components/change-password/change-password.component';
 
 const routes: Routes = [
-  {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
-  {path: 'audits', loadChildren: () => import('./audits/audits.module').then(m => m.AuditsModule)},
-  {path: '', pathMatch: 'full', component: HomeComponent},
+  {
+    path: '',
+    pathMatch: 'full',
+    // resolve: {
+    //   loggedIn: AuthGuard, // Use the AuthGuard resolver
+    // },
+    // component: HomeRedirectComponent, // Use the component for redirection
+    redirectTo:'/auth/login'
+  },
+  {
+    path: 'audits',
+    loadChildren: () => import('./audit/audit.module').then((m) => m.AuditModule),
+    canActivate: [AuthGuard], // Use the AuthGuard to guard the audits route
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/setting.module').then((m) => m.SettingModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard],
+  },
+
+  // {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
+  { path: '**', component: PageNotFoundComponent, canActivate: [PageNotFoundGuard] },
 ];
 
 @NgModule({
@@ -15,5 +46,4 @@ const routes: Routes = [
   })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

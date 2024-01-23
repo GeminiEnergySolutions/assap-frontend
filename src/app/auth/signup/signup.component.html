@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="text-center">
+                    <h1>Sign Up</h1>
+                    <h6>Register Youself as {{selectedUserType | titlecase}} !!</h6>
+                </div>
+                <br/>
+                <br/>
+                <div class="mb-3 text-center">
+                  
+                  <div class="btn-group" role="group" aria-label="User Type">
+                    <button type="button" class="btn" [ngStyle]="selectedUserType === 'sandbox' ? {'background-color': '#689f38'} : {'background-color': '#2e6200'}"
+                    (click)="selectedUserType = 'sandbox'">
+                      Trial Sandbox
+                    </button>
+                    <button type="button" class="btn" [ngStyle]="selectedUserType === 'dataCollector' ? {'background-color': '#689f38'} : {'background-color': '#2e6200'}"
+                    (click)="selectedUserType = 'dataCollector'">Data Collector</button>
+               
+                  </div>
+              </div>
+                <form [formGroup]="signupForm" (ngSubmit)="signUp()">
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">User Name</label>
+                        <input type="text" class="form-control" formControlName="userName" id="userName">
+                      </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" formControlName="Email" id="Email" aria-describedby="emailHelp">
+                      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input type="password" class="form-control" formControlName="password" id="password">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPasswordConfirm" class="form-label">Confirm Password</label>
+                      <input type="password" class="form-control" formControlName="ConfirmPassword" id="ConfirmPassword">
+                  </div>
+                  
+                    <button type="submit" class="btn btn-primary text-white mb-2" [disabled]="!auditService.isCompleted || !signupForm.valid">
+                      Sign Up <span *ngIf="!auditService.isCompleted"><i class="fa fa-spinner"></i></span>
+                    </button>
+                  </form>
+                  <a routerLink="/auth/login"> Already registered? Click to Login!! </a>
+            </div>
+        </div>
+    </div>
+</div>

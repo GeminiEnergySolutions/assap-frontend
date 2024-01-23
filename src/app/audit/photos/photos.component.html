@@ -1,0 +1,77 @@
+<!-- <div fxFill fxLayout="column" fxLayoutAlign="space-between">
+  <div fxLayout="row wrap">
+    <ng-container *ngFor="let image of data">
+      <img [src]="image.url">
+      <h4 style="margin-top: -40px;">hi img</h4>
+    </ng-container>
+  </div>
+
+  <mat-paginator [length]="data2.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"
+    (page)="getData($event)">
+  </mat-paginator>
+</div> -->
+
+<div class="row my-2">
+  <div class="col" style="padding-left: 0;">
+    <div class="form-group">
+      <span>Photo Type</span>
+      <select [(ngModel)]="photoType" (change)="changePhotoType()" class="form-select">
+        <option value="All">All</option>
+        <option value="Audit">Audit</option>
+        <option value="Zone">Zone</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="col" *ngIf="photoType === 'All'">
+    <span>Equipment</span>
+    <select [(ngModel)]="equipment" (change)="updatePhotosFilter()" class="form-select">
+      <option *ngFor="let item of equipmentList" [value]="item.id" >{{item.equipmentName | uppercase}}</option>
+    </select>
+  </div>
+
+
+  <div class="col" *ngIf="photoType === 'Zone'">
+    <span>Zone</span>
+    <select [(ngModel)]="zone" (change)="changeZone()" class="form-select">
+      <option *ngFor="let item of zoneList" [value]="item.zoneId">{{item.zoneName | uppercase}}</option>
+    </select>
+  </div>
+  <div class="col" *ngIf="zone">
+    <span>Equipment</span>
+    <select [(ngModel)]="equipment" (change)="changeEquipment()" class="form-select">
+      <option *ngFor="let item of equipmentList" [value]="item.id">{{item.equipmentName | uppercase}}</option>
+    </select>
+  </div>
+  <div class="col" *ngIf="zone && equipment">
+    <span>Type</span>
+    <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
+      <option *ngFor="let item of subTypeList" [value]="item.id">{{(item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
+    </select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box p-0" *ngFor="let item of data">
+    <!-- <div style="padding-left: 4px;"> -->
+    <!-- <ng-container> -->
+    <img [src]="item.photo" class="img-fluid">
+    <!-- <div class="imagee" [style.background-image]="'url(' + image.url + ')'">
+        </div> -->
+    <div class="overlay">
+      {{item.equipmentId ?
+      (item.auditName.auditName + ' / ' + item.zoneName.zoneName + ' / ' + item.equipmentName.equipmentName + ' / ' + item.typeName.name + ' / ' + item.subTypeName.name | uppercase)
+      :
+      item.zoneId ?
+      (item.auditName.auditName + ' / ' + item.zoneName.zoneName | uppercase)
+      :
+      (item.auditName.auditName | uppercase)
+      }}
+    </div>
+    <!-- </ng-container>m -->
+    <!-- </div> -->
+  </div>
+
+  <mat-paginator [length]="dataForLength.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"
+    (page)="getData($event)">
+  </mat-paginator>
+</div>
