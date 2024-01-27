@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { ActivatedRoute } from '@angular/router';
 import { AuditService } from 'src/app/shared/services/audit.service';
 import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';

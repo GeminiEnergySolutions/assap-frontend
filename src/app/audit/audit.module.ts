@@ -18,7 +18,7 @@ import { PreTypeComponent } from './zone-list/zone/type-list/pre-type/pre-type.c
 import { TypeComponent } from './zone-list/zone/type-list/type/type.component';
 import { PhotosComponent } from './photos/photos.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import { GenerateReportDialogComponent } from './generate-report-dialog/generate-report-dialog.component';
 import { CleanEnergyHubComponent } from './clean-energy-hub/clean-energy-hub.component';
 import { GrantComponent } from './grant/grant.component';
