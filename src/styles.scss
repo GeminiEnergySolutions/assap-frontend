@@ -6,11 +6,10 @@ $websitePrimary: #1c9d12;
 
 $primary: $appToolbarBackground;
 
-@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
-@import "../node_modules/@angular/material/theming";
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
-@import "../node_modules/bootstrap-darkmode/scss/darktheme.scss";
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
+@import "node_modules/bootstrap-darkmode/scss/darktheme";
 
 html, body {
   height: 100%;

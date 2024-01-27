@@ -32,7 +32,7 @@
       </button>
 		</mat-toolbar-row>
 	</mat-toolbar>
-	<mat-slider *ngIf="canZoom" vertical [value]="zoomValue" [max]="zoomMax" [min]="zoomMin" [step]="zoomStep" (change)="onZoomChange($event)" [disabled]="pictureData"></mat-slider>
+	<mat-slider *ngIf="canZoom" vertical [ngModel]="zoomValue" [max]="zoomMax" [min]="zoomMin" [step]="zoomStep" (ngModelChange)="onZoomChange($event)" [disabled]="pictureData"></mat-slider>
 	<div class="flex-fill"></div>
 	<div *ngIf="!pictureData" class="take-picture-container">
 		<button mat-icon-button (click)="takePicture()">

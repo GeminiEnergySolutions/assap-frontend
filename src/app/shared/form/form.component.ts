@@ -5,7 +5,6 @@ import { ToastService } from 'ng-bootstrap-ext';
 import { switchMap, tap } from 'rxjs';
 import { AuditService } from '../services/audit.service';
 import { EquipmentService } from '../services/equipment.service';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 class AuditorInfo {
   id: number = 0;
