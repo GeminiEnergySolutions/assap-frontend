@@ -1,10 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { environment } from 'src/environments/environment.prod';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {AuthService} from 'src/app/shared/services/auth.service';
+import {environment} from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-generate-report-dialog',
@@ -67,7 +66,7 @@ export class GenerateReportDialogComponent {
     //         return this.auditService.auditEnergyReport(this.dialogData.auditId);
     //       else if (type == "feasibility")
     //         return this.auditService.feasibilityReport(this.dialogData.auditId);
-    //       else 
+    //       else
     //         return this.auditService.cehReport(this.dialogData.auditId);
     //     })
     //   ).subscribe((response: Blob) => {

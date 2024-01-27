@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
-import { ActivatedRoute } from '@angular/router';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';
-import { EquipmentService } from 'src/app/shared/services/equipment.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
+import {EquipmentService} from 'src/app/shared/services/equipment.service';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-photos',
@@ -13,7 +13,7 @@ import { EquipmentService } from 'src/app/shared/services/equipment.service';
 export class PhotosComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: any;
-  
+
   photoType: string = 'All';
   zoneList: any = [];
   zone: Number = 0;
@@ -24,7 +24,7 @@ export class PhotosComponent implements OnInit {
   data: any = [];
   data2 = [];
   dataForLength = [];
- 
+
   page = 0;
   size = 8;
 
@@ -67,7 +67,7 @@ export class PhotosComponent implements OnInit {
       });
     }
     else if (this.photoType === 'Zone') {
-      
+
       if(this.subType) {
         this.dataForLength = this.data2.filter((a: any) => a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment) && a.subTypeId === Number(this.subType))
         this.data = this.dataForLength.filter((a: any) => {
@@ -151,7 +151,7 @@ export class PhotosComponent implements OnInit {
   changeZone() {
     this.equipment = 0;
     this.getData({ pageIndex: 0, pageSize: 8 });
-  
+
   }
 
   changeEquipment() {
@@ -159,7 +159,7 @@ export class PhotosComponent implements OnInit {
     this.subTypeList = [];
 
     this.getData({ pageIndex: 0, pageSize: 8 });
-   
+
     this.getEquipmentSubTypes(this.equipment);
   }
 
@@ -201,7 +201,7 @@ export class PhotosComponent implements OnInit {
     //   return (index > startingIndex && index <= endingIndex && a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment) && a.subTypeId === Number(this.subType)) ? true : false;
     // });
     // this.dataForLength = this.data2.filter((a: any) => a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment) && a.subTypeId === Number(this.subType))
- 
+
  //  = [
   //   { id: 1, url: 'https://images.freeimages.com/images/large-previews/996/easter-1399885.jpg' },
   //   { id: 2, url: 'https://images.freeimages.com/images/large-previews/0b3/burning-tree-1377053.jpg' },

@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { ActivatedRoute } from '@angular/router';
-import { AuditService } from 'src/app/shared/services/audit.service';
+import {Component, Inject} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-file-upload',

@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { ActivatedRoute } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
-import { switchMap } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
-import { CaptureComponent } from '../shared/components/capture/capture.component';
-import { FormComponent } from '../shared/form/form.component';
-import { AuditService } from '../shared/services/audit.service';
-import { CaptureService } from '../shared/services/capture.service';
-import { FileUploadComponent } from './file-upload/file-upload.component';
-import { GenerateReportDialogComponent } from './generate-report-dialog/generate-report-dialog.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ToastService} from 'ng-bootstrap-ext';
+import {switchMap} from 'rxjs';
+import {environment} from 'src/environments/environment.prod';
+import {FormComponent} from '../shared/form/form.component';
+import {AuditService} from '../shared/services/audit.service';
+import {CaptureService} from '../shared/services/capture.service';
+import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-audit',
@@ -32,12 +30,12 @@ export class AuditComponent implements OnInit {
     private cameraService: CaptureService,
     private toastService: ToastService,
     public route: ActivatedRoute,
-    
+
     private dialog: MatDialog
   ) {
     this.serverUrl = environment.url;
   }
-    
+
 
   ngOnInit(): void {
     this.route.params

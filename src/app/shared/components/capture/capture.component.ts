@@ -1,9 +1,8 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
-import { CameraRef } from './camera-ref';
-import { CAMERA_REF } from './camera-ref_token';
+import {DOCUMENT} from '@angular/common';
+import {Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {CameraRef} from './camera-ref';
+import {CAMERA_REF} from './camera-ref_token';
+import {MatSliderChange} from '@angular/material/slider';
 
 
 export enum Rotation {
