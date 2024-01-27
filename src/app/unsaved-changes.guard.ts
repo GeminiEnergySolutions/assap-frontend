@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanDeactivate} from '@angular/router';
+
 import {Observable} from 'rxjs';
 
 export interface SaveableChangesComponent {
@@ -7,7 +7,7 @@ export interface SaveableChangesComponent {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UnsavedChangesGuard implements CanDeactivate<SaveableChangesComponent> {
+export class UnsavedChangesGuard  {
   canDeactivate(component: SaveableChangesComponent): Observable<boolean> | Promise<boolean> | boolean {
     return component.isSaved() || confirm('Are you sure you want to leave this page? Changes that you made may not be saved.');
   }
