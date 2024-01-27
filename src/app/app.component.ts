@@ -14,11 +14,11 @@ export class AppComponent implements OnInit {
     private updates: SwUpdate
     ) { }
 
-  ngOnInit() {
-    this.updates.available.subscribe(() => {
-      if (confirm('A new app update is available. Do you want to install it? This will only take a second or two.')) {
-        this.updates.activateUpdate().then(() => document.location.reload());
-      }
-    });
+  async ngOnInit() {
+    const hasUpdate = await this.updates.checkForUpdate();
+    if (hasUpdate && confirm('A new app update is available. Do you want to install it? This will only take a second or two.')) {
+      await this.updates.activateUpdate();
+      document.location.reload();
+    }
   }
 }
