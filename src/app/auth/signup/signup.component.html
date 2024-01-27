@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="auth-card">
                 <div class="text-center">
                     <h1>Sign Up</h1>
                     <h6>Register Youself as {{selectedUserType | titlecase}} !!</h6>
@@ -9,7 +9,7 @@
                 <br/>
                 <br/>
                 <div class="mb-3 text-center">
-                  
+
                   <div class="btn-group" role="group" aria-label="User Type">
                     <button type="button" class="btn" [ngStyle]="selectedUserType === 'sandbox' ? {'background-color': '#689f38'} : {'background-color': '#2e6200'}"
                     (click)="selectedUserType = 'sandbox'">
@@ -17,7 +17,7 @@
                     </button>
                     <button type="button" class="btn" [ngStyle]="selectedUserType === 'dataCollector' ? {'background-color': '#689f38'} : {'background-color': '#2e6200'}"
                     (click)="selectedUserType = 'dataCollector'">Data Collector</button>
-               
+
                   </div>
               </div>
                 <form [formGroup]="signupForm" (ngSubmit)="signUp()">
@@ -38,7 +38,7 @@
                       <label for="exampleInputPasswordConfirm" class="form-label">Confirm Password</label>
                       <input type="password" class="form-control" formControlName="ConfirmPassword" id="ConfirmPassword">
                   </div>
-                  
+
                     <button type="submit" class="btn btn-primary text-white mb-2" [disabled]="!auditService.isCompleted || !signupForm.valid">
                       Sign Up <span *ngIf="!auditService.isCompleted"><i class="fa fa-spinner"></i></span>
                     </button>
