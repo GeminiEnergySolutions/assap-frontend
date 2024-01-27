@@ -1,10 +1,10 @@
-import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, HostListener, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
-import { switchMap, tap } from 'rxjs';
-import { AuditService } from '../services/audit.service';
-import { EquipmentService } from '../services/equipment.service';
+import {DatePipe} from '@angular/common';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastService} from 'ng-bootstrap-ext';
+import {switchMap} from 'rxjs';
+import {AuditService} from '../services/audit.service';
+import {EquipmentService} from '../services/equipment.service';
 
 class AuditorInfo {
   id: number = 0;
@@ -144,7 +144,6 @@ export class FormComponent implements OnInit {
   // @Input() schema!: any//Schema;
   // @Input() data: any = []//FeatureData = {};
   // @Output() saved = new EventEmitter<any>();//<FeatureData>();
-  @ViewChildren('accordion') accordions!: QueryList<NgbAccordion>;
 
   dirty = false;
   auditorType: string = 'auditorInfo';
@@ -665,69 +664,5 @@ export class FormComponent implements OnInit {
 
   canDeactivate(): boolean {
     return !this.dirty;
-  }
-
-  onPanelChange(event: NgbPanelChangeEvent) {
-    if (!event.nextState) {
-      return;
-    }
-    const accordion: any = this.accordions.find((acc: any) => event.panelId === event.panelId);
-    const panelIndex = accordion.panels.toArray().findIndex((panel: any) => panel.id === event.panelId);
-    const panelTitle = accordion.panels.toArray()[panelIndex].title;
-
-    this.getData(this.route.snapshot.params.aid, panelTitle);
-  }
-
-  getData(aid: Number, preAuditType: String) {
-    if (preAuditType == "Auditor Info") {
-      this.auditService.getAuditorInfo(aid).subscribe((res: any) => {
-        this.auditorInfo = res ? res : new AuditorInfo;
-      });
-    }
-    else if (preAuditType == "General Client Info") {
-      this.auditService.getGeneralInfo(aid).subscribe((res: any) => {
-        this.generalClientInfo = res ? res : new GeneralClientInfo;
-      });
-    }
-    else if (preAuditType == "Interviewee") {
-      this.auditService.getPreAuditInterviewee(aid).subscribe((res: any) => {
-        this.interviewee = res ? res : new Interviewee;
-      });
-    }
-    else if (preAuditType == "Occupied Hours") {
-      this.auditService.getPreAuditOperationHours(aid).subscribe((res: any) => {
-        this.operationHours = res ? res : new OperationHours;
-      });
-    }
-    else if (preAuditType == "Area") {
-      this.auditService.getPreAuditArea(aid).subscribe((res: any) => {
-        this.area = res ? res : new Area;
-      });
-    }
-    else if (preAuditType == "Age") {
-      this.auditService.getPreAuditAge(aid).subscribe((res: any) => {
-        this.age = res ? res : new Age;
-      });
-    }
-    else if (preAuditType == "HVAC Maintenance") {
-      this.auditService.getPreaAditHVACMaintainence(aid).subscribe((res: any) => {
-        this.hvacMaintenance = res ? res : new HvacMaintenance;
-      });
-    }
-    else if (preAuditType == "Others") {
-      this.auditService.getPreAuditOther(aid).subscribe((res: any) => {
-        this.others = res ? res : new Others;
-      });
-    }
-    else if (preAuditType == "General Site Access and Notes") {
-      this.auditService.getPreAuditGeneralSiteAccessNotes(aid).subscribe((res: any) => {
-        this.generalSiteAccessAndNotes = res ? res : new GeneralSiteAccessAndNotes;
-      });
-    }
-    else if (preAuditType == "Utillity Bill Analysis") {
-      this.auditService.getUtillityBillAnalysis(aid).subscribe((res: any) => {
-        this.utillityBillAnalysis = res ? res : new UtillityBillAnalysis;
-      });
-    }
   }
 }

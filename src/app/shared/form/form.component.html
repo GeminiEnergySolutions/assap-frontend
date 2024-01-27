@@ -492,9 +492,9 @@
   </ngb-panel>
 </ngb-accordion> -->
 
-<ngb-accordion [closeOthers]="true">
-  <ngb-panel *ngFor="let schema of typeSchema" [id]="'s-' + schema.id" [title]="schema.name">
-    <ng-template ngbPanelContent>
+<div ngbAccordion [closeOthers]="true">
+  <div ngbAccordionItem *ngFor="let schema of typeSchema" [id]="'s-' + schema.id" [title]="schema.name">
+    <div ngbAccordionBody>
       <div class="row" *ngIf="schema.name== 'Non Electric Vehicle' || schema.name== 'Electric Vehicle'">
         <div class="col-12 px-4 py-0" style="text-align: right;">
           <button type="button" class="btn btn-primary btn-sm text-white" (click)="shareCEHVehicleScedule(schema)">
@@ -612,9 +612,9 @@
         </div>
       </div>
       <!-- End First Layer Inputs -->
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+    </div>
+  </div>
+</div>
 
 <p class="text-center text-muted mt-3 mb-5">
   Don't forget to save when you're done filling out the form!
