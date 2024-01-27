@@ -13,14 +13,9 @@
 			<button *ngIf="canSwapCamera" mat-icon-button (click)="swapCamera()" [disabled]="pictureData">
         <!-- <mat-icon>camera_rear</mat-icon> -->
         <!-- <span>Swap</span> -->
-        <i class="fas fa-sync fa-2x"></i>
+        <i class="bi-arrow-repeat"></i>
       </button>
 			<button *ngIf="canTorch" mat-icon-button (click)="toggleTorch()">
-        <!-- <mat-icon *ngIf="!torchOn">flash_on</mat-icon>
-          <mat-icon *ngIf="torchOn">flash_off</mat-icon> -->
-          <!-- <span *ngIf="!torchOn">Flash On</span> -->
-          <!-- <span *ngIf="torchOn">Flash Off</span> -->
-          <!-- <i class="fas fa-bolt fa-2x"></i> -->
           <img *ngIf="!torchOn" src="assets/icons/flash_on.svg" width="40px" height="40px" />
           <img *ngIf="torchOn" src="assets/icons/flash_off.svg" width="40px" height="40px" />
         </button>
@@ -28,7 +23,7 @@
 			<button mat-icon-button (click)="close()">
         <!-- <mat-icon>close</mat-icon> -->
         <!-- <span>Close</span> -->
-        <i class="fas fa-times fa-2x"></i>
+        <i class="bi-x"></i>
       </button>
 		</mat-toolbar-row>
 	</mat-toolbar>
@@ -38,7 +33,7 @@
 		<button mat-icon-button (click)="takePicture()">
       <!-- <mat-icon>camera</mat-icon> -->
       <!-- <span>Capture</span> -->
-      <i class="fas fa-camera fa-3x"></i>
+      <i class="bi-camera"></i>
     </button>
 	</div>
 	<mat-toolbar *ngIf="pictureData">
