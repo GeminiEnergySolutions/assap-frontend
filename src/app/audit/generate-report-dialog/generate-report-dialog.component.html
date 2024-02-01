@@ -4,28 +4,22 @@
   </ng-container>
   <ng-container modal-body>
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
-      <li ngbNavItem="energyAudit" (click)="changeNav('energyAudit')">
+      <li ngbNavItem="energyAudit">
         <a ngbNavLink>Energy Audit</a>
         <ng-template ngbNavContent>
-          <button class="btn btn-primary" [disabled]="!auditService.isCompleted && this.reportType == 'auditEnergy'"
-                  (click)="generateReport('energyAuditReport')">
+          <button class="btn btn-primary" (click)="generateReport('energyAuditReport')">
             Download Energy Audit
-            <span *ngIf="!auditService.isCompleted && this.reportType == 'auditEnergy'" class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
           </button>
         </ng-template>
       </li>
-      <li ngbNavItem="cleanEnergyHub" (click)="changeNav('cleanEnergyHub')">
+      <li ngbNavItem="cleanEnergyHub">
         <a ngbNavLink>Clean Energy Hub</a>
         <ng-template ngbNavContent>
-          <button class="btn btn-primary" [disabled]="!auditService.isCompleted && this.reportType == 'feasibility'"
-                  (click)="generateReport('feasibilityReport')">
+          <button class="btn btn-primary" (click)="generateReport('feasibilityReport')">
             Download Feasibility
-            <span *ngIf="!auditService.isCompleted && this.reportType == 'feasibility'" class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
           </button>
-          <button class="btn btn-primary" [disabled]="!auditService.isCompleted && this.reportType == 'ceh'"
-                  (click)="generateReport('cehMicrogridSheet')">
+          <button class="btn btn-primary" (click)="generateReport('cehMicrogridSheet')">
             Download Microgrid
-            <span *ngIf="!auditService.isCompleted && this.reportType == 'ceh'" class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
           </button>
         </ng-template>
       </li>
@@ -33,7 +27,7 @@
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </ng-container>
   <ng-container modal-footer>
-    <button class="btn btn-secondary" [disabled]="!auditService.isCompleted" (click)="modal.close()">
+    <button class="btn btn-secondary" (click)="modal.close()">
       Close
     </button>
   </ng-container>
