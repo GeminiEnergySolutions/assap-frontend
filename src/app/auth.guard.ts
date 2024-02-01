@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/services/auth.service';
-import { AppSetting } from './shared/setting';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +15,7 @@ export class AuthGuard  {
 
     if (token) {
       this.authService.getUser().subscribe((res: any) => {
-        this.authService.currentLoginUser = AppSetting.user = res;
+        this.authService.currentLoginUser = res;
       });
       return true;
     } else {

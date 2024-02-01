@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppSetting } from '../../setting';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavBarComponent implements OnInit {
 
   menuCollapsed: boolean = true;
-  
+
   constructor(public authService: AuthService,
     private router: Router,
     ) { }
