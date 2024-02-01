@@ -38,7 +38,7 @@
           [ngIfElse]="offlineOptions"></ng-template>
 
         <ng-template #onlineOptions>
-          <div *ngIf="(authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role != 'guest'">
+          <div *ngIf="(authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role !== 'guest'">
             <button ngbDropdownItem class="text-primary" (click)="openAddDataCollectorModal(audit)">
               Add DataCollector
             </button>

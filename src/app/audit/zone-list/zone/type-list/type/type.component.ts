@@ -13,7 +13,7 @@ import { EquipmentService } from 'src/app/shared/services/equipment.service';
   templateUrl: './type.component.html',
   styleUrls: ['./type.component.scss']
 })
-export class TypeComponent {
+export class TypeComponent implements OnInit {
 
   constructor(public equipmentService: EquipmentService,
     private cameraService: CaptureService,

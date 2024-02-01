@@ -17,7 +17,7 @@
 
   <ul ngbNav #nav="ngbNav" [activeId]="equipmentService.equipment.id" class="nav-tabs">
     <li [ngbNavItem]="item.id" *ngFor="let item of equipmentService.equipments">
-      <a ngbNavLink [routerLink]="item.id" (click)="route.firstChild?.snapshot?.params?.eid != item.id ? getEquipmentPercentage(item) : null">{{item.equipmentName | titlecase}}</a>
+      <a ngbNavLink [routerLink]="item.id" (click)="route.firstChild?.snapshot?.params?.eid !== item.id ? getEquipmentPercentage(item) : null">{{item.equipmentName | titlecase}}</a>
     </li>
     <!-- <li ngbNavItem="Plugload">
       <a ngbNavLink routerLink="Plugload">Plugload</a>

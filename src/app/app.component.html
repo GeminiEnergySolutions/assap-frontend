@@ -1,5 +1,5 @@
 <div class="h-100 d-flex flex-column">
-  <app-nav-bar *ngIf="authService.currentLoginUser.role != null"></app-nav-bar>
+  <app-nav-bar *ngIf="authService.currentLoginUser.role !== null"></app-nav-bar>
   <div class="flex-grow-1 overflow-auto">
     <router-outlet ></router-outlet>
   </div>

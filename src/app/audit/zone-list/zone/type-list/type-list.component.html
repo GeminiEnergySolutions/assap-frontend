@@ -7,7 +7,7 @@
     <summary>New</summary>
     <button *ngFor="let item of types" class="btn btn-sm btn-link link-primary" (click)="createType(item)">
       {{ item.name | uppercase }}
-      <details class="list-group-item text-primary" *ngIf="item.name == 'Fluorescent'">
+      <details class="list-group-item text-primary" *ngIf="item.name === 'Fluorescent'">
         <summary>New</summary>
         <button *ngFor="let item1 of typeChilds" class="btn btn-sm btn-link link-primary" (click)="createType(item1)">
           {{ item1.name | uppercase }}
