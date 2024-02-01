@@ -7,6 +7,12 @@
 </div>
 <div ngbAccordion [closeOthers]="true">
   <div ngbAccordionItem *ngFor="let schema of typeSchema" [id]="'s-' + schema.id" [title]="schema.name">
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>
+        {{ schema.name }}
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
     <div ngbAccordionBody>
       <div class="row" *ngIf="schema.name== 'Non Electric Vehicle' || schema.name== 'Electric Vehicle'">
         <div class="col-12 px-4 py-0" style="text-align: right;">
@@ -126,6 +132,7 @@
       </div>
       <!-- End First Layer Inputs -->
     </div>
+  </div>
   </div>
 </div>
 
