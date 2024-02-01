@@ -1,17 +1,16 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
 import {AuthService} from './shared/services/auth.service';
+import {firstValueFrom} from 'rxjs';
 
-export const AuthGuard: CanActivateFn = () => {
+export const AuthGuard: CanActivateFn = async () => {
   const token = localStorage.getItem('accessToken');
   if (token) {
     const authService = inject(AuthService);
-    authService.getUser().subscribe((res: any) => {
-      authService.currentLoginUser = res;
-    });
+    authService.currentLoginUser = await firstValueFrom(authService.getUser());
     return true;
   } else {
-    inject(Router).navigate(['/auth/login']);
+    await inject(Router).navigate(['/auth/login']);
     return false;
   }
 };
