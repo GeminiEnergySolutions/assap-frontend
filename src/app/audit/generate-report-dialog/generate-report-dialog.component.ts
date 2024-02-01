@@ -18,6 +18,6 @@ export class GenerateReportDialogComponent {
     route: ActivatedRoute
   ) {
     this.authToken = authService.getAuthToken() ?? '';
-    route.params.subscribe(({audit}) => this.auditId = audit);
+    route.params.subscribe(({aid}) => this.auditId = aid);
   }
 }
