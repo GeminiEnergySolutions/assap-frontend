@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   public signupForm!: FormGroup;
   public selectedUserType: string = 'sandbox';
   public states: any = [];
+  isCompleted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,9 +25,8 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private toastService: ToastService,
     private http: HttpClient // Inject the HttpClient
-  
+
   ) {
-    this.auditService.isCompleted = true;
   }
 
   ngOnInit(): void {
@@ -37,13 +37,13 @@ export class SignupComponent implements OnInit {
       ConfirmPassword: ['', Validators.required],
       state: ['']
     });
-  
+
     // Fetch and populate the states when the component initializes
     // this.authService.allstates().subscribe((res: any) => {
     //   this.states = res;//.map((stateObj: any) => stateObj.state);
     // });
   }
-  
+
 
   signUp() {
     let userData: any = {
@@ -61,12 +61,15 @@ export class SignupComponent implements OnInit {
       // userData.state = this.signupForm.get('state')?.value;
     }
 
-    this.auditService.isCompleted = false;
+    this.isCompleted = false;
     this.authService.signUp(userData).subscribe((res) => {
-        this.auditService.isCompleted = true;
+        this.isCompleted = true;
         this.toastService.success('Success', 'Registration successful!');
         this.signupForm.reset();
         this.router.navigate(['auth/login']);
+    }, error => {
+      this.isCompleted = true;
+      this.toastService.error('Error', 'Registration failed', error);
     });
   }
 }

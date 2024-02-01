@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class AuditService {
   rootUrl = environment.url;
-  
+
   progressPercent ?: string = '0%';
   progressPercentCEH ?: string = '0%';
   equipmentHeadingValue: string = '';
@@ -19,7 +19,6 @@ export class AuditService {
   equipmentRemainingFields ?: string ='0';
   zoneTotalFields ?: string = '0';
   zoneRemainingFields ?: string = '0';
-  isCompleted: boolean = true;
 
   constructor(private http: HttpClient,
     private toaster: ToastService,
@@ -37,7 +36,7 @@ export class AuditService {
   calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
     return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
   }
-  
+
   dataCollectors(auditId: number):Observable<any> {
     return this.http.get(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
   }
@@ -54,7 +53,7 @@ export class AuditService {
   // getPhotosFilter(auditId: Number,equipmentId: Number): Observable<any> {
   //   return this.http.get(`${this.rootUrl}api/equipment_photos/audit/${auditId}/equipmentId/${equipmentId}/`);
   // }
-  
+
   // uploadEnergyAuditFileData(formData: any): Observable<any> {
   //   return this.http.post(`${this.rootUrl}api/energyauditfile/`, formData);
   // }

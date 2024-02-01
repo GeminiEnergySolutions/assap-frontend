@@ -23,7 +23,6 @@ export class ErrorInterceptor implements HttpInterceptor {
       catch(e) {
       }
       const error = err.error.message ? err.error.message: err.error.email && err.error.email.length ? err.error.email[0] : err.statusText;
-      this.auditService.isCompleted = true;
       // this.cd.detectChanges();
       if (err.status === 401) {
         this.toaster.error('UnAuthorized', 'Access Denied');
