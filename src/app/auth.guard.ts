@@ -10,7 +10,6 @@ export const AuthGuard: CanActivateFn = async () => {
     authService.currentLoginUser = await firstValueFrom(authService.getUser());
     return true;
   } else {
-    await inject(Router).navigate(['/auth/login']);
-    return false;
+    return inject(Router).createUrlTree(['/auth/login']);
   }
 };
