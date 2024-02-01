@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeRedirectComponent } from './home.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { PageNotFoundGuard } from './shared/page-not-found.guard';
 import { AuthGuard } from './auth.guard';
@@ -8,15 +7,6 @@ import { LoginGuard } from './login.guard';
 import { ChangePasswordComponent } from './shared/components/change-password/change-password.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    // resolve: {
-    //   loggedIn: AuthGuard, // Use the AuthGuard resolver
-    // },
-    // component: HomeRedirectComponent, // Use the component for redirection
-    redirectTo:'/auth/login'
-  },
   {
     path: 'audits',
     loadChildren: () => import('./audit/audit.module').then((m) => m.AuditModule),
@@ -35,8 +25,8 @@ const routes: Routes = [
   {
     path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard],
   },
-
   // {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
+  {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   { path: '**', component: PageNotFoundComponent, canActivate: [PageNotFoundGuard] },
 ];
 
