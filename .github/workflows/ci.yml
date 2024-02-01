@@ -1,44 +1,65 @@
 name: Deploy to GitHub Pages
 
 on:
-  - push
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+# https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    name: Angular CI
+    name: Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node 16
+        uses: actions/checkout@v4
+      # https://github.com/pnpm/action-setup#use-cache-to-reduce-installation-time
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-      - uses: pnpm/action-setup@v2.2.2
+          node-version: '20'
+      - uses: pnpm/action-setup@v2
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 7
+          version: 8
           run_install: false
       - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install
+          restore-keys: ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
         run: pnpm install
+      # Build Angular app
       - name: Build
         run: pnpm build
-      - name: Deploy to Pages
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: peaceiris/actions-gh-pages@v3
+      # Allow routing on GitHub Pages
+      - name: Create 404.html
+        run: cp dist/apps/web/index.html dist/apps/web/404.html
+      # https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/conserve/
-          cname: conserve.clashsoft.de
+          path: dist/apps/web
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
