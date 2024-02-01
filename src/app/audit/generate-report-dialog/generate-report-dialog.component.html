@@ -7,20 +7,20 @@
       <li ngbNavItem="energyAudit">
         <a ngbNavLink>Energy Audit</a>
         <ng-template ngbNavContent>
-          <button class="btn btn-primary" (click)="generateReport('energyAuditReport')">
+          <a class="btn btn-primary" [href]="serverUrl + 'api/energyAuditReport?auditId=' + auditId + '&auth_token=' + authToken" download>
             Download Energy Audit
-          </button>
+          </a>
         </ng-template>
       </li>
       <li ngbNavItem="cleanEnergyHub">
         <a ngbNavLink>Clean Energy Hub</a>
         <ng-template ngbNavContent>
-          <button class="btn btn-primary" (click)="generateReport('feasibilityReport')">
+          <a class="btn btn-primary" [href]="serverUrl + 'api/feasibilityReport?auditId=' + auditId + '&auth_token=' + authToken" download>
             Download Feasibility
-          </button>
-          <button class="btn btn-primary" (click)="generateReport('cehMicrogridSheet')">
+          </a>
+          <a class="btn btn-primary" [href]="serverUrl + 'api/cehMicrogridSheet?auditId=' + auditId + '&auth_token=' + authToken" download>
             Download Microgrid
-          </button>
+          </a>
         </ng-template>
       </li>
     </ul>

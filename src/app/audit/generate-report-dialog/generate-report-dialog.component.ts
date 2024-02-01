@@ -9,16 +9,15 @@ import {environment} from 'src/environments/environment.prod';
   styleUrls: ['./generate-report-dialog.component.scss'],
 })
 export class GenerateReportDialogComponent {
-  serverUrl?: string = environment.url + "api/";
+  auditId = '';
+  authToken = '';
+  serverUrl = environment.url;
 
   constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute
+    authService: AuthService,
+    route: ActivatedRoute
   ) {
-  }
-
-  generateReport(type: string) {
-    const {auditId} = this.route.snapshot.params;
-    window.location.href = this.serverUrl + type + '?auditId=' + auditId + '&auth_token=' + this.authService.getAuthToken();
+    this.authToken = authService.getAuthToken() ?? '';
+    route.params.subscribe(({audit}) => this.auditId = audit);
   }
 }
