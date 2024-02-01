@@ -1,5 +1,4 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {AuthService} from 'src/app/shared/services/auth.service';
@@ -16,8 +15,6 @@ export class GenerateReportDialogComponent {
   serverUrl?: string = environment.url + "api/";
 
   constructor(
-    private dialogRef: MatDialogRef<GenerateReportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any,
     public auditService: AuditService,
     private authService: AuthService,
     private route: ActivatedRoute
@@ -32,16 +29,9 @@ export class GenerateReportDialogComponent {
     }
   }
 
-  onCloseDialog() {
-    this.dialogRef.close(this.formData);
-  }
-
-  onClose() {
-    this.dialogRef.close();
-  }
-
   reportType = "auditEnergy";
   generateReport(type: string) {
-    window.location.href = this.serverUrl + type + '?auditId=' + this.dialogData.auditId + '&auth_token=' + this.authService.getAuthToken();
+    const {auditId} = this.route.snapshot.params;
+    window.location.href = this.serverUrl + type + '?auditId=' + auditId + '&auth_token=' + this.authService.getAuthToken();
   }
 }

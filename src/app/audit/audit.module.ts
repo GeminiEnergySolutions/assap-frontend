@@ -23,6 +23,7 @@ import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.compo
 import {GrantComponent} from './grant/grant.component';
 import {AddDataCollectorModalComponent} from './pre-audit/data.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {ModalModule} from 'ng-bootstrap-ext';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     NgbTooltipModule,
     AppFormsModule,
     NgbTypeaheadModule,
+    ModalModule,
     // CompanycamModule,
   ],
   providers: [

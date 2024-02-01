@@ -12,12 +12,13 @@ import { TypeComponent } from './zone-list/zone/type-list/type/type.component';
 import { ZoneComponent } from './zone-list/zone/zone.component';
 import { CleanEnergyHubComponent } from './clean-energy-hub/clean-energy-hub.component';
 import { GrantComponent } from './grant/grant.component';
+import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 
 const routes: Routes = [
   {
     path: '',
     component: PreAuditComponent,
-    children: [ 
+    children: [
       {
         path: ':aid',
         component: AuditComponent,
@@ -27,6 +28,7 @@ const routes: Routes = [
           { path: 'photos', component: PhotosComponent },
           { path: 'cleanenergyhub', component: CleanEnergyHubComponent },
           { path: 'grants', component: GrantComponent },
+          {path: 'report', component: GenerateReportDialogComponent},
           // {path: 'access', component: AccessControlComponent},
         ],
       },

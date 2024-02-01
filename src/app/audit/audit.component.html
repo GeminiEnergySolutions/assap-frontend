@@ -8,11 +8,9 @@
     </h1>
   </div>
   <div class="row m-0" style="margin-bottom: 10px !important;">
-    <!-- [href]="serverUrl + 'api/download/'+this.route.snapshot.params.aid+'/'" download="report.docx" -->
-    <a class="btn btn-primary text-white col-lg-2 col-6" (click)="generateReportDialog()">
+    <a class="btn btn-primary col-lg-2 col-6" routerLink="report">
       Generate Report
     </a>
-    
 
 
     <div class="offset-lg-6 offset-0 col-lg-4 col-6" style="text-align: right;">

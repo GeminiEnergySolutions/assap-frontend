@@ -134,45 +134,6 @@ export class AuditComponent implements OnInit {
   //   });
   // }
 
-  generateReportDialog() {
-    let dialogRef = this.dialog.open(GenerateReportDialogComponent, {
-      data: { auditId: this.route.snapshot.params.aid },
-      width: '500px',
-      disableClose: true,
-    });
-
-    // dialogRef.afterClosed().subscribe((data: any) => {
-    //   if (data) {
-    //     data.auditId = this.route.snapshot.params.aid;
-    //     if (data.type === 'energyAudit') {
-    //       if (data.id) {
-    //         this.auditService
-    //           .updateUtilityInfo(this.route.snapshot.params.aid, data)
-    //           .subscribe((res: any) => {
-    //             this.toastService.success(
-    //               'Success',
-    //               'Utility Info Updated Successfully.'
-    //             );
-    //           });
-    //       } else {
-    //         this.auditService
-    //           .createUtilityInfo(this.route.snapshot.params.aid, data)
-    //           .subscribe((res: any) => {
-    //             this.toastService.success(
-    //               'Success',
-    //               'Utility Info Updated Successfully.'
-    //             );
-    //           });
-    //       }
-    //     } else {
-    //       // this.auditService.updateUtilityInfo(this.route.snapshot.params.aid, data).subscribe((res: any) => {
-    //       //   this.toastService.success('Success', 'Utility Info Updated Successfully.')
-    //       // });
-    //     }
-    //   }
-    // });
-  }
-
   // save(data: FeatureData) {
   save(data: any) {
     if (!this.audit || !this.schema) {
