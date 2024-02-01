@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
-import { PageNotFoundGuard } from './shared/page-not-found.guard';
 import { AuthGuard } from './auth.guard';
 import { LoginGuard } from './login.guard';
 import { ChangePasswordComponent } from './shared/components/change-password/change-password.component';
@@ -20,14 +19,14 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
-    canActivate: [LoginGuard]
+    canActivate: [LoginGuard],
   },
   {
     path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard],
   },
   // {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
-  { path: '**', component: PageNotFoundComponent, canActivate: [PageNotFoundGuard] },
+  {path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({
