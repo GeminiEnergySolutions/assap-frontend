@@ -27,14 +27,14 @@
     </div>
   }
   @case ("date") {
-    <input [ngModel]="formData.data[element.key] | date:'yyyy-MM-dd'"
-           [type]="element.type" class="{{'form-control'+formatDate(element)}}"
+    <input type="date" [ngModel]="formData.data[element.key] | date:'yyyy-MM-dd'"
+           class="{{'form-control'+formatDate(element)}}"
            (ngModelChange)="formData.data[element.key] = $event" id="{{schema.id}}-{{element.key}}"
            [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
   }
   @default {
-    <input [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
-           [type]="element.dataType" class="form-control" [step]="element.type === 'textBox' ? 1 : null"
+    <input [type]="element.dataType" [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
+           class="form-control" [step]="element.type === 'textBox' ? 1 : null"
            id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
   }
 }
