@@ -5,7 +5,7 @@
 @switch (element.type) {
   @case ("select") {
     <select [(ngModel)]="formData.data[element.key]"
-            (change)="changeDropDown(element?.inputList, element.key)" class="form-select"
+            (change)="changeDropDown(element)" class="form-select"
             id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
       @for (value of element.values.split(','); track value) {
         <option [value]="value.substring(value.indexOf(':') + 1)">
@@ -21,20 +21,20 @@
   }
   @case ("checkbox") {
     <div style="text-align: right; margin-top: -30px;">
-      <input type=checkbox [checked]="formData.data[element.key]" (change)="changeCheckBox($event, element.key)"
+      <input type=checkbox [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
              [type]="element.type" id="{{schema.id}}-{{element.key}}" class="text-primary"
              [attr.aria-describedby]="schema.id + '-' + element.key + '-help'" style="height: 15px; width: 15px;">
     </div>
   }
   @case ("date") {
-    <input type="date" [ngModel]="formData.data[element.key] | date:'yyyy-MM-dd'"
-           class="{{'form-control'+formatDate(element)}}"
-           (ngModelChange)="formData.data[element.key] = $event" id="{{schema.id}}-{{element.key}}"
+    <input type="date" [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
+           class="form-control"
+           id="{{schema.id}}-{{element.key}}"
            [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
   }
   @default {
     <input [type]="element.dataType" [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
-           class="form-control" [step]="element.type === 'textBox' ? 1 : null"
+           class="form-control"
            id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
   }
 }
