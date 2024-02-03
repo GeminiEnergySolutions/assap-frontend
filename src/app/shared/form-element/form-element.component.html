@@ -1,11 +1,13 @@
 @if (element.isHeading) {
-  <h2 class="mb-3 text-primary">
+  <h2 class="mb-3">
     {{ element.heading }}
   </h2>
 }
-<label for="{{schema.id}}-{{element.key}}" class="form-label text-primary">
-  {{ element.title }}
-</label>
+@if (element.type !== 'checkbox') {
+  <label for="{{schema.id}}-{{element.key}}" class="form-label">
+    {{ element.title }}
+  </label>
+}
 @switch (element.type) {
   @case ("select") {
     <select
@@ -32,16 +34,18 @@
     ></textarea>
   }
   @case ("checkbox") {
-    <div style="text-align: right; margin-top: -30px;">
+    <div class="form-check">
       <input
         type=checkbox
-        class="text-primary"
+        class="form-check-input"
         id="{{schema.id}}-{{element.key}}"
         [(ngModel)]="formData.data[element.key]"
         (change)="setDirty()"
         [attr.aria-describedby]="schema.id + '-' + element.key + '-help'"
-        style="height: 15px; width: 15px;"
       >
+      <label class="form-check-label" for="{{schema.id}}-{{element.key}}">
+        {{ element.title }}
+      </label>
     </div>
   }
   @case ("date") {
@@ -65,6 +69,6 @@
     >
   }
 }
-<div id="{{schema.id}}-{{element.key}}-help" class="form-text text-primary">
+<div id="{{schema.id}}-{{element.key}}-help" class="form-text">
   {{ element.hint }}
 </div>
