@@ -1,0 +1,28 @@
+<h2 *ngIf="element.isHeading" class="mb-3 text-primary">{{element.heading}}</h2>
+<label for="{{schema.id}}-{{element.key}}" class="form-label text-primary">{{element.title}}</label>
+<ng-container [ngSwitch]="element.type">
+  <select *ngSwitchCase="'select'" [(ngModel)]="formData.data[element.key]"
+          (change)="changeDropDown(element?.inputList, element.key)" class="form-select"
+          id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
+    <option *ngFor="let value of element.values.split(',')"
+            [value]="value.substring(value.indexOf(':') + 1)">
+      {{value.substring(value.indexOf(':') + 1)}}
+    </option>
+  </select>
+  <textarea *ngSwitchCase="'textArea'" [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
+            class="form-control" id="{{schema.id}}-{{element.key}}"
+            [attr.aria-describedby]="schema.id + '-' + element.key + '-help'"></textarea>
+  <div *ngSwitchCase="'checkbox'" style="text-align: right; margin-top: -30px;">
+    <input type=checkbox [checked]="formData.data[element.key]" (change)="changeCheckBox($event, element.key)"
+           [type]="element.type" id="{{schema.id}}-{{element.key}}" class="text-primary"
+           [attr.aria-describedby]="schema.id + '-' + element.key + '-help'" style="height: 15px; width: 15px;">
+  </div>
+  <input *ngSwitchCase="'date'" [ngModel]="formData.data[element.key] | date:'yyyy-MM-dd'"
+         [type]="element.type" class="{{'form-control'+formatDate(element)}}"
+         (ngModelChange)="formData.data[element.key] = $event" id="{{schema.id}}-{{element.key}}"
+         [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
+  <input *ngSwitchDefault [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
+         [type]="element.dataType" class="form-control" [step]="element.type === 'textBox' ? 1 : null"
+         id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
+</ng-container>
+<div id="{{schema.id}}-{{element.key}}-help" class="form-text text-primary">{{element.hint}}</div>

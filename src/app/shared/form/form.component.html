@@ -26,102 +26,16 @@
         <div *ngFor="let element of schema.schema; let i=index" class="mb-3 {{isMediumPage(schema, element)}}">
           <div
             *ngIf="element.key !== 'tube_type' || (element.key === 'tube_type' && equipmentService.equipmentSubTypeData.typeChild?.name === 'Linear Fluorescent')">
-            <h2 *ngIf="element.isHeading" class="mb-3 text-primary">{{element.heading}}</h2>
-            <label for="{{schema.id}}-{{element.key}}" class="form-label text-primary">{{element.title}}</label>
-            <ng-container [ngSwitch]="element.type">
-              <select *ngSwitchCase="'select'" [(ngModel)]="formData.data[element.key]"
-                (change)="changeDropDown(element?.inputList, element.key)" class="form-select"
-                id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
-                <option *ngFor="let value of element.values.split(',')"
-                  [value]="value.substring(value.indexOf(':') + 1)">
-                  {{value.substring(value.indexOf(':') + 1)}}
-                </option>
-              </select>
-              <textarea *ngSwitchCase="'textArea'" [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
-                class="form-control" id="{{schema.id}}-{{element.key}}"
-                [attr.aria-describedby]="schema.id + '-' + element.key + '-help'"></textarea>
-              <div *ngSwitchCase="'checkbox'" style="text-align: right; margin-top: -30px;">
-                <input [checked]="formData.data[element.key]" (change)="changeCheckBox($event, element.key)"
-                  [type]="element.type" id="{{schema.id}}-{{element.key}}" class="text-primary"
-                  [attr.aria-describedby]="schema.id + '-' + element.key + '-help'" style="height: 15px; width: 15px;">
-              </div>
-              <input *ngSwitchCase="'date'" [ngModel]="formData.data[element.key] | date:'yyyy-MM-dd'"
-                [type]="element.type" class="{{'form-control'+formatDate(element)}}"
-                (ngModelChange)="formData.data[element.key] = $event" id="{{schema.id}}-{{element.key}}"
-                [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
-              <input *ngSwitchDefault [(ngModel)]="formData.data[element.key]" (change)="setDirty()"
-                [type]="element.dataType" class="form-control" [step]="element.type === 'textBox' ? 1 : null"
-                id="{{schema.id}}-{{element.key}}" [attr.aria-describedby]="schema.id + '-' + element.key + '-help'">
-            </ng-container>
-            <div id="{{schema.id}}-{{element.key}}-help" class="form-text text-primary">{{element.hint}}</div>
+            <app-form-element [element]="element" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
           </div>
           <!-- Begin Second Layer Inputs -->
           <div *ngFor="let element1 of element?.inputList; let j=index" class="mt-3 mx-2">
             <div *ngIf="!element1.dependentKeyValue || element1.dependentKeyValue === formData.data[element.key]">
-              <h2 *ngIf="element1.isHeading" class="mb-3 text-primary">{{element1.heading}}</h2>
-              <label for="{{schema.id}}-{{element1.key}}" class="form-label text-primary">{{element1.title}}</label>
-              <ng-container [ngSwitch]="element1.type">
-                <select *ngSwitchCase="'select'" [(ngModel)]="formData.data[element1.key]"
-                  (change)="changeDropDown(element1?.inputList, element1.key)" class="form-select"
-                  id="{{schema.id}}-{{element1.key}}"
-                  [attr.aria-describedby]="schema.id + '-' + element1.key + '-help'">
-                  <option *ngFor="let value of element1.values.split(',')"
-                    [value]="value.substring(value.indexOf(':') + 1)">
-                    {{value.substring(value.indexOf(':') + 1)}}
-                  </option>
-                </select>
-                <textarea *ngSwitchCase="'textArea'" [(ngModel)]="formData.data[element1.key]" (change)="setDirty()"
-                  class="form-control" id="{{schema.id}}-{{element1.key}}"
-                  [attr.aria-describedby]="schema.id + '-' + element1.key + '-help'"></textarea>
-                <div *ngSwitchCase="'checkbox'" style="text-align: right; margin-top: -30px;">
-                  <input [checked]="formData.data[element1.key]" (change)="changeCheckBox($event, element1.key)"
-                    [type]="element1.type" id="{{schema.id}}-{{element1.key}}" class="text-primary"
-                    [attr.aria-describedby]="schema.id + '-' + element1.key + '-help'"
-                    style="height: 15px; width: 15px;">
-                </div>
-                <input *ngSwitchCase="'date'" [ngModel]="formData.data[element1.key] | date:'yyyy-MM-dd'"
-                  [type]="element1.type" class="{{'form-control'+formatDate(element1)}}"
-                  (ngModelChange)="formData.data[element1.key] = $event" id="{{schema.id}}-{{element1.key}}"
-                  [attr.aria-describedby]="schema.id + '-' + element1.key + '-help'">
-                <input *ngSwitchDefault [(ngModel)]="formData.data[element1.key]" (change)="setDirty()"
-                  [type]="element1.dataType" class="form-control" [step]="element1.type === 'textBox' ? 1 : null"
-                  id="{{schema.id}}-{{element1.key}}"
-                  [attr.aria-describedby]="schema.id + '-' + element1.key + '-help'">
-              </ng-container>
-              <div id="{{schema.id}}-{{element1.key}}-help" class="form-text text-primary">{{element1.hint}}</div>
+              <app-form-element [element]="element1" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
               <!-- Begin Third Layer Inputs -->
               <div *ngFor="let element2 of element1?.inputList; let k=index" class="mt-3 mx-2">
                 <div *ngIf="!element2.dependentKeyValue || element2.dependentKeyValue === formData.data[element1.key]">
-                  <h2 *ngIf="element2.isHeading" class="mb-3 text-primary">{{element2.heading}}</h2>
-                  <label for="{{schema.id}}-{{element2.key}}" class="form-label text-primary">{{element2.title}}</label>
-                  <ng-container [ngSwitch]="element2.type">
-                    <select *ngSwitchCase="'select'" [(ngModel)]="formData.data[element2.key]" (change)="setDirty()"
-                      class="form-select" id="{{schema.id}}-{{element2.key}}"
-                      [attr.aria-describedby]="schema.id + '-' + element2.key + '-help'">
-                      <option *ngFor="let value of element2.values.split(',')"
-                        [value]="value.substring(value.indexOf(':') + 1)">
-                        {{value.substring(value.indexOf(':') + 1)}}
-                      </option>
-                    </select>
-                    <textarea *ngSwitchCase="'textArea'" [(ngModel)]="formData.data[element2.key]" (change)="setDirty()"
-                      class="form-control" id="{{schema.id}}-{{element2.key}}"
-                      [attr.aria-describedby]="schema.id + '-' + element2.key + '-help'"></textarea>
-                    <div *ngSwitchCase="'checkbox'" style="text-align: right; margin-top: -30px;">
-                      <input [checked]="formData.data[element2.key]" (change)="changeCheckBox($event, element2.key)"
-                        [type]="element2.type" id="{{schema.id}}-{{element2.key}}" class="text-primary"
-                        [attr.aria-describedby]="schema.id + '-' + element2.key + '-help'"
-                        style="height: 15px; width: 15px;">
-                    </div>
-                    <input *ngSwitchCase="'date'" [ngModel]="formData.data[element2.key] | date:'yyyy-MM-dd'"
-                      [type]="element2.type" class="{{'form-control'+formatDate(element2)}}"
-                      (ngModelChange)="formData.data[element2.key] = $event" id="{{schema.id}}-{{element2.key}}"
-                      [attr.aria-describedby]="schema.id + '-' + element2.key + '-help'">
-                    <input *ngSwitchDefault [(ngModel)]="formData.data[element2.key]" (change)="setDirty()"
-                      [type]="element2.dataType" class="form-control" [step]="element2.type === 'textBox' ? 1 : null"
-                      id="{{schema.id}}-{{element2.key}}"
-                      [attr.aria-describedby]="schema.id + '-' + element2.key + '-help'">
-                  </ng-container>
-                  <div id="{{schema.id}}-{{element2.key}}-help" class="form-text text-primary">{{element2.hint}}</div>
+                  <app-form-element [element]="element2" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
                 </div>
               </div>
               <!-- End Third Layer Inputs -->

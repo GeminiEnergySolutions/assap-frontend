@@ -25,11 +25,6 @@ export class FormComponent implements OnInit {
     this.equipmentService.equipmentSubTypeData = null;
   }
 
-  formatDate(element: any) {
-    this.formData.data[element.key] = !this.formData.data[element.key] && element.isDateNow ? new Date().toISOString() : this.formData.data[element.key];
-    return '';
-  }
-
   ngOnInit(): void {
     this.route.params
       .pipe(
@@ -235,37 +230,6 @@ export class FormComponent implements OnInit {
       gridSize = element.key.includes("hour_time_") ? 'col-6' : gridSize;
     }
     return gridSize;
-  }
-
-  changeDropDown(inputList: any[], key: string) {
-    if (inputList && inputList.length) {
-
-      const keyValue = this.formData.data[key]
-      let dependentInputList = inputList.filter((a: any) => a.dependentKeyValue != keyValue)
-
-      dependentInputList.forEach((element: any) => {
-
-        if (this.formData.data[element.key]) {
-          this.formData.data[element.key] = "";
-
-          if (element.inputList && element.inputList.length) {
-            dependentInputList.forEach((element1: any) => {
-
-              if (this.formData.data[element1.key])
-                this.formData.data[element1.key] = "";
-
-            });
-          }
-        }
-      });
-    }
-
-    this.setDirty();
-  }
-
-  changeCheckBox(event: any, key: string) {
-    this.formData.data[key] = event.target.checked;
-    this.setDirty();
   }
 
   setDirty() {
