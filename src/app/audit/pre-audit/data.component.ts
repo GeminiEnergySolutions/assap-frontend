@@ -22,14 +22,14 @@ import { ToastService } from 'ng-bootstrap-ext';
             {{ item.userName | titlecase }}
             <!-- ({{ item.state | titlecase }}) -->
             <pre>{{ item.email }}</pre>
-            
+
           </label>
         </li>
       </ul>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Close</button>
-      <button type="button" class="btn btn-primary text-white" (click)="onOkClick()">Add</button>
+      <button type="button" class="btn btn-primary" (click)="onOkClick()">Add</button>
     </div>
   `,
 })
