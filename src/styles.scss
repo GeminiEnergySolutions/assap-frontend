@@ -5,11 +5,11 @@ $appToolbarBackground: #1c9d12;
 $websitePrimary: #1c9d12;
 
 $primary: $appToolbarBackground;
+$color-mode-type: 'media-query';
 
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons";
-@import "node_modules/bootstrap-darkmode/scss/darktheme";
 
 html, body {
   height: 100%;
