@@ -1,16 +1,3 @@
-<!-- <div fxFill fxLayout="column" fxLayoutAlign="space-between">
-  <div fxLayout="row wrap">
-    <ng-container *ngFor="let image of data">
-      <img [src]="image.url">
-      <h4 style="margin-top: -40px;">hi img</h4>
-    </ng-container>
-  </div>
-
-  <mat-paginator [length]="data2.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"
-    (page)="getData($event)">
-  </mat-paginator>
-</div> -->
-
 <div class="row my-2">
   <div class="col" style="padding-left: 0;">
     <div class="form-group">
@@ -22,7 +9,7 @@
       </select>
     </div>
   </div>
-  
+
   <div class="col" *ngIf="photoType === 'All'">
     <span>Equipment</span>
     <select [(ngModel)]="equipment" (change)="updatePhotosFilter()" class="form-select">
