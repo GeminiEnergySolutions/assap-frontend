@@ -15,8 +15,7 @@ export class SignupComponent implements OnInit {
 
   public signupForm!: FormGroup;
   public selectedUserType: string = 'sandbox';
-  public states: any = [];
-  isCompleted = false;
+  submitting = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,14 +60,14 @@ export class SignupComponent implements OnInit {
       // userData.state = this.signupForm.get('state')?.value;
     }
 
-    this.isCompleted = false;
+    this.submitting = true;
     this.authService.signUp(userData).subscribe((res) => {
-        this.isCompleted = true;
+        this.submitting = false;
         this.toastService.success('Success', 'Registration successful!');
         this.signupForm.reset();
         this.router.navigate(['auth/login']);
     }, error => {
-      this.isCompleted = true;
+      this.submitting = false;
       this.toastService.error('Error', 'Registration failed', error);
     });
   }

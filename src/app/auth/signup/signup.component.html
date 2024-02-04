@@ -39,9 +39,11 @@
                       <input type="password" class="form-control" formControlName="ConfirmPassword" id="ConfirmPassword">
                   </div>
 
-                    <button type="submit" class="btn btn-primary text-white mb-2" [disabled]="!isCompleted || !signupForm.valid">
+                    <button type="submit" class="btn btn-primary text-white mb-2" [disabled]="submitting || !signupForm.valid">
                       Sign Up
-                      <span *ngIf="!isCompleted" class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
+                      @if (submitting) {
+                        <span class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
+                      }
                     </button>
                   </form>
                   <a routerLink="/auth/login"> Already registered? Click to Login!! </a>
