@@ -5,30 +5,15 @@
     </button>
     <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
-
-        <!-- Show these links only when user is logged in -->
-        <ng-container>
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/audits">Audits</a>
-          </li>
-          <!-- <li class="nav-item" *ngIf="authService.currentLoginUser.role == 'admin' || authService.currentLoginUser.role == 'superAdmin'" routerLinkActive="active">
-            <a class="nav-link" routerLink="/settings">Settings</a>
-          </li> -->
-          <li class="nav-item" >
-            <a class="nav-link" routerLink="/change-password">Change Password</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link logout-btn" (click)="logout()" style="cursor: pointer;">Logout</a>
-          </li>
-        </ng-container>
-
-        <!-- Include the Audits link for data collector as well -->
-        <!-- <li class="nav-item" *ngIf="isDataCollectorUser()" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/audits">Audits</a>
         </li>
-        <li class="nav-item" *ngIf="isGuest()" routerLinkActive="active">
-          <a class="nav-link" routerLink="/audits">Audits</a>
-        </li> -->
+        <li class="nav-item" >
+          <a class="nav-link" routerLink="/change-password">Change Password</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link logout-btn" (click)="logout()" style="cursor: pointer;">Logout</a>
+        </li>
       </ul>
     </div>
   </div>

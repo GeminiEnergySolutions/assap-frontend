@@ -14,18 +14,9 @@
 
       <div class="flex-grow-1">
         {{audit.auditName | titlecase}}
-        <!-- {{audit.pre_audit_form?.data?.client_state ? audit.pre_audit_form.data?.client_state : 'Unclassified'}} -->
         <div *ngIf="authService.currentLoginUser.role === 'superAdmin' && audit.user.role.role !== 'superAdmin'" >
           ({{audit.user.userName | titlecase}})
         </div>
-        <!-- <div class="form-check form-check-inline">
-          <span class="form-check-label">
-            {{audit.auditName | titlecase}}
-          </span>
-          <span class="form-check-label">
-            {{audit.pre_audit_form.data?.client_state}}
-          </span>
-        </div> -->
         <i *ngIf="audit.pendingChanges !== undefined" class="bi-wifi-off" ngbTooltip="Available Offline"></i>
       </div>
 
@@ -44,10 +35,6 @@
             </button>
             <div class="dropdown-divider"></div>
           </div>
-          <!-- <button class="text-primary" ngbDropdownItem (click)="download(audit)">
-            Download Offline Copy
-          </button>
-          <div class="dropdown-divider"></div> -->
           <button ngbDropdownItem class="text-danger" (click)="delete(audit)"
           *ngIf="authService.currentLoginUser.role !== 'dataCollector' || (audit.user.role.role !== 'admin' && audit.user.role.role !== 'superAdmin')">
             Delete
@@ -65,9 +52,6 @@
           <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-danger" (click)="download(audit)">
             Discard
           </button>
-          <!-- <button *ngIf="isAdminUser" ngbDropdownItem class="text-danger" (click)="download(audit)">
-            Add DataCollector
-          </button> -->
           <button ngbDropdownItem class="text-danger" (click)="deleteOffline(audit)">
             Remove Offline Copy
           </button>

@@ -39,11 +39,7 @@
 </div>
 <div class="row">
   <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box p-0" *ngFor="let item of data">
-    <!-- <div style="padding-left: 4px;"> -->
-    <!-- <ng-container> -->
     <img [src]="item.photo" class="img-fluid">
-    <!-- <div class="imagee" [style.background-image]="'url(' + image.url + ')'">
-        </div> -->
     <div class="overlay">
       {{item.equipmentId ?
       (item.auditName.auditName + ' / ' + item.zoneName.zoneName + ' / ' + item.equipmentName.equipmentName + ' / ' + item.typeName.name + ' / ' + item.subTypeName.name | uppercase)
@@ -54,8 +50,6 @@
       (item.auditName.auditName | uppercase)
       }}
     </div>
-    <!-- </ng-container>m -->
-    <!-- </div> -->
   </div>
 
   <mat-paginator [length]="dataForLength.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"

@@ -1,8 +1,4 @@
 <div class="list-group rounded-0">
-  <!-- <button *ngIf="!equipment?.subTypeExist"
-          class="list-group-item list-group-item-action text-primary" (click)="createType(null, type)">
-    New {{ type }}
-  </button> -->
   <details class="list-group-item text-primary">
     <summary>New</summary>
     <button *ngFor="let item of types" class="btn btn-sm btn-link link-primary" (click)="createType(item)">

@@ -7,10 +7,6 @@
     <span class="text-muted small">
       {{ equipmentService.equipmentSubTypeData?.type ? equipmentService.equipmentSubTypeData?.type?.name : equipmentService.equipmentSubTypeData?.typeChild?.name | titlecase }}
     </span>
-    <!-- <a class="btn btn-primary ms-2 bi-camera" [href]="'ccam://camera/' + project?.id | safe:'url'"
-       (click)="startCapture(); modalService.open(tagModal, {ariaLabelledBy: 'tag-modal-title'})">
-      Capture Photo
-    </a> -->
   </h1>
 
   <div class="col my-3" style="text-align: right; padding-right: 25px;">

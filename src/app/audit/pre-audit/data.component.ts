@@ -10,17 +10,14 @@ import { ToastService } from 'ng-bootstrap-ext';
     <div class="modal-header">
       <h4 class="modal-title">Add Data Collector ({{audit.auditName | titlecase}})</h4>
       <button type="button" class="btn-close btn-close-white" (click)="activeModal.dismiss()">
-        <!-- <span aria-hidden="true">&times;</span> -->
       </button>
     </div>
     <div class="modal-body" style="height: 200px; overflow-y: scroll;">
-      <!-- Display your scrollable list here -->
       <ul>
         <li *ngFor="let item of dataCollectors" class="data-collector-item">
           <label>
             <input type="checkbox" [(ngModel)]="item.selected" />
             {{ item.userName | titlecase }}
-            <!-- ({{ item.state | titlecase }}) -->
             <pre>{{ item.email }}</pre>
 
           </label>

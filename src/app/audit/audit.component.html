@@ -4,7 +4,6 @@
     <h1>
       <a class="bi-chevron-left d-lg-none" routerLink=".  ."></a>
       {{ audit?.auditName | titlecase }}
-      <!-- {{audit.pre_audit_form?.data?.client_state ? audit.pre_audit_form.data?.client_state : 'Unclassified'}} -->
     </h1>
   </div>
   <div class="row m-0" style="margin-bottom: 10px !important;">
@@ -15,9 +14,6 @@
 
     <div class="offset-lg-6 offset-0 col-lg-4 col-6" style="text-align: right;">
       <a class="btn btn-primary" (click)="captureDialog()" style="margin-right: 5px;">Capture</a>
-      <!-- </div>
-    <div class="col-lg-2 col-4" style="text-align: right;"> -->
-      <!-- <a class="btn btn-primary" (click)="uploadFileDialog()">Upload</a> -->
     </div>
   </div>
   <div class="my-2">
@@ -52,9 +48,6 @@
     <li ngbNavItem="cleanenergyhub">
       <a ngbNavLink routerLink="cleanenergyhub">Clean Energy Hub</a>
     </li>
-    <!-- <li ngbNavItem="access">
-      <a ngbNavLink routerLink="access">Access Control</a>
-    </li> -->
   </ul>
 
   <router-outlet></router-outlet>

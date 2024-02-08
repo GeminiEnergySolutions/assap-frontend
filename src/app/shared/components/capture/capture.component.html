@@ -7,12 +7,7 @@
 <div class="top-layer">
 	<mat-toolbar>
 		<mat-toolbar-row>
-			<!-- <button mat-icon-button (click)="rotate()" [disabled]="pictureData">
-        <mat-icon>rotate_left</mat-icon>
-      </button> -->
 			<button *ngIf="canSwapCamera" mat-icon-button (click)="swapCamera()" [disabled]="pictureData">
-        <!-- <mat-icon>camera_rear</mat-icon> -->
-        <!-- <span>Swap</span> -->
         <i class="bi-arrow-repeat"></i>
       </button>
 			<button *ngIf="canTorch" mat-icon-button (click)="toggleTorch()">
@@ -21,8 +16,6 @@
         </button>
 			<span class="flex-fill"></span>
 			<button mat-icon-button (click)="close()">
-        <!-- <mat-icon>close</mat-icon> -->
-        <!-- <span>Close</span> -->
         <i class="bi-x"></i>
       </button>
 		</mat-toolbar-row>
@@ -31,8 +24,6 @@
 	<div class="flex-fill"></div>
 	<div *ngIf="!pictureData" class="take-picture-container">
 		<button mat-icon-button (click)="takePicture()">
-      <!-- <mat-icon>camera</mat-icon> -->
-      <!-- <span>Capture</span> -->
       <i class="bi-camera"></i>
     </button>
 	</div>

@@ -3,16 +3,6 @@
     <h1>Welcome to Conserve!</h1>
     <h2>Select a Profile to work with:</h2>
     <div class="list-group mb-3">
-      <!-- <a
-        *ngFor="let profile of profiles | keyvalue"
-        class="list-group-item list-group-item-action"
-        routerLink="audits"
-        (click)="setActiveProfile(profile.key)">
-        <h3>{{ profile.value.name }}</h3>
-        <span class="text-muted">
-          {{ profile.value.url }}
-        </span>
-      </a> -->
       <a
         class="list-group-item list-group-item-action"
         routerLink="audits"
@@ -22,18 +12,6 @@
           Url
         </span>
       </a>
-      <!-- <a
-        class="list-group-item list-group-item-action"
-        routerLink="audits"
-        (click)="setActiveProfile('')">
-        <h3>Profile2</h3>
-        <span class="text-muted">
-          Url2
-        </span>
-      </a> -->
     </div>
-    <!-- <a routerLink="settings">
-      Edit Profiles in Settings
-    </a> -->
   </div>
 </div>
