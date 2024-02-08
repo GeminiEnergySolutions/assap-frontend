@@ -6,29 +6,9 @@ import { AuditService } from 'src/app/shared/services/audit.service';
 import { ToastService } from 'ng-bootstrap-ext';
 
 @Component({
-  template: `
-    <div class="modal-header">
-      <h4 class="modal-title">Add Data Collector ({{audit.auditName | titlecase}})</h4>
-      <button type="button" class="btn-close btn-close-white" (click)="activeModal.dismiss()">
-      </button>
-    </div>
-    <div class="modal-body" style="height: 200px; overflow-y: scroll;">
-      <ul>
-        <li *ngFor="let item of dataCollectors" class="data-collector-item">
-          <label>
-            <input type="checkbox" [(ngModel)]="item.selected" />
-            {{ item.userName | titlecase }}
-            <pre>{{ item.email }}</pre>
-
-          </label>
-        </li>
-      </ul>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Close</button>
-      <button type="button" class="btn btn-primary" (click)="onOkClick()">Add</button>
-    </div>
-  `,
+  selector: 'app-add-data-collector-modal',
+  templateUrl: './add-data-collector-modal.component.html',
+  styleUrls: ['./add-data-collector-modal.component.scss'],
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit: any;

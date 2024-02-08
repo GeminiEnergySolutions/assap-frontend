@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastService } from 'ng-bootstrap-ext';
-import { forkJoin } from 'rxjs';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {AddDataCollectorModalComponent} from './data.component'
-import { AuthService } from 'src/app/shared/services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {ToastService} from 'ng-bootstrap-ext';
+import {forkJoin} from 'rxjs';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AuthService} from 'src/app/shared/services/auth.service';
+import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
+
 @Component({
   selector: 'app-pre-audit',
   templateUrl: './pre-audit.component.html',

@@ -8,7 +8,6 @@ import {AuditRoutingModule} from './audit-routing.module';
 import {AuditComponent} from './audit.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {ZoneListComponent} from './zone-list/zone-list.component';
-// import { PhotosComponent } from '../audit/photos/photos.component';
 import {AuditZoneService} from '../shared/services/audit-zone.service';
 import {PreZoneComponent} from './zone-list/pre-zone/pre-zone.component';
 import {ZoneComponent} from './zone-list/zone/zone.component';
@@ -21,9 +20,9 @@ import {FileUploadComponent} from './file-upload/file-upload.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantComponent} from './grant/grant.component';
-import {AddDataCollectorModalComponent} from './pre-audit/data.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from 'ng-bootstrap-ext';
+import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 
 @NgModule({
   imports: [
@@ -38,7 +37,6 @@ import {ModalModule} from 'ng-bootstrap-ext';
     AppFormsModule,
     NgbTypeaheadModule,
     ModalModule,
-    // CompanycamModule,
   ],
   providers: [
     AuditZoneService,
@@ -59,9 +57,7 @@ import {ModalModule} from 'ng-bootstrap-ext';
     GenerateReportDialogComponent,
     CleanEnergyHubComponent,
     GrantComponent,
-    // AccessControlComponent,
   ],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuditModule {
 }
