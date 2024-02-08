@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { DataCollector } from './data-collector.interface'; // Adjust the import path
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { ToastService } from 'ng-bootstrap-ext';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {DataCollector} from './data-collector.interface';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {ToastService} from 'ng-bootstrap-ext';
 
 @Component({
   selector: 'app-add-data-collector-modal',
@@ -16,7 +15,6 @@ export class AddDataCollectorModalComponent implements OnInit {
 
   constructor(
     private auditService: AuditService,
-    private authService: AuthService,
     public activeModal: NgbActiveModal,
     private cdRef: ChangeDetectorRef,
     private toastService: ToastService,
