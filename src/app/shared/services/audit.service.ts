@@ -4,6 +4,7 @@ import { ToastService } from 'ng-bootstrap-ext';
 import { Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
+import {SchemaResponse, SchemaSection} from '../model/schema.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -153,8 +154,8 @@ export class AuditService {
   updateGrantsData(auditId: number, formData: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/grantdata/${auditId}/`, formData);
   }
-  getGrantsJsonSchema(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/grantschema/`);
+  getGrantsJsonSchema(): Observable<SchemaSection[]> {
+    return this.http.get<SchemaSection[]>(`${this.rootUrl}api/grantschema/`);
   }
 
   getCleanEnergyHubData(auditId: number): Observable<any> {
@@ -166,12 +167,12 @@ export class AuditService {
   updateCleanEnergyHubData(auditId: number, formData: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/cleanenergyhubdata/${auditId}/`, formData);
   }
-  getCleanEnergyHubJsonSchema(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/cleanenergyhubschema/`);
+  getCleanEnergyHubJsonSchema(): Observable<SchemaSection[]> {
+    return this.http.get<SchemaSection[]>(`${this.rootUrl}api/cleanenergyhubschema/`);
   }
 
-  getPreAuditJsonSchema(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditSchema/`);
+  getPreAuditJsonSchema(): Observable<SchemaResponse> {
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/preAuditSchema/`);
   }
   getPreAuditData(auditId: number): Observable<PreAuditDataResponse> {
     return this.http.get<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`);

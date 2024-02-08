@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import {SchemaSection} from '../model/schema.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +52,8 @@ export class EquipmentService {
     return this.http.delete(`${this.rootUrl}api/equipmentSubType/${subTypeId}`);
   }
 
-  getEquipmentTypeFormSchema(typeId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/schema/type/${typeId}/`);
+  getEquipmentTypeFormSchema(typeId: number): Observable<SchemaSection[]> {
+    return this.http.get<SchemaSection[]>(`${this.rootUrl}api/schema/type/${typeId}/`);
   }
   getEquipmentFormDataBySubType(subTypeId: number): Observable<any> {
     return this.http.get(`${this.rootUrl}api/equipmentForm?subTypeId=${subTypeId}`);
@@ -63,7 +64,7 @@ export class EquipmentService {
   updateEquipmentFormData(equipmentFormData: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/equipmentForm`, equipmentFormData);
   }
-  
+
   auditZoneHVAC(data: any): Observable<any> {
     return this.http.post(`${this.rootUrl}api/auditZoneHVAC`, data);
   }

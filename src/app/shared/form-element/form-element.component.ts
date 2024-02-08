@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {SchemaElement, SchemaSection} from '../model/schema.interface';
 
 @Component({
   selector: 'app-form-element',
@@ -6,8 +7,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrl: './form-element.component.scss'
 })
 export class FormElementComponent {
-  @Input() element!: any;
-  @Input() schema!: any;
+  @Input() element!: SchemaElement;
+  @Input() schema!: SchemaSection;
   @Input() formData!: { data: any };
 
   @Output() dirty = new EventEmitter();

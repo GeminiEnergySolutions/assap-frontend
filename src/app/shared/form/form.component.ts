@@ -4,6 +4,7 @@ import {ToastService} from 'ng-bootstrap-ext';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
+import {SchemaSection} from '../model/schema.interface';
 
 @Component({
   selector: 'app-form',
@@ -12,7 +13,7 @@ import {EquipmentService} from '../services/equipment.service';
 })
 export class FormComponent implements OnInit {
   dirty = false;
-  typeSchema: any = [];
+  typeSchema: SchemaSection[] = [];
   formData?: any = { data: {} };
   formType: string = '';
 
