@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ToastService } from 'ng-bootstrap-ext';
 import { Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -142,109 +143,6 @@ export class AuditService {
   getAllDataCollectorAudit(): Observable<any> {
     return this.http.get(`${this.rootUrl}api/dataCollectorAudits`);
   }
-  // createAuditDataCollector(data: any): Observable<any> {
-  //   return this.http.post(`${this.rootUrl}api/dataCollectorAudits`, data);
-  // }
-
-  getAuditorInfo(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditAuditorInfo/${auditId}/`);
-  }
-  createAuditorInfo(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditAuditorInfo/${auditId}/`, data);
-  }
-  updateAuditorInfo(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditAuditorInfo/${auditId}/`, data);
-  }
-
-  getGeneralInfo(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditGeneralClientInfo/${auditId}/`);
-  }
-  createGeneralInfo(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditGeneralClientInfo/${auditId}/`, data);
-  }
-  updateGeneralInfo(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditGeneralClientInfo/${auditId}/`, data);
-  }
-
-  getPreAuditInterviewee(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditInterviewee/${auditId}/`);
-  }
-  createPreAuditInterviewee(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditInterviewee/${auditId}/`, data);
-  }
-  updatePreAuditInterviewee(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditInterviewee/${auditId}/`, data);
-  }
-
-  getPreAuditOperationHours(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditOperationHours/${auditId}/`);
-  }
-  createPreAuditOperationHours(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditOperationHours/${auditId}/`, data);
-  }
-  updatePreAuditOperationHours(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditOperationHours/${auditId}/`, data);
-  }
-
-  getPreAuditArea(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditArea/${auditId}/`);
-  }
-  createPreAuditArea(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditArea/${auditId}/`, data);
-  }
-  updatePreAuditArea(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditArea/${auditId}/`, data);
-  }
-
-  getPreAuditAge(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditAge/${auditId}/`);
-  }
-  createPreAuditAge(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditAge/${auditId}/`, data);
-  }
-  updatePreAuditAge(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditAge/${auditId}/`, data);
-  }
-
-  getPreaAditHVACMaintainence(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditHVACMaintainence/${auditId}/`);
-  }
-  createPreaAditHVACMaintainence(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditHVACMaintainence/${auditId}/`, data);
-  }
-  updatePreaAditHVACMaintainence(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditHVACMaintainence/${auditId}/`, data);
-  }
-
-  getPreAuditOther(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditOther/${auditId}/`);
-  }
-  createPreAuditOther(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditOther/${auditId}/`, data);
-  }
-  updatePreAuditOther(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditOther/${auditId}/`, data);
-  }
-
-  getPreAuditGeneralSiteAccessNotes(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditGeneralSiteAccessNotes/${auditId}/`);
-  }
-  createPreAuditGeneralSiteAccessNotes(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditGeneralSiteAccessNotes/${auditId}/`, data);
-  }
-  updatePreAuditGeneralSiteAccessNotes(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditGeneralSiteAccessNotes/${auditId}/`, data);
-  }
-
-  getUtillityBillAnalysis(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditUtilityBillAnalysis/${auditId}/`);
-  }
-  createUtillityBillAnalysis(auditId: Number, data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditUtilityBillAnalysis/${auditId}/`, data);
-  }
-  updateUtillityBillAnalysis(auditId: Number, data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditUtilityBillAnalysis/${auditId}/`, data);
-  }
 
   getGrantsData(auditId: number): Observable<any> {
     return this.http.get(`${this.rootUrl}api/grantdata/${auditId}/`);
@@ -275,13 +173,13 @@ export class AuditService {
   getPreAuditJsonSchema(): Observable<any> {
     return this.http.get(`${this.rootUrl}api/preAuditSchema/`);
   }
-  getPreAuditData(auditId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/preAuditFormData/${auditId}/`);
+  getPreAuditData(auditId: number): Observable<PreAuditDataResponse> {
+    return this.http.get<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`);
   }
-  createPreAuditData(auditId: number, formData: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/preAuditFormData/${auditId}/`, formData);
+  createPreAuditData(auditId: number, formData: CreatePreAuditData): Observable<PreAuditDataResponse> {
+    return this.http.post<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`, formData);
   }
-  updatePreAuditData(auditId: number, formData: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/preAuditFormData/${auditId}/`, formData);
+  updatePreAuditData(auditId: number, formData: PreAuditData): Observable<PreAuditDataResponse> {
+    return this.http.put<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`, formData);
   }
 }
