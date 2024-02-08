@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-master-detail',
@@ -6,5 +6,4 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./master-detail.component.scss']
 })
 export class MasterDetailComponent {
-  @Input() overFlow: boolean = false;
 }

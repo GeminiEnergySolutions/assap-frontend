@@ -1,10 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
-import { switchMap } from 'rxjs';
-import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { EquipmentService } from 'src/app/shared/services/equipment.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs';
+import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 
 @Component({
   selector: 'app-zone-list',
@@ -14,13 +11,10 @@ import { EquipmentService } from 'src/app/shared/services/equipment.service';
 export class ZoneListComponent implements OnInit {
 
   zones: any = [];
-  @Output() outPutOverFlow: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private route: ActivatedRoute,
-    private auditService: AuditService,
     private zoneService: AuditZoneService,
-    private toastService: ToastService,
   ) {
   }
 
@@ -29,11 +23,6 @@ export class ZoneListComponent implements OnInit {
       switchMap(({ aid }) => this.zoneService.getAllAuditZone(aid)),
     ).subscribe((zones: any) => {
       this.zones = zones.data;
-      if (this.zones.length * 60 > window.innerHeight - 210) {
-        this.outPutOverFlow.emit(true);
-      } else {
-        this.outPutOverFlow.emit(false);
-      }
     });
   }
 
@@ -47,11 +36,6 @@ export class ZoneListComponent implements OnInit {
       switchMap(({ aid }) => this.zoneService.createAuditZone({ auditId: aid, zoneName: name }, aid)),
     ).subscribe((res: any) => {
       this.zones.push(res.data);
-      if (this.zones.length * 60 > window.innerHeight - 210) {
-        this.outPutOverFlow.emit(true);
-      } else {
-        this.outPutOverFlow.emit(false);
-      }
     });
   }
 
@@ -79,11 +63,6 @@ export class ZoneListComponent implements OnInit {
     ).subscribe((res: any) => {
       let index = this.zones.findIndex((a: any) => a.zoneId === zone.zoneId);
       this.zones.splice(index, 1);
-      if (this.zones.length * 60 > window.innerHeight - 210) {
-        this.outPutOverFlow.emit(true);
-      } else {
-        this.outPutOverFlow.emit(false);
-      }
     });
   }
 

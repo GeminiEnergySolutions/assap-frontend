@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
-import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { EquipmentService } from 'src/app/shared/services/equipment.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs';
+import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {EquipmentService} from 'src/app/shared/services/equipment.service';
 
 @Component({
   selector: 'app-pre-type',
@@ -15,8 +15,6 @@ export class PreTypeComponent implements OnInit {
   audit?: any;
   zone?: any;
   equipment?: any;
-  // type?: string;
-  overFlow: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private auditService: AuditService,
@@ -47,9 +45,4 @@ export class PreTypeComponent implements OnInit {
       this.equipment = res.data;
     });
   }
-
-  getOverFlow(overFlow: boolean) {
-    this.overFlow = overFlow;
-  }
-
 }

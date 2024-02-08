@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
-import { AuditService } from 'src/app/shared/services/audit.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs';
+import {AuditService} from 'src/app/shared/services/audit.service';
 
 @Component({
   selector: 'app-pre-zone',
@@ -9,10 +9,8 @@ import { AuditService } from 'src/app/shared/services/audit.service';
   styleUrls: ['./pre-zone.component.scss']
 })
 export class PreZoneComponent implements OnInit {
-
   audit: any;
-  overFlow: boolean = false;
-  
+
   constructor(private auditService: AuditService,
     private route: ActivatedRoute,
   ) { }
@@ -24,9 +22,4 @@ export class PreZoneComponent implements OnInit {
       this.audit = res.data;
     });
   }
-
-  getOverFlow(overFlow: boolean) {
-    this.overFlow = overFlow;
-  }
-
 }
