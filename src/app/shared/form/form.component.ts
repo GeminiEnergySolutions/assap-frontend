@@ -122,6 +122,14 @@ export class FormComponent implements OnInit {
   }
 
   save() {
+    // delete localStorage keys starting with this.formId
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith(this.formId)) {
+        localStorage.removeItem(key);
+      }
+    }
+
     if (this.formType === 'preAudit') {
       if (this.formData.id) {
         this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
