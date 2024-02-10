@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {SchemaElement, SchemaSection} from '../model/schema.interface';
 
 @Component({
@@ -6,17 +6,23 @@ import {SchemaElement, SchemaSection} from '../model/schema.interface';
   templateUrl: './form-element.component.html',
   styleUrl: './form-element.component.scss'
 })
-export class FormElementComponent {
+export class FormElementComponent implements OnChanges {
   @Input() element!: SchemaElement;
   @Input() schema!: SchemaSection;
+  @Input() formId!: string;
   @Input() formData!: { data: any };
 
   @Output() dirty = new EventEmitter();
 
+  id = '';
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+  }
+
   setDirty() {
     this.dirty.emit();
   }
-
   // TODO Autofill Dates:
   //   this.formData.data[element.key] = !this.formData.data[element.key] && element.isDateNow ? new Date().toISOString() : this.formData.data[element.key];
 

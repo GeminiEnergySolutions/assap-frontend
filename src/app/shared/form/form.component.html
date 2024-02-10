@@ -24,14 +24,14 @@
         <div *ngFor="let element of schema.schema; let i=index" class="mb-3 {{isMediumPage(schema, element)}}">
           <div
             *ngIf="element.key !== 'tube_type' || (element.key === 'tube_type' && equipmentService.equipmentSubTypeData.typeChild?.name === 'Linear Fluorescent')">
-            <app-form-element [element]="element" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
+            <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
           </div>
           <div *ngFor="let element1 of element?.inputList; let j=index" class="mt-3 mx-2">
             <div *ngIf="!element1.dependentKeyValue || element1.dependentKeyValue === formData.data[element.key]">
-              <app-form-element [element]="element1" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
+              <app-form-element [element]="element1" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
               <div *ngFor="let element2 of element1?.inputList; let k=index" class="mt-3 mx-2">
                 <div *ngIf="!element2.dependentKeyValue || element2.dependentKeyValue === formData.data[element1.key]">
-                  <app-form-element [element]="element2" [schema]="schema" [formData]="formData" (dirty)="setDirty()"></app-form-element>
+                  <app-form-element [element]="element2" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
                 </div>
               </div>
             </div>

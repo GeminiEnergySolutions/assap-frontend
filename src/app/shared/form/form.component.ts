@@ -16,6 +16,8 @@ export class FormComponent implements OnInit {
   typeSchema: SchemaSection[] = [];
   formData?: any = { data: {} };
   formType: string = '';
+  /** for offline storage */
+  formId: string = '';
 
   constructor(
     private auditService: AuditService,
@@ -38,6 +40,7 @@ export class FormComponent implements OnInit {
         })
       )
       .subscribe(async (subType: any) => {
+        const auditId = this.route.snapshot.params.aid;
         if (subType === 'o') {
           let url;
           this.route.url.subscribe((res: any) => {
@@ -45,10 +48,11 @@ export class FormComponent implements OnInit {
           });
           if (url === 'grants') {
             this.formType = 'grants';
+            this.formId = `audits/${auditId}/grants`;
             this.auditService.getGrantsJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema;
             });
-            this.auditService.getGrantsData(this.route.snapshot.params.aid).subscribe((formData: any) => {
+            this.auditService.getGrantsData(auditId).subscribe((formData: any) => {
               if (formData) {
                 this.formData = formData;
               } else {
@@ -57,10 +61,11 @@ export class FormComponent implements OnInit {
             });
           } else if (url === 'cleanenergyhub') {
             this.formType = 'cleanenergyhub';
+            this.formId = `audits/${auditId}/cleanenergyhub`;
             this.auditService.getCleanEnergyHubJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema;
             });
-            this.auditService.getCleanEnergyHubData(this.route.snapshot.params.aid).subscribe((formData: any) => {
+            this.auditService.getCleanEnergyHubData(auditId).subscribe((formData: any) => {
               if (formData) {
                 this.formData = formData;
               } else {
@@ -70,10 +75,11 @@ export class FormComponent implements OnInit {
           }
           else {
             this.formType = 'preAudit';
+            this.formId = `audits/${auditId}/preaudit`;
             this.auditService.getPreAuditJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema.data;
             });
-            this.auditService.getPreAuditData(this.route.snapshot.params.aid).subscribe((formData: any) => {
+            this.auditService.getPreAuditData(auditId).subscribe((formData: any) => {
               if (formData.data) {
                 this.formData = formData.data;
               } else {
@@ -84,6 +90,7 @@ export class FormComponent implements OnInit {
           this.equipmentService.equipmentSubTypeData = null;
         } else {
           this.formType = 'equipmentForm';
+          this.formId = `audits/${auditId}/subtypes/${subType.id}`; // TODO
           this.equipmentService.equipmentSubTypeData = subType;
           this.equipmentService.getEquipmentTypeFormSchema(subType.type ? subType.type.id : subType.typeChild.equipmentType.id).subscribe((schema: any) => {
             this.typeSchema = schema;
