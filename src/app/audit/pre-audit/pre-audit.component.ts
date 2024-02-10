@@ -20,8 +20,7 @@ export class PreAuditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let role = localStorage.getItem('role');
-    if (role === 'dataCollector') {
+    if (this.authService.currentLoginUser.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe((res: any[]) => {
         this.audits = res;
       });

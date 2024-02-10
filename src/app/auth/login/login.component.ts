@@ -31,24 +31,9 @@ export class LoginComponent implements OnInit {
     };
 
     this.authService.login(userData).subscribe((res: any) =>{
-      // const token = res.token
-      // if(token){
-      // alert("Login success")
-      // this.loginForm.reset();
-      // ###
-      localStorage.setItem('role', res.user.role)
       localStorage.setItem('accessToken', res.token)
       this.authService.currentLoginUser = res.user;
-      // Decode the token to get user information
-      // const decodedToken: any = jwt_decode(token);
-      // const roleId = decodedToken.user.roleId; // Assuming the role ID field is named "roleId"
-
-      // localStorage.setItem('userRole', roleId);
-
       this.router.navigate(['audits']);
-      // } else{
-      //   alert("User not found")
-      // }
     });
   }
 }
