@@ -11,7 +11,7 @@ import {Audit} from '../../shared/model/audit.interface';
   styleUrls: ['./pre-audit.component.scss'],
 })
 export class PreAuditComponent implements OnInit {
-  audits: Audit[] = [];
+  audits: Record<string, Audit[]> = {};
 
   constructor(
     private auditService: AuditService,
@@ -23,12 +23,19 @@ export class PreAuditComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.currentLoginUser.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe(res => {
-        this.audits = res;
+        this.groupAudits(res);
       });
     } else {
       this.auditService.getAllAudit().subscribe(res => {
-        this.audits = res.data;
+        this.groupAudits(res.data);
       });
+    }
+  }
+
+  private groupAudits(audits: Audit[]) {
+    this.audits = {};
+    for (const audit of audits) {
+      (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
     }
   }
 
@@ -39,11 +46,11 @@ export class PreAuditComponent implements OnInit {
     }
 
     this.auditService.createAudit({auditName: name}).subscribe(res => {
-      this.audits.push(res.data);
+      this.audits[''].push(res.data);
     });
   }
 
-  rename(audit: Audit) {
+  rename(state: string, audit: Audit) {
     const name = prompt('Rename Audit', audit.auditName);
     if (!name) {
       return;
@@ -51,18 +58,18 @@ export class PreAuditComponent implements OnInit {
     let auditData = {...audit, auditName: name};
 
     this.auditService.updateAudit(auditData).subscribe(() => {
-      let index = this.audits.indexOf(audit);
-      this.audits[index] = auditData;
+      let index = this.audits[state].indexOf(audit);
+      this.audits[state][index] = auditData;
     });
   }
 
-  delete(audit: Audit) {
+  delete(state: string, audit: Audit) {
     if (!confirm(`Are you sure you want to delete '${audit.auditName}'?`)) {
       return;
     }
     this.auditService.deleteAudit(audit.auditId).subscribe(() => {
-      let index = this.audits.findIndex(a => a.auditId === audit.auditId);
-      this.audits.splice(index, 1);
+      let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
+      this.audits[state].splice(index, 1);
     });
   }
 
