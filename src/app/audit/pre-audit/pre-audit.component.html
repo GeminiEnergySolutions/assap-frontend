@@ -18,10 +18,10 @@
           }
         </div>
         <app-option-dropdown class="visible-hover">
-          <button ngbDropdownItem class="text-primary" (click)="rename(audit)">Rename</button>
+          <button ngbDropdownItem (click)="rename(audit)">Rename</button>
           <div class="dropdown-divider"></div>
           @if ((authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role !== 'guest') {
-            <button ngbDropdownItem class="text-primary" (click)="openAddDataCollectorModal(audit)">
+            <button ngbDropdownItem (click)="openAddDataCollectorModal(audit)">
               Add DataCollector
             </button>
             <div class="dropdown-divider"></div>
