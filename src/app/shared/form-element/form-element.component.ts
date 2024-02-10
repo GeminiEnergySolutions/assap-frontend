@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SchemaElement, SchemaSection} from '../model/schema.interface';
 
 @Component({
@@ -6,7 +6,7 @@ import {SchemaElement, SchemaSection} from '../model/schema.interface';
   templateUrl: './form-element.component.html',
   styleUrl: './form-element.component.scss'
 })
-export class FormElementComponent implements OnChanges {
+export class FormElementComponent implements OnInit, OnChanges {
   @Input() element!: SchemaElement;
   @Input() schema!: SchemaSection;
   @Input() formId!: string;
@@ -20,7 +20,37 @@ export class FormElementComponent implements OnChanges {
     this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
   }
 
+  ngOnInit() {
+    if (this.formData.data[this.element.key]) {
+      return;
+    }
+    const initialValue = globalThis.localStorage?.getItem(this.id);
+    if (initialValue) {
+      this.formData.data[this.element.key] = this.coerce(initialValue);
+    } else if (this.element.isDateNow) {
+      this.formData.data[this.element.key] = new Date();
+    }
+  }
+
+  coerce(value: string) {
+    switch (this.element.type) {
+      case 'date':
+        return new Date(value);
+      case 'checkbox':
+        return value === 'true';
+    }
+    switch (this.element.dataType) {
+      case 'number':
+        return +value;
+      case 'date':
+        return new Date(value);
+      default:
+        return value;
+    }
+  }
+
   setDirty() {
+    globalThis?.localStorage.setItem(this.id, this.formData.data[this.element.key]);
     this.dirty.emit();
   }
   // TODO Autofill Dates:
