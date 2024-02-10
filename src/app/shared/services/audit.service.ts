@@ -5,6 +5,7 @@ import { Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
+import {Audit} from '../model/audit.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -125,14 +126,14 @@ export class AuditService {
     return this.http.get(`${this.rootUrl}api/cehMicrogridSheet/${auditId}/`);
   }
 
-  getSingleAudit(auditId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/audit?auditId=${auditId}`);
+  getSingleAudit(auditId: number): Observable<{ data: Audit }> {
+    return this.http.get<{ data: Audit }>(`${this.rootUrl}api/audit?auditId=${auditId}`);
   }
-  getAllAudit(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/audit`);
+  getAllAudit(): Observable<{ data: Audit[] }> {
+    return this.http.get<{ data: Audit[] }>(`${this.rootUrl}api/audit`);
   }
-  createAudit(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/audit`, data);
+  createAudit(data: any): Observable<{ data: Audit }> {
+    return this.http.post<{ data: Audit }>(`${this.rootUrl}api/audit`, data);
   }
   updateAudit(data: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/audit?auditId=${data.auditId}`, data);
@@ -141,8 +142,8 @@ export class AuditService {
     return this.http.delete(`${this.rootUrl}api/audit?auditId=${id}`);
   }
 
-  getAllDataCollectorAudit(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/dataCollectorAudits`);
+  getAllDataCollectorAudit(): Observable<Audit[]> {
+    return this.http.get<Audit[]>(`${this.rootUrl}api/dataCollectorAudits`);
   }
 
   getGrantsData(auditId: number): Observable<any> {

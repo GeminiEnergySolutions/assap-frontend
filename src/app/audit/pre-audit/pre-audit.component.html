@@ -17,10 +17,9 @@
         <div *ngIf="authService.currentLoginUser.role === 'superAdmin' && audit.user.role.role !== 'superAdmin'" >
           ({{audit.user.userName | titlecase}})
         </div>
-        <i *ngIf="audit.pendingChanges !== undefined" class="bi-wifi-off" ngbTooltip="Available Offline"></i>
       </div>
 
-      <app-option-dropdown class="visible-hover" [id]="audit.auditId">
+      <app-option-dropdown class="visible-hover">
         <button ngbDropdownItem class="text-primary" (click)="rename(audit)">Rename</button>
         <div class="dropdown-divider"></div>
         <div *ngIf="(authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role !== 'guest'">
