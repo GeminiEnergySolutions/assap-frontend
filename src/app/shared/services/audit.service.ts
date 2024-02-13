@@ -23,22 +23,29 @@ export class AuditService {
   zoneTotalFields ?: string = '0';
   zoneRemainingFields ?: string = '0';
 
+  totalFields ?: string ='0';
+  completedFields ?: string ='0';
+  progressPercentage ?: string = '0%';
+
   constructor(private http: HttpClient,
     private toaster: ToastService,
     ) {}
 
-  calculatePercentage(auditId: number):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/percentageCompletion/${auditId}/`);
+  // calculatePercentage(auditId: number):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/percentageCompletion/${auditId}/`);
+  // }
+  // getEquipmentTypesPercentage(aid: number, zid: number, eid: string): Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/equipmentType/equipment/${aid}/${zid}/${eid}/`);
+  // }
+  // calculatePercentageEquipment(auditId: number,subId: number,zoneId:number ):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/percentageCompletionEquipment/${auditId}/${subId}/${zoneId}/`);
+  // }
+  getPercentage(queryParam: any):Observable<any> {
+    return this.http.get(`${this.rootUrl}api/percentageCompletion${queryParam}`);
   }
-  getEquipmentTypesPercentage(aid: number, zid: number, eid: string): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentType/equipment/${aid}/${zid}/${eid}/`);
-  }
-  calculatePercentageEquipment(auditId: number,subId: number,zoneId:number ):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/percentageCompletionEquipment/${auditId}/${subId}/${zoneId}/`);
-  }
-  calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
-  }
+  // calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
+  // }
 
   dataCollectors(auditId: number):Observable<any> {
     return this.http.get(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);

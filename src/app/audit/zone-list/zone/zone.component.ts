@@ -40,23 +40,25 @@ export class ZoneComponent implements OnInit {
     this.route.params
       .pipe(
         switchMap(({ aid, zid }) => {
-          return this.auditService.calculatePercentageZone(aid, zid);
+          const queryParams = `?percentageType=zone&zoneId=${this.route.snapshot.params.zid}`;
+          return this.auditService.getPercentage(queryParams);
         })
       )
       .subscribe((res: any) => {
         this.auditService.equipmentHeadingValue = 'Zone';
-        this.auditService.progressPercentageZone = res.progressPercentageZone + '%';
-        this.auditService.zoneTotalFields = res.zoneTotalFields;
-        this.auditService.zoneRemainingFields = res.zoneRemainingFields;
+        this.auditService.totalFields = res.totalFields ;
+        this.auditService.completedFields = res.completedFields ;
+        this.auditService.progressPercentage = res.percentage + '%';
       });
   }
 
   public getEquipmentPercentage(equipment: any) {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService.getEquipmentTypesPercentage(this.route.snapshot.params.aid, this.route.snapshot.params.zid, equipment.id).subscribe((res: any) => {
-      this.auditService.progressPercentageZone = res.progressPercentageZone + '%';
-      this.auditService.zoneTotalFields = res.zoneTotalFields;
-      this.auditService.zoneRemainingFields = res.zoneRemainingFields;
+    const queryParams = `?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`;
+    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
+      this.auditService.totalFields = res.totalFields ;
+      this.auditService.completedFields = res.completedFields ;
+      this.auditService.progressPercentage = res.percentage + '%';
     });
   }
 

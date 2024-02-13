@@ -63,11 +63,13 @@ export class TypeListComponent implements OnInit {
   }
 
   private getEquipmentPercentage(equipment: any) {
+    this.route.snapshot.params.tid
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService.getEquipmentTypesPercentage(this.route.snapshot.params.aid, this.route.snapshot.params.zid, this.route.snapshot.params.eid).subscribe((res: any) => {
-      this.auditService.progressPercentageZone = res.progressPercentageZone + '%';
-      this.auditService.zoneTotalFields = res.zoneTotalFields;
-      this.auditService.zoneRemainingFields = res.zoneRemainingFields;
+    const queryParams = `?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`;
+    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
+      this.auditService.totalFields = res.totalFields;
+      this.auditService.completedFields = res.completedFields;
+      this.auditService.progressPercentage = res.percentage + '%';
     });
   }
 
@@ -135,6 +137,7 @@ export class TypeListComponent implements OnInit {
     this.equipmentService.deleteEquipmentSubType(item.id).subscribe((res: any) => {
       let index = this.subtypes.indexOf(item);
       this.subtypes.splice(index, 1);
+      this.getEquipmentPercentage(this.equipment);
     })
   }
 
