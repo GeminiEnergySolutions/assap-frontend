@@ -46,7 +46,7 @@ export class PreAuditComponent implements OnInit {
     }
 
     this.auditService.createAudit({auditName: name}).subscribe(res => {
-      this.audits[''].push(res.data);
+      (this.audits[''] ??= []).push(res.data);
     });
   }
 
@@ -70,6 +70,9 @@ export class PreAuditComponent implements OnInit {
     this.auditService.deleteAudit(audit.auditId).subscribe(() => {
       let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
       this.audits[state].splice(index, 1);
+      if (!this.audits[state].length) {
+        delete this.audits[state];
+      }
     });
   }
 
