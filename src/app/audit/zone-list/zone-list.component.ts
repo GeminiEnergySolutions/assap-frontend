@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
+import {Zone} from "../../shared/model/zone.interface";
 
 @Component({
   selector: 'app-zone-list',
@@ -66,4 +67,13 @@ export class ZoneListComponent implements OnInit {
     });
   }
 
+  duplicate(zone: Zone) {
+    const count = prompt('How many duplicates?', '1');
+    if (!count || isNaN(+count)) {
+      return;
+    }
+    this.zoneService.duplicateAuditZone(zone.zoneId, +count).subscribe(response => {
+      this.zones.push(...response.data);
+    });
+  }
 }
