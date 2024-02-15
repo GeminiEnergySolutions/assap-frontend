@@ -25,20 +25,20 @@
                        [routerLink]="[audit.auditId]" routerLinkActive="active text-white">
                       <div class="flex-grow-1">
                         {{ audit.auditName | titlecase }}
-                        @if (authService.currentLoginUser.role === 'superAdmin' && audit.user.role.role !== 'superAdmin') {
-                          ({{ audit.user.userName | titlecase }})
+                        @if (authService.currentLoginUser?.role === 'superAdmin' && audit.user?.role?.role !== 'superAdmin') {
+                          ({{ audit.user?.userName | titlecase }})
                         }
                       </div>
                       <app-option-dropdown class="visible-hover">
                         <button ngbDropdownItem (click)="rename(section.key, audit)">Rename</button>
                         <div class="dropdown-divider"></div>
-                        @if ((authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role !== 'guest') {
+                        @if ((authService.currentLoginUser?.role === 'admin' || authService.currentLoginUser?.role === 'superAdmin') && audit.user?.role?.role !== 'guest') {
                           <button ngbDropdownItem (click)="openAddDataCollectorModal(audit)">
                             Add DataCollector
                           </button>
                           <div class="dropdown-divider"></div>
                         }
-                        @if (authService.currentLoginUser.role !== 'dataCollector' || (audit.user.role.role !== 'admin' && audit.user.role.role !== 'superAdmin')) {
+                        @if (authService.currentLoginUser?.role !== 'dataCollector' || (audit.user?.role?.role !== 'admin' && audit.user?.role?.role !== 'superAdmin')) {
                           <button ngbDropdownItem class="text-danger" (click)="delete(section.key, audit)">
                             Delete
                           </button>

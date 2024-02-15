@@ -1,4 +1,5 @@
 import {PreAuditData} from './pre-audit-data.interface';
+import {UserWithRoleObject} from "./user.interface";
 
 export interface Audit {
   auditId: number;
@@ -6,6 +7,6 @@ export interface Audit {
   auditName: string;
   deleteStatus: false;
   userId: number;
-  user?: any; // TODO User
+  user?: UserWithRoleObject;
   pre_audit_form: PreAuditData;
 }

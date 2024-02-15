@@ -21,7 +21,7 @@ export class PreAuditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.currentLoginUser.role === 'dataCollector') {
+    if (this.authService.currentLoginUser?.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe(res => {
         this.groupAudits(res);
       });
