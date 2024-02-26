@@ -15,7 +15,7 @@
       <li ngbNavItem="cleanEnergyHub">
         <a ngbNavLink>Clean Energy Hub</a>
         <ng-template ngbNavContent>
-          <a class="btn btn-primary" [href]="serverUrl + 'api/feasibilityReport/' + auditId + '?auth_token=' + authToken" download>
+          <a class="btn btn-primary" [href]="serverUrl + 'api/feasibilityReport?auditId=' + auditId + '&auth_token=' + authToken" download>
             Download Feasibility
           </a>
           <a class="btn btn-primary" [href]="serverUrl + 'api/cehMicrogridSheet?auditId=' + auditId + '&auth_token=' + authToken" download>
