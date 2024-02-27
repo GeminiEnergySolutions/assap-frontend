@@ -17,10 +17,9 @@
 
 
 <div class="my-2">
-
-  <p style="margin-bottom:0px">Equipment Progress = {{auditService.equipmentRemainingFields}} / {{auditService.equipmentTotalFields}} </p>
+  <p style="margin-bottom:0px">Equipment Progress = {{auditService.completedFields}} / {{auditService.totalFields}} </p>
   <div class="progress">
-    <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentageEquipment">{{auditService.progressPercentageEquipment}}</div>
+    <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">{{auditService.progressPercentage}}</div>
   </div>
 </div>
 

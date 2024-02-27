@@ -17,17 +17,17 @@
     </div>
   </div>
   <div class="my-2">
-    <p style="margin-bottom:0px">Audit Energy Progress</p>
+    <p style="margin-bottom:0px">Audit Energy Progress = {{auditService.completedFields}} / {{auditService.totalFields}}</p>
     <div class="progress">
-      <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercent">{{auditService.progressPercent}}</div>
+      <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">{{auditService.progressPercentage}}</div>
     </div>
   </div>
-  <div>
+  <!-- <div>
     <p style="margin-bottom:0px">Clean Energy Hub Progress</p>
     <div class="progress">
       <div class="progress-bar" role="progressbar" [style]="'width: ' + auditService.progressPercentCEH">{{ auditService.progressPercentCEH }}</div>
     </div>
-  </div>
+  </div> -->
   <br>
   <ul ngbNav #nav="ngbNav" [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">

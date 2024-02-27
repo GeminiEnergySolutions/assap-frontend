@@ -5,15 +5,24 @@
     </button>
     <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/audits">Audits</a>
-        </li>
-        <li class="nav-item" >
-          <a class="nav-link" routerLink="/change-password">Change Password</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link logout-btn" (click)="logout()" style="cursor: pointer;">Logout</a>
-        </li>
+        @if (authService.currentLoginUser) {
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/audits">Audits</a>
+          </li>
+          <li class="nav-item" >
+            <a class="nav-link" routerLink="/change-password">Change Password</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link logout-btn" (click)="logout()" style="cursor: pointer;">Log Out</a>
+          </li>
+        } @else {
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/auth/login">Log In</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/auth/signup">Sign Up</a>
+          </li>
+        }
       </ul>
     </div>
   </div>

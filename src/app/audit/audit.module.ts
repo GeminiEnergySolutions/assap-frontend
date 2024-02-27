@@ -2,7 +2,13 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {FormsModule as AppFormsModule} from '../shared/form/form.module';
-import {NgbDropdownModule, NgbNavModule, NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAccordionModule,
+  NgbDropdownModule,
+  NgbNavModule,
+  NgbTooltipModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {AuditRoutingModule} from './audit-routing.module';
 import {AuditComponent} from './audit.component';
@@ -37,6 +43,7 @@ import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-dat
     AppFormsModule,
     NgbTypeaheadModule,
     ModalModule,
+    NgbAccordionModule,
   ],
   providers: [
     AuditZoneService,

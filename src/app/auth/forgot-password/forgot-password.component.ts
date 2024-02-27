@@ -31,7 +31,6 @@ export class ForgotPasswordComponent implements OnInit {
     };
   
     this.authService.forgotPassword(objData).subscribe((res: any) => {
-      debugger
       this.toastService.success('Success', 'Password sent to your email Successfully');
     });
   }

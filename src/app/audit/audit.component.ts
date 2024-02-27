@@ -48,21 +48,29 @@ export class AuditComponent implements OnInit {
         this.audit = res.data;
       });
 
+      // this.route.params
+      // .pipe(
+      //   switchMap(({ aid }) => {
+      //     return this.auditService.calculatePercentage(aid);
+      //   })
+      // )
+      // .subscribe((res: any) => {
+      //   this.auditService.progressPercent = res.percentage + '%';
+      //   this.auditService.progressPercentCEH =res.percentageCEH + '%';
+      // });
+
       this.route.params
       .pipe(
         switchMap(({ aid }) => {
-          return this.auditService.calculatePercentage(aid);
+          const queryParams = `?percentageType=complete&auditId=${aid}`;
+          return this.auditService.getPercentage(queryParams);
         })
       )
       .subscribe((res: any) => {
-        this.auditService.progressPercent = res.percentage + '%';
-        this.auditService.progressPercentCEH =res.percentageCEH + '%';
+        this.auditService.totalFields = res.totalFields ;
+        this.auditService.completedFields = res.completedFields ;
+        this.auditService.progressPercentage = res.percentage + '%';
       });
-
-    // this.auditService.calculatePercentage(this.route.snapshot.params.aid).subscribe((res :any)=>{
-    //   this.progressPercent = res.percentage + '%';
-    //   this.progressPercentCEH =res.percentageCEH + '%';
-    // });
 
   }
 

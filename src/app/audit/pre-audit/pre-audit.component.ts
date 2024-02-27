@@ -1,36 +1,41 @@
 import {Component, OnInit} from '@angular/core';
-import {ToastService} from 'ng-bootstrap-ext';
-import {forkJoin} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from 'src/app/shared/services/auth.service';
 import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
+import {Audit} from '../../shared/model/audit.interface';
 
 @Component({
   selector: 'app-pre-audit',
   templateUrl: './pre-audit.component.html',
-  styleUrls: ['./pre-audit.component.scss']
+  styleUrls: ['./pre-audit.component.scss'],
 })
 export class PreAuditComponent implements OnInit {
-  audits: any = [];
+  audits: Record<string, Audit[]> = {};
 
-  constructor(private auditService: AuditService,
+  constructor(
+    private auditService: AuditService,
     public authService: AuthService,
-    private toastService: ToastService,
     private modalService: NgbModal,
   ) {
   }
 
   ngOnInit(): void {
-    let role = localStorage.getItem('role');
-    if (role === 'dataCollector') {
-      this.auditService.getAllDataCollectorAudit().subscribe((res: any[]) => {
-        this.audits = res;
+    if (this.authService.currentLoginUser?.role === 'dataCollector') {
+      this.auditService.getAllDataCollectorAudit().subscribe(res => {
+        this.groupAudits(res);
       });
     } else {
-      this.auditService.getAllAudit().subscribe((res: any) => {
-        this.audits = res.data;
+      this.auditService.getAllAudit().subscribe(res => {
+        this.groupAudits(res.data);
       });
+    }
+  }
+
+  private groupAudits(audits: Audit[]) {
+    this.audits = {};
+    for (const audit of audits) {
+      (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
     }
   }
 
@@ -40,71 +45,40 @@ export class PreAuditComponent implements OnInit {
       return;
     }
 
-    this.auditService.createAudit({ auditName: name }).subscribe((res: any) => {
-      this.audits.push(res.data);
+    this.auditService.createAudit({auditName: name}).subscribe(res => {
+      (this.audits[''] ??= []).push(res.data);
     });
   }
 
-  // rename(audit: Audit) {
-  rename(audit: any) {
+  rename(state: string, audit: Audit) {
     const name = prompt('Rename Audit', audit.auditName);
     if (!name) {
       return;
     }
-    let auditData = { ...audit, auditName: name };
+    let auditData = {...audit, auditName: name};
 
-    this.auditService.updateAudit(auditData).subscribe((res: any) => {
-      let index = this.audits.indexOf(audit);
-      this.audits[index] = auditData;
+    this.auditService.updateAudit(auditData).subscribe(() => {
+      let index = this.audits[state].indexOf(audit);
+      this.audits[state][index] = auditData;
     });
   }
 
-  // delete(audit: Audit) {
-  delete(audit: any) {
+  delete(state: string, audit: Audit) {
     if (!confirm(`Are you sure you want to delete '${audit.auditName}'?`)) {
       return;
     }
-    this.auditService.deleteAudit(audit.auditId).subscribe((res: any) => {
-      let index = this.audits.findIndex((a: any) => a.auditId === audit.auditId);
-      this.audits.splice(index, 1);
-    })
-  }
-
-  // download(audit: Audit) {
-  download(audit: any) {
-    if (audit.pendingChanges && !confirm(`Are you sure you want to discard ${audit.pendingChanges} pending changes? This cannot be undone.`)) {
-      return;
-    }
-    // this.schemaService.loadSchemas().subscribe();
-    // this.offlineAuditService.save(audit);
-    // this.featureService.saveAll({auditId: audit.auditId});
-  }
-
-  // upload(audit: Audit) {
-  upload(audit: any) {
-    forkJoin([
-      // this.auditService.upload(audit),
-      // this.featureService.upload({auditId: audit.auditId}),
-    ]).subscribe(undefined, error => {
-      this.toastService.error('Audit', 'Failed to upload audit', error);
+    this.auditService.deleteAudit(audit.auditId).subscribe(() => {
+      let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
+      this.audits[state].splice(index, 1);
+      if (!this.audits[state].length) {
+        delete this.audits[state];
+      }
     });
   }
-  openAddDataCollectorModal(audit: any) {
-    const modalRef = this.modalService.open(AddDataCollectorModalComponent, { size: 'lg' });
-    modalRef.componentInstance.audit = audit;
-  }
 
-  // deleteOffline(audit: Audit) {
-  deleteOffline(audit: any) {
-    const message = 'Are you sure you want to discard the offline copy' + (
-      audit.pendingChanges
-        ? ', including ' + audit.pendingChanges + ' pending changes? This cannot be undone.'
-        : '? This can be undone once an internet connection is available.'
-    );
-    if (!confirm(message)) {
-      return;
-    }
-    // this.offlineAuditService.delete(audit);
+  openAddDataCollectorModal(audit: Audit) {
+    const modalRef = this.modalService.open(AddDataCollectorModalComponent, {size: 'lg'});
+    modalRef.componentInstance.audit = audit;
   }
 
 }

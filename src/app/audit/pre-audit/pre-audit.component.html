@@ -4,59 +4,54 @@
       <li class="breadcrumb-item active" aria-current="page">Audits</li>
     </ol>
   </nav>
-  <div list class="list-group rounded-0">
-
-    <button class="list-group-item list-group-item-action text-primary" (click)="create()">
+  <div list>
+    <button class="btn btn-primary mb-3" (click)="create()">
       New Audit
     </button>
-    <a *ngFor="let audit of audits" class="list-group-item list-group-item-action d-flex align-items-center"
-      [routerLink]="[audit.auditId]" routerLinkActive="active text-white">
-
-      <div class="flex-grow-1">
-        {{audit.auditName | titlecase}}
-        <div *ngIf="authService.currentLoginUser.role === 'superAdmin' && audit.user.role.role !== 'superAdmin'" >
-          ({{audit.user.userName | titlecase}})
-        </div>
-        <i *ngIf="audit.pendingChanges !== undefined" class="bi-wifi-off" ngbTooltip="Available Offline"></i>
-      </div>
-
-      <app-option-dropdown class="visible-hover" [id]="audit.auditId">
-        <div>
-          <button ngbDropdownItem class="text-primary" (click)="rename(audit)">Rename</button>
-          <div class="dropdown-divider"></div>
-        </div>
-        <ng-template [ngIf]="audit.pendingChanges === undefined" [ngIfThen]="onlineOptions"
-          [ngIfElse]="offlineOptions"></ng-template>
-
-        <ng-template #onlineOptions>
-          <div *ngIf="(authService.currentLoginUser.role === 'admin' || authService.currentLoginUser.role === 'superAdmin') && audit.user.role.role !== 'guest'">
-            <button ngbDropdownItem class="text-primary" (click)="openAddDataCollectorModal(audit)">
-              Add DataCollector
+    <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
+      @for (section of audits | keyvalue; track section.key) {
+        <div ngbAccordionItem>
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton>
+              {{ section.key || '(No State)' }}
             </button>
-            <div class="dropdown-divider"></div>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <div class="list-group rounded-0">
+                  @for (audit of section.value; track audit.auditId) {
+                    <a class="list-group-item list-group-item-action d-flex align-items-center"
+                       [routerLink]="[audit.auditId]" routerLinkActive="active text-white">
+                      <div class="flex-grow-1">
+                        {{ audit.auditName | titlecase }}
+                        @if (authService.currentLoginUser?.role === 'superAdmin' && audit.user?.role?.role !== 'superAdmin') {
+                          ({{ audit.user?.userName | titlecase }})
+                        }
+                      </div>
+                      <app-option-dropdown class="visible-hover">
+                        <button ngbDropdownItem (click)="rename(section.key, audit)">Rename</button>
+                        <div class="dropdown-divider"></div>
+                        @if ((authService.currentLoginUser?.role === 'admin' || authService.currentLoginUser?.role === 'superAdmin') && audit.user?.role?.role !== 'guest') {
+                          <button ngbDropdownItem (click)="openAddDataCollectorModal(audit)">
+                            Add DataCollector
+                          </button>
+                          <div class="dropdown-divider"></div>
+                        }
+                        @if (authService.currentLoginUser?.role !== 'dataCollector' || (audit.user?.role?.role !== 'admin' && audit.user?.role?.role !== 'superAdmin')) {
+                          <button ngbDropdownItem class="text-danger" (click)="delete(section.key, audit)">
+                            Delete
+                          </button>
+                        }
+                      </app-option-dropdown>
+                    </a>
+                  }
+                </div>
+              </ng-template>
+            </div>
           </div>
-          <button ngbDropdownItem class="text-danger" (click)="delete(audit)"
-          *ngIf="authService.currentLoginUser.role !== 'dataCollector' || (audit.user.role.role !== 'admin' && audit.user.role.role !== 'superAdmin')">
-            Delete
-          </button>
-        </ng-template>
-        <ng-template #offlineOptions>
-          <div class="dropdown-header">
-            <i class="bi-wifi-off"></i>
-            Pending Changes
-            <span class="badge bg-primary">{{ audit.pendingChanges }}</span>
-          </div>
-          <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-primary" (click)="upload(audit)">
-            Upload
-          </button>
-          <button *ngIf="audit.pendingChanges" ngbDropdownItem class="text-danger" (click)="download(audit)">
-            Discard
-          </button>
-          <button ngbDropdownItem class="text-danger" (click)="deleteOffline(audit)">
-            Remove Offline Copy
-          </button>
-        </ng-template>
-      </app-option-dropdown>
-    </a>
+        </div>
+      }
+    </div>
   </div>
 </app-master-detail>

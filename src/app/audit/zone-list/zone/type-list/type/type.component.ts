@@ -25,16 +25,17 @@ export class TypeComponent implements OnInit {
   ngOnInit(): void {
     this.route.params
     .pipe(
-      switchMap(({ aid, zid, tid }) => {
-        return this.auditService.calculatePercentageEquipment(aid, tid, zid);
+      switchMap(({ eid, tid }) => {
+        const queryParams = `?percentageType=form&subTypeId=${tid}`;
+        return this.auditService.getPercentage(queryParams);
       })
     )
     .subscribe((res: any) => {
-      this.auditService.equipmentTotalFields = res.equipmentTotalFields ;
-      this.auditService.equipmentRemainingFields = res.equipmentRemainingFields ;
-      this.auditService.progressPercentageEquipment = res.progressPercentageEquipment + '%';
+      this.route.snapshot.params.tid
+      this.auditService.totalFields = res.totalFields ;
+      this.auditService.completedFields = res.completedFields ;
+      this.auditService.progressPercentage = res.percentage + '%';
     });
-
   }
 
   public async captureDialog() {

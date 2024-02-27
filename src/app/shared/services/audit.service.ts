@@ -5,6 +5,7 @@ import { Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
+import {Audit} from '../model/audit.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,22 +23,29 @@ export class AuditService {
   zoneTotalFields ?: string = '0';
   zoneRemainingFields ?: string = '0';
 
+  totalFields ?: string ='0';
+  completedFields ?: string ='0';
+  progressPercentage ?: string = '0%';
+
   constructor(private http: HttpClient,
     private toaster: ToastService,
     ) {}
 
-  calculatePercentage(auditId: number):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/percentageCompletion/${auditId}/`);
+  // calculatePercentage(auditId: number):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/percentageCompletion/${auditId}/`);
+  // }
+  // getEquipmentTypesPercentage(aid: number, zid: number, eid: string): Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/equipmentType/equipment/${aid}/${zid}/${eid}/`);
+  // }
+  // calculatePercentageEquipment(auditId: number,subId: number,zoneId:number ):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/percentageCompletionEquipment/${auditId}/${subId}/${zoneId}/`);
+  // }
+  getPercentage(queryParam: any):Observable<any> {
+    return this.http.get(`${this.rootUrl}api/percentageCompletion${queryParam}`);
   }
-  getEquipmentTypesPercentage(aid: number, zid: number, eid: string): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentType/equipment/${aid}/${zid}/${eid}/`);
-  }
-  calculatePercentageEquipment(auditId: number,subId: number,zoneId:number ):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/percentageCompletionEquipment/${auditId}/${subId}/${zoneId}/`);
-  }
-  calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
-  }
+  // calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
+  //   return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
+  // }
 
   dataCollectors(auditId: number):Observable<any> {
     return this.http.get(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
@@ -125,14 +133,14 @@ export class AuditService {
     return this.http.get(`${this.rootUrl}api/cehMicrogridSheet/${auditId}/`);
   }
 
-  getSingleAudit(auditId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/audit?auditId=${auditId}`);
+  getSingleAudit(auditId: number): Observable<{ data: Audit }> {
+    return this.http.get<{ data: Audit }>(`${this.rootUrl}api/audit?auditId=${auditId}`);
   }
-  getAllAudit(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/audit`);
+  getAllAudit(): Observable<{ data: Audit[] }> {
+    return this.http.get<{ data: Audit[] }>(`${this.rootUrl}api/audit`);
   }
-  createAudit(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/audit`, data);
+  createAudit(data: any): Observable<{ data: Audit }> {
+    return this.http.post<{ data: Audit }>(`${this.rootUrl}api/audit`, data);
   }
   updateAudit(data: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/audit?auditId=${data.auditId}`, data);
@@ -141,8 +149,8 @@ export class AuditService {
     return this.http.delete(`${this.rootUrl}api/audit?auditId=${id}`);
   }
 
-  getAllDataCollectorAudit(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/dataCollectorAudits`);
+  getAllDataCollectorAudit(): Observable<Audit[]> {
+    return this.http.get<Audit[]>(`${this.rootUrl}api/dataCollectorAudits`);
   }
 
   getGrantsData(auditId: number): Observable<any> {

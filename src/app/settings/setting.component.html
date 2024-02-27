@@ -2,7 +2,7 @@
   <div ngbAccordionItem *ngFor="let auditGroup of auditsGrouped; let i = index" id="{{ 'auditPanel' + i }}">
     <h2 ngbAccordionHeader>
       {{ auditGroup.auditName | titlecase }}
-      <div *ngIf="authService.currentLoginUser.role === 'superAdmin'">
+      <div *ngIf="authService.currentLoginUser?.role === 'superAdmin'">
         <div *ngFor="let audit of auditGroup.audits">
            &nbsp;
            ({{ audit.admin_name| titlecase }})
@@ -12,7 +12,7 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody class="mb-3">
         <div class="label marked-rows" style="color : white">
-          <div *ngIf="authService.currentLoginUser.role === 'superAdmin'">
+          <div *ngIf="authService.currentLoginUser?.role === 'superAdmin'">
             <div *ngFor="let audit of auditGroup.audits">
             <ul>
               <li *ngFor="let dataCollector of audit.data_collectors">
@@ -21,7 +21,7 @@
             </ul>
           </div>
         </div>
-          <div *ngIf="authService.currentLoginUser.role === 'admin'">
+          <div *ngIf="authService.currentLoginUser?.role === 'admin'">
             <ul>
               <li *ngFor="let audit of auditGroup.audits">
                 {{ audit.assignedTo | titlecase}}

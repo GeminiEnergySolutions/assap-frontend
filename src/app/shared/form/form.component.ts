@@ -108,18 +108,17 @@ export class FormComponent implements OnInit {
   }
 
   getPercentage() {
+    let queryParams = "";
     if (this.formType === 'preAudit') {
-      this.auditService.calculatePercentage(this.route.snapshot.params.aid).subscribe((res: any) => {
-        this.auditService.progressPercent = res.percentage + '%';
-        this.auditService.progressPercentCEH = res.percentageCEH + '%';
-      });
+      queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
     } else if (this.formType === 'equipmentForm') {
-      this.auditService.calculatePercentageEquipment(this.route.snapshot.params.aid, this.route.snapshot.params.tid, this.route.snapshot.params.zid).subscribe((res: any) => {
-        this.auditService.equipmentTotalFields = res.equipmentTotalFields;
-        this.auditService.equipmentRemainingFields = res.equipmentRemainingFields;
-        this.auditService.progressPercentageEquipment = res.progressPercentageEquipment + '%';
-      });
+      queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
     }
+    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
+      this.auditService.totalFields = res.totalFields ;
+      this.auditService.completedFields = res.completedFields ;
+      this.auditService.progressPercentage = res.percentage + '%';
+    });
   }
 
   save() {
@@ -139,6 +138,7 @@ export class FormComponent implements OnInit {
       if (this.formData.id) {
         this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData as any).subscribe((res: any) => {
           this.toastService.success('Form', 'Successfully saved form input');
+          this.getPercentage();
         });
       } else {
         let objData = {
@@ -148,9 +148,9 @@ export class FormComponent implements OnInit {
         this.auditService.createPreAuditData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
           // this.formData = res.data;
           this.toastService.success('Form', 'Successfully saved form input');
+          this.getPercentage();
         });
       }
-      this.getPercentage();
       // this.toastService.success('Form', 'Successfully saved form input');
     } else if (this.formType === 'grants') {
       if (this.formData.id) {
@@ -182,9 +182,11 @@ export class FormComponent implements OnInit {
           this.toastService.success('Form', 'Successfully saved form input');
         });
       }
-      this.auditService.calculatePercentage(this.route.snapshot.params.aid).subscribe((res: any) => {
-        this.auditService.progressPercent = res.percentage + '%';
-        this.auditService.progressPercentCEH = res.percentageCEH + '%';
+      const queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
+      this.auditService.getPercentage(queryParams).subscribe((res: any) => {
+        this.auditService.totalFields = res.totalFields ;
+        this.auditService.completedFields = res.completedFields ;
+        this.auditService.progressPercentage = res.percentage + '%';
       });
     } else {
       if (this.formData.id) {
