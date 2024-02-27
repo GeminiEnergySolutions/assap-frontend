@@ -29,12 +29,9 @@
     </div>
   </div> -->
   <br>
-  <ul ngbNav #nav="ngbNav" [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
+  <ul ngbNav [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">
       <a ngbNavLink routerLink=".">Preaudit</a>
-      <ng-template ngbNavContent>
-        <app-form #form></app-form>
-      </ng-template>
     </li>
     <li ngbNavItem="zones">
       <a ngbNavLink routerLink="zones">Zone</a>
@@ -51,5 +48,4 @@
   </ul>
 
   <router-outlet></router-outlet>
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>
