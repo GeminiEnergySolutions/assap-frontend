@@ -5,6 +5,7 @@ import {switchMap} from 'rxjs';
 import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
 import {SchemaSection} from '../model/schema.interface';
+import {PreAuditData} from "../model/pre-audit-data.interface";
 
 @Component({
   selector: 'app-form',
@@ -14,7 +15,7 @@ import {SchemaSection} from '../model/schema.interface';
 export class FormComponent implements OnInit {
   dirty = false;
   typeSchema: SchemaSection[] = [];
-  formData?: any = { data: {} };
+  formData?: { id?: string; data: Record<string, string | number | boolean> };
   formType: string = '';
   /** for offline storage */
   formId: string = '';
@@ -122,6 +123,10 @@ export class FormComponent implements OnInit {
   }
 
   save() {
+    if (!this.formData) {
+      return;
+    }
+
     // delete localStorage keys starting with this.formId
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -132,7 +137,7 @@ export class FormComponent implements OnInit {
 
     if (this.formType === 'preAudit') {
       if (this.formData.id) {
-        this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
+        this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData as any).subscribe((res: any) => {
           this.toastService.success('Form', 'Successfully saved form input');
         });
       } else {
