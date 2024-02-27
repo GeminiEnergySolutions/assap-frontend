@@ -43,10 +43,7 @@ export class FormComponent implements OnInit {
       .subscribe(async (subType: any) => {
         const auditId = this.route.snapshot.params.aid;
         if (subType === 'o') {
-          let url;
-          this.route.url.subscribe((res: any) => {
-            url = res[0].path;
-          });
+          const url = this.route.snapshot.url[0].path;
           if (url === 'grants') {
             this.formType = 'grants';
             this.formId = `audits/${auditId}/grants`;

@@ -23,7 +23,6 @@ const routes: Routes = [
       {
         path: ':aid',
         component: AuditComponent,
-        canDeactivate: [UnsavedChangesGuard],
         children: [
           {path: 'preaudit', component: PreauditFormComponent},
           {path: 'zones', component: ZoneListComponent},
