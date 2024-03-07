@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {UserWithRoleName} from "../model/user.interface";
+import {User} from "../model/user.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {UserWithRoleName} from "../model/user.interface";
 export class AuthService {
 
   rootUrl = environment.url + 'authApi/v1/';
-  currentLoginUser?: UserWithRoleName;
+  currentLoginUser?: User;
 
   constructor(private http: HttpClient,
   ) { }
@@ -23,8 +23,8 @@ export class AuthService {
     return this.http.get(`${this.rootUrl}all-states/`);
   }
 
-  getUser(): Observable<UserWithRoleName> {
-    return this.http.get<UserWithRoleName>(`${this.rootUrl}user/`);
+  getUser(): Observable<User> {
+    return this.http.get<{ data: User }>(`${this.rootUrl}user/`).pipe(map(r => r.data));
   }
 
   signUp(data: any): Observable<any> {

@@ -3,13 +3,6 @@ export interface User {
   userName: string;
   email: string;
   roleId: number;
-  expirationDate: string | null;
-}
-
-export interface UserWithRoleName extends User {
-  role: string;
-}
-
-export interface UserWithRoleObject extends User {
   role: { roleId: number; role: string; };
+  expirationDate: string | null;
 }
