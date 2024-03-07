@@ -5,7 +5,6 @@ import {switchMap} from 'rxjs';
 import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
 import {SchemaSection} from '../model/schema.interface';
-import {PreAuditData} from "../model/pre-audit-data.interface";
 
 @Component({
   selector: 'app-form',
@@ -210,19 +209,6 @@ export class FormComponent implements OnInit {
     }
 
     this.dirty = false;
-  }
-
-  shareHvacData() {
-    if (confirm("Are you sure! all hvac of current Audit will be replaced with current hvac data")) {
-      let objData = {
-        auditId: Number(this.route.snapshot.params.aid),
-        zoneId: Number(this.route.snapshot.params.zid),
-        subTypeId: Number(this.equipmentService.equipmentSubTypeData.id)
-      };
-      this.equipmentService.auditZoneHVAC(objData).subscribe((res: any) => {
-        this.toastService.success('Success', res.message);
-      });
-    }
   }
 
   shareCEHVehicleScedule(schema: any) {

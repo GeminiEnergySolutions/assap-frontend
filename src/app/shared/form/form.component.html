@@ -1,9 +1,3 @@
-<div class="row"
-  *ngIf="equipmentService.equipmentSubTypeData?.type?.id === 25 || equipmentService.equipmentSubTypeData?.typeChild?.equipmentType?.id === 25">
-  <div class="col-12 px-4 py-3" style="text-align: right;">
-    <button type="button" class="btn btn-primary btn-sm text-white" (click)="shareHvacData()">Share</button>
-  </div>
-</div>
 <div ngbAccordion [closeOthers]="true">
   <div ngbAccordionItem *ngFor="let schema of typeSchema" [id]="'s-' + schema.id" [title]="schema.name">
     <h2 ngbAccordionHeader>
