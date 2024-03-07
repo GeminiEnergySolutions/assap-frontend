@@ -4,7 +4,7 @@ import {ToastService} from 'ng-bootstrap-ext';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
-import {SchemaSection} from '../model/schema.interface';
+import {CopySpec, SchemaSection} from '../model/schema.interface';
 
 @Component({
   selector: 'app-form',
@@ -244,5 +244,16 @@ export class FormComponent implements OnInit {
 
   canDeactivate(): boolean {
     return !this.dirty;
+  }
+
+  copyForm(copy: CopySpec) {
+    const source = this.typeSchema.find((s) => s.name === copy.sourceSection);
+    if (!source || !this.formData) {
+      return;
+    }
+
+    for (const [from, to] of Object.entries(copy.mapping)) {
+      this.formData.data[to] ||= this.formData.data[from];
+    }
   }
 }

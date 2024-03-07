@@ -7,6 +7,13 @@ export interface SchemaSection {
   id: number;
   name: string;
   schema: SchemaElement[];
+  copy?: CopySpec;
+}
+
+export interface CopySpec {
+  buttonLabel: string;
+  sourceSection: string;
+  mapping: Record<string, string>;
 }
 
 export interface SchemaElement {

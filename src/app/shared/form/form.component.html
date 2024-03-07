@@ -7,13 +7,11 @@
     </h2>
     <div ngbAccordionCollapse>
     <div ngbAccordionBody>
-      <div class="row" *ngIf="schema.name=== 'Non Electric Vehicle' || schema.name=== 'Electric Vehicle'">
-        <div class="col-12 px-4 py-0" style="text-align: right;">
-          <button type="button" class="btn btn-primary btn-sm text-white" (click)="shareCEHVehicleScedule(schema)">
-            Share
-          </button>
-        </div>
-      </div>
+      @if (schema.copy) {
+        <button class="btn btn-primary" (click)="copyForm(schema.copy)">
+          {{ schema.copy.buttonLabel }}
+        </button>
+      }
       <div class="row">
         @if (formData) {
           <div *ngFor="let element of schema.schema; let i=index" class="mb-3 {{isMediumPage(schema, element)}}">
