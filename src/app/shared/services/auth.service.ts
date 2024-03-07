@@ -31,12 +31,12 @@ export class AuthService {
     return this.http.post(`${this.rootUrl}register/`, data);
   }
 
-  login(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}login/`, data);
+  login(data: { email: string; password: string }): Observable<{ token: string; user: User }> {
+    return this.http.post<{ token: string; user: User }>(`${this.rootUrl}login/`, data);
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${this.rootUrl}logout/`, null);
+  logout(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.rootUrl}logout/`, null);
   }
 
   forgotPassword(data: any): Observable<any> {
