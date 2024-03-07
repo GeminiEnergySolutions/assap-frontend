@@ -252,7 +252,7 @@ export class FormComponent implements OnInit {
       return;
     }
 
-    for (const [from, to] of Object.entries(copy.mapping)) {
+    for (const [to, from] of Object.entries(copy.mapping)) {
       this.formData.data[to] ||= this.formData.data[from];
     }
   }

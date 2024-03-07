@@ -13,6 +13,7 @@ export interface SchemaSection {
 export interface CopySpec {
   buttonLabel: string;
   sourceSection: string;
+  /** key=target, value=source -- to make all targets unique, but allow the same targets to copy from the same source */
   mapping: Record<string, string>;
 }
 
