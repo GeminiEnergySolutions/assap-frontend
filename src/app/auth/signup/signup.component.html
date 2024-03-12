@@ -39,7 +39,7 @@
                       <input type="password" class="form-control" formControlName="ConfirmPassword" id="ConfirmPassword">
                   </div>
 
-                    <button type="submit" class="btn btn-primary text-white mb-2" [disabled]="submitting || !signupForm.valid">
+                    <button type="submit" class="btn btn-primary mb-2" [disabled]="submitting || !signupForm.valid">
                       Sign Up
                       @if (submitting) {
                         <span class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></span>
