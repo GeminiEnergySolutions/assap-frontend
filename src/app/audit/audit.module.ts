@@ -27,7 +27,7 @@ import {GenerateReportDialogComponent} from './generate-report-dialog/generate-r
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantComponent} from './grant/grant.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {ModalModule} from 'ng-bootstrap-ext';
+import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
+import { ToastService } from '@mean-stream/ngbx';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuditService } from '../services/audit.service';
 

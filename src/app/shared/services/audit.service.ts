@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ToastService } from 'ng-bootstrap-ext';
+import { ToastService } from '@mean-stream/ngbx';
 import { Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';

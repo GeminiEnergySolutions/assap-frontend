@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
+import { ToastService } from '@mean-stream/ngbx';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class ForgotPasswordComponent implements OnInit {
     const objData = {
       email: this.forgotPasswordForm.get('email')?.value
     };
-  
+
     this.authService.forgotPassword(objData).subscribe((res: any) => {
       this.toastService.success('Success', 'Password sent to your email Successfully');
     });

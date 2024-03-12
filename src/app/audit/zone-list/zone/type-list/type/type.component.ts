@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastService } from 'ng-bootstrap-ext';
+import { ToastService } from '@mean-stream/ngbx';
 import { switchMap, tap } from 'rxjs';
 import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';
 import { AuditService } from 'src/app/shared/services/audit.service';

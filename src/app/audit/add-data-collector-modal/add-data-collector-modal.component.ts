@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DataCollector} from './data-collector.interface';
 import {AuditService} from 'src/app/shared/services/audit.service';
-import {ToastService} from 'ng-bootstrap-ext';
+import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-add-data-collector-modal',
