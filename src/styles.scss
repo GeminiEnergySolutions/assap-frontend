@@ -61,7 +61,7 @@ input[type=number] {
 // ------------------- Auth Cards ---------------------
 
 .auth-card {
-  color: white;
+  color: $gray-100;
   border: none;
   width: 500px;
   padding:40px;
@@ -71,6 +71,9 @@ input[type=number] {
   transform: translate(-50%, -50%);
   background: hsla(205, 46%, 30%, 1);
   background: linear-gradient(90deg, hsla(205, 46%, 30%, 1) 0%, hsla(260, 29%, 36%, 1) 100%);
+}
+.auth-card .form-text {
+  color: $gray-300;
 }
 
 /* Media query for mobile screens */
