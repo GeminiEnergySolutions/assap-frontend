@@ -61,19 +61,17 @@ export class ZoneComponent implements OnInit {
     });
   }
 
-
-  public async captureDialog() {
-    let newPic: string | any;
-    // TODO
-    if (newPic) {
-      const formData = new FormData();
-      formData.append('photo', newPic);
-      formData.append('auditId', this.route.snapshot.params.aid);
-      formData.append('zoneId', this.route.snapshot.params.zid);
-      this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe((res: any) => {
-        this.toastService.success('Success', 'Photo have been saved.')
-      });
+  uploadPhoto(files: FileList | null) {
+    if (!files || !files.length) {
+      return;
     }
+    const {aid, zid} = this.route.snapshot.params;
+    const formData = new FormData();
+    formData.append('auditId', aid);
+    formData.append('zoneId', zid);
+    formData.append('photo', files[0], files[0].name);
+    this.auditService.uploadPhoto(aid, formData).subscribe(() => {
+      this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`)
+    });
   }
-
 }
