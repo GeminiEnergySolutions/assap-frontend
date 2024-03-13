@@ -1,7 +1,7 @@
 import {CommonModule, DatePipe} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {MasterDetailComponent} from './components/master-detail/master-detail.component';
 import {OptionDropdownComponent} from './components/option-dropdown/option-dropdown.component';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
@@ -21,6 +21,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
 
 
 @NgModule({
@@ -50,6 +51,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatToolbarModule,
     MatPaginatorModule,
     PipeModule,
+    NgbTooltip,
+    NgbxDarkmodeModule,
   ],
   exports: [
     MasterDetailComponent,
