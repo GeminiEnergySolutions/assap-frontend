@@ -3,7 +3,6 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../shared/services/audit.service';
-import {CaptureService} from '../shared/services/capture.service';
 
 @Component({
   selector: 'app-audit',
@@ -16,7 +15,6 @@ export class AuditComponent implements OnInit {
 
   constructor(
     public auditService: AuditService,
-    private cameraService: CaptureService,
     private toastService: ToastService,
     public route: ActivatedRoute,
   ) {
@@ -38,20 +36,16 @@ export class AuditComponent implements OnInit {
     });
   }
 
-  async captureDialog() {
-    let newPic: string | any;
-    try {
-      newPic = await this.cameraService.open();
-    } catch (error) {
-      this.toastService.error("Error", "Requested Device not found.", error)
+  uploadPhoto(files: FileList | null) {
+    if (!files || !files.length) {
+      return;
     }
-    if (newPic) {
-      const formData = new FormData();
-      formData.append('photo', newPic);
-      formData.append('auditId', this.route.snapshot.params.aid);
-      this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe((res: any) => {
-        this.toastService.success('Success', 'Photo have been saved.');
-      });
-    }
+
+    const formData = new FormData();
+    formData.append('auditId', this.route.snapshot.params.aid);
+    formData.append('photo', files[0], files[0].name);
+    this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe(() => {
+      this.toastService.success('Upload Audit Photo', 'Successfully uploaded photo for Audit.');
+    });
   }
 }

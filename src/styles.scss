@@ -57,6 +57,9 @@ input[type=number] {
   padding: 5px; /* Add some padding for better spacing */
 }
 
+.input-group-text + .form-control::file-selector-button {
+  display: none;
+}
 
 // ------------------- Auth Cards ---------------------
 

@@ -10,10 +10,8 @@ import {FormsModule as AppFormsModule} from '../shared/form/form.module';
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {CaptureComponent} from './components/capture/capture.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PortalModule} from '@angular/cdk/portal';
-import {CaptureService} from './services/capture.service';
 import {PipeModule} from './pipe/pipe.module';
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
 import {SuccessPageComponent} from './components/success-page/success-page.component';
@@ -30,7 +28,6 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
     OptionDropdownComponent,
     PageNotFoundComponent,
     NavBarComponent,
-    CaptureComponent,
     ChangePasswordComponent,
     SuccessPageComponent
   ],
@@ -59,9 +56,8 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
     OptionDropdownComponent,
     PageNotFoundComponent,
     NavBarComponent,
-    CaptureComponent
   ],
-  providers: [DatePipe, CaptureService,]
+  providers: [DatePipe]
 })
 export class SharedModule {
 }

@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ToastService } from '@mean-stream/ngbx';
-import { switchMap, tap } from 'rxjs';
-import { AuditZoneService } from 'src/app/shared/services/audit-zone.service';
-import { AuditService } from 'src/app/shared/services/audit.service';
-import { CaptureService } from 'src/app/shared/services/capture.service';
-import { EquipmentService } from 'src/app/shared/services/equipment.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
+import {switchMap} from 'rxjs';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {EquipmentService} from 'src/app/shared/services/equipment.service';
 
 
 @Component({
@@ -15,8 +13,8 @@ import { EquipmentService } from 'src/app/shared/services/equipment.service';
 })
 export class TypeComponent implements OnInit {
 
-  constructor(public equipmentService: EquipmentService,
-    private cameraService: CaptureService,
+  constructor(
+    public equipmentService: EquipmentService,
     public auditService: AuditService,
     private route: ActivatedRoute,
     private toastService: ToastService,
@@ -40,11 +38,7 @@ export class TypeComponent implements OnInit {
 
   public async captureDialog() {
     let newPic: string | any;
-    try {
-      newPic = await this.cameraService.open();
-    } catch (error) {
-      console.dir(error);
-    }
+    // TODO
     if (newPic) {
       const formData = new FormData();
       formData.append('photo', newPic);

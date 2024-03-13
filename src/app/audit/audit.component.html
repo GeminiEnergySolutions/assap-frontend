@@ -6,14 +6,16 @@
       {{ audit?.auditName | titlecase }}
     </h1>
   </div>
-  <div class="row m-0" style="margin-bottom: 10px !important;">
-    <a class="btn btn-primary col-lg-2 col-6" routerLink="report">
+  <div class="d-flex">
+    <a class="btn btn-primary me-2" routerLink="report">
       Generate Report
     </a>
-
-
-    <div class="offset-lg-6 offset-0 col-lg-4 col-6" style="text-align: right;">
-      <a class="btn btn-primary" (click)="captureDialog()" style="margin-right: 5px;">Capture</a>
+    <div class="input-group w-auto">
+      <label class="input-group-text bi-camera" for="image">
+        Capture Photo:
+      </label>
+      <input #fileInput type="file" class="form-control" id="image" accept="image/*">
+      <button class="btn btn-outline-primary" (click)="uploadPhoto(fileInput.files)">Upload</button>
     </div>
   </div>
   <div class="my-2">
