@@ -12,13 +12,13 @@ export class NavBarComponent {
 
   selectedTheme = this.themeService.theme;
 
-  themes = [
+  readonly themes = [
     {name: 'Sync with OS', value: 'auto', icon: 'bi-circle-half', selectedIcon: 'bi-check-circle-fill'},
     {name: 'Light', value: 'light', icon: 'bi-sun', selectedIcon: 'bi-sun-fill'},
     {name: 'Dark', value: 'dark', icon: 'bi-moon-stars', selectedIcon: 'bi-moon-stars-fill'},
   ];
 
-  menuCollapsed: boolean = true;
+  menuCollapsed = true;
 
   constructor(
     public authService: AuthService,
@@ -28,7 +28,7 @@ export class NavBarComponent {
   }
 
   logout(): void {
-    this.authService.logout().subscribe(res => {
+    this.authService.logout().subscribe(() => {
       localStorage.clear();
       this.authService.currentLoginUser = undefined;
       this.router.navigate(['/auth/login']);
