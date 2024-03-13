@@ -36,21 +36,21 @@ export class TypeComponent implements OnInit {
     });
   }
 
-  public async captureDialog() {
-    let newPic: string | any;
-    // TODO
-    if (newPic) {
-      const formData = new FormData();
-      formData.append('photo', newPic);
-      formData.append('auditId', this.route.snapshot.params.aid);
-      formData.append('zoneId', this.route.snapshot.params.zid);
-      formData.append('equipmentId', this.equipmentService.equipmentSubTypeData.equipmentId);
-      formData.append('typeId', this.equipmentService.equipmentSubTypeData?.type?.id);
-      formData.append('subTypeId', this.route.snapshot.params.tid);
-      this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe((res: any) => {
-        this.toastService.success('Success', 'Photo have been saved.');
-      });
+  uploadPhoto(files: FileList | null) {
+    if (!files || !files.length) {
+      return;
     }
-  }
 
+    const {aid, tid, zid} = this.route.snapshot.params;
+    const formData = new FormData();
+    formData.append('auditId', aid);
+    formData.append('zoneId', zid);
+    formData.append('equipmentId', this.equipmentService.equipmentSubTypeData.equipmentId);
+    formData.append('typeId', this.equipmentService.equipmentSubTypeData?.type?.id);
+    formData.append('subTypeId', tid);
+    formData.append('photo', files[0], files[0].name);
+    this.auditService.uploadPhoto(aid, formData).subscribe(() => {
+      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipmentService.equipmentSubTypeData?.type?.name} '${this.equipmentService.equipmentSubTypeData?.name}'.`);
+    });
+  }
 }

@@ -1,27 +1,26 @@
-<div>
-  <div class="row">
-  <h1 class="col">
+<h1 class="col">
+  <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
+  {{ equipmentService.equipmentSubTypeData?.name | titlecase }}
+  <span class="text-muted small">
+    {{ equipmentService.equipmentSubTypeData?.type ? equipmentService.equipmentSubTypeData?.type?.name : equipmentService.equipmentSubTypeData?.typeChild?.name | titlecase }}
+  </span>
+</h1>
 
-    <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-    {{ equipmentService.equipmentSubTypeData?.name | titlecase }}
-    <span class="text-muted small">
-      {{ equipmentService.equipmentSubTypeData?.type ? equipmentService.equipmentSubTypeData?.type?.name : equipmentService.equipmentSubTypeData?.typeChild?.name | titlecase }}
-    </span>
-  </h1>
-
-  <div class="col my-3" style="text-align: right; padding-right: 25px;">
-    <a class="btn btn-primary" (click)="captureDialog()" style="margin-right: 5px;">Capture</a>
-  </div>
+<div class="input-group w-auto">
+  <label class="input-group-text bi-camera" for="image">
+    Capture Photo:
+  </label>
+  <input #fileInput type="file" class="form-control" id="image" accept="image/*">
+  <button class="btn btn-outline-primary" (click)="uploadPhoto(fileInput.files)">Upload</button>
 </div>
 
-
-
-<div class="my-2">
-  <p style="margin-bottom:0px">Equipment Progress = {{auditService.completedFields}} / {{auditService.totalFields}} </p>
+<div class="mb-3">
+  Equipment Progress = {{ auditService.completedFields }} / {{ auditService.totalFields }}
   <div class="progress">
-    <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">{{auditService.progressPercentage}}</div>
+    <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">
+      {{ auditService.progressPercentage }}
+    </div>
   </div>
 </div>
 
-  <app-form #form></app-form>
-</div>
+<app-form></app-form>
