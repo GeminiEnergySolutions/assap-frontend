@@ -29,6 +29,7 @@ import {GrantComponent} from './grant/grant.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
+import { ZoneFormComponent } from './zone-form/zone-form.component';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-dat
     GenerateReportDialogComponent,
     CleanEnergyHubComponent,
     GrantComponent,
+    ZoneFormComponent,
   ],
 })
 export class AuditModule {

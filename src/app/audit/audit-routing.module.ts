@@ -14,6 +14,7 @@ import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.compo
 import {GrantComponent} from './grant/grant.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {PreauditFormComponent} from "./preaudit-form/preaudit-form.component";
+import {ZoneFormComponent} from "./zone-form/zone-form.component";
 
 const routes: Routes = [
   {
@@ -41,10 +42,11 @@ const routes: Routes = [
     component: PreZoneComponent,
     children: [
       {
-        path: ':zid/equipments',
+        path: ':zid',
         component: ZoneComponent,
         children: [
-          {path: ':eid', component: TypeListComponent},
+          {path: '', pathMatch: 'full', component: ZoneFormComponent},
+          {path: 'equipments/:eid', component: TypeListComponent},
         ],
       },
     ],
