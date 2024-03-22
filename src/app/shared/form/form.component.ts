@@ -211,19 +211,6 @@ export class FormComponent implements OnInit {
     this.dirty = false;
   }
 
-  shareCEHVehicleScedule(schema: any) {
-    if (confirm(`Are you sure! want to share ${schema.name} schedule?`)) {
-      let objData = {
-        auditId: Number(this.route.snapshot.params.aid),
-        shareFrom: schema.name == 'Electric Vehicle' ? 'ev' : 'non_ev'
-      };
-      this.equipmentService.CEHVehicleSchedule(objData).subscribe((res: any) => {
-        this.formData = res.data;
-        this.toastService.success('Success', res.message);
-      });
-    }
-  }
-
   isMediumPage(schema: any, element: any) {
     if (this.formType != "preAudit" && this.formType != "cleanenergyhub") return false;
 
