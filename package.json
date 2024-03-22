@@ -29,9 +29,11 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "class-validator": "^0.14.1",
+    "libphonenumber-js": "^1.10.58",
     "reflect-metadata": "^0.1.14",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
+    "validator": "^13.11.0",
     "zone.js": "~0.14.4"
   },
   "devDependencies": {
@@ -47,6 +49,7 @@
     "@types/jasminewd2": "~2.0.13",
     "@types/node": "^20.11.30",
     "@types/uuid": "^9.0.8",
+    "@types/validator": "^13.11.9",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",
