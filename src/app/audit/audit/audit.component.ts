@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
-import {AuditService} from '../shared/services/audit.service';
+import {AuditService} from '../../shared/services/audit.service';
 
 @Component({
   selector: 'app-audit',
