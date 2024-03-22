@@ -105,10 +105,14 @@ export class FormComponent implements OnInit {
 
   getPercentage() {
     let queryParams = "";
-    if (this.formType === 'preAudit') {
-      queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
-    } else if (this.formType === 'equipmentForm') {
-      queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
+    switch (this.formType) {
+      case 'preAudit':
+      case 'cleanenergyhub':
+        queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
+        break;
+      case 'equipmentForm':
+        queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
+        break;
     }
     this.auditService.getPercentage(queryParams).subscribe((res: any) => {
       this.auditService.totalFields = res.totalFields ;
@@ -192,6 +196,7 @@ export class FormComponent implements OnInit {
     if (this.formData.id) {
       this.auditService.updateCleanEnergyHubData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
         this.toastService.success('Form', 'Successfully saved form input');
+        this.getPercentage();
       });
     } else {
       let objData = {
@@ -201,14 +206,9 @@ export class FormComponent implements OnInit {
       this.auditService.createCleanEnergyHubData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
         this.formData = res;
         this.toastService.success('Form', 'Successfully saved form input');
+        this.getPercentage();
       });
     }
-    const queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
-    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
-      this.auditService.totalFields = res.totalFields;
-      this.auditService.completedFields = res.completedFields;
-      this.auditService.progressPercentage = res.percentage + '%';
-    });
   }
 
   private saveEquipment() {
