@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap} from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
 import {CopySpec, SchemaSection} from '../model/schema.interface';
+import {ZoneDataResponse} from "../model/zone.interface";
 
 @Component({
   selector: 'app-form',
@@ -16,7 +17,7 @@ export class FormComponent implements OnInit {
 
   dirty = false;
   typeSchema: SchemaSection[] = [];
-  formData?: { id?: string; data: Record<string, string | number | boolean> };
+  formData?: { id?: string | number; data: Record<string, string | number | boolean> };
   /** for offline storage */
   formId: string = '';
 
@@ -85,6 +86,21 @@ export class FormComponent implements OnInit {
             });
             this.equipmentService.equipmentSubTypeData = null;
             break;
+          case "zone":
+            const zoneId = this.route.snapshot.params.zid;
+            this.formId = `audits/${auditId}/zones/${zoneId}`;
+            this.auditService.getZoneJsonSchema().subscribe(schema => {
+              this.typeSchema = schema.data;
+            });
+            this.auditService.getZoneData(zoneId).subscribe(response => {
+              if (response.data.data) {
+                this.formData = response.data;
+              } else {
+                this.formData = { data: {} };
+              }
+            });
+            this.equipmentService.equipmentSubTypeData = null;
+            break;
           case "equipmentForm":
             this.formId = `audits/${auditId}/subtypes/${subType.id}`; // TODO
             this.equipmentService.equipmentSubTypeData = subType;
@@ -134,14 +150,22 @@ export class FormComponent implements OnInit {
       }
     }
 
-    if (this.formType === 'preAudit') {
-      this.savePreAudit();
-    } else if (this.formType === 'grants') {
-      this.saveGrants();
-    } else if (this.formType === 'cleanenergyhub') {
-      this.saveCEH();
-    } else {
-      this.saveEquipment();
+    switch (this.formType) {
+      case 'preAudit':
+        this.savePreAudit();
+        break;
+      case 'grants':
+        this.saveGrants();
+        break;
+      case 'cleanenergyhub':
+        this.saveCEH();
+        break;
+      case 'zone':
+        this.saveZone();
+        break;
+      case 'equipmentForm':
+        this.saveEquipment();
+        break;
     }
 
     this.dirty = false;
@@ -209,6 +233,33 @@ export class FormComponent implements OnInit {
         this.getPercentage();
       });
     }
+  }
+
+  private saveZone() {
+    if (!this.formData) {
+      return;
+    }
+    const auditId = this.route.snapshot.params.aid;
+    const zoneId = this.route.snapshot.params.zid;
+    let request$: Observable<ZoneDataResponse>;
+    if (this.formData.id) {
+      request$ = this.auditService.updateZoneData(zoneId, {
+        auditId,
+        zoneId,
+        id: +this.formData.id,
+        data: this.formData.data,
+      });
+    } else {
+      request$ = this.auditService.createZoneData(zoneId, {
+        auditId,
+        zoneId,
+        data: this.formData.data,
+      });
+    }
+    request$.subscribe(() => {
+      this.toastService.success('Zone Form', 'Successfully saved form input');
+      this.getPercentage();
+    });
   }
 
   private saveEquipment() {

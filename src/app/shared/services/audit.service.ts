@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
 import {Audit} from '../model/audit.interface';
+import {CreateZoneData, ZoneData, ZoneDataResponse} from "../model/zone.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -190,5 +191,18 @@ export class AuditService {
   }
   updatePreAuditData(auditId: number, formData: PreAuditData): Observable<PreAuditDataResponse> {
     return this.http.put<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`, formData);
+  }
+
+  getZoneJsonSchema(): Observable<SchemaResponse> {
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/zoneSchema/`);
+  }
+  getZoneData(zoneId: number): Observable<ZoneDataResponse> {
+    return this.http.get<ZoneDataResponse>(`${this.rootUrl}api/zoneFormData/${zoneId}/`);
+  }
+  createZoneData(zoneId: number, formData: CreateZoneData): Observable<ZoneDataResponse> {
+    return this.http.post<ZoneDataResponse>(`${this.rootUrl}api/zoneFormData/${zoneId}/`, formData);
+  }
+  updateZoneData(zoneId: number, formData: ZoneData): Observable<ZoneDataResponse> {
+    return this.http.put<ZoneDataResponse>(`${this.rootUrl}api/zoneFormData/${zoneId}/`, formData);
   }
 }
