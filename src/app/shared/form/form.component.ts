@@ -131,84 +131,111 @@ export class FormComponent implements OnInit {
     }
 
     if (this.formType === 'preAudit') {
-      if (this.formData.id) {
-        this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData as any).subscribe((res: any) => {
-          this.toastService.success('Form', 'Successfully saved form input');
-          this.getPercentage();
-        });
-      } else {
-        let objData = {
-          auditId: this.route.snapshot.params.aid,
-          data: this.formData.data,
-        };
-        this.auditService.createPreAuditData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-          // this.formData = res.data;
-          this.toastService.success('Form', 'Successfully saved form input');
-          this.getPercentage();
-        });
-      }
-      // this.toastService.success('Form', 'Successfully saved form input');
+      this.savePreAudit();
     } else if (this.formType === 'grants') {
-      if (this.formData.id) {
-        this.auditService.updateGrantsData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      } else {
-        let objData = {
-          auditId: this.route.snapshot.params.aid,
-          data: this.formData.data,
-        };
-        this.auditService.createGrantsData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-          this.formData = res;
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      }
+      this.saveGrants();
     } else if (this.formType === 'cleanenergyhub') {
-      if (this.formData.id) {
-        this.auditService.updateCleanEnergyHubData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      } else {
-        let objData = {
-          auditId: this.route.snapshot.params.aid,
-          data: this.formData.data,
-        };
-        this.auditService.createCleanEnergyHubData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-          this.formData = res;
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      }
-      const queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
-      this.auditService.getPercentage(queryParams).subscribe((res: any) => {
-        this.auditService.totalFields = res.totalFields ;
-        this.auditService.completedFields = res.completedFields ;
-        this.auditService.progressPercentage = res.percentage + '%';
-      });
+      this.saveCEH();
     } else {
-      if (this.formData.id) {
-        this.equipmentService.updateEquipmentFormData(this.formData).subscribe((res: any) => {
-          this.getPercentage();
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      } else {
-        let objData = {
-          auditId: this.route.snapshot.params.aid,
-          zoneId: this.route.snapshot.params.zid,
-          equipmentId:
-            this.equipmentService.equipmentSubTypeData.type.equipment.id,
-          typeId: this.equipmentService.equipmentSubTypeData.type.id,
-          subTypeId: this.equipmentService.equipmentSubTypeData.id,
-          data: this.formData.data,
-        };
-        this.equipmentService.createEquipmentFormData(objData).subscribe((res: any) => {
-          this.formData = res;
-          this.getPercentage();
-          this.toastService.success('Form', 'Successfully saved form input');
-        });
-      }
+      this.saveEquipment();
     }
 
     this.dirty = false;
+  }
+
+  private savePreAudit() {
+    if (!this.formData) {
+      return;
+    }
+    if (this.formData.id) {
+      this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData as any).subscribe((res: any) => {
+        this.toastService.success('Form', 'Successfully saved form input');
+        this.getPercentage();
+      });
+    } else {
+      let objData = {
+        auditId: this.route.snapshot.params.aid,
+        data: this.formData.data,
+      };
+      this.auditService.createPreAuditData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
+        // this.formData = res.data;
+        this.toastService.success('Form', 'Successfully saved form input');
+        this.getPercentage();
+      });
+    }
+  }
+
+  private saveGrants() {
+    if (!this.formData) {
+      return;
+    }
+    if (this.formData.id) {
+      this.auditService.updateGrantsData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    } else {
+      let objData = {
+        auditId: this.route.snapshot.params.aid,
+        data: this.formData.data,
+      };
+      this.auditService.createGrantsData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
+        this.formData = res;
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    }
+  }
+
+  private saveCEH() {
+    if (!this.formData) {
+      return;
+    }
+    if (this.formData.id) {
+      this.auditService.updateCleanEnergyHubData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    } else {
+      let objData = {
+        auditId: this.route.snapshot.params.aid,
+        data: this.formData.data,
+      };
+      this.auditService.createCleanEnergyHubData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
+        this.formData = res;
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    }
+    const queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
+    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
+      this.auditService.totalFields = res.totalFields;
+      this.auditService.completedFields = res.completedFields;
+      this.auditService.progressPercentage = res.percentage + '%';
+    });
+  }
+
+  private saveEquipment() {
+    if (!this.formData) {
+      return;
+    }
+    if (this.formData.id) {
+      this.equipmentService.updateEquipmentFormData(this.formData).subscribe((res: any) => {
+        this.getPercentage();
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    } else {
+      let objData = {
+        auditId: this.route.snapshot.params.aid,
+        zoneId: this.route.snapshot.params.zid,
+        equipmentId:
+        this.equipmentService.equipmentSubTypeData.type.equipment.id,
+        typeId: this.equipmentService.equipmentSubTypeData.type.id,
+        subTypeId: this.equipmentService.equipmentSubTypeData.id,
+        data: this.formData.data,
+      };
+      this.equipmentService.createEquipmentFormData(objData).subscribe((res: any) => {
+        this.formData = res;
+        this.getPercentage();
+        this.toastService.success('Form', 'Successfully saved form input');
+      });
+    }
   }
 
   isMediumPage(schema: any, element: any) {
