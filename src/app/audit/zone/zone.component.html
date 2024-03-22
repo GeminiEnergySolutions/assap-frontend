@@ -22,7 +22,7 @@
 
 <ul ngbNav [activeId]="equipmentService.equipment.id" class="nav-tabs">
   <li ngbNavItem="">
-    <a ngbNavLink routerLink=".">
+    <a ngbNavLink routerLink="." (click)="getZonePercentage()">
       Zone Details
     </a>
   </li>

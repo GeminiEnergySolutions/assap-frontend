@@ -36,19 +36,21 @@ export class ZoneComponent implements OnInit {
       this.equipmentService.equipments = res.data;
     });
 
-    this.route.params
-      .pipe(
-        switchMap(({ aid, zid }) => {
-          const queryParams = `?percentageType=zone&zoneId=${this.route.snapshot.params.zid}`;
-          return this.auditService.getPercentage(queryParams);
-        })
-      )
-      .subscribe((res: any) => {
-        this.auditService.equipmentHeadingValue = 'Zone';
-        this.auditService.totalFields = res.totalFields ;
-        this.auditService.completedFields = res.completedFields ;
-        this.auditService.progressPercentage = res.percentage + '%';
-      });
+    this.getZonePercentage();
+  }
+
+  getZonePercentage() {
+    this.route.params.pipe(
+      switchMap(({zid}) => {
+        const queryParams = `?percentageType=zone&zoneId=${zid}`;
+        return this.auditService.getPercentage(queryParams);
+      })
+    ).subscribe((res: any) => {
+      this.auditService.equipmentHeadingValue = 'Zone';
+      this.auditService.totalFields = res.totalFields;
+      this.auditService.completedFields = res.completedFields;
+      this.auditService.progressPercentage = res.percentage + '%';
+    });
   }
 
   public getEquipmentPercentage(equipment: any) {
