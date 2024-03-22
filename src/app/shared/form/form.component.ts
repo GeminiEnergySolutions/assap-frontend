@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
@@ -12,10 +12,11 @@ import {CopySpec, SchemaSection} from '../model/schema.interface';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+  @Input({required: true}) formType!: 'preAudit' | 'equipmentForm' | 'grants' | 'cleanenergyhub' | 'zone';
+
   dirty = false;
   typeSchema: SchemaSection[] = [];
   formData?: { id?: string; data: Record<string, string | number | boolean> };
-  formType: string = '';
   /** for offline storage */
   formId: string = '';
 
@@ -41,10 +42,8 @@ export class FormComponent implements OnInit {
       )
       .subscribe(async (subType: any) => {
         const auditId = this.route.snapshot.params.aid;
-        if (subType === 'o') {
-          const url = this.route.snapshot.url[0].path;
-          if (url === 'grants') {
-            this.formType = 'grants';
+        switch (this.formType) {
+          case "grants":
             this.formId = `audits/${auditId}/grants`;
             this.auditService.getGrantsJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema;
@@ -56,8 +55,9 @@ export class FormComponent implements OnInit {
                 this.formData = { data: {} };
               }
             });
-          } else if (url === 'cleanenergyhub') {
-            this.formType = 'cleanenergyhub';
+            this.equipmentService.equipmentSubTypeData = null;
+            break;
+          case "cleanenergyhub":
             this.formId = `audits/${auditId}/cleanenergyhub`;
             this.auditService.getCleanEnergyHubJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema;
@@ -69,9 +69,9 @@ export class FormComponent implements OnInit {
                 this.formData = { data: {} };
               }
             });
-          }
-          else {
-            this.formType = 'preAudit';
+            this.equipmentService.equipmentSubTypeData = null;
+            break;
+          case "preAudit":
             this.formId = `audits/${auditId}/preaudit`;
             this.auditService.getPreAuditJsonSchema().subscribe((schema: any) => {
               this.typeSchema = schema.data;
@@ -83,22 +83,22 @@ export class FormComponent implements OnInit {
                 this.formData = { data: {} };
               }
             });
-          }
-          this.equipmentService.equipmentSubTypeData = null;
-        } else {
-          this.formType = 'equipmentForm';
-          this.formId = `audits/${auditId}/subtypes/${subType.id}`; // TODO
-          this.equipmentService.equipmentSubTypeData = subType;
-          this.equipmentService.getEquipmentTypeFormSchema(subType.type ? subType.type.id : subType.typeChild.equipmentType.id).subscribe((schema: any) => {
-            this.typeSchema = schema;
-          });
-          this.equipmentService.getEquipmentFormDataBySubType(subType.id).subscribe((formData: any) => {
-            if (formData) {
-              this.formData = formData;
-            } else {
-              this.formData = { data: {} };
-            }
-          });
+            this.equipmentService.equipmentSubTypeData = null;
+            break;
+          case "equipmentForm":
+            this.formId = `audits/${auditId}/subtypes/${subType.id}`; // TODO
+            this.equipmentService.equipmentSubTypeData = subType;
+            this.equipmentService.getEquipmentTypeFormSchema(subType.type ? subType.type.id : subType.typeChild.equipmentType.id).subscribe((schema: any) => {
+              this.typeSchema = schema;
+            });
+            this.equipmentService.getEquipmentFormDataBySubType(subType.id).subscribe((formData: any) => {
+              if (formData) {
+                this.formData = formData;
+              } else {
+                this.formData = { data: {} };
+              }
+            });
+            break;
         }
       });
   }
