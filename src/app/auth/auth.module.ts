@@ -6,6 +6,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { BrandHeaderComponent } from './brand-header/brand-header.component';
 // import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     LoginComponent,
     SignupComponent,
     ForgotPasswordComponent,
+    BrandHeaderComponent,
   ],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
