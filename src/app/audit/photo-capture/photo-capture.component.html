@@ -1,7 +1,10 @@
-<div class="input-group w-auto">
-  <label class="input-group-text bi-camera" for="image">
-    Capture Photo:
+<div class="input-group">
+  <button class="btn btn-outline-primary bi-camera" (click)="fileInput.capture = 'environment'; fileInput.click(); fileInput.removeAttribute('capture')">
+    Capture
+  </button>
+  <label class="input-group-text" for="image">
+    or Browse:
   </label>
-  <input #fileInput type="file" class="form-control" id="image" accept="image/*">
+  <input #fileInput type="file" class="form-control" id="image" accept="image/*" (change)="fileInput.capture && fileInput.files">
   <button class="btn btn-outline-primary" (click)="uploadPhoto(fileInput.files)">Upload</button>
 </div>
