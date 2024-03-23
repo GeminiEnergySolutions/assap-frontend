@@ -10,8 +10,10 @@ import {AuthService} from 'src/app/shared/services/auth.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
+  readonly userTypes = ['guest', 'dataCollector'] as const;
+
   signupForm!: FormGroup;
-  selectedUserType = 'sandbox';
+  selectedUserType: (typeof this.userTypes)[number] = 'guest';
   submitting = false;
 
   constructor(
@@ -28,33 +30,23 @@ export class SignupComponent implements OnInit {
       Email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       ConfirmPassword: ['', Validators.required],
-      state: [''],
     });
   }
 
   signUp() {
-    let userData: any = {
+    this.submitting = true;
+    this.authService.signUp({
       userName: this.signupForm.get('userName')?.value,
       email: this.signupForm.get('Email')?.value,
       password: this.signupForm.get('password')?.value,
       password_confirm: this.signupForm.get('ConfirmPassword')?.value,
-    };
-
-    if (this.selectedUserType === 'sandbox') {
-      userData.role = 'guest';
-    } else if (this.selectedUserType === 'dataCollector') {
-      userData.role = 'dataCollector';
-    }
-
-    this.submitting = true;
-    this.authService.signUp(userData).subscribe((res) => {
+      role: this.selectedUserType,
+    }).subscribe(() => {
       this.submitting = false;
       this.toastService.success('Success', 'Registration successful!');
-      this.signupForm.reset();
       this.router.navigate(['auth/login']);
-    }, error => {
+    }, () => {
       this.submitting = false;
-      this.toastService.error('Error', 'Registration failed', error);
     });
   }
 }

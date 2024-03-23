@@ -6,7 +6,7 @@
       User Type
     </label>
     <div class="btn-group d-block" role="group" id="userGroup">
-      @for (userType of ['sandbox', 'dataCollector']; track userType) {
+      @for (userType of userTypes; track userType) {
         <button
           type="button"
           class="btn btn-primary"
