@@ -15,19 +15,26 @@
   <h1>
     Log In
   </h1>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div>
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" formControlName="email" id="email">
+      <input type="email" class="form-control" id="email" [(ngModel)]="email">
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" formControlName="password" id="password">
+      <input type="password" class="form-control" id="password" [(ngModel)]="password">
     </div>
     <div class="mb-3">
       <a routerLink="forgot-password">Forgot Password?</a>
     </div>
-    <button type="submit" class="btn btn-primary w-100 mb-3">Log In</button>
+    <button type="submit" class="btn btn-primary w-100 mb-3" (click)="login()" [disabled]="loggingIn">
+      @if (loggingIn) {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Logging In...
+      } @else {
+        Log In
+      }
+    </button>
     Don't have an account? <a routerLink="signup">Sign Up</a>
-  </form>
+  </div>
 </div>

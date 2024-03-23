@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from 'src/app/shared/services/auth.service';
 
@@ -8,30 +7,29 @@ import {AuthService} from 'src/app/shared/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  loggingIn = false;
+  email = '';
+  password = '';
 
-  public loginForm !: FormGroup
-
-  constructor(private formBuilder:FormBuilder,
+  constructor(
     private authService: AuthService,
-    private router: Router
-  ) { }
-
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email:[''],
-      password:[''],
-    })
+    private router: Router,
+  ) {
   }
 
-  login(){
+  login() {
+    this.loggingIn = true;
     this.authService.login({
-      email: this.loginForm.get('email')?.value,
-      password: this.loginForm.get('password')?.value,
+      email: this.email,
+      password: this.password,
     }).subscribe(res => {
+      this.loggingIn = false;
       localStorage.setItem('accessToken', res.token);
       this.authService.currentLoginUser = res.user;
       this.router.navigate(['audits']);
+    }, () => {
+      this.loggingIn = false;
     });
   }
 }
