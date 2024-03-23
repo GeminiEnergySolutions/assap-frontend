@@ -36,14 +36,10 @@ export class AuditComponent implements OnInit {
     });
   }
 
-  uploadPhoto(files: FileList | null) {
-    if (!files || !files.length) {
-      return;
-    }
-
+  uploadPhoto(file: File) {
     const formData = new FormData();
     formData.append('auditId', this.route.snapshot.params.aid);
-    formData.append('photo', files[0], files[0].name);
+    formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe(() => {
       this.toastService.success('Upload Audit Photo', 'Successfully uploaded photo for Audit.');
     });

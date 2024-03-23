@@ -30,6 +30,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import { ZoneFormComponent } from './zone-form/zone-form.component';
+import { PhotoCaptureComponent } from './photo-capture/photo-capture.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { ZoneFormComponent } from './zone-form/zone-form.component';
     CleanEnergyHubComponent,
     GrantComponent,
     ZoneFormComponent,
+    PhotoCaptureComponent,
   ],
 })
 export class AuditModule {

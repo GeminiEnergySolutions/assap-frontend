@@ -1,0 +1,7 @@
+<div class="input-group w-auto">
+  <label class="input-group-text bi-camera" for="image">
+    Capture Photo:
+  </label>
+  <input #fileInput type="file" class="form-control" id="image" accept="image/*">
+  <button class="btn btn-outline-primary" (click)="uploadPhoto(fileInput.files)">Upload</button>
+</div>

@@ -3,13 +3,7 @@
   {{ zone?.zoneName | titlecase }}
 </h1>
 
-<div class="input-group w-auto">
-  <label class="input-group-text bi-camera" for="image">
-    Capture Photo:
-  </label>
-  <input #fileInput type="file" class="form-control" id="image" accept="image/*">
-  <button class="btn btn-outline-primary" (click)="uploadPhoto(fileInput.files)">Upload</button>
-</div>
+<app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
 <div class="mb-3">
   {{ auditService.equipmentHeadingValue }} Progress: {{ auditService.completedFields }} / {{ auditService.totalFields }}

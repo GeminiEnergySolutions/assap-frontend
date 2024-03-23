@@ -36,11 +36,7 @@ export class TypeComponent implements OnInit {
     });
   }
 
-  uploadPhoto(files: FileList | null) {
-    if (!files || !files.length) {
-      return;
-    }
-
+  uploadPhoto(file: File) {
     const {aid, tid, zid} = this.route.snapshot.params;
     const formData = new FormData();
     formData.append('auditId', aid);
@@ -48,7 +44,7 @@ export class TypeComponent implements OnInit {
     formData.append('equipmentId', this.equipmentService.equipmentSubTypeData.equipmentId);
     formData.append('typeId', this.equipmentService.equipmentSubTypeData?.type?.id);
     formData.append('subTypeId', tid);
-    formData.append('photo', files[0], files[0].name);
+    formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(aid, formData).subscribe(() => {
       this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipmentService.equipmentSubTypeData?.type?.name} '${this.equipmentService.equipmentSubTypeData?.name}'.`);
     });
