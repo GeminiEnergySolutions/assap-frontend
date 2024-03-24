@@ -18,6 +18,14 @@
         <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
           Log Out
         </button>
+        <hr/>
+        <div class="d-flex align-items-center">
+          <div class="bi-person-circle fs-1 mx-3"></div>
+          <div>
+            <h5 class="mb-0 fw-bold">{{ authService.currentLoginUser.userName }}</h5>
+            <h6 class="mb-0 fw-light">{{ authService.currentLoginUser.role.role | titlecase }}</h6>
+          </div>
+        </div>
       } @else {
         <div class="flex-grow-1"></div>
         <a class="nav-item nav-link bi-person" routerLinkActive="active" routerLink="/auth/login">
