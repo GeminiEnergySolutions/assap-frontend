@@ -1,7 +1,7 @@
 <ng-template #content let-offcanvas>
   <div class="offcanvas-header bg-dark">
     <div class="d-flex align-items-center justify-content-center">
-      <img class="me-2" src="assets/icons/geminie_logo_head.png" alt="Gemini Energy Solutions Logo" height="64">
+      <img class="me-2" src="assets/icons/geminie_logo_head.png" alt="Gemini Energy Solutions Logo" height="32">
       <h4 class="mb-0 fw-semibold">CONSERVE</h4>
     </div>
     <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
@@ -12,29 +12,8 @@
         <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="/audits">
           Home
         </a>
-        <div class="flex-grow-1"></div>
-        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/change-password">
-          Change Password</a>
-        <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
-          Log Out
-        </button>
-        <hr/>
-        <div class="d-flex align-items-center">
-          <div class="bi-person-circle fs-1 mx-3"></div>
-          <div>
-            <h5 class="mb-0 fw-bold">{{ authService.currentLoginUser.userName }}</h5>
-            <h6 class="mb-0 fw-light">{{ authService.currentLoginUser.role.role | titlecase }}</h6>
-          </div>
-        </div>
-      } @else {
-        <div class="flex-grow-1"></div>
-        <a class="nav-item nav-link bi-person" routerLinkActive="active" routerLink="/auth/login">
-          Log In
-        </a>
-        <a class="nav-item nav-link bi-person-add" routerLinkActive="active" routerLink="/auth/signup">
-          Sign Up
-        </a>
       }
+      <div class="flex-grow-1"></div>
       <div ngbDropdown class="d-inline-block">
         <button class="nav-link bi-moon-stars" ngbDropdownToggle>
           Theme
@@ -53,6 +32,28 @@
           }
         </div>
       </div>
+      @if (authService.currentLoginUser) {
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/change-password">
+          Change Password</a>
+        <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
+          Log Out
+        </button>
+        <hr/>
+        <div class="d-flex align-items-center">
+          <div class="bi-person-circle fs-1 mx-3"></div>
+          <div>
+            <h5 class="mb-0 fw-bold">{{ authService.currentLoginUser.userName }}</h5>
+            <h6 class="mb-0 fw-light">{{ authService.currentLoginUser.role.role | titlecase }}</h6>
+          </div>
+        </div>
+      } @else {
+        <a class="nav-item nav-link bi-person" routerLinkActive="active" routerLink="/auth/login">
+          Log In
+        </a>
+        <a class="nav-item nav-link bi-person-add" routerLinkActive="active" routerLink="/auth/signup">
+          Sign Up
+        </a>
+      }
     </ul>
   </div>
 </ng-template>
