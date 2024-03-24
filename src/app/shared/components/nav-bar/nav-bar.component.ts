@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
+import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,10 +19,9 @@ export class NavBarComponent {
     {name: 'Dark', value: 'dark', icon: 'bi-moon-stars', selectedIcon: 'bi-moon-stars-fill'},
   ];
 
-  menuCollapsed = true;
-
   constructor(
     public authService: AuthService,
+    protected offcanvas: NgbOffcanvas,
     private router: Router,
     private themeService: ThemeService,
   ) {

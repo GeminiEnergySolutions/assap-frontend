@@ -1,52 +1,58 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header bg-dark">
+    <div class="d-flex align-items-center justify-content-center">
+      <img class="me-2" src="assets/icons/geminie_logo_head.png" alt="Gemini Energy Solutions Logo" height="64">
+      <h4 class="mb-0 fw-semibold">CONSERVE</h4>
+    </div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav nav-pills flex-column h-100">
+      @if (authService.currentLoginUser) {
+        <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="/audits">
+          Home
+        </a>
+        <div class="flex-grow-1"></div>
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/change-password">
+          Change Password</a>
+        <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
+          Log Out
+        </button>
+      } @else {
+        <div class="flex-grow-1"></div>
+        <a class="nav-item nav-link bi-person" routerLinkActive="active" routerLink="/auth/login">
+          Log In
+        </a>
+        <a class="nav-item nav-link bi-person-add" routerLinkActive="active" routerLink="/auth/signup">
+          Sign Up
+        </a>
+      }
+      <div ngbDropdown class="d-inline-block">
+        <button class="nav-link bi-moon-stars" ngbDropdownToggle>
+          Theme
+        </button>
+        <div ngbDropdownMenu aria-labelledby="accountDropdown" class="dropdown-menu-end">
+          <h6 class="dropdown-header">Theme</h6>
+          @for (theme of themes; track theme) {
+            <button
+              ngbDropdownItem
+              class="dropdown-item-check {{ theme.value === selectedTheme ? theme.selectedIcon : theme.icon }}"
+              [disabled]="theme.value === selectedTheme"
+              (click)="selectTheme(theme.value)"
+            >
+              {{ theme.name }}
+            </button>
+          }
+        </div>
+      </div>
+    </ul>
+  </div>
+</ng-template>
+<nav class="navbar navbar-collapse navbar-dark bg-dark">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" (click)="menuCollapsed = !menuCollapsed">
+    <button class="navbar-toggler" type="button" (click)="offcanvas.open(content)">
       &#9776;
     </button>
-    <div [ngbCollapse]="menuCollapsed" class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        @if (authService.currentLoginUser) {
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/audits">Audits</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/change-password">Change Password</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link logout-btn" (click)="logout()" style="cursor: pointer;">Log Out</a>
-          </li>
-        } @else {
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/auth/login">Log In</a>
-          </li>
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/auth/signup">Sign Up</a>
-          </li>
-        }
-        <li class="nav-item" ngbDropdown>
-          <a
-            class="nav-link bi-moon-stars"
-            id="themeDropdown"
-            ngbDropdownToggle
-            ngbTooltip="Theme"
-            role="button"
-            tabindex="0"
-          ></a>
-          <div ngbDropdownMenu aria-labelledby="accountDropdown" class="dropdown-menu-end">
-            <h6 class="dropdown-header">Theme</h6>
-            @for (theme of themes; track theme) {
-              <button
-                ngbDropdownItem
-                class="dropdown-item-check {{ theme.value === selectedTheme ? theme.selectedIcon : theme.icon }}"
-                [disabled]="theme.value === selectedTheme"
-                (click)="selectTheme(theme.value)"
-              >
-                {{ theme.name }}
-              </button>
-            }
-          </div>
-        </li>
-      </ul>
-    </div>
+    <!-- TODO: Show breadcrumbs / current page title -->
   </div>
 </nav>
