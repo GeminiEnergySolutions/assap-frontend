@@ -316,8 +316,17 @@ export class FormComponent implements OnInit {
       return;
     }
 
+    const data = this.formData.data;
+    let changed = 0;
     for (const [to, from] of Object.entries(copy.mappingInputs)) {
-      this.formData.data[to] ||= this.formData.data[from];
+      if (data[to] === undefined || data[to] === null || data[to] === '') {
+        data[to] = data[from];
+        changed++;
+      }
+    }
+    if (changed) {
+      this.toastService.success(copy.buttonLabel, `Successfully copied ${changed} inputs`);
+      this.setDirty();
     }
   }
 }
