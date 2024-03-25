@@ -8,9 +8,9 @@
     <div ngbAccordionCollapse>
     <div ngbAccordionBody>
       <ng-template>
-      @if (schema.copy) {
-        <button class="btn btn-primary" (click)="copyForm(schema.copy)">
-          {{ schema.copy.buttonLabel }}
+      @for (copy of schema.copySchema; track copy) {
+        <button class="btn btn-primary" (click)="copyForm(copy)">
+          {{ copy.buttonLabel }}
         </button>
       }
       <div class="row">

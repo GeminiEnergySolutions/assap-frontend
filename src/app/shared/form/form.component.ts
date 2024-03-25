@@ -312,12 +312,11 @@ export class FormComponent implements OnInit {
   }
 
   copyForm(copy: CopySpec) {
-    const source = this.typeSchema.find((s) => s.name === copy.sourceSection);
-    if (!source || !this.formData) {
+    if (!this.formData) {
       return;
     }
 
-    for (const [to, from] of Object.entries(copy.mapping)) {
+    for (const [to, from] of Object.entries(copy.mappingInputs)) {
       this.formData.data[to] ||= this.formData.data[from];
     }
   }
