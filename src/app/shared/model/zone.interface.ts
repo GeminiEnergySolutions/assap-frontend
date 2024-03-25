@@ -15,7 +15,6 @@ export interface ZoneData {
   auditId: number;
   zoneId: number;
   data: Record<string, string | number | boolean>;
-  required?: null;
 }
 
 export type CreateZoneData = Omit<ZoneData, 'id'>;
