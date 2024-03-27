@@ -129,6 +129,9 @@ export class FormComponent implements OnInit {
       case 'equipmentForm':
         queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
         break;
+      case 'zone':
+        queryParams = `?percentageType=zone&zoneId=${this.route.snapshot.params.zid}`;
+        break;
     }
     this.auditService.getPercentage(queryParams).subscribe((res: any) => {
       this.auditService.totalFields = res.totalFields ;
