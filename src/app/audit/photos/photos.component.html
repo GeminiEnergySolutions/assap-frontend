@@ -33,7 +33,7 @@
   <div class="col" *ngIf="zone && equipment">
     <span>Type</span>
     <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
-      <option *ngFor="let item of subTypeList" [value]="item.id">{{(item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
+      <option *ngFor="let item of subTypeList" [value]="item.id">{{(item.name | uppercase) + ' - ' + (item.type?.name | uppercase) }}</option>
     </select>
   </div>
 </div>

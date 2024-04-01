@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {SchemaSection} from '../model/schema.interface';
+import {Equipment, EquipmentCategory, EquipmentSubType, EquipmentType} from '../model/equipment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,35 +13,43 @@ export class EquipmentService {
   rootUrl = environment.url;
 
   equipmentSubTypeData: any;
-  equipment: any = {};
-  equipments: any = [];
+  equipment: EquipmentCategory = {
+    id: 0,
+    equipmentName: '',
+    deleteStatus: true,
+  };
+  equipments: EquipmentCategory[] = [];
 
-  constructor(private http: HttpClient,
-  ) { }
-
-  getSingleEquipment(id: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipment?equipmentId=${id}`);
-  }
-  getAllEquipments(): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipment`);
-  }
-
-  getSingleEquipmentType(id: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentType?equipmentTypeId=${id}`);
-  }
-  getEquipmentTypesByEquipmentId(equipmentId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentTypesByEquipmentId?equipmentId=${equipmentId}`);
+  constructor(
+    private http: HttpClient,
+  ) {
   }
 
-  getEquipmentTypeChilds(typeId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentTypeChild/${typeId}/`);
+  getSingleEquipment(id: number): Observable<{ data: EquipmentCategory }> {
+    return this.http.get<{ data: EquipmentCategory }>(`${this.rootUrl}api/equipment?equipmentId=${id}`);
+  }
+  getAllEquipments(): Observable<{ data: EquipmentCategory[] }> {
+    return this.http.get<{ data: EquipmentCategory[] }>(`${this.rootUrl}api/equipment`);
   }
 
-  getSingleEquipmentSubType(subTypeId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentSubType/${subTypeId}`);
+  /* TODO no idea what this is for
+      getSingleEquipmentType(id: Number): Observable<any> {
+        return this.http.get(`${this.rootUrl}api/equipmentType?equipmentTypeId=${id}`);
+      }
+   */
+  getEquipmentTypesByEquipmentId(equipmentId: number): Observable<{ data: EquipmentType[] }> {
+    return this.http.get<{ data: EquipmentType[] }>(`${this.rootUrl}api/equipmentTypesByEquipmentId?equipmentId=${equipmentId}`);
   }
-  getEquipmentSubTypes(auditId: number, zoneId: number, equipmentId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${equipmentId}`);
+
+  getEquipmentTypeChilds(typeId: number): Observable<{ data: EquipmentSubType[] }> {
+    return this.http.get<{ data: EquipmentSubType[] }>(`${this.rootUrl}api/equipmentTypeChild/${typeId}/`);
+  }
+
+  getSingleEquipmentSubType(subTypeId: number): Observable<Equipment> {
+    return this.http.get<Equipment>(`${this.rootUrl}api/equipmentSubType/${subTypeId}`);
+  }
+  getEquipmentSubTypes(auditId: number, zoneId: number, equipmentId: number): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${equipmentId}`);
   }
   createEquipmentSubType(equipmentSubTypeData: any): Observable<any> {
     return this.http.post(`${this.rootUrl}api/equipmentSubType`, equipmentSubTypeData);

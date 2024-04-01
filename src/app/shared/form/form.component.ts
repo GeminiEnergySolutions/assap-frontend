@@ -6,6 +6,7 @@ import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
 import {CopySpec, SchemaSection} from '../model/schema.interface';
 import {ZoneDataResponse} from "../model/zone.interface";
+import {Equipment} from '../model/equipment.interface';
 
 @Component({
   selector: 'app-form',
@@ -42,7 +43,7 @@ export class FormComponent implements OnInit {
           }
         })
       )
-      .subscribe(async (subType: any) => {
+      .subscribe(async (subType: Equipment | string) => {
         const auditId = this.route.snapshot.params.aid;
         switch (this.formType) {
           case "grants":
@@ -92,9 +93,12 @@ export class FormComponent implements OnInit {
             this.equipmentService.equipmentSubTypeData = null;
             break;
           case "equipmentForm":
-            this.formId = `audits/${auditId}/subtypes/${subType.id}`; // TODO
+            if (typeof subType === 'string') {
+              return;
+            }
+            this.formId = `audits/${auditId}/subtypes/${subType.id}`;
             this.equipmentService.equipmentSubTypeData = subType;
-            this.equipmentService.getEquipmentTypeFormSchema(subType.type ? subType.type.id : subType.typeChild.equipmentType.id).subscribe((schema: any) => {
+            this.equipmentService.getEquipmentTypeFormSchema(subType.typeChild?.equipmentType.id ?? subType.type?.id ?? subType.typeId).subscribe((schema: any) => {
               this.typeSchema = schema;
             });
             this.equipmentService.getEquipmentFormDataBySubType(subType.id).subscribe((formData: any) => {

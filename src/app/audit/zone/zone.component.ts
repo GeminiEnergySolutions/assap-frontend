@@ -32,7 +32,7 @@ export class ZoneComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({ aid, zid }) => this.equipmentService.getAllEquipments()),
-    ).subscribe((res: any) => {
+    ).subscribe(res => {
       this.equipmentService.equipments = res.data;
     });
 

@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
+import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
   selector: 'app-type-list',
@@ -10,8 +11,8 @@ import {EquipmentService} from 'src/app/shared/services/equipment.service';
   styleUrls: ['./type-list.component.scss'],
 })
 export class TypeListComponent implements OnInit {
-  equipment?: any;
-  subtypes: any = [];
+  equipment?: EquipmentCategory;
+  subtypes: Equipment[] = [];
 
   constructor(
     private auditService: AuditService,
@@ -23,7 +24,7 @@ export class TypeListComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({eid}) => this.equipmentService.getSingleEquipment(eid)),
-    ).subscribe((res: any) => {
+    ).subscribe(res => {
       this.equipment = res.data;
       this.getEquipmentPercentage(this.equipment);
     });

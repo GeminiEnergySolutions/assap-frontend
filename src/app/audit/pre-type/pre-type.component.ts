@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
   selector: 'app-pre-type',
@@ -14,7 +15,7 @@ export class PreTypeComponent implements OnInit {
 
   audit?: any;
   zone?: any;
-  equipment?: any;
+  equipment?: EquipmentCategory;
 
   constructor(private route: ActivatedRoute,
     private auditService: AuditService,
@@ -41,7 +42,7 @@ export class PreTypeComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({ aid, zid, eid }) => this.equipmentService.getSingleEquipment(eid)),
-    ).subscribe((res: any) => {
+    ).subscribe(res => {
       this.equipment = res.data;
     });
   }

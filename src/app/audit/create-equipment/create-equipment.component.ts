@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {ActivatedRoute} from '@angular/router';
+import {EquipmentSubType, EquipmentType} from '../../shared/model/equipment.interface';
 
 @Component({
   selector: 'app-create-equipment',
@@ -9,8 +10,8 @@ import {ActivatedRoute} from '@angular/router';
   styleUrl: './create-equipment.component.scss',
 })
 export class CreateEquipmentComponent implements OnInit {
-  types: any;
-  typeChilds: any[] = [];
+  types: EquipmentType[] = []
+  typeChilds: EquipmentSubType[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,7 @@ export class CreateEquipmentComponent implements OnInit {
   createType(type: any) {
     if (type.name == 'Fluorescent') {
       if (!this.typeChilds || !this.typeChilds.length)
-        this.equipmentService.getEquipmentTypeChilds(type.id).subscribe((res: any) => {
+        this.equipmentService.getEquipmentTypeChilds(type.id).subscribe(res => {
           this.typeChilds = res.data;
         });
       return;

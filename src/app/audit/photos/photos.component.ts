@@ -4,6 +4,7 @@ import {AuditService} from 'src/app/shared/services/audit.service';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {MatPaginator} from '@angular/material/paginator';
+import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
   selector: 'app-photos',
@@ -16,11 +17,11 @@ export class PhotosComponent implements OnInit {
 
   photoType: string = 'All';
   zoneList: any = [];
-  zone: Number = 0;
-  equipmentList: any = [];
-  equipment: Number = 0;
-  subTypeList: any = [];
-  subType: Number = 0;
+  zone: number = 0;
+  equipmentList: EquipmentCategory[] = [];
+  equipment: number = 0;
+  subTypeList: Equipment[] = [];
+  subType: number = 0;
   data: any = [];
   data2 = [];
   dataForLength = [];
@@ -36,7 +37,7 @@ export class PhotosComponent implements OnInit {
 
   ngOnInit() {
     this.getPhotos();
-    this.equipmentService.getAllEquipments().subscribe((res: any) => {
+    this.equipmentService.getAllEquipments().subscribe(res => {
       this.equipmentList = res.data;
     });
   }
@@ -163,8 +164,8 @@ export class PhotosComponent implements OnInit {
     this.getEquipmentSubTypes(this.equipment);
   }
 
-  getEquipmentSubTypes(equipmentId: Number) {
-    this.equipmentService.getEquipmentSubTypes(this.route.snapshot.params.aid, Number(this.zone), equipmentId).subscribe((res: any[]) => {
+  getEquipmentSubTypes(equipmentId: number) {
+    this.equipmentService.getEquipmentSubTypes(this.route.snapshot.params.aid, +this.zone, equipmentId).subscribe(res => {
       this.subTypeList = res;
     })
   }
