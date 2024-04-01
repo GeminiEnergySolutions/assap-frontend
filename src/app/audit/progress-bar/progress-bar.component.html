@@ -1,0 +1,8 @@
+<div class="mb-3">
+  {{ label }} Progress: {{ progress.completedFields }} / {{ progress.totalFields }}
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" [style.width.%]="progress.percentage">
+      {{ progress.percentage }} %
+    </div>
+  </div>
+</div>

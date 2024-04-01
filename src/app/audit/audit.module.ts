@@ -31,6 +31,7 @@ import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import { ZoneFormComponent } from './zone-form/zone-form.component';
 import { PhotoCaptureComponent } from './photo-capture/photo-capture.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
   imports: [
@@ -68,6 +69,7 @@ import { PhotoCaptureComponent } from './photo-capture/photo-capture.component';
     GrantComponent,
     ZoneFormComponent,
     PhotoCaptureComponent,
+    ProgressBarComponent,
   ],
 })
 export class AuditModule {

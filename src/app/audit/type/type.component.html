@@ -8,13 +8,8 @@
 
 <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
-<div class="mb-3">
-  Equipment Progress: {{ auditService.currentProgress?.completedFields }} / {{ auditService.currentProgress?.totalFields }}
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" [style.width.%]="auditService.currentProgress?.percentage">
-      {{ auditService.currentProgress?.percentage }} %
-    </div>
-  </div>
-</div>
+@if (auditService.currentProgress) {
+  <app-progress-bar class="mb-3" label="Equipment" [progress]="auditService.currentProgress"></app-progress-bar>
+}
 
 <app-form formType="equipmentForm"></app-form>

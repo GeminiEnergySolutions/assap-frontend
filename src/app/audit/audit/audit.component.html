@@ -14,14 +14,9 @@
       <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
     </div>
   </div>
-  <div class="mb-3">
-    Audit Progress: {{ auditService.currentProgress?.completedFields }} / {{ auditService.currentProgress?.totalFields }}
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" [style.width.%]="auditService.currentProgress?.percentage">
-        {{ auditService.currentProgress?.percentage }} %
-      </div>
-    </div>
-  </div>
+  @if (auditService.currentProgress) {
+    <app-progress-bar class="mb-3" label="Audit" [progress]="auditService.currentProgress"></app-progress-bar>
+  }
   <ul ngbNav [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">
       <a ngbNavLink routerLink=".">Preaudit</a>
