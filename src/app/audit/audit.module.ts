@@ -29,9 +29,10 @@ import {GrantComponent} from './grant/grant.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
-import { ZoneFormComponent } from './zone-form/zone-form.component';
-import { PhotoCaptureComponent } from './photo-capture/photo-capture.component';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import {ZoneFormComponent} from './zone-form/zone-form.component';
+import {PhotoCaptureComponent} from './photo-capture/photo-capture.component';
+import {ProgressBarComponent} from './progress-bar/progress-bar.component';
+import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     ZoneFormComponent,
     PhotoCaptureComponent,
     ProgressBarComponent,
+    PreauditFormComponent,
   ],
 })
 export class AuditModule {

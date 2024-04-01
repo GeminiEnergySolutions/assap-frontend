@@ -1,1 +1,10 @@
-<app-form formType="preAudit"></app-form>
+@if (progress) {
+  <app-progress-bar label="Preaudit" [progress]="progress"></app-progress-bar>
+}
+<app-form
+  formType="preAudit"
+  [typeSchema]="typeSchema"
+  [formData]="formData"
+  [formId]="'audits/' + auditId + '/preaudit'"
+  (saved)="save()"
+></app-form>

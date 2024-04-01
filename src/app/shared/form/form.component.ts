@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap} from 'rxjs';
@@ -14,12 +14,13 @@ import {ZoneDataResponse} from "../model/zone.interface";
 })
 export class FormComponent implements OnInit {
   @Input({required: true}) formType!: 'preAudit' | 'equipmentForm' | 'grants' | 'cleanenergyhub' | 'zone';
+  @Input() typeSchema: SchemaSection[] = [];
+  @Input() formData?: { id?: string | number; data: Record<string, string | number | boolean> };
+  /** for offline storage */
+  @Input() formId: string = '';
+  @Output() saved = new EventEmitter<void>();
 
   dirty = false;
-  typeSchema: SchemaSection[] = [];
-  formData?: { id?: string | number; data: Record<string, string | number | boolean> };
-  /** for offline storage */
-  formId: string = '';
 
   constructor(
     private auditService: AuditService,
@@ -73,18 +74,7 @@ export class FormComponent implements OnInit {
             this.equipmentService.equipmentSubTypeData = null;
             break;
           case "preAudit":
-            this.formId = `audits/${auditId}/preaudit`;
-            this.auditService.getPreAuditJsonSchema().subscribe((schema: any) => {
-              this.typeSchema = schema.data;
-            });
-            this.auditService.getPreAuditData(auditId).subscribe((formData: any) => {
-              if (formData.data) {
-                this.formData = formData.data;
-              } else {
-                this.formData = { data: {} };
-              }
-            });
-            this.equipmentService.equipmentSubTypeData = null;
+            // handled by PreauditFormComponent
             break;
           case "zone":
             const zoneId = this.route.snapshot.params.zid;
@@ -123,6 +113,8 @@ export class FormComponent implements OnInit {
     let queryParams = "";
     switch (this.formType) {
       case 'preAudit':
+        // handled by PreauditFormComponent
+        return;
       case 'cleanenergyhub':
         queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
         break;
@@ -150,8 +142,8 @@ export class FormComponent implements OnInit {
     }
 
     switch (this.formType) {
-      case 'preAudit':
-        this.savePreAudit();
+      case "preAudit":
+        // handled by PreauditFormComponent
         break;
       case 'grants':
         this.saveGrants();
@@ -166,30 +158,9 @@ export class FormComponent implements OnInit {
         this.saveEquipment();
         break;
     }
+    this.saved.emit();
 
     this.dirty = false;
-  }
-
-  private savePreAudit() {
-    if (!this.formData) {
-      return;
-    }
-    if (this.formData.id) {
-      this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData as any).subscribe((res: any) => {
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
-      });
-    } else {
-      let objData = {
-        auditId: this.route.snapshot.params.aid,
-        data: this.formData.data,
-      };
-      this.auditService.createPreAuditData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-        // this.formData = res.data;
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
-      });
-    }
   }
 
   private saveGrants() {
