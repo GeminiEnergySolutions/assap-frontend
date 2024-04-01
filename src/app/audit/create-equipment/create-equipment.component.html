@@ -1,0 +1,20 @@
+<ngbx-modal #modal [back]="['..']">
+  <ng-container modal-title>
+    New {{ equipmentService.equipment }}
+  </ng-container>
+  <ng-container modal-body>
+    <button *ngFor="let item of types" class="btn btn-sm btn-link link-primary" (click)="createType(item)">
+      {{ item.name | uppercase }}
+      <details class="list-group-item text-primary" *ngIf="item.name === 'Fluorescent'">
+        <summary>New</summary>
+        <button *ngFor="let item1 of typeChilds" class="btn btn-sm btn-link link-primary" (click)="createType(item1)">
+          {{ item1.name | uppercase }}
+        </button>
+      </details>
+    </button>
+  </ng-container>
+  <ng-container modal-footer>
+    <button class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+    <button class="btn btn-primary" (click)="create()">Create</button>
+  </ng-container>
+</ngbx-modal>

@@ -15,6 +15,7 @@ import {GrantComponent} from './grant/grant.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {PreauditFormComponent} from "./preaudit-form/preaudit-form.component";
 import {ZoneFormComponent} from "./zone-form/zone-form.component";
+import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
         children: [
           {path: '', pathMatch: 'full', component: ZoneFormComponent},
           {path: 'equipments/:eid', component: TypeListComponent},
+          {path: 'equipments/:eid/new', component: CreateEquipmentComponent},
         ],
       },
     ],

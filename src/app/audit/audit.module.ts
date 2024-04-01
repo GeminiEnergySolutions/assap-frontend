@@ -33,6 +33,7 @@ import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {PhotoCaptureComponent} from './photo-capture/photo-capture.component';
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
+import { CreateEquipmentComponent } from './create-equipment/create-equipment.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
     PhotoCaptureComponent,
     ProgressBarComponent,
     PreauditFormComponent,
+    CreateEquipmentComponent,
   ],
 })
 export class AuditModule {
