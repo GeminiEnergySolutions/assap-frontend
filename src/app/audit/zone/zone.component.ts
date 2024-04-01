@@ -41,26 +41,18 @@ export class ZoneComponent implements OnInit {
 
   getZonePercentage() {
     this.route.params.pipe(
-      switchMap(({zid}) => {
-        const queryParams = `?percentageType=zone&zoneId=${zid}`;
-        return this.auditService.getPercentage(queryParams);
-      })
-    ).subscribe((res: any) => {
+      switchMap(({zid}) => this.auditService.getPercentage(`?percentageType=zone&zoneId=${zid}`)),
+    ).subscribe(res => {
       this.auditService.equipmentHeadingValue = 'Zone';
-      this.auditService.totalFields = res.totalFields;
-      this.auditService.completedFields = res.completedFields;
-      this.auditService.progressPercentage = res.percentage + '%';
+      this.auditService.currentProgress = res;
     });
   }
 
   public getEquipmentPercentage(equipment: any) {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    const queryParams = `?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`;
-    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
-      this.auditService.totalFields = res.totalFields ;
-      this.auditService.completedFields = res.completedFields ;
-      this.auditService.progressPercentage = res.percentage + '%';
-    });
+    this.auditService
+      .getPercentage(`?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`)
+      .subscribe(res => this.auditService.currentProgress = res);
   }
 
   uploadPhoto(file: File) {

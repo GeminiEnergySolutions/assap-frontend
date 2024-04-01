@@ -21,19 +21,9 @@ export class TypeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params
-    .pipe(
-      switchMap(({ eid, tid }) => {
-        const queryParams = `?percentageType=form&subTypeId=${tid}`;
-        return this.auditService.getPercentage(queryParams);
-      })
-    )
-    .subscribe((res: any) => {
-      this.route.snapshot.params.tid
-      this.auditService.totalFields = res.totalFields ;
-      this.auditService.completedFields = res.completedFields ;
-      this.auditService.progressPercentage = res.percentage + '%';
-    });
+    this.route.params.pipe(
+      switchMap(({tid}) => this.auditService.getPercentage(`?percentageType=form&subTypeId=${tid}`)),
+    ).subscribe(res => this.auditService.currentProgress = res);
   }
 
   uploadPhoto(file: File) {

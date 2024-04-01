@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 
 @Component({
   selector: 'app-audit',
@@ -29,11 +30,7 @@ export class AuditComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage(`?percentageType=complete&auditId=${aid}`))
-    ).subscribe((res: any) => {
-      this.auditService.totalFields = res.totalFields;
-      this.auditService.completedFields = res.completedFields;
-      this.auditService.progressPercentage = res.percentage + '%';
-    });
+    ).subscribe(res => this.auditService.currentProgress = res);
   }
 
   uploadPhoto(file: File) {

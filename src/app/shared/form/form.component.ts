@@ -133,11 +133,7 @@ export class FormComponent implements OnInit {
         queryParams = `?percentageType=zone&zoneId=${this.route.snapshot.params.zid}`;
         break;
     }
-    this.auditService.getPercentage(queryParams).subscribe((res: any) => {
-      this.auditService.totalFields = res.totalFields ;
-      this.auditService.completedFields = res.completedFields ;
-      this.auditService.progressPercentage = res.percentage + '%';
-    });
+    this.auditService.getPercentage(queryParams).subscribe(res => this.auditService.currentProgress = res);
   }
 
   save() {

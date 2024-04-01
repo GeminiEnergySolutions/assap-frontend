@@ -6,10 +6,10 @@
 <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
 <div class="mb-3">
-  {{ auditService.equipmentHeadingValue }} Progress: {{ auditService.completedFields }} / {{ auditService.totalFields }}
+  {{ auditService.equipmentHeadingValue }} Progress: {{ auditService.currentProgress?.completedFields }} / {{ auditService.currentProgress?.totalFields }}
   <div class="progress">
-    <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">
-      {{ auditService.progressPercentage }}
+    <div class="progress-bar" role="progressbar" [style.width.%]="auditService.currentProgress?.percentage">
+      {{ auditService.currentProgress?.percentage }} %
     </div>
   </div>
 </div>

@@ -6,7 +6,7 @@
       {{ audit?.auditName | titlecase }}
     </h1>
   </div>
-  <div class="d-flex">
+  <div class="d-flex mb-3">
     <a class="btn btn-primary me-2" routerLink="report">
       Generate Report
     </a>
@@ -14,19 +14,14 @@
       <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
     </div>
   </div>
-  <div class="my-2">
-    <p style="margin-bottom:0px">Audit Energy Progress = {{auditService.completedFields}} / {{auditService.totalFields}}</p>
+  <div class="mb-3">
+    Audit Progress: {{ auditService.currentProgress?.completedFields }} / {{ auditService.currentProgress?.totalFields }}
     <div class="progress">
-      <div class="progress-bar" role="progressbar" [style]="'width: '+auditService.progressPercentage">{{auditService.progressPercentage}}</div>
+      <div class="progress-bar" role="progressbar" [style.width.%]="auditService.currentProgress?.percentage">
+        {{ auditService.currentProgress?.percentage }} %
+      </div>
     </div>
   </div>
-  <!-- <div>
-    <p style="margin-bottom:0px">Clean Energy Hub Progress</p>
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" [style]="'width: ' + auditService.progressPercentCEH">{{ auditService.progressPercentCEH }}</div>
-    </div>
-  </div> -->
-  <br>
   <ul ngbNav [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
     <li ngbNavItem="preaudit">
       <a ngbNavLink routerLink=".">Preaudit</a>

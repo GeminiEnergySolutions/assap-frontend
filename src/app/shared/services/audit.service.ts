@@ -7,6 +7,7 @@ import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/p
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
 import {Audit} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from "../model/zone.interface";
+import {PercentageCompletion} from '../model/percentage-completion.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,39 +15,17 @@ import {CreateZoneData, ZoneData, ZoneDataResponse} from "../model/zone.interfac
 export class AuditService {
   rootUrl = environment.url;
 
-  progressPercent ?: string = '0%';
-  progressPercentCEH ?: string = '0%';
   equipmentHeadingValue: string = '';
-  progressPercentageEquipment ?: string = '0%';
-  progressPercentageZone ?: string = '0%';
-  equipmentTotalFields ?: string = '0';
-  equipmentRemainingFields ?: string ='0';
-  zoneTotalFields ?: string = '0';
-  zoneRemainingFields ?: string = '0';
+  currentProgress?: PercentageCompletion;
 
-  totalFields ?: string ='0';
-  completedFields ?: string ='0';
-  progressPercentage ?: string = '0%';
-
-  constructor(private http: HttpClient,
-    private toaster: ToastService,
-    ) {}
-
-  // calculatePercentage(auditId: number):Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/percentageCompletion/${auditId}/`);
-  // }
-  // getEquipmentTypesPercentage(aid: number, zid: number, eid: string): Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/equipmentType/equipment/${aid}/${zid}/${eid}/`);
-  // }
-  // calculatePercentageEquipment(auditId: number,subId: number,zoneId:number ):Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/percentageCompletionEquipment/${auditId}/${subId}/${zoneId}/`);
-  // }
-  getPercentage(queryParam: any):Observable<any> {
-    return this.http.get(`${this.rootUrl}api/percentageCompletion${queryParam}`);
+  constructor(
+    private http: HttpClient,
+  ) {
   }
-  // calculatePercentageZone(auditId: number, zoneId: number ):Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/PercentageZone/${auditId}/${zoneId}/`);
-  // }
+
+  getPercentage(queryParam: any): Observable<PercentageCompletion> {
+    return this.http.get<PercentageCompletion>(`${this.rootUrl}api/percentageCompletion${queryParam}`);
+  }
 
   dataCollectors(auditId: number):Observable<any> {
     return this.http.get(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
