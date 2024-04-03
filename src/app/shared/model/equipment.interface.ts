@@ -22,6 +22,8 @@ export interface EquipmentType {
   deleteStatus: boolean;
   equipmentId: number;
   equipment: EquipmentCategory;
+
+  _subTypes?: EquipmentSubType[];
 }
 
 /**

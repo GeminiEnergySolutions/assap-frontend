@@ -1,20 +1,46 @@
 <ngbx-modal #modal [back]="['..']">
   <ng-container modal-title>
-    New {{ equipmentService.equipment }}
+    New {{ types[0]?.equipment?.equipmentName }}
   </ng-container>
   <ng-container modal-body>
-    <button *ngFor="let item of types" class="btn btn-sm btn-link link-primary" (click)="createType(item)">
-      {{ item.name | uppercase }}
-      <details class="list-group-item text-primary" *ngIf="item.name === 'Fluorescent'">
-        <summary>New</summary>
-        <button *ngFor="let item1 of typeChilds" class="btn btn-sm btn-link link-primary" (click)="createType(item1)">
-          {{ item1.name | uppercase }}
-        </button>
-      </details>
-    </button>
+    <div class="mb-3">
+      <label class="form-label">
+        Type
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      @for (item of types; track item.id) {
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="type" id="type-{{ item.id }}" [value]="item" [(ngModel)]="type" (change)="loadSubtypes(item)">
+          <label class="form-check-label" for="type-{{ item.id }}">
+            {{ item.name }}
+          </label>
+          @if (item === type && item?._subTypes?.length) {
+            <label class="form-label d-block text-muted">
+              Please select subtype
+              <span class="text-danger" ngbTooltip="Required">*</span>
+            </label>
+            @for (sub of item?._subTypes; track sub.id) {
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="subtype-{{ sub.id }}" [value]="sub" [(ngModel)]="subType">
+                <label class="form-check-label" for="subtype-{{ sub.id }}">
+                  {{ sub.name }}
+                </label>
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+    <div class="mb-3">
+      <label class="form-label">
+        Name
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      <input class="form-control" type="text" [(ngModel)]="name">
+    </div>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">Cancel</button>
-    <button class="btn btn-primary" (click)="create()">Create</button>
+    <button class="btn btn-primary" (click)="create(); modal.close()" [disabled]="!isValid()">Create</button>
   </ng-container>
 </ngbx-modal>
