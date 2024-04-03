@@ -29,6 +29,10 @@ export class CreateEquipmentComponent implements OnInit {
       switchMap(({eid}) => this.equipmentService.getEquipmentType(eid)),
     ).subscribe(res => {
       this.types = res.data;
+      if (this.types.length === 1) {
+        // pre-select the only type
+        this.type = this.types[0];
+      }
     });
   }
 
