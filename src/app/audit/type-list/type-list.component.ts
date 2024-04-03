@@ -23,14 +23,14 @@ export class TypeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({eid}) => this.equipmentService.getSingleEquipment(eid)),
+      switchMap(({eid}) => this.equipmentService.getEquipmentCategory(eid)),
     ).subscribe(res => {
       this.equipment = res.data;
       this.getEquipmentPercentage(this.equipment);
     });
 
     this.route.params.pipe(
-      switchMap(({aid, zid, eid}) => this.equipmentService.getEquipmentSubTypes(aid, zid, eid)),
+      switchMap(({aid, zid, eid}) => this.equipmentService.getEquipments(aid, zid, eid)),
     ).subscribe(res => {
       this.subtypes = res;
     });
@@ -49,7 +49,7 @@ export class TypeListComponent implements OnInit {
       return;
     }
 
-    this.equipmentService.updateEquipmentSubType({...item, name}).subscribe(res => {
+    this.equipmentService.updateEquipment({...item, name}).subscribe(res => {
       const index = this.subtypes.indexOf(item);
       this.subtypes[index] = res;
     });
@@ -61,7 +61,7 @@ export class TypeListComponent implements OnInit {
       return;
     }
 
-    this.equipmentService.deleteEquipmentSubType(item.id).subscribe(() => {
+    this.equipmentService.deleteEquipment(item.id).subscribe(() => {
       let index = this.subtypes.indexOf(item);
       this.subtypes.splice(index, 1);
       this.getEquipmentPercentage(this.equipment);

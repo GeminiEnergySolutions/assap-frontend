@@ -37,7 +37,7 @@ export class PhotosComponent implements OnInit {
 
   ngOnInit() {
     this.getPhotos();
-    this.equipmentService.getAllEquipments().subscribe(res => {
+    this.equipmentService.getEquipmentCategories().subscribe(res => {
       this.equipmentList = res.data;
     });
   }
@@ -165,7 +165,7 @@ export class PhotosComponent implements OnInit {
   }
 
   getEquipmentSubTypes(equipmentId: number) {
-    this.equipmentService.getEquipmentSubTypes(this.route.snapshot.params.aid, +this.zone, equipmentId).subscribe(res => {
+    this.equipmentService.getEquipments(this.route.snapshot.params.aid, +this.zone, equipmentId).subscribe(res => {
       this.subTypeList = res;
     })
   }

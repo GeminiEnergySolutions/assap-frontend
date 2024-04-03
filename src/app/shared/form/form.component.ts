@@ -37,7 +37,7 @@ export class FormComponent implements OnInit {
       .pipe(
         switchMap(({ tid }) => {
           if (tid) {
-            return this.equipmentService.getSingleEquipmentSubType(tid);
+            return this.equipmentService.getEquipment(tid);
           } else {
             return 'o';
           }
@@ -98,10 +98,10 @@ export class FormComponent implements OnInit {
             }
             this.formId = `audits/${auditId}/subtypes/${subType.id}`;
             this.equipmentService.equipmentSubTypeData = subType;
-            this.equipmentService.getEquipmentTypeFormSchema(subType.typeChild?.equipmentType.id ?? subType.type?.id ?? subType.typeId).subscribe((schema: any) => {
+            this.equipmentService.getEquipmentTypeSchema(subType.typeChild?.equipmentType.id ?? subType.type?.id ?? subType.typeId).subscribe((schema: any) => {
               this.typeSchema = schema;
             });
-            this.equipmentService.getEquipmentFormDataBySubType(subType.id).subscribe((formData: any) => {
+            this.equipmentService.getEquipmentFormData(subType.id).subscribe((formData: any) => {
               if (formData) {
                 this.formData = formData;
               } else {

@@ -21,7 +21,7 @@ export class CreateEquipmentComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({eid}) => this.equipmentService.getEquipmentTypesByEquipmentId(eid)),
+      switchMap(({eid}) => this.equipmentService.getEquipmentType(eid)),
     ).subscribe(res => {
       this.types = res.data;
       this.equipmentService.equipment = this.types[0]?.equipment;
@@ -34,7 +34,7 @@ export class CreateEquipmentComponent implements OnInit {
   createType(type: any) {
     if (type.name == 'Fluorescent') {
       if (!this.typeChilds || !this.typeChilds.length)
-        this.equipmentService.getEquipmentTypeChilds(type.id).subscribe(res => {
+        this.equipmentService.getEquipmentSubTypes(type.id).subscribe(res => {
           this.typeChilds = res.data;
         });
       return;
@@ -55,7 +55,7 @@ export class CreateEquipmentComponent implements OnInit {
     dataObj.typeId = type.equipmentType ? type.typeId : type.id;
     dataObj.typeChildId = type.equipmentType ? type.id : null;
 
-    this.equipmentService.createEquipmentSubType(dataObj).subscribe(() => {
+    this.equipmentService.createEquipment(dataObj).subscribe(() => {
     });
 
   }

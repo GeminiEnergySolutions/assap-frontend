@@ -25,10 +25,10 @@ export class EquipmentService {
   ) {
   }
 
-  getSingleEquipment(id: number): Observable<{ data: EquipmentCategory }> {
+  getEquipmentCategory(id: number): Observable<{ data: EquipmentCategory }> {
     return this.http.get<{ data: EquipmentCategory }>(`${this.rootUrl}api/equipment?equipmentId=${id}`);
   }
-  getAllEquipments(): Observable<{ data: EquipmentCategory[] }> {
+  getEquipmentCategories(): Observable<{ data: EquipmentCategory[] }> {
     return this.http.get<{ data: EquipmentCategory[] }>(`${this.rootUrl}api/equipment`);
   }
 
@@ -37,35 +37,35 @@ export class EquipmentService {
         return this.http.get(`${this.rootUrl}api/equipmentType?equipmentTypeId=${id}`);
       }
    */
-  getEquipmentTypesByEquipmentId(equipmentId: number): Observable<{ data: EquipmentType[] }> {
-    return this.http.get<{ data: EquipmentType[] }>(`${this.rootUrl}api/equipmentTypesByEquipmentId?equipmentId=${equipmentId}`);
+  getEquipmentType(categoryId: number): Observable<{ data: EquipmentType[] }> {
+    return this.http.get<{ data: EquipmentType[] }>(`${this.rootUrl}api/equipmentTypesByEquipmentId?equipmentId=${categoryId}`);
   }
 
-  getEquipmentTypeChilds(typeId: number): Observable<{ data: EquipmentSubType[] }> {
+  getEquipmentSubTypes(typeId: number): Observable<{ data: EquipmentSubType[] }> {
     return this.http.get<{ data: EquipmentSubType[] }>(`${this.rootUrl}api/equipmentTypeChild/${typeId}/`);
   }
 
-  getSingleEquipmentSubType(subTypeId: number): Observable<Equipment> {
-    return this.http.get<Equipment>(`${this.rootUrl}api/equipmentSubType/${subTypeId}`);
+  getEquipment(id: number): Observable<Equipment> {
+    return this.http.get<Equipment>(`${this.rootUrl}api/equipmentSubType/${id}`);
   }
-  getEquipmentSubTypes(auditId: number, zoneId: number, equipmentId: number): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${equipmentId}`);
+  getEquipments(auditId: number, zoneId: number, id: number): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${id}`);
   }
-  createEquipmentSubType(equipmentSubTypeData: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/equipmentSubType`, equipmentSubTypeData);
+  createEquipment(data: any): Observable<any> {
+    return this.http.post(`${this.rootUrl}api/equipmentSubType`, data);
   }
-  updateEquipmentSubType(equipmentSubTypeData: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/equipmentSubType`, equipmentSubTypeData);
+  updateEquipment(data: any): Observable<any> {
+    return this.http.put(`${this.rootUrl}api/equipmentSubType`, data);
   }
-  deleteEquipmentSubType(subTypeId: number): Observable<any> {
-    return this.http.delete(`${this.rootUrl}api/equipmentSubType/${subTypeId}`);
+  deleteEquipment(id: number): Observable<any> {
+    return this.http.delete(`${this.rootUrl}api/equipmentSubType/${id}`);
   }
 
-  getEquipmentTypeFormSchema(typeId: number): Observable<SchemaSection[]> {
+  getEquipmentTypeSchema(typeId: number): Observable<SchemaSection[]> {
     return this.http.get<SchemaSection[]>(`${this.rootUrl}api/schema/type/${typeId}/`);
   }
-  getEquipmentFormDataBySubType(subTypeId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/equipmentForm?subTypeId=${subTypeId}`);
+  getEquipmentFormData(id: number): Observable<any> {
+    return this.http.get(`${this.rootUrl}api/equipmentForm?subTypeId=${id}`);
   }
   createEquipmentFormData(equipmentFormData: any): Observable<any> {
     return this.http.post(`${this.rootUrl}api/equipmentForm`, equipmentFormData);

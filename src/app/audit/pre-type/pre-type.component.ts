@@ -41,7 +41,7 @@ export class PreTypeComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({ aid, zid, eid }) => this.equipmentService.getSingleEquipment(eid)),
+      switchMap(({ aid, zid, eid }) => this.equipmentService.getEquipmentCategory(eid)),
     ).subscribe(res => {
       this.equipment = res.data;
     });
