@@ -4,7 +4,7 @@ $color-mode-type: 'media-query';
 
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons";
+@import "bootstrap-icons";
 
 html, body {
   height: 100%;
@@ -74,30 +74,4 @@ input[type=number] {
   width: 0.75em;
   height: 0.75em;
   content: url("/assets/logos/Gemini-Icon.svg");
-}
-
-// ------------------- Auth Cards ---------------------
-
-.auth-card {
-  color: $gray-100;
-  border: none;
-  width: 500px;
-  padding:40px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: hsla(205, 46%, 30%, 1);
-  background: linear-gradient(90deg, hsla(205, 46%, 30%, 1) 0%, hsla(260, 29%, 36%, 1) 100%);
-}
-.auth-card .form-text {
-  color: $gray-300;
-}
-
-/* Media query for mobile screens */
-@media (max-width: 768px) {
-  .auth-card {
-    padding: 10px; /* Adjust the padding for smaller screens */
-    width: 90%; /* Adjust the width for smaller screens */
-  }
 }
