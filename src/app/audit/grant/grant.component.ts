@@ -35,7 +35,6 @@ export class GrantComponent implements OnInit {
     ).subscribe(res => {
       this.formData = res ?? {data: {}};
     });
-    this.equipmentService.equipmentSubTypeData = null;
 
     /* TODO grants percentage
     this.route.params.pipe(

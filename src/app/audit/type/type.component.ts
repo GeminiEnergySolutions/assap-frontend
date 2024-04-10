@@ -7,6 +7,7 @@ import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {ZoneData} from '../../shared/model/zone.interface';
+import {Equipment} from '../../shared/model/equipment.interface';
 
 
 @Component({
@@ -17,6 +18,7 @@ import {ZoneData} from '../../shared/model/zone.interface';
 export class TypeComponent implements OnInit {
   auditId?: number;
   equipmentId?: number;
+  equipment?: Equipment;
   progress?: PercentageCompletion;
   typeSchema: SchemaSection[] = [];
   formData?: ZoneData;
@@ -31,8 +33,7 @@ export class TypeComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
-      // TODO remove this
-      tap(equipment => this.equipmentService.equipmentSubTypeData = equipment),
+      tap(equipment => this.equipment = equipment),
       switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.typeChild?.equipmentType.id ?? equipment.type?.id ?? equipment.typeId)),
     ).subscribe(schema => {
       this.typeSchema = schema;
@@ -58,17 +59,17 @@ export class TypeComponent implements OnInit {
     const formData = new FormData();
     formData.append('auditId', aid);
     formData.append('zoneId', zid);
-    formData.append('equipmentId', this.equipmentService.equipmentSubTypeData.equipmentId);
-    formData.append('typeId', this.equipmentService.equipmentSubTypeData?.type?.id);
+    formData.append('equipmentId', this.equipment?.equipmentId + '');
+    formData.append('typeId', this.equipment?.type?.id + '');
     formData.append('subTypeId', tid);
     formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(aid, formData).subscribe(() => {
-      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipmentService.equipmentSubTypeData?.type?.name} '${this.equipmentService.equipmentSubTypeData?.name}'.`);
+      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }
 
   save() {
-    if (!this.formData || !this.auditId || !this.equipmentId) {
+    if (!this.formData || !this.auditId || !this.equipmentId || !this.equipment) {
       return;
     }
     const request$ = this.formData.id
@@ -76,9 +77,9 @@ export class TypeComponent implements OnInit {
       : this.equipmentService.createEquipmentFormData({
         auditId: this.auditId,
         zoneId: this.route.snapshot.params.zid,
-        equipmentId: this.equipmentService.equipmentSubTypeData.type.equipment.id,
-        typeId: this.equipmentService.equipmentSubTypeData.type.id,
-        subTypeId: this.equipmentService.equipmentSubTypeData.id,
+        equipmentId: this.equipment.type?.equipment.id,
+        typeId: this.equipment.type?.id,
+        subTypeId: this.equipment.id,
         data: this.formData.data,
       });
     request$.subscribe((res: any) => {

@@ -41,7 +41,6 @@ export class ZoneFormComponent implements OnInit {
       this.formData = res.data ?? {data: {}};
       this.getPercentage();
     });
-    this.equipmentService.equipmentSubTypeData = null;
   }
 
   save() {

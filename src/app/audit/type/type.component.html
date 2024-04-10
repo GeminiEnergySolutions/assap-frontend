@@ -1,8 +1,8 @@
 <h1 class="col">
   <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-  {{ equipmentService.equipmentSubTypeData?.name | titlecase }}
+  {{ equipment?.name | titlecase }}
   <span class="text-muted small">
-    {{ equipmentService.equipmentSubTypeData?.type ? equipmentService.equipmentSubTypeData?.type?.name : equipmentService.equipmentSubTypeData?.typeChild?.name | titlecase }}
+    {{ equipment?.type ? equipment?.type?.name : equipment?.typeChild?.name | titlecase }}
   </span>
 </h1>
 

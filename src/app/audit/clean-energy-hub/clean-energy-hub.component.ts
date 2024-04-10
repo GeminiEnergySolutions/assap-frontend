@@ -37,7 +37,6 @@ export class CleanEnergyHubComponent implements OnInit {
     ).subscribe(formData => {
       this.formData = formData ? formData : {data: {}};
     });
-    this.equipmentService.equipmentSubTypeData = null;
   }
 
   save() {

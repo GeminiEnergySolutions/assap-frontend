@@ -36,7 +36,6 @@ export class PreauditFormComponent implements OnInit {
     ).subscribe(res => {
       this.formData = res.data ?? {data: {}};
     });
-    this.equipmentService.equipmentSubTypeData = null;
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage(`?percentageType=preaudit&auditId=${aid}`)),

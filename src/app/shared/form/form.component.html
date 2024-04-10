@@ -18,10 +18,8 @@
               @if (formData) {
                 @for (element of schema.schema; track element; let i = $index) {
                   <div class="mb-3 {{isMediumPage(schema, element)}}">
-                    @if (element.key !== 'tube_type' || (element.key === 'tube_type' && equipmentService.equipmentSubTypeData.typeChild?.name === 'Linear Fluorescent')) {
-                      <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
-                                        (dirty)="setDirty()"></app-form-element>
-                    }
+                    <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
+                                      (dirty)="setDirty()"></app-form-element>
                     @for (element1 of element?.inputList; track element1) {
                       <div class="mt-3 mx-2">
                         @if (!element1.dependentKeyValue || element1.dependentKeyValue === formData.data[element.key]) {

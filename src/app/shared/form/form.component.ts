@@ -19,7 +19,6 @@ export class FormComponent {
   dirty = false;
 
   constructor(
-    public equipmentService: EquipmentService,
     private toastService: ToastService,
   ) {
   }

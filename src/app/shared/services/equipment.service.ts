@@ -12,7 +12,6 @@ export class EquipmentService {
 
   rootUrl = environment.url;
 
-  equipmentSubTypeData: any;
   equipment: EquipmentCategory = {
     id: 0,
     equipmentName: '',
