@@ -1,38 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastService } from '@mean-stream/ngbx';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import {Component} from '@angular/core';
+import {ToastService} from '@mean-stream/ngbx';
+import {AuthService} from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent {
+  email = '';
+  submitting = false;
 
-  public forgotPasswordForm !: FormGroup
-
-  constructor(private formBuilder:FormBuilder,
+  constructor(
     private authService: AuthService,
-    private router: Router,
     private toastService: ToastService,
-  ) { }
-
-  ngOnInit(): void {
-    this.forgotPasswordForm = this.formBuilder.group({
-      email: ['']
-    });
+  ) {
   }
 
-  onSubmit(){
-    const objData = {
-      email: this.forgotPasswordForm.get('email')?.value
-    };
-
-    this.authService.forgotPassword(objData).subscribe((res: any) => {
-      this.toastService.success('Success', 'Password sent to your email Successfully');
+  onSubmit() {
+    this.submitting = true;
+    this.authService.forgotPassword({
+      email: this.email,
+    }).subscribe(() => {
+      this.submitting = false;
+      this.toastService.success('Reset Password', 'A new password was sent to your email. Please check your inbox.');
+    }, () => {
+      this.submitting = false;
     });
   }
-
 }
