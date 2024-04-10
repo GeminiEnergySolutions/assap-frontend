@@ -9,7 +9,6 @@ import {CopySpec, SchemaSection} from '../model/schema.interface';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent {
-  @Input({required: true}) formType!: 'preAudit' | 'equipmentForm' | 'grants' | 'cleanenergyhub' | 'zone';
   @Input() typeSchema: SchemaSection[] = [];
   @Input() formData?: { id?: string | number; data: Record<string, string | number | boolean> };
   /** for offline storage */
@@ -42,8 +41,6 @@ export class FormComponent {
   }
 
   isMediumPage(schema: any, element: any) {
-    if (this.formType != "preAudit" && this.formType != "cleanenergyhub") return false;
-
     let gridSize = 'col-12';
     if (schema.name == "Electric Vehicle") {
       gridSize = element.key.includes("ev_type_1_time") || element.key.includes("ev_type_2_time") || element.key.includes("ev_type_3_time") ? 'col-6' : gridSize;
