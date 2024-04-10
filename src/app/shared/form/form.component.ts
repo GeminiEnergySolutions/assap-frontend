@@ -47,18 +47,7 @@ export class FormComponent implements OnInit {
         const auditId = this.route.snapshot.params.aid;
         switch (this.formType) {
           case "grants":
-            this.formId = `audits/${auditId}/grants`;
-            this.auditService.getGrantsJsonSchema().subscribe((schema: any) => {
-              this.typeSchema = schema;
-            });
-            this.auditService.getGrantsData(auditId).subscribe((formData: any) => {
-              if (formData) {
-                this.formData = formData;
-              } else {
-                this.formData = { data: {} };
-              }
-            });
-            this.equipmentService.equipmentSubTypeData = null;
+            // Handled by GrantComponent
             break;
           case "cleanenergyhub":
             this.formId = `audits/${auditId}/cleanenergyhub`;
@@ -150,7 +139,7 @@ export class FormComponent implements OnInit {
         // handled by PreauditFormComponent
         break;
       case 'grants':
-        this.saveGrants();
+        // handled by GrantComponent
         break;
       case 'cleanenergyhub':
         this.saveCEH();
@@ -165,26 +154,6 @@ export class FormComponent implements OnInit {
     this.saved.emit();
 
     this.dirty = false;
-  }
-
-  private saveGrants() {
-    if (!this.formData) {
-      return;
-    }
-    if (this.formData.id) {
-      this.auditService.updateGrantsData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
-        this.toastService.success('Form', 'Successfully saved form input');
-      });
-    } else {
-      let objData = {
-        auditId: this.route.snapshot.params.aid,
-        data: this.formData.data,
-      };
-      this.auditService.createGrantsData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-        this.formData = res;
-        this.toastService.success('Form', 'Successfully saved form input');
-      });
-    }
   }
 
   private saveCEH() {
