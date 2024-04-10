@@ -14,7 +14,7 @@ import {ToastService} from '@mean-stream/ngbx';
   styleUrl: './preaudit-form.component.scss',
 })
 export class PreauditFormComponent implements OnInit {
-  auditId?: string;
+  auditId?: number;
   progress?: PercentageCompletion;
   typeSchema: SchemaSection[] = [];
   formData?: PreAuditData;
@@ -31,8 +31,8 @@ export class PreauditFormComponent implements OnInit {
     this.auditService.getPreAuditJsonSchema().subscribe(res => this.typeSchema = res.data);
 
     this.route.params.pipe(
-      tap(({aid}) => this.auditId = aid),
-      switchMap(({aid}) => this.auditService.getPreAuditData(aid)),
+      tap(({aid}) => this.auditId = +aid),
+      switchMap(({aid}) => this.auditService.getPreAuditData(+aid)),
     ).subscribe(res => {
       this.formData = res.data ?? {data: {}};
     });
@@ -44,29 +44,24 @@ export class PreauditFormComponent implements OnInit {
   }
 
   save() {
-    if (!this.formData) {
+    if (!this.formData || !this.auditId) {
       return;
     }
-    if (this.formData.id) {
-      this.auditService.updatePreAuditData(this.route.snapshot.params.aid, this.formData).subscribe(res => {
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage(res.data.auditId);
+    const request$ = this.formData.id ?
+      this.auditService.updatePreAuditData(this.auditId, this.formData) :
+      this.auditService.createPreAuditData(this.auditId, {
+        auditId: this.auditId,
+        data: this.formData.data,
       });
-    } else {
-      let objData = {
-        auditId: this.route.snapshot.params.aid,
-        data: this.formData!.data,
-      };
-      this.auditService.createPreAuditData(this.route.snapshot.params.aid, objData).subscribe(res => {
-        // this.formData = res.data;
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage(res.data.auditId);
-      });
-    }
+    request$.subscribe(res => {
+      this.formData = res.data;
+      this.toastService.success('Form', 'Successfully saved form input');
+      this.getPercentage();
+    });
   }
 
-  private getPercentage(aid: number) {
-    this.auditService.getPercentage(`?percentageType=complete&auditId=${aid}`).subscribe(res => this.auditService.currentProgress = res);
-    this.auditService.getPercentage(`?percentageType=preaudit&auditId=${aid}`).subscribe(res => this.progress = res);
+  private getPercentage() {
+    this.auditService.getPercentage(`?percentageType=complete&auditId=${this.auditId}`).subscribe(res => this.auditService.currentProgress = res);
+    this.auditService.getPercentage(`?percentageType=preaudit&auditId=${this.auditId}`).subscribe(res => this.progress = res);
   }
 }
