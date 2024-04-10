@@ -1,19 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
-import {Observable, switchMap} from 'rxjs';
-import {AuditService} from '../services/audit.service';
 import {EquipmentService} from '../services/equipment.service';
 import {CopySpec, SchemaSection} from '../model/schema.interface';
-import {ZoneDataResponse} from "../model/zone.interface";
-import {Equipment} from '../model/equipment.interface';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
   @Input({required: true}) formType!: 'preAudit' | 'equipmentForm' | 'grants' | 'cleanenergyhub' | 'zone';
   @Input() typeSchema: SchemaSection[] = [];
   @Input() formData?: { id?: string | number; data: Record<string, string | number | boolean> };
@@ -24,78 +19,9 @@ export class FormComponent implements OnInit {
   dirty = false;
 
   constructor(
-    private auditService: AuditService,
     public equipmentService: EquipmentService,
-    private route: ActivatedRoute,
     private toastService: ToastService,
   ) {
-    this.equipmentService.equipmentSubTypeData = null;
-  }
-
-  ngOnInit(): void {
-    this.route.params
-      .pipe(
-        switchMap(({ tid }) => {
-          if (tid) {
-            return this.equipmentService.getEquipment(tid);
-          } else {
-            return 'o';
-          }
-        })
-      )
-      .subscribe(async (subType: Equipment | string) => {
-        const auditId = this.route.snapshot.params.aid;
-        switch (this.formType) {
-          case "grants":
-            // Handled by GrantComponent
-            break;
-          case "cleanenergyhub":
-            // handled by CleanEnergyHubComponent
-            break;
-          case "preAudit":
-            // handled by PreauditFormComponent
-            break;
-          case "zone":
-            // handled by ZoneFormComponent
-            break;
-          case "equipmentForm":
-            if (typeof subType === 'string') {
-              return;
-            }
-            this.formId = `audits/${auditId}/subtypes/${subType.id}`;
-            this.equipmentService.equipmentSubTypeData = subType;
-            this.equipmentService.getEquipmentTypeSchema(subType.typeChild?.equipmentType.id ?? subType.type?.id ?? subType.typeId).subscribe((schema: any) => {
-              this.typeSchema = schema;
-            });
-            this.equipmentService.getEquipmentFormData(subType.id).subscribe((formData: any) => {
-              if (formData) {
-                this.formData = formData;
-              } else {
-                this.formData = { data: {} };
-              }
-            });
-            break;
-        }
-      });
-  }
-
-  getPercentage() {
-    let queryParams = "";
-    switch (this.formType) {
-      case 'preAudit':
-        // handled by PreauditFormComponent
-        return;
-      case 'cleanenergyhub':
-        // handled by CleanEnergyHubComponent
-        break;
-      case 'equipmentForm':
-        queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
-        break;
-      case 'zone':
-        // handled by ZoneFormComponent
-        break;
-    }
-    this.auditService.getPercentage(queryParams).subscribe(res => this.auditService.currentProgress = res);
   }
 
   save() {
@@ -111,53 +37,9 @@ export class FormComponent implements OnInit {
       }
     }
 
-    switch (this.formType) {
-      case "preAudit":
-        // handled by PreauditFormComponent
-        break;
-      case 'grants':
-        // handled by GrantComponent
-        break;
-      case 'cleanenergyhub':
-        // handled by CleanEnergyHubComponent
-        break;
-      case 'zone':
-        // handled by ZoneFormComponent
-        break;
-      case 'equipmentForm':
-        this.saveEquipment();
-        break;
-    }
     this.saved.emit();
 
     this.dirty = false;
-  }
-
-  private saveEquipment() {
-    if (!this.formData) {
-      return;
-    }
-    if (this.formData.id) {
-      this.equipmentService.updateEquipmentFormData(this.formData).subscribe((res: any) => {
-        this.getPercentage();
-        this.toastService.success('Form', 'Successfully saved form input');
-      });
-    } else {
-      let objData = {
-        auditId: this.route.snapshot.params.aid,
-        zoneId: this.route.snapshot.params.zid,
-        equipmentId:
-        this.equipmentService.equipmentSubTypeData.type.equipment.id,
-        typeId: this.equipmentService.equipmentSubTypeData.type.id,
-        subTypeId: this.equipmentService.equipmentSubTypeData.id,
-        data: this.formData.data,
-      };
-      this.equipmentService.createEquipmentFormData(objData).subscribe((res: any) => {
-        this.formData = res;
-        this.getPercentage();
-        this.toastService.success('Form', 'Successfully saved form input');
-      });
-    }
   }
 
   isMediumPage(schema: any, element: any) {

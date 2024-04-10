@@ -8,8 +8,14 @@
 
 <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
-@if (auditService.currentProgress) {
-  <app-progress-bar class="mb-3" label="Equipment" [progress]="auditService.currentProgress"></app-progress-bar>
+@if (progress) {
+  <app-progress-bar class="mb-3" label="Equipment" [progress]="progress"></app-progress-bar>
 }
 
-<app-form formType="equipmentForm"></app-form>
+<app-form
+  formType="equipmentForm"
+  [typeSchema]="typeSchema"
+  [formData]="formData"
+  [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"
+  (saved)="save()"
+></app-form>

@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap} from 'rxjs';
+import {switchMap, tap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {ZoneData} from '../../shared/model/zone.interface';
 
 
 @Component({
@@ -12,6 +15,11 @@ import {EquipmentService} from 'src/app/shared/services/equipment.service';
   styleUrls: ['./type.component.scss']
 })
 export class TypeComponent implements OnInit {
+  auditId?: number;
+  equipmentId?: number;
+  progress?: PercentageCompletion;
+  typeSchema: SchemaSection[] = [];
+  formData?: ZoneData;
 
   constructor(
     public equipmentService: EquipmentService,
@@ -22,8 +30,27 @@ export class TypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
+      switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
+      // TODO remove this
+      tap(equipment => this.equipmentService.equipmentSubTypeData = equipment),
+      switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.typeChild?.equipmentType.id ?? equipment.type?.id ?? equipment.typeId)),
+    ).subscribe(schema => {
+      this.typeSchema = schema;
+    });
+
+    this.route.params.pipe(
+      tap(({aid, tid}) => {
+        this.auditId = +aid;
+        this.equipmentId = +tid;
+      }),
+      switchMap(({tid}) => this.equipmentService.getEquipmentFormData(+tid)),
+    ).subscribe(res => {
+      this.formData = res ?? {data: {}};
+    });
+
+    this.route.params.pipe(
       switchMap(({tid}) => this.auditService.getPercentage(`?percentageType=form&subTypeId=${tid}`)),
-    ).subscribe(res => this.auditService.currentProgress = res);
+    ).subscribe(res => this.progress = res);
   }
 
   uploadPhoto(file: File) {
@@ -38,5 +65,30 @@ export class TypeComponent implements OnInit {
     this.auditService.uploadPhoto(aid, formData).subscribe(() => {
       this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipmentService.equipmentSubTypeData?.type?.name} '${this.equipmentService.equipmentSubTypeData?.name}'.`);
     });
+  }
+
+  save() {
+    if (!this.formData || !this.auditId || !this.equipmentId) {
+      return;
+    }
+    const request$ = this.formData.id
+      ? this.equipmentService.updateEquipmentFormData(this.formData)
+      : this.equipmentService.createEquipmentFormData({
+        auditId: this.auditId,
+        zoneId: this.route.snapshot.params.zid,
+        equipmentId: this.equipmentService.equipmentSubTypeData.type.equipment.id,
+        typeId: this.equipmentService.equipmentSubTypeData.type.id,
+        subTypeId: this.equipmentService.equipmentSubTypeData.id,
+        data: this.formData.data,
+      });
+    request$.subscribe((res: any) => {
+      this.formData = res;
+      this.getPercentage();
+      this.toastService.success('Form', 'Successfully saved form input');
+    });
+  }
+
+  private getPercentage() {
+    this.auditService.getPercentage(`?percentageType=form&subTypeId=${this.equipmentId}`).subscribe(res => this.progress = res);
   }
 }
