@@ -11,7 +11,7 @@ import {switchMap, tap} from 'rxjs';
 @Component({
   selector: 'app-clean-energy-hub',
   templateUrl: './clean-energy-hub.component.html',
-  styleUrls: ['./clean-energy-hub.component.scss']
+  styleUrls: ['./clean-energy-hub.component.scss'],
 })
 export class CleanEnergyHubComponent implements OnInit {
   auditId?: number;
@@ -44,21 +44,17 @@ export class CleanEnergyHubComponent implements OnInit {
     if (!this.formData || !this.auditId) {
       return;
     }
-    if (this.formData.id) {
-      this.auditService.updateCleanEnergyHubData(this.auditId, this.formData).subscribe(() => {
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
-      });
-    } else {
-      this.auditService.createCleanEnergyHubData(this.auditId, {
+    const request$ = this.formData.id
+      ? this.auditService.updateCleanEnergyHubData(this.auditId, this.formData)
+      : this.auditService.createCleanEnergyHubData(this.auditId, {
         auditId: this.auditId,
         data: this.formData.data,
-      }).subscribe(res => {
-        this.formData = res;
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
       });
-    }
+    request$.subscribe(res => {
+      this.formData = res;
+      this.toastService.success('Form', 'Successfully saved form input');
+      this.getPercentage();
+    });
   }
 
   private getPercentage() {

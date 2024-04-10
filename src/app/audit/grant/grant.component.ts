@@ -48,18 +48,15 @@ export class GrantComponent implements OnInit {
     if (!this.formData || !this.auditId) {
       return;
     }
-    if (this.formData.id) {
-      this.auditService.updateGrantsData(this.auditId, this.formData).subscribe(() => {
-        this.toastService.success('Form', 'Successfully saved form input');
-      });
-    } else {
-      this.auditService.createGrantsData(this.auditId, {
+    const request$ = this.formData.id
+      ? this.auditService.updateGrantsData(this.auditId, this.formData)
+      : this.auditService.createGrantsData(this.auditId, {
         auditId: this.auditId,
         data: this.formData.data,
-      }).subscribe(res => {
-        this.formData = res;
-        this.toastService.success('Form', 'Successfully saved form input');
       });
-    }
+    request$.subscribe(res => {
+      this.formData = res;
+      this.toastService.success('Form', 'Successfully saved form input');
+    });
   }
 }
