@@ -1,1 +1,10 @@
-<app-form formType="zone"></app-form>
+@if (progress) {
+  <app-progress-bar label="Zone" [progress]="progress"></app-progress-bar>
+}
+<app-form
+  formType="zone"
+  [typeSchema]="typeSchema"
+  [formData]="formData"
+  [formId]="'audits/' + auditId + '/zones/' + zoneId"
+  (saved)="save()"
+></app-form>

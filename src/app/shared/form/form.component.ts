@@ -56,19 +56,7 @@ export class FormComponent implements OnInit {
             // handled by PreauditFormComponent
             break;
           case "zone":
-            const zoneId = this.route.snapshot.params.zid;
-            this.formId = `audits/${auditId}/zones/${zoneId}`;
-            this.auditService.getZoneJsonSchema().subscribe(schema => {
-              this.typeSchema = schema.data;
-            });
-            this.auditService.getZoneData(zoneId).subscribe(response => {
-              if (response.data.data) {
-                this.formData = response.data;
-              } else {
-                this.formData = { data: {} };
-              }
-            });
-            this.equipmentService.equipmentSubTypeData = null;
+            // handled by ZoneFormComponent
             break;
           case "equipmentForm":
             if (typeof subType === 'string') {
@@ -98,13 +86,13 @@ export class FormComponent implements OnInit {
         // handled by PreauditFormComponent
         return;
       case 'cleanenergyhub':
-        queryParams = `?percentageType=complete&auditId=${this.route.snapshot.params.aid}`;
+        // handled by CleanEnergyHubComponent
         break;
       case 'equipmentForm':
         queryParams = `?percentageType=form&subTypeId=${this.route.snapshot.params.tid}`;
         break;
       case 'zone':
-        queryParams = `?percentageType=zone&zoneId=${this.route.snapshot.params.zid}`;
+        // handled by ZoneFormComponent
         break;
     }
     this.auditService.getPercentage(queryParams).subscribe(res => this.auditService.currentProgress = res);
@@ -134,7 +122,7 @@ export class FormComponent implements OnInit {
         // handled by CleanEnergyHubComponent
         break;
       case 'zone':
-        this.saveZone();
+        // handled by ZoneFormComponent
         break;
       case 'equipmentForm':
         this.saveEquipment();
@@ -143,33 +131,6 @@ export class FormComponent implements OnInit {
     this.saved.emit();
 
     this.dirty = false;
-  }
-
-  private saveZone() {
-    if (!this.formData) {
-      return;
-    }
-    const auditId = this.route.snapshot.params.aid;
-    const zoneId = this.route.snapshot.params.zid;
-    let request$: Observable<ZoneDataResponse>;
-    if (this.formData.id) {
-      request$ = this.auditService.updateZoneData(zoneId, {
-        auditId,
-        zoneId,
-        id: +this.formData.id,
-        data: this.formData.data,
-      });
-    } else {
-      request$ = this.auditService.createZoneData(zoneId, {
-        auditId,
-        zoneId,
-        data: this.formData.data,
-      });
-    }
-    request$.subscribe(() => {
-      this.toastService.success('Zone Form', 'Successfully saved form input');
-      this.getPercentage();
-    });
   }
 
   private saveEquipment() {
