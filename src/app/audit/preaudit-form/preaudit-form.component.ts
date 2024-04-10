@@ -5,7 +5,6 @@ import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {switchMap, tap} from 'rxjs';
-import {EquipmentService} from '../../shared/services/equipment.service';
 import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
@@ -22,7 +21,6 @@ export class PreauditFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
-    private equipmentService: EquipmentService,
     private toastService: ToastService,
   ) {
   }

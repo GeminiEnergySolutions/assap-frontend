@@ -3,7 +3,6 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
-import {EquipmentService} from '../../shared/services/equipment.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap, tap} from 'rxjs';
 import {ZoneData, ZoneDataResponse} from '../../shared/model/zone.interface';
@@ -23,7 +22,6 @@ export class ZoneFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
-    private equipmentService: EquipmentService,
     private toastService: ToastService,
   ) {
   }

@@ -4,7 +4,6 @@ import {SchemaSection} from '../../shared/model/schema.interface';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
-import {EquipmentService} from '../../shared/services/equipment.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
 
@@ -22,7 +21,6 @@ export class GrantComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
-    private equipmentService: EquipmentService,
     private toastService: ToastService,
   ) {
   }
