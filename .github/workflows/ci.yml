@@ -52,14 +52,14 @@ jobs:
         run: pnpm build
       # Allow routing on GitHub Pages
       - name: Create 404.html
-        run: cp dist/conserve/index.html dist/conserve/404.html
+        run: cp dist/conserve/browser/index.html dist/conserve/browser/404.html
       # https://github.com/actions/starter-workflows/blob/main/pages/static.yml
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/conserve
+          path: dist/conserve/browser/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
