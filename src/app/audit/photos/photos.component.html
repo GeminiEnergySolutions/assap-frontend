@@ -9,50 +9,66 @@
       </select>
     </div>
   </div>
-
-  <div class="col" *ngIf="photoType === 'All'">
-    <span>Equipment</span>
-    <select [(ngModel)]="equipment" (change)="updatePhotosFilter()" class="form-select">
-      <option *ngFor="let item of equipmentList" [value]="item.id" >{{item.equipmentName | uppercase}}</option>
-    </select>
-  </div>
-
-
-  <div class="col" *ngIf="photoType === 'Zone'">
-    <span>Zone</span>
-    <select [(ngModel)]="zone" (change)="changeZone()" class="form-select">
-      <option *ngFor="let item of zoneList" [value]="item.zoneId">{{item.zoneName | uppercase}}</option>
-    </select>
-  </div>
-  <div class="col" *ngIf="zone">
-    <span>Equipment</span>
-    <select [(ngModel)]="equipment" (change)="changeEquipment()" class="form-select">
-      <option *ngFor="let item of equipmentList" [value]="item.id">{{item.equipmentName | uppercase}}</option>
-    </select>
-  </div>
-  <div class="col" *ngIf="zone && equipment">
-    <span>Type</span>
-    <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
-      <option *ngFor="let item of subTypeList" [value]="item.id">{{(item.name | uppercase) + ' - ' + (item.type?.name | uppercase) }}</option>
-    </select>
-  </div>
+  @if (photoType === 'All') {
+    <div class="col">
+      <span>Equipment</span>
+      <select [(ngModel)]="equipment" (change)="updatePhotosFilter()" class="form-select">
+        @for (item of equipmentList; track item) {
+          <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
+        }
+      </select>
+    </div>
+  }
+  @if (photoType === 'Zone') {
+    <div class="col">
+      <span>Zone</span>
+      <select [(ngModel)]="zone" (change)="changeZone()" class="form-select">
+        @for (item of zoneList; track item) {
+          <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
+        }
+      </select>
+    </div>
+  }
+  @if (zone) {
+    <div class="col">
+      <span>Equipment</span>
+      <select [(ngModel)]="equipment" (change)="changeEquipment()" class="form-select">
+        @for (item of equipmentList; track item) {
+          <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
+        }
+      </select>
+    </div>
+  }
+  @if (zone && equipment) {
+    <div class="col">
+      <span>Type</span>
+      <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
+        @for (item of subTypeList; track item) {
+          <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type?.name | uppercase) }}</option>
+        }
+      </select>
+    </div>
+  }
 </div>
 <div class="row">
-  <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box p-0" *ngFor="let item of data">
-    <img [src]="item.photo" class="img-fluid">
-    <div class="overlay">
-      {{item.equipmentId ?
-      (item.auditName.auditName + ' / ' + item.zoneName.zoneName + ' / ' + item.equipmentName.equipmentName + ' / ' + item.typeName.name + ' / ' + item.subTypeName.name | uppercase)
-      :
-      item.zoneId ?
-      (item.auditName.auditName + ' / ' + item.zoneName.zoneName | uppercase)
-      :
-      (item.auditName.auditName | uppercase)
-      }}
+  @for (item of data; track item) {
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box p-0">
+      <img [src]="item.photo" class="img-fluid">
+      <div class="overlay">
+        {{
+          item.equipmentId ?
+            (item.auditName.auditName + ' / ' + item.zoneName.zoneName + ' / ' + item.equipmentName.equipmentName + ' / ' + item.typeName.name + ' / ' + item.subTypeName.name | uppercase)
+            :
+            item.zoneId ?
+              (item.auditName.auditName + ' / ' + item.zoneName.zoneName | uppercase)
+              :
+              (item.auditName.auditName | uppercase)
+        }}
+      </div>
     </div>
-  </div>
+  }
 
   <mat-paginator [length]="dataForLength.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"
-    (page)="getData($event)">
+                 (page)="getData($event)">
   </mat-paginator>
 </div>

@@ -5,67 +5,75 @@
   </li>
 </ul>
 <div mat-dialog-content>
-  <div class="row" *ngIf="tabType === 'energyAudit'">
-    <div class="col">
-      <div>
-        <label for="cdd" class="mb-2" style="font-weight: bold"
-          >Temperature</label
-        >
-      </div>
-      <input
-        id="cdd"
-        type="file"
-        accept=".xlsx, .xls, .csv"
-        (change)="onFileChange($event, 'temperature')"
-      />
-    </div>
-  </div>
-  <div class="row" *ngIf="tabType === 'cleanEnergyHub'">
-    <div class="col-md-6 my-2">
-      <div class="form-group">
-        <div class="mb-2" style="font-weight: bold">Temperature</div>
+  @if (tabType === 'energyAudit') {
+    <div class="row">
+      <div class="col">
+        <label for="cdd" class="mb-2" style="font-weight: bold">
+          Temperature
+        </label>
         <input
+          id="cdd"
           type="file"
           accept=".xlsx, .xls, .csv"
-          style="width: 203px"
           (change)="onFileChange($event, 'temperature')"
         />
       </div>
-      <label *ngIf="formData.id && !fileUpdated">
-        {{ tempratureFileName }}
-      </label>
     </div>
-    <div class="col-md-6 my-2">
-      <div class="form-group">
-        <div class="mb-2" style="font-weight: bold">Tester File</div>
-        <input
-          type="file"
-          accept=".xlsx, .xls, .csv"
-          style="width: 203px"
-          width="10"
-          (change)="onFileChange($event, 'testerEnergyData')"
-        />
+  }
+  @if (tabType === 'cleanEnergyHub') {
+    <div class="row">
+      <div class="col-md-6 my-2">
+        <div class="form-group">
+          <div class="mb-2" style="font-weight: bold">Temperature</div>
+          <input
+            type="file"
+            accept=".xlsx, .xls, .csv"
+            style="width: 203px"
+            (change)="onFileChange($event, 'temperature')"
+          />
+        </div>
+        @if (formData.id && !fileUpdated) {
+          <label>
+            {{ tempratureFileName }}
+          </label>
+        }
       </div>
-      <label *ngIf="formData.id && !fileUpdated">
-        {{ testerDataFileName }}
-      </label>
-    </div>
-    <div class="col-md-6 mb-2">
-      <div class="form-group">
-        <div class="mb-2" style="font-weight: bold">PvWatts File</div>
-        <input
-          type="file"
-          accept=".xlsx, .xls, .csv"
-          style="width: 203px"
-          width="10"
-          (change)="onFileChange($event, 'pvWatts')"
-        />
+      <div class="col-md-6 my-2">
+        <div class="form-group">
+          <div class="mb-2" style="font-weight: bold">Tester File</div>
+          <input
+            type="file"
+            accept=".xlsx, .xls, .csv"
+            style="width: 203px"
+            width="10"
+            (change)="onFileChange($event, 'testerEnergyData')"
+          />
+        </div>
+        @if (formData.id && !fileUpdated) {
+          <label>
+            {{ testerDataFileName }}
+          </label>
+        }
       </div>
-      <label *ngIf="formData.id && !fileUpdated">
-        {{ pvWattsFileName }}
-      </label>
+      <div class="col-md-6 mb-2">
+        <div class="form-group">
+          <div class="mb-2" style="font-weight: bold">PvWatts File</div>
+          <input
+            type="file"
+            accept=".xlsx, .xls, .csv"
+            style="width: 203px"
+            width="10"
+            (change)="onFileChange($event, 'pvWatts')"
+          />
+        </div>
+        @if (formData.id && !fileUpdated) {
+          <label>
+            {{ pvWattsFileName }}
+          </label>
+        }
+      </div>
     </div>
-  </div>
+  }
 </div>
 
 <div class="row">

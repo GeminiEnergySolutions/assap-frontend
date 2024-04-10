@@ -6,7 +6,8 @@
 <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
 @if (auditService.currentProgress) {
-  <app-progress-bar class="mb-3" [label]="auditService.equipmentHeadingValue" [progress]="auditService.currentProgress"></app-progress-bar>
+  <app-progress-bar class="mb-3" [label]="auditService.equipmentHeadingValue"
+                    [progress]="auditService.currentProgress"></app-progress-bar>
 }
 
 <ul ngbNav [activeId]="equipmentService.equipment.id" class="nav-tabs">
@@ -15,11 +16,14 @@
       Zone Details
     </a>
   </li>
-  <li [ngbNavItem]="item.id" *ngFor="let item of equipmentService.equipments">
-    <a ngbNavLink [routerLink]="['equipments', item.id]" (click)="route.firstChild?.snapshot?.params?.eid !== item.id ? getEquipmentPercentage(item) : null">
-      {{ item.equipmentName | titlecase }}
-    </a>
-  </li>
+  @for (item of equipmentService.equipments; track item) {
+    <li [ngbNavItem]="item.id">
+      <a ngbNavLink [routerLink]="['equipments', item.id]"
+         (click)="route.firstChild?.snapshot?.params?.eid !== item.id ? getEquipmentPercentage(item) : null">
+        {{ item.equipmentName | titlecase }}
+      </a>
+    </li>
+  }
 </ul>
 
 <router-outlet></router-outlet>

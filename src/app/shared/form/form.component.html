@@ -1,42 +1,52 @@
 <div ngbAccordion [closeOthers]="true">
-  <div ngbAccordionItem *ngFor="let schema of typeSchema" [id]="'s-' + schema.id" [title]="schema.name">
-    <h2 ngbAccordionHeader>
-      <button ngbAccordionButton>
-        {{ schema.name }}
-      </button>
-    </h2>
-    <div ngbAccordionCollapse>
-    <div ngbAccordionBody>
-      <ng-template>
-      @for (copy of schema.copySchema; track copy) {
-        <button class="btn btn-primary" (click)="copyForm(copy)">
-          {{ copy.buttonLabel }}
+  @for (schema of typeSchema; track schema) {
+    <div ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton>
+          {{ schema.name }}
         </button>
-      }
-      <div class="row">
-        @if (formData) {
-          <div *ngFor="let element of schema.schema; let i=index" class="mb-3 {{isMediumPage(schema, element)}}">
-            <div
-              *ngIf="element.key !== 'tube_type' || (element.key === 'tube_type' && equipmentService.equipmentSubTypeData.typeChild?.name === 'Linear Fluorescent')">
-              <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
-            </div>
-            <div *ngFor="let element1 of element?.inputList" class="mt-3 mx-2">
-              <div *ngIf="!element1.dependentKeyValue || element1.dependentKeyValue === formData.data[element.key]">
-                <app-form-element [element]="element1" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
-                <div *ngFor="let element2 of element1?.inputList" class="mt-3 mx-2">
-                  <div *ngIf="!element2.dependentKeyValue || element2.dependentKeyValue === formData.data[element1.key]">
-                    <app-form-element [element]="element2" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            @for (copy of schema.copySchema; track copy) {
+              <button class="btn btn-primary" (click)="copyForm(copy)">
+                {{ copy.buttonLabel }}
+              </button>
+            }
+            <div class="row">
+              @if (formData) {
+                @for (element of schema.schema; track element; let i = $index) {
+                  <div class="mb-3 {{isMediumPage(schema, element)}}">
+                    @if (element.key !== 'tube_type' || (element.key === 'tube_type' && equipmentService.equipmentSubTypeData.typeChild?.name === 'Linear Fluorescent')) {
+                      <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
+                                        (dirty)="setDirty()"></app-form-element>
+                    }
+                    @for (element1 of element?.inputList; track element1) {
+                      <div class="mt-3 mx-2">
+                        @if (!element1.dependentKeyValue || element1.dependentKeyValue === formData.data[element.key]) {
+                          <app-form-element [element]="element1" [schema]="schema" [formId]="formId"
+                                            [formData]="formData" (dirty)="setDirty()"></app-form-element>
+                          @for (element2 of element1?.inputList; track element2) {
+                            <div class="mt-3 mx-2">
+                              @if (!element2.dependentKeyValue || element2.dependentKeyValue === formData.data[element1.key]) {
+                                <app-form-element [element]="element2" [schema]="schema" [formId]="formId"
+                                                  [formData]="formData" (dirty)="setDirty()"></app-form-element>
+                              }
+                            </div>
+                          }
+                        }
+                      </div>
+                    }
                   </div>
-                </div>
-              </div>
+                }
+              }
             </div>
-          </div>
-        }
+          </ng-template>
+        </div>
       </div>
-      </ng-template>
     </div>
-  </div>
-  </div>
+  }
 </div>
 
 <p class="text-center text-muted mt-3 mb-5">
