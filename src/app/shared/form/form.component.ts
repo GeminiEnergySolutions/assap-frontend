@@ -50,18 +50,7 @@ export class FormComponent implements OnInit {
             // Handled by GrantComponent
             break;
           case "cleanenergyhub":
-            this.formId = `audits/${auditId}/cleanenergyhub`;
-            this.auditService.getCleanEnergyHubJsonSchema().subscribe((schema: any) => {
-              this.typeSchema = schema;
-            });
-            this.auditService.getCleanEnergyHubData(auditId).subscribe((formData: any) => {
-              if (formData) {
-                this.formData = formData;
-              } else {
-                this.formData = { data: {} };
-              }
-            });
-            this.equipmentService.equipmentSubTypeData = null;
+            // handled by CleanEnergyHubComponent
             break;
           case "preAudit":
             // handled by PreauditFormComponent
@@ -142,7 +131,7 @@ export class FormComponent implements OnInit {
         // handled by GrantComponent
         break;
       case 'cleanenergyhub':
-        this.saveCEH();
+        // handled by CleanEnergyHubComponent
         break;
       case 'zone':
         this.saveZone();
@@ -154,28 +143,6 @@ export class FormComponent implements OnInit {
     this.saved.emit();
 
     this.dirty = false;
-  }
-
-  private saveCEH() {
-    if (!this.formData) {
-      return;
-    }
-    if (this.formData.id) {
-      this.auditService.updateCleanEnergyHubData(this.route.snapshot.params.aid, this.formData).subscribe((res: any) => {
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
-      });
-    } else {
-      let objData = {
-        auditId: this.route.snapshot.params.aid,
-        data: this.formData.data,
-      };
-      this.auditService.createCleanEnergyHubData(this.route.snapshot.params.aid, objData).subscribe((res: any) => {
-        this.formData = res;
-        this.toastService.success('Form', 'Successfully saved form input');
-        this.getPercentage();
-      });
-    }
   }
 
   private saveZone() {
