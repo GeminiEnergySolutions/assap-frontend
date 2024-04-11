@@ -5,7 +5,7 @@
     <ng-content select="[breadcrumb]"></ng-content>
     <ng-content select="[list]"></ng-content>
   </div>
-  <div class="col-lg-9 h-100 overflow-auto detail">
+  <div class="col-lg-9 h-100 overflow-auto detail" [class.detail-active]="outlet.isActivated">
     <router-outlet #outlet=outlet></router-outlet>
     @if (!outlet.isActivated) {
       <ng-content select="[default]"></ng-content>

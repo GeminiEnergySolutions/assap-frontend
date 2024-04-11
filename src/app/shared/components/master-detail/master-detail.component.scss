@@ -1,0 +1,9 @@
+@media screen and (max-width: 992px) {
+  .master:not(.master-active) {
+    display: none;
+  }
+
+  .detail:not(.detail-active) {
+    display: none;
+  }
+}
