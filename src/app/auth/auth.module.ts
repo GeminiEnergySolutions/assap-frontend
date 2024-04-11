@@ -10,23 +10,25 @@ import { BrandHeaderComponent } from './brand-header/brand-header.component';
 // import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    // SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppFormsModule,
-  ],
-  providers: [
-  ],
-  declarations: [
-    LoginComponent,
-    SignupComponent,
-    ForgotPasswordComponent,
-    BrandHeaderComponent,
-  ],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        // SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppFormsModule,
+    ],
+    providers: [],
+    declarations: [
+        LoginComponent,
+        SignupComponent,
+        ForgotPasswordComponent,
+        BrandHeaderComponent,
+    ],
+    exports: [
+        BrandHeaderComponent,
+    ],
+    // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthModule {
 }
