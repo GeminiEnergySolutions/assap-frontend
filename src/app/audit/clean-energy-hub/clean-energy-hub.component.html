@@ -1,4 +1,4 @@
-<div class="bg-dark text-light">
+<div class="bg-dark text-light mb-3">
   <div class="d-flex align-items-center justify-content-between">
     <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
     <h5 class="bi-plug px-3">
@@ -14,11 +14,11 @@
       </div>
     </div>
   </div>
-  <div class="p-3">
-    @if (progress) {
+  @if (progress) {
+    <div class="p-3">
       <app-progress-bar label="Preaudit" [progress]="progress"></app-progress-bar>
-    }
-  </div>
+    </div>
+  }
 </div>
 <div class="container">
   <app-form
