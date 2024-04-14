@@ -34,6 +34,7 @@ import {PhotoCaptureComponent} from './photo-capture/photo-capture.component';
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import { CreateEquipmentComponent } from './create-equipment/create-equipment.component';
+import { FeatureCardComponent } from './feature-card/feature-card.component';
 
 @NgModule({
     imports: [
@@ -75,6 +76,7 @@ import { CreateEquipmentComponent } from './create-equipment/create-equipment.co
     ProgressBarComponent,
     PreauditFormComponent,
     CreateEquipmentComponent,
+    FeatureCardComponent,
   ],
 })
 export class AuditModule {

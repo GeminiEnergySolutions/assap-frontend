@@ -33,23 +33,13 @@
   </div>
 </div>
 <div class="container">
-  <ul ngbNav [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
-    <li ngbNavItem="preaudit">
-      <a ngbNavLink routerLink=".">Preaudit</a>
-    </li>
-    <li ngbNavItem="zones">
-      <a ngbNavLink routerLink="zones">Zone</a>
-    </li>
-    <li ngbNavItem="photos">
-      <a ngbNavLink routerLink="photos">Photos</a>
-    </li>
-    <li ngbNavItem="grants">
-      <a ngbNavLink routerLink="grants">Grants</a>
-    </li>
-    <li ngbNavItem="cleanenergyhub">
-      <a ngbNavLink routerLink="cleanenergyhub">Clean Energy Hub</a>
-    </li>
-  </ul>
+  <app-feature-card title="Pre-Audit" routerLink="preaudit"></app-feature-card>
+  <app-feature-card title="Grants" routerLink="grants"></app-feature-card>
+  <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub"></app-feature-card>
+
+  <hr/>
+
+  <app-zone-list></app-zone-list>
 
   <router-outlet></router-outlet>
 </div>
