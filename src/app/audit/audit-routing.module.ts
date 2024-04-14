@@ -22,18 +22,15 @@ const routes: Routes = [
     path: '',
     component: PreAuditComponent,
     children: [
+      {path: ':aid/preaudit', component: PreauditFormComponent},
+      {path: ':aid/grants', component: GrantComponent},
+      {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
       {
         path: ':aid',
         component: AuditComponent,
         children: [
-          {path: 'preaudit', component: PreauditFormComponent},
-          {path: 'zones', component: ZoneListComponent},
           {path: 'photos', component: PhotosComponent},
-          {path: 'cleanenergyhub', component: CleanEnergyHubComponent},
-          {path: 'grants', component: GrantComponent},
           {path: 'report', component: GenerateReportDialogComponent},
-          // {path: 'access', component: AccessControlComponent},
-          {path: '', pathMatch: 'full', redirectTo: 'preaudit'},
         ],
       },
     ],
