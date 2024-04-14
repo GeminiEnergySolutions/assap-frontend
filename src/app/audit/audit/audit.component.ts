@@ -13,6 +13,7 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 export class AuditComponent implements OnInit {
   audit?: any;
   schema?: any;
+  isMenuCollapsed = true;
 
   constructor(
     public auditService: AuditService,
