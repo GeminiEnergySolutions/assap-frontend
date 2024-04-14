@@ -1,17 +1,14 @@
 <div class="bg-dark text-light mb-3">
   <div class="d-flex align-items-center justify-content-between">
-    <a class="btn btn-link bi-chevron-left d-lg-none" routerLink=".."></a>
+    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
     <h5 class="bi-file-earmark-text px-3">
       Audit
     </h5>
     <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-link bi-list" id="dropdownBasic1" ngbDropdownToggle>
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
       </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <a ngbDropdownItem routerLink="report">Generate Report</a>
-        <input ngbDropdownItem type="file" id="image" accept="image/*">
-        <button ngbDropdownItem>Another Action</button>
-        <button ngbDropdownItem>Something else is here</button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
+        <a ngbDropdownItem class="bi-file-earmark-richtext" routerLink="report">Generate Report</a>
       </div>
     </div>
   </div>

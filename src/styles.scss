@@ -46,7 +46,6 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-/* Add this CSS to your component's styles or in your global stylesheet */
 .data-collector-item {
   list-style-type: none; /* Remove the dot before the checkbox */
   padding: 5px; /* Add some padding for better spacing */
@@ -61,6 +60,11 @@ input[type=number] {
 }
 .nav .nav-item.active::before {
   color: $primary;
+}
+
+// Hide dropdown arrow if the button is only an icon without text
+.dropdown-toggle[class*="bi-"]:empty::after {
+  display: none;
 }
 
 .icon-conserve::before {
