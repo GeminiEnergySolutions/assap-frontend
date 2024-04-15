@@ -2,7 +2,7 @@
   New Zone
 </button>
 @for (zone of zones; track zone) {
-  <app-feature-card [title]="zone.zoneName" [routerLink]="['zones', zone.zoneId]">
+  <app-feature-card [title]="zone.zoneName" [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]">
     <app-option-dropdown options style="z-index: 900">
       <button ngbDropdownItem (click)="rename(zone)">Rename</button>
       <button ngbDropdownItem (click)="duplicate(zone)">Duplicate</button>

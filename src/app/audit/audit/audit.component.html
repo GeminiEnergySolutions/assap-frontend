@@ -26,7 +26,7 @@
         Images
       </a>
       <div class="ms-3">
-        <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
+
       </div>
     </div>
   </div>
@@ -39,6 +39,7 @@
   <hr/>
 
   <app-zone-list></app-zone-list>
+  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 
   <router-outlet></router-outlet>
 </div>
