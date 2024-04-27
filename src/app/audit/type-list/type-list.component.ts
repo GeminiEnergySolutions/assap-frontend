@@ -38,9 +38,11 @@ export class TypeListComponent implements OnInit {
 
   private getEquipmentPercentage(equipment: any) {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService
-      .getPercentage(`?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`)
-      .subscribe(res => this.auditService.currentProgress = res);
+    this.auditService.getPercentage({
+      percentageType: 'equipment',
+      zoneId: this.route.snapshot.params.zid,
+      equipmentId: equipment.id,
+    }).subscribe(res => this.auditService.currentProgress = res);
   }
 
   rename(item: any) {

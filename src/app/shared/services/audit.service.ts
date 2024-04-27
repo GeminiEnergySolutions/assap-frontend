@@ -8,6 +8,14 @@ import {Audit} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 
+export type PercentageQuery =
+  | { percentageType: 'complete', auditId: number }
+  | { percentageType: 'preaudit', auditId: number }
+  | { percentageType: 'equipment', zoneId: number, equipmentId: number }
+  | { percentageType: 'form', subTypeId: number }
+  | { percentageType: 'zone', auditId: number }
+  | { percentageType: 'zone', zoneId: number }
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,8 +30,10 @@ export class AuditService {
   ) {
   }
 
-  getPercentage(queryParam: any): Observable<PercentageCompletion> {
-    return this.http.get<PercentageCompletion>(`${this.rootUrl}api/percentageCompletion${queryParam}`);
+  getPercentage(params: PercentageQuery): Observable<PercentageCompletion> {
+    return this.http.get<PercentageCompletion>(`${this.rootUrl}api/percentageCompletion`, {
+      params,
+    });
   }
 
   dataCollectors(auditId: number):Observable<any> {

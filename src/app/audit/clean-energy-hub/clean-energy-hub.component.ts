@@ -55,6 +55,9 @@ export class CleanEnergyHubComponent implements OnInit {
   }
 
   private getPercentage() {
-    this.auditService.getPercentage(`?percentageType=complete&auditId=${this.auditId}`).subscribe(res => this.auditService.currentProgress = res);
+    this.auditId && this.auditService.getPercentage({
+      percentageType: 'complete',
+      auditId: this.auditId,
+    }).subscribe(res => this.auditService.currentProgress = res);
   }
 }

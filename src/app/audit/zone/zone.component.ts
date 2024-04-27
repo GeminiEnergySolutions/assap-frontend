@@ -41,7 +41,10 @@ export class ZoneComponent implements OnInit {
 
   getZonePercentage() {
     this.route.params.pipe(
-      switchMap(({zid}) => this.auditService.getPercentage(`?percentageType=zone&zoneId=${zid}`)),
+      switchMap(({zid}) => this.auditService.getPercentage({
+        percentageType: 'zone',
+        zoneId: zid,
+      })),
     ).subscribe(res => {
       this.auditService.equipmentHeadingValue = 'Zone';
       this.auditService.currentProgress = res;
@@ -50,9 +53,11 @@ export class ZoneComponent implements OnInit {
 
   public getEquipmentPercentage(equipment: any) {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService
-      .getPercentage(`?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`)
-      .subscribe(res => this.auditService.currentProgress = res);
+    this.auditService.getPercentage({
+      percentageType: 'equipment',
+      zoneId: this.route.snapshot.params.zid,
+      equipmentId: equipment.id,
+    }).subscribe(res => this.auditService.currentProgress = res);
   }
 
   uploadPhoto(file: File) {
