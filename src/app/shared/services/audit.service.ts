@@ -1,12 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ToastService } from '@mean-stream/ngbx';
-import { Observable, map, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
 import {Audit} from '../model/audit.interface';
-import {CreateZoneData, ZoneData, ZoneDataResponse} from "../model/zone.interface";
+import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 
 @Injectable({
@@ -39,78 +38,6 @@ export class AuditService {
   }
   uploadPhoto(auditId: Number, formData: any): Observable<any> {
     return this.http.post(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`, formData);
-  }
-  // getPhotosFilter(auditId: Number,equipmentId: Number): Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/equipment_photos/audit/${auditId}/equipmentId/${equipmentId}/`);
-  // }
-
-  // uploadEnergyAuditFileData(formData: any): Observable<any> {
-  //   return this.http.post(`${this.rootUrl}api/energyauditfile/`, formData);
-  // }
-  // getCleanEnergyHubFileData(auditId: Number): Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/cleanenergyhubfiles/${auditId}/`);
-  // }
-  // createCleanEnergyHubFileData(formData: any, auditId: Number): Observable<any> {
-  //   return this.http.post(`${this.rootUrl}api/cleanenergyhubfiles/${auditId}/`, formData);
-  // }
-  // updateCleanEnergyHubFileData(formData: any, auditId: Number): Observable<any> {
-  //   return this.http.put(`${this.rootUrl}api/cleanenergyhubfiles/${auditId}/`, formData);
-  // }
-
-  // getUtilityInfo(auditId: number) {
-  //   return this.http.get(`${this.rootUrl}api/auditutilityinfo/${auditId}/`);
-  // }
-  // createUtilityInfo(auditId: number, objData: any) {
-  //   return this.http.post(
-  //     `${this.rootUrl}api/auditutilityinfo/${auditId}/`,
-  //     objData
-  //   );
-  // }
-  // updateUtilityInfo(auditId: number, objData: any) {
-  //   return this.http.put(
-  //     `${this.rootUrl}api/auditutilityinfo/${auditId}/`,
-  //     objData
-  //   );
-  // }
-
-  // auditEnergyReport(auditId: number): Observable<Blob | any> {
-  //   return this.http.get(`${this.rootUrl}api/energyAuditReport/${auditId}/`, { observe: 'response', responseType: 'blob' }).pipe(
-  //     map((response: any) => {
-  //       const contentType = response.headers.get('Content-Type') || '';
-  //       const isJsonResponse = contentType.includes('application/json');
-
-  //       if (isJsonResponse) {
-  //         const body = JSON.parse(response.body || '{}');
-  //         this.toaster.error(body.message || '{}', 'Error');
-  //         console.log('end')
-  //         return throwError(response.body.message);
-  //       } else {
-  //         return response.body as Blob;
-  //       }
-  //     })
-  //   );
-  // }
-  // feasibilityReport(auditId: number): Observable<Blob | any> {
-  //   return this.http.get(`${this.rootUrl}api/feasibilityReport/${auditId}/`, { observe: 'response', responseType: 'text' });
-  // }
-  // cehReport(auditId: number): Observable<any> {
-  //   return this.http.get(`${this.rootUrl}api/cehMicrogridSheet/${auditId}/`, { observe: 'response', responseType: 'text' });
-  // }
-
-  scrapping(auditId: number): Observable<any> {
-    return this.http.get(
-      `${this.rootUrl}api/scrapping/${auditId}/`
-    );
-  }
-
-  auditEnergyReport(auditId: number): Observable<Blob | any> {
-    return this.http.get(`${this.rootUrl}api/energyAuditReport/${auditId}/`);
-  }
-  feasibilityReport(auditId: number): Observable<Blob | any> {
-    return this.http.get(`${this.rootUrl}api/feasibilityReport/${auditId}/`);
-  }
-  cehReport(auditId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/cehMicrogridSheet/${auditId}/`);
   }
 
   getSingleAudit(auditId: number): Observable<{ data: Audit }> {
