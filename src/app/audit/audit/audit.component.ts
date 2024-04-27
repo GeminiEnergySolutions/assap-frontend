@@ -3,7 +3,6 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 
 @Component({
   selector: 'app-audit',
@@ -24,13 +23,13 @@ export class AuditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.getSingleAudit(aid))
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
     ).subscribe((res: any) => {
       this.audit = res.data;
     });
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.getPercentage(`?percentageType=complete&auditId=${aid}`))
+      switchMap(({aid}) => this.auditService.getPercentage(`?percentageType=complete&auditId=${aid}`)),
     ).subscribe(res => this.auditService.currentProgress = res);
   }
 
@@ -40,6 +39,17 @@ export class AuditComponent implements OnInit {
     formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe(() => {
       this.toastService.success('Upload Audit Photo', 'Successfully uploaded photo for Audit.');
+    });
+  }
+
+  rename() {
+    const name = prompt('Rename Audit', this.audit.auditName);
+    if (!name) {
+      return;
+    }
+    this.auditService.updateAudit({...this.audit, auditName: name}).subscribe(() => {
+      this.audit.auditName = name;
+      this.toastService.success('Rename Audit', 'Successfully renamed audit.');
     });
   }
 }

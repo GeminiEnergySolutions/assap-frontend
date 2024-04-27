@@ -8,7 +8,13 @@
       <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-        <a ngbDropdownItem class="bi-file-earmark-richtext" routerLink="report">Generate Report</a>
+        <a ngbDropdownItem class="bi-file-earmark-richtext" routerLink="report">
+          Generate Report
+        </a>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+          Rename
+        </button>
       </div>
     </div>
   </div>
