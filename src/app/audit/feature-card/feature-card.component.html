@@ -7,9 +7,31 @@
       <ng-content select="[options]"></ng-content>
     </div>
     <div class="card-text d-flex align-items-center">
-      <div class="bi-circle-half text-warning me-auto">
-        In Progress
-      </div>
+      @if (percentageQuery) {
+        @switch (progress?.percentage) {
+          @case (undefined) {
+            <div class="me-auto">
+              Loading Progress...
+            </div>
+          }
+          @case (0) {
+            <div class="bi-hourglass text-info me-auto">
+              To Do
+            </div>
+          }
+          @case (100) {
+            <div class="bi-check-circle text-success me-auto">
+              Completed
+            </div>
+          }
+          @default {
+            <div class="bi-circle-half text-warning me-auto">
+              In Progress
+            </div>
+          }
+        }
+      }
+
       <a class="stretched-link" [routerLink]="routerLink"></a>
     </div>
   </div>

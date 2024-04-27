@@ -38,7 +38,11 @@
   </div>
 </div>
 <div class="container">
-  <app-feature-card title="Pre-Audit" routerLink="preaudit"></app-feature-card>
+  <app-feature-card
+    title="Pre-Audit"
+    routerLink="preaudit"
+    [percentageQuery]="{percentageType: 'preaudit', auditId: route.snapshot.params.aid}"
+  ></app-feature-card>
   <app-feature-card title="Grants" routerLink="grants"></app-feature-card>
   <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub"></app-feature-card>
 
