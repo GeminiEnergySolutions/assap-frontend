@@ -46,7 +46,7 @@ export class TypeListComponent implements OnInit {
   }
 
   rename(item: any) {
-    const name = prompt('Rename Type', item.name);
+    const name = prompt('Rename Equipment', item.name);
     if (!name) {
       return;
     }

@@ -1,24 +1,23 @@
-<a routerLink="new" class="btn btn-primary mb-3">
-  New
+<a routerLink="new" class="btn btn-outline-secondary bi-plus mb-3 w-100">
+  Add {{ equipment?.equipmentName }}
 </a>
 <div class="list-group rounded-0">
   @for (item of subtypes; track item) {
-    <a class="list-group-item list-group-item-action d-flex align-items-center"
-       [routerLink]="'types/'+item.id" routerLinkActive="active">
-      <div class="flex-grow-1">
-        {{ item.name | titlecase }}
-        <small class="text-muted">{{ item.type?.name | titlecase }}</small>
-        @if (item.typeChild) {
-          <small> ({{ item.typeChild?.name | titlecase }}) </small>
-        }
-      </div>
-      <app-option-dropdown class="visible-hover">
-        <button ngbDropdownItem (click)="rename(item)">Rename</button>
+    <app-feature-card
+      [title]="item.name | titlecase"
+      [subtitle]="item.typeChild?.name ?? item.type?.name"
+      [routerLink]="['types', item.id]"
+      [percentageQuery]="{percentageType: 'form', subTypeId: item.id}"
+    >
+      <app-option-dropdown options style="z-index: 900">
+        <button ngbDropdownItem class="bi-pencil-square" (click)="rename(item)">
+          Rename
+        </button>
         <ng-container>
           <div class="dropdown-divider"></div>
-          <button ngbDropdownItem class="text-danger" (click)="delete(item)">Delete</button>
+          <button ngbDropdownItem class="bi-trash text-danger" (click)="delete(item)">Delete</button>
         </ng-container>
       </app-option-dropdown>
-    </a>
+    </app-feature-card>
   }
 </div>
