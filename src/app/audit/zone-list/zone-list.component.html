@@ -8,11 +8,17 @@
     [percentageQuery]="{percentageType: 'zone', zoneId: zone.zoneId}"
   >
     <app-option-dropdown options style="z-index: 900">
-      <button ngbDropdownItem (click)="rename(zone)">Rename</button>
-      <button ngbDropdownItem (click)="duplicate(zone)">Duplicate</button>
+      <button ngbDropdownItem class="bi-pencil-square" (click)="rename(zone)">
+        Rename
+      </button>
+      <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
+        Duplicate
+      </button>
       <ng-container>
         <div class="dropdown-divider"></div>
-        <button ngbDropdownItem class="text-danger" (click)="delete(zone)">Delete</button>
+        <button ngbDropdownItem class="text-danger bi-trash" (click)="delete(zone)">
+          Delete
+        </button>
       </ng-container>
     </app-option-dropdown>
   </app-feature-card>
