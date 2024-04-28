@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-type-list',
@@ -17,6 +18,7 @@ export class TypeListComponent implements OnInit {
   constructor(
     private auditService: AuditService,
     protected equipmentService: EquipmentService,
+    private toastService: ToastService,
     private route: ActivatedRoute,
   ) {
   }
@@ -46,7 +48,8 @@ export class TypeListComponent implements OnInit {
   }
 
   rename(item: any) {
-    const name = prompt('Rename Equipment', item.name);
+    const kind = item.typeChild?.name ?? item.type?.name;
+    const name = prompt(`Rename ${kind}`, item.name);
     if (!name) {
       return;
     }
@@ -54,8 +57,8 @@ export class TypeListComponent implements OnInit {
     this.equipmentService.updateEquipment({...item, name}).subscribe(res => {
       const index = this.subtypes.indexOf(item);
       this.subtypes[index] = res;
+      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
     });
-
   }
 
   delete(item: any) {

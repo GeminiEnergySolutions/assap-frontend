@@ -100,6 +100,20 @@ export class TypeComponent implements OnInit {
   }
 
   rename() {
-    // TODO
+    const equipment = this.equipment;
+    if (!equipment) {
+      return;
+    }
+
+    const kind = equipment?.typeChild?.name ?? equipment?.type?.name;
+    const name = prompt(`Rename ${kind}`, equipment.name);
+    if (!name) {
+      return;
+    }
+
+    this.equipmentService.updateEquipment({...equipment, name}).subscribe(res => {
+      equipment && (equipment.name = res.name);
+      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
+    });
   }
 }

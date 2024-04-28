@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a class="btn btn-link bi-chevron-left" routerLink="../.."></a>
     <div class="bi-device-ssd px-3">
-      {{ equipment?.type ? equipment?.type?.name : equipment?.typeChild?.name | titlecase }}
+      {{ equipment?.typeChild?.name ?? equipment?.type?.name }}
     </div>
     <div ngbDropdown class="d-inline-block">
       <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
