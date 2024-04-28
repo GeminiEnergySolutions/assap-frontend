@@ -42,7 +42,6 @@
   ></app-feature-card>
   <app-feature-card title="Grants" routerLink="grants"></app-feature-card>
   <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub"></app-feature-card>
-  <hr/>
-  <app-zone-list></app-zone-list>
+  <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{percentageType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
   <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 </div>
