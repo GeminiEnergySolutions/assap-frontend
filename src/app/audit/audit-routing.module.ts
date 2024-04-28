@@ -39,11 +39,11 @@ const routes: Routes = [
     path: ':aid/zones',
     component: PreZoneComponent,
     children: [
+      {path: ':zid/details', component: ZoneFormComponent},
       {
         path: ':zid',
         component: ZoneComponent,
         children: [
-          {path: '', pathMatch: 'full', component: ZoneFormComponent},
           {path: 'equipments/:eid', component: TypeListComponent},
           {path: 'equipments/:eid/new', component: CreateEquipmentComponent},
         ],
