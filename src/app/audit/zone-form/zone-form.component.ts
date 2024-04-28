@@ -63,9 +63,9 @@ export class ZoneFormComponent implements OnInit {
   }
 
   private getPercentage() {
-    this.auditId && this.auditService.getPercentage({
+    this.zoneId && this.auditService.getPercentage({
       percentageType: 'zone',
-      auditId: this.auditId, // TODO why not the zone id here?
+      zoneId: this.zoneId,
     }).subscribe(res => this.progress = res);
   }
 }
