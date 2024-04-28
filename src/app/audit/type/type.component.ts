@@ -98,4 +98,8 @@ export class TypeComponent implements OnInit {
       subTypeId: this.equipmentId,
     }).subscribe(res => this.progress = res);
   }
+
+  rename() {
+    // TODO
+  }
 }

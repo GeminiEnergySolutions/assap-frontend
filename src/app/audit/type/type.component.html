@@ -1,22 +1,41 @@
-<div class="container">
-  <h1 class="col">
-    <a class="bi-chevron-left d-lg-none" routerLink="../.."></a>
-    {{ equipment?.name | titlecase }}
-    <span class="text-muted small">
+<div class="bg-dark text-light mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <a class="btn btn-link bi-chevron-left" routerLink="../.."></a>
+    <div class="bi-device-ssd px-3">
       {{ equipment?.type ? equipment?.type?.name : equipment?.typeChild?.name | titlecase }}
-    </span>
-  </h1>
-
-  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
-
-  @if (progress) {
-    <app-progress-bar class="mb-3" label="Equipment" [progress]="progress"></app-progress-bar>
-  }
-
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
+        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+          Rename
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="p-3">
+    <h1>
+      {{ equipment?.name | titlecase }}
+    </h1>
+    <div class="d-flex align-items-center">
+      <div class="me-3 flex-grow-1">
+        @if (progress) {
+          <app-progress-bar [progress]="progress"></app-progress-bar>
+        }
+      </div>
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
+        Images
+      </a>
+    </div>
+  </div>
+</div>
+<div class="container">
   <app-form
     [typeSchema]="typeSchema"
     [formData]="formData"
     [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"
     (saved)="save()"
   ></app-form>
+  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 </div>
