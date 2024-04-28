@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AuditService, PercentageQuery} from '../../shared/services/audit.service';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {BehaviorSubject, of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-feature-card',
@@ -11,7 +12,7 @@ export class FeatureCardComponent implements OnInit {
   @Input({required: true}) title!: string;
   @Input({required: true}) routerLink!: any[] | string;
 
-  @Input() percentageQuery?: PercentageQuery;
+  readonly percentageQuery$ = new BehaviorSubject<PercentageQuery | undefined>(undefined);
 
   progress?: PercentageCompletion;
 
@@ -20,8 +21,15 @@ export class FeatureCardComponent implements OnInit {
   ) {
   }
 
+  @Input()
+  set percentageQuery(query: PercentageQuery) {
+    this.percentageQuery$.next(query);
+  }
+
   ngOnInit() {
-    this.percentageQuery && this.auditService.getPercentage(this.percentageQuery).subscribe(res => {
+    this.percentageQuery$.pipe(
+      switchMap(query => query ? this.auditService.getPercentage(query) : of(undefined)),
+    ).subscribe(res => {
       this.progress = res;
     });
   }
