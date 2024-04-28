@@ -40,6 +40,7 @@ const routes: Routes = [
     component: PreZoneComponent,
     children: [
       {path: ':zid/details', component: ZoneFormComponent},
+      {path: ':zid/photos', component: PhotosComponent},
       {path: ':zid', component: ZoneComponent},
     ],
   },
