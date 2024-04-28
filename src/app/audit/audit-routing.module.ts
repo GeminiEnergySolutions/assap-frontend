@@ -40,20 +40,16 @@ const routes: Routes = [
     component: PreZoneComponent,
     children: [
       {path: ':zid/details', component: ZoneFormComponent},
-      {
-        path: ':zid',
-        component: ZoneComponent,
-        children: [
-          {path: 'equipments/:eid', component: TypeListComponent},
-          {path: 'equipments/:eid/new', component: CreateEquipmentComponent},
-        ],
-      },
+      {path: ':zid', component: ZoneComponent},
     ],
   },
   {
     path: ':aid/zones/:zid/equipments/:eid',
     component: PreTypeComponent,
     children: [
+      {
+        path: 'new', component: CreateEquipmentComponent,
+      },
       {
         path: 'types/:tid', component: TypeComponent,
         // canDeactivate: [UnsavedChangesGuard]
