@@ -7,4 +7,12 @@
     </ol>
   </nav>
   <app-zone-list list></app-zone-list>
+  <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
+    <h2>
+      Please select an zone to continue.
+    </h2>
+    <h5>
+      Or go back to the <a routerLink="..">{{audit?.auditName | titlecase}}</a> audit.
+    </h5>
+  </div>
 </app-master-detail>
