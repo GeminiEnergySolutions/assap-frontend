@@ -17,7 +17,6 @@ export class EquipmentService {
     equipmentName: '',
     deleteStatus: true,
   };
-  equipments: EquipmentCategory[] = [];
 
   constructor(
     private http: HttpClient,

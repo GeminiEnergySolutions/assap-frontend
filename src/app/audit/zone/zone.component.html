@@ -1,31 +1,48 @@
-<div class="container">
-  <h1>
-    <a class="bi-chevron-left d-lg-none" routerLink="./../.."></a>
-    {{ zone?.zoneName | titlecase }}
-  </h1>
-
-  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
-
-  @if (auditService.currentProgress) {
-    <app-progress-bar class="mb-3" [label]="auditService.equipmentHeadingValue"
-                      [progress]="auditService.currentProgress"></app-progress-bar>
-  }
-
-  <ul ngbNav [activeId]="equipmentService.equipment.id" class="nav-tabs">
-    <li ngbNavItem="">
-      <a ngbNavLink routerLink="." (click)="getZonePercentage()">
-        Zone Details
+<div class="bg-dark text-light mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
+    <div class="bi-dice-4 px-3">
+      Zone
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
+        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+          Rename
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="p-3">
+    <h1>
+      {{ zone?.zoneName | titlecase }}
+    </h1>
+    <div class="d-flex align-items-center">
+      <div class="me-3 flex-grow-1">
+        @if (progress) {
+          <app-progress-bar label="Zone" [progress]="progress"></app-progress-bar>
+        }
+      </div>
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
+        Images
       </a>
-    </li>
-    @for (item of equipmentService.equipments; track item) {
-      <li [ngbNavItem]="item.id">
-        <a ngbNavLink [routerLink]="['equipments', item.id]"
-           (click)="route.firstChild?.snapshot?.params?.eid !== item.id ? getEquipmentPercentage(item) : null">
-          {{ item.equipmentName | titlecase }}
-        </a>
-      </li>
-    }
-  </ul>
-
-  <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <app-feature-card
+    title="Zone Details"
+    routerLink="details"
+    [percentageQuery]="{percentageType: 'zone', zoneId: route.snapshot.params.zid}"
+  ></app-feature-card>
+  <hr/>
+  @for (equipment of equipments; track equipment) {
+    <app-feature-card
+      [title]="equipment.equipmentName | titlecase"
+      [routerLink]="['equipments', equipment.id]"
+      [percentageQuery]="{percentageType: 'equipment', zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
+    ></app-feature-card>
+  }
+  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 </div>

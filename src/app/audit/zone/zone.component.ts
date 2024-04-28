@@ -5,59 +5,58 @@ import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
   selector: 'app-zone',
   templateUrl: './zone.component.html',
-  styleUrls: ['./zone.component.scss']
+  styleUrls: ['./zone.component.scss'],
 })
 export class ZoneComponent implements OnInit {
 
   zone: any;
+  equipments: EquipmentCategory[] = [];
+  progress?: PercentageCompletion;
 
   constructor(
     private auditZoneService: AuditZoneService,
-    public auditService: AuditService,
-    public equipmentService: EquipmentService,
+    private auditService: AuditService,
+    private equipmentService: EquipmentService,
+    private zoneService: AuditZoneService,
     public route: ActivatedRoute,
     private toastService: ToastService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({ aid, zid }) => this.auditZoneService.getSingleZone(zid)),
-    ).subscribe((zone: any) => {
-      this.zone = zone.data;
-    });
-
-    this.route.params.pipe(
-      switchMap(({ aid, zid }) => this.equipmentService.getEquipmentCategories()),
+      switchMap(({zid}) => this.auditZoneService.getSingleZone(zid)),
     ).subscribe(res => {
-      this.equipmentService.equipments = res.data;
+      this.zone = res.data;
     });
 
-    this.getZonePercentage();
-  }
+    this.equipmentService.getEquipmentCategories().subscribe(res => {
+      this.equipments = res.data;
+    });
 
-  getZonePercentage() {
     this.route.params.pipe(
       switchMap(({zid}) => this.auditService.getPercentage({
         percentageType: 'zone',
         zoneId: zid,
       })),
-    ).subscribe(res => {
-      this.auditService.equipmentHeadingValue = 'Zone';
-      this.auditService.currentProgress = res;
-    });
+    ).subscribe(res => this.progress = res);
   }
 
-  public getEquipmentPercentage(equipment: any) {
-    this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService.getPercentage({
-      percentageType: 'equipment',
-      zoneId: this.route.snapshot.params.zid,
-      equipmentId: equipment.id,
-    }).subscribe(res => this.auditService.currentProgress = res);
+  rename() {
+    const name = prompt('Rename Zone', this.zone.zoneName);
+    if (!name) {
+      return;
+    }
+    this.zoneService.updateAuditZone({...this.zone, zoneName: name}, this.zone.zoneId).subscribe(() => {
+      this.zone.zoneName = name;
+      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
+    });
   }
 
   uploadPhoto(file: File) {
@@ -67,7 +66,7 @@ export class ZoneComponent implements OnInit {
     formData.append('zoneId', zid);
     formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(aid, formData).subscribe(() => {
-      this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`)
+      this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`);
     });
   }
 }
