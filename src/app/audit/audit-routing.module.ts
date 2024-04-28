@@ -25,11 +25,11 @@ const routes: Routes = [
       {path: ':aid/preaudit', component: PreauditFormComponent},
       {path: ':aid/grants', component: GrantComponent},
       {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
+      {path: ':aid/photos', component: PhotosComponent},
       {
         path: ':aid',
         component: AuditComponent,
         children: [
-          {path: 'photos', component: PhotosComponent},
           {path: 'report', component: GenerateReportDialogComponent},
         ],
       },
