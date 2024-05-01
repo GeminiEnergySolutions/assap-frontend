@@ -5,8 +5,8 @@
     </ol>
   </nav>
   <div list>
-    <button class="btn btn-primary mb-3" (click)="create()">
-      New Audit
+    <button class="btn btn-outline-secondary w-100 bi-plus mb-3" (click)="create()">
+      Add Audit
     </button>
     <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
       @for (section of audits | keyvalue; track section.key) {
