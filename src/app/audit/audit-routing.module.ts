@@ -51,10 +51,8 @@ const routes: Routes = [
       {
         path: 'new', component: CreateEquipmentComponent,
       },
-      {
-        path: 'types/:tid', component: TypeComponent,
-        // canDeactivate: [UnsavedChangesGuard]
-      },
+      {path: 'types/:tid/photos', component: PhotosComponent},
+      {path: 'types/:tid', component: TypeComponent,},
     ],
   },
 ];
