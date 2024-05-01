@@ -36,15 +36,6 @@ export class AuditComponent implements OnInit {
     ).subscribe(res => this.auditService.currentProgress = res);
   }
 
-  uploadPhoto(file: File) {
-    const formData = new FormData();
-    formData.append('auditId', this.route.snapshot.params.aid);
-    formData.append('photo', file, file.name);
-    this.auditService.uploadPhoto(this.route.snapshot.params.aid, formData).subscribe(() => {
-      this.toastService.success('Upload Audit Photo', 'Successfully uploaded photo for Audit.');
-    });
-  }
-
   rename() {
     const name = prompt('Rename Audit', this.audit.auditName);
     if (!name) {
