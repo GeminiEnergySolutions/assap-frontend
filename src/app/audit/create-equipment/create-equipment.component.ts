@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {ActivatedRoute} from '@angular/router';
-import {EquipmentSubType, EquipmentType} from '../../shared/model/equipment.interface';
+import {EquipmentType} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
@@ -15,7 +15,6 @@ export class CreateEquipmentComponent implements OnInit {
 
   name = '';
   type?: EquipmentType;
-  subType?: EquipmentSubType;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,18 +35,8 @@ export class CreateEquipmentComponent implements OnInit {
     });
   }
 
-  loadSubtypes(type: EquipmentType) {
-    if (type._subTypes) {
-      return;
-    }
-
-    this.equipmentService.getEquipmentSubTypes(type.id).subscribe(res => {
-      type._subTypes = res.data;
-    });
-  }
-
   isValid() {
-    return this.name && this.type && (!this.type._subTypes?.length || this.subType);
+    return this.name && this.type;
   }
 
   create() {
@@ -60,7 +49,6 @@ export class CreateEquipmentComponent implements OnInit {
       auditId: this.route.snapshot.params.aid,
       zoneId: this.route.snapshot.params.zid,
       typeId: type.id,
-      typeChildId: this.subType?.id,
       equipmentId: this.types[0].equipmentId,
       name: this.name,
     }).subscribe(() => {
