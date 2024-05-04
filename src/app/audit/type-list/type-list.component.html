@@ -5,7 +5,7 @@
   @for (item of subtypes; track item) {
     <app-feature-card
       [title]="item.name | titlecase"
-      [subtitle]="item.typeChild?.name ?? item.type?.name"
+      [subtitle]="item.type?.name"
       [routerLink]="['types', item.id]"
       [percentageQuery]="{percentageType: 'form', subTypeId: item.id}"
     >

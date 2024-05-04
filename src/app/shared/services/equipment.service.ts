@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {SchemaSection} from '../model/schema.interface';
-import {Equipment, EquipmentCategory, EquipmentSubType, EquipmentType} from '../model/equipment.interface';
+import {Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +37,6 @@ export class EquipmentService {
    */
   getEquipmentType(categoryId: number): Observable<{ data: EquipmentType[] }> {
     return this.http.get<{ data: EquipmentType[] }>(`${this.rootUrl}api/equipmentTypesByEquipmentId?equipmentId=${categoryId}`);
-  }
-
-  getEquipmentSubTypes(typeId: number): Observable<{ data: EquipmentSubType[] }> {
-    return this.http.get<{ data: EquipmentSubType[] }>(`${this.rootUrl}api/equipmentTypeChild/${typeId}/`);
   }
 
   getEquipment(id: number): Observable<Equipment> {
