@@ -15,6 +15,7 @@ export type PercentageQuery =
   | { percentageType: 'form', subTypeId: number }
   | { percentageType: 'zone', auditId: number }
   | { percentageType: 'zone', zoneId: number }
+  | { percentageType: 'zoneDetails', zoneId: number }
 
 @Injectable({
   providedIn: 'root',
