@@ -8,9 +8,7 @@ export interface Equipment {
   zoneId: number;
   equipmentId: number;
   typeId: number;
-  type?: EquipmentType; // undefined if typeChildId is set
-  typeChildId?: number | null;
-  typeChild?: EquipmentSubType;
+  type: EquipmentType;
 }
 
 /**
@@ -22,19 +20,6 @@ export interface EquipmentType {
   deleteStatus: boolean;
   equipmentId: number;
   equipment: EquipmentCategory;
-
-  _subTypes?: EquipmentSubType[];
-}
-
-/**
- * A sub-type of equipment, e.g. "Compact Fluorescent" (for the "Fluorescent" lighting type).
- */
-export interface EquipmentSubType {
-  id: number;
-  name: string;
-  deleteStatus: boolean;
-  typeId: number;
-  equipmentType: EquipmentType;
 }
 
 /**

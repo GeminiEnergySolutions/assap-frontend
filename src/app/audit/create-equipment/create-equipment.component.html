@@ -10,24 +10,10 @@
       </label>
       @for (item of types; track item.id) {
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="type" id="type-{{ item.id }}" [value]="item" [(ngModel)]="type" (change)="loadSubtypes(item)">
+          <input class="form-check-input" type="radio" name="type" id="type-{{ item.id }}" [value]="item" [(ngModel)]="type">
           <label class="form-check-label" for="type-{{ item.id }}">
             {{ item.name }}
           </label>
-          @if (item === type && item?._subTypes?.length) {
-            <label class="form-label d-block text-muted">
-              Please select subtype
-              <span class="text-danger" ngbTooltip="Required">*</span>
-            </label>
-            @for (sub of item?._subTypes; track sub.id) {
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" id="subtype-{{ sub.id }}" [value]="sub" [(ngModel)]="subType">
-                <label class="form-check-label" for="subtype-{{ sub.id }}">
-                  {{ sub.name }}
-                </label>
-              </div>
-            }
-          }
         </div>
       }
     </div>

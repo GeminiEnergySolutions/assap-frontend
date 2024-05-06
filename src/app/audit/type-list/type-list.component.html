@@ -8,9 +8,6 @@
       <div class="flex-grow-1">
         {{ item.name | titlecase }}
         <small class="text-muted">{{ item.type?.name | titlecase }}</small>
-        @if (item.typeChild) {
-          <small> ({{ item.typeChild?.name | titlecase }}) </small>
-        }
       </div>
       <app-option-dropdown class="visible-hover">
         <button ngbDropdownItem (click)="rename(item)">Rename</button>

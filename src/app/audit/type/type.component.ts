@@ -34,7 +34,7 @@ export class TypeComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
       tap(equipment => this.equipment = equipment),
-      switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.typeChild?.equipmentType.id ?? equipment.type?.id ?? equipment.typeId)),
+      switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.type?.id ?? equipment.typeId)),
     ).subscribe(schema => {
       this.typeSchema = schema;
     });
