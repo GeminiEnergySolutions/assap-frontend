@@ -12,7 +12,7 @@ export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
   | { percentageType: 'preaudit', auditId: number }
   | { percentageType: 'equipment', zoneId: number, equipmentId: number }
-  | { percentageType: 'form', subTypeId: number }
+  | { percentageType: 'form', zoneId: number, subTypeId: number }
   | { percentageType: 'zone', auditId: number }
   | { percentageType: 'zone', zoneId: number }
   | { percentageType: 'zoneDetails', zoneId: number }

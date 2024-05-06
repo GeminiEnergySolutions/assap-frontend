@@ -50,8 +50,9 @@ export class TypeComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({tid}) => this.auditService.getPercentage({
+      switchMap(({zid, tid}) => this.auditService.getPercentage({
         percentageType: 'form',
+        zoneId: zid,
         subTypeId: tid,
       })),
     ).subscribe(res => this.progress = res);
@@ -95,6 +96,7 @@ export class TypeComponent implements OnInit {
   private getPercentage() {
     this.equipmentId && this.auditService.getPercentage({
       percentageType: 'form',
+      zoneId: this.route.snapshot.params.zid,
       subTypeId: this.equipmentId,
     }).subscribe(res => this.progress = res);
   }

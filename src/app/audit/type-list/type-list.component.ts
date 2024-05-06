@@ -19,7 +19,7 @@ export class TypeListComponent implements OnInit {
     private auditService: AuditService,
     protected equipmentService: EquipmentService,
     private toastService: ToastService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
   ) {
   }
 
