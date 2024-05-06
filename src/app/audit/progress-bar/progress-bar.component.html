@@ -1,8 +1,30 @@
-<div class="mb-3">
-  {{ label }} Progress: {{ progress.completedFields }} / {{ progress.totalFields }}
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" [style.width.%]="progress.percentage">
-      {{ progress.percentage }} %
+@switch (progress?.percentage) {
+  @case (undefined) {
+    <div>
+      Loading Progress...
     </div>
+  }
+  @case (0) {
+    <div class="bi-hourglass text-info">
+      To Do
+    </div>
+  }
+  @case (100) {
+    <div class="bi-check-circle text-success">
+      Completed
+    </div>
+  }
+  @default {
+    <div class="bi-circle-half text-warning">
+      In Progress
+    </div>
+  }
+}
+<div class="d-flex align-items-center">
+  <div class="progress flex-grow-1 bg-secondary" style="height: 0.25rem">
+    <div class="progress-bar" role="progressbar" [style.width.%]="progress?.percentage"></div>
+  </div>
+  <div class="ms-2 text-muted small">
+    {{ progress?.completedFields }} / {{ progress?.totalFields }}
   </div>
 </div>

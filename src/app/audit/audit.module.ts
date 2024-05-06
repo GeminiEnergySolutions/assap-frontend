@@ -3,11 +3,11 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {FormsModule as AppFormsModule} from '../shared/form/form.module';
 import {
-  NgbAccordionModule,
-  NgbDropdownModule,
-  NgbNavModule,
-  NgbTooltipModule,
-  NgbTypeaheadModule,
+    NgbAccordionModule, NgbCollapse,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbTooltipModule,
+    NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {AuditRoutingModule} from './audit-routing.module';
@@ -34,22 +34,24 @@ import {PhotoCaptureComponent} from './photo-capture/photo-capture.component';
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import { CreateEquipmentComponent } from './create-equipment/create-equipment.component';
+import { FeatureCardComponent } from './feature-card/feature-card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatPaginatorModule,
-    FormsModule,
-    NgbNavModule,
-    NgbDropdownModule,
-    AuditRoutingModule,
-    NgbTooltipModule,
-    AppFormsModule,
-    NgbTypeaheadModule,
-    ModalModule,
-    NgbAccordionModule,
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatPaginatorModule,
+        FormsModule,
+        NgbNavModule,
+        NgbDropdownModule,
+        AuditRoutingModule,
+        NgbTooltipModule,
+        AppFormsModule,
+        NgbTypeaheadModule,
+        ModalModule,
+        NgbAccordionModule,
+        NgbCollapse,
+    ],
   providers: [
     AuditZoneService,
     EquipmentService,
@@ -74,6 +76,7 @@ import { CreateEquipmentComponent } from './create-equipment/create-equipment.co
     ProgressBarComponent,
     PreauditFormComponent,
     CreateEquipmentComponent,
+    FeatureCardComponent,
   ],
 })
 export class AuditModule {

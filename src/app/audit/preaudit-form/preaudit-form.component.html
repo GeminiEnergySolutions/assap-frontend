@@ -1,9 +1,30 @@
-@if (progress) {
-  <app-progress-bar label="Preaudit" [progress]="progress"></app-progress-bar>
-}
-<app-form
-  [typeSchema]="typeSchema"
-  [formData]="formData"
-  [formId]="'audits/' + auditId + '/preaudit'"
-  (saved)="save()"
-></app-form>
+<div class="bg-dark text-light mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
+    <div class="bi-file-earmark-text px-3">
+      Pre-Audit
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
+        <div class="dropdown-item-text">
+          No actions available.
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (progress) {
+    <div class="p-3">
+      <app-progress-bar label="Preaudit" [progress]="progress"></app-progress-bar>
+    </div>
+  }
+</div>
+<div class="container">
+  <app-form
+    [typeSchema]="typeSchema"
+    [formData]="formData"
+    [formId]="'audits/' + auditId + '/preaudit'"
+    (saved)="save()"
+  ></app-form>
+</div>

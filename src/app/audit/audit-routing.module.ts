@@ -22,18 +22,15 @@ const routes: Routes = [
     path: '',
     component: PreAuditComponent,
     children: [
+      {path: ':aid/preaudit', component: PreauditFormComponent},
+      {path: ':aid/grants', component: GrantComponent},
+      {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
+      {path: ':aid/photos', component: PhotosComponent},
       {
         path: ':aid',
         component: AuditComponent,
         children: [
-          {path: 'preaudit', component: PreauditFormComponent},
-          {path: 'zones', component: ZoneListComponent},
-          {path: 'photos', component: PhotosComponent},
-          {path: 'cleanenergyhub', component: CleanEnergyHubComponent},
-          {path: 'grants', component: GrantComponent},
           {path: 'report', component: GenerateReportDialogComponent},
-          // {path: 'access', component: AccessControlComponent},
-          {path: '', pathMatch: 'full', redirectTo: 'preaudit'},
         ],
       },
     ],
@@ -42,15 +39,9 @@ const routes: Routes = [
     path: ':aid/zones',
     component: PreZoneComponent,
     children: [
-      {
-        path: ':zid',
-        component: ZoneComponent,
-        children: [
-          {path: '', pathMatch: 'full', component: ZoneFormComponent},
-          {path: 'equipments/:eid', component: TypeListComponent},
-          {path: 'equipments/:eid/new', component: CreateEquipmentComponent},
-        ],
-      },
+      {path: ':zid/details', component: ZoneFormComponent},
+      {path: ':zid/photos', component: PhotosComponent},
+      {path: ':zid', component: ZoneComponent},
     ],
   },
   {
@@ -58,9 +49,10 @@ const routes: Routes = [
     component: PreTypeComponent,
     children: [
       {
-        path: 'types/:tid', component: TypeComponent,
-        // canDeactivate: [UnsavedChangesGuard]
+        path: 'new', component: CreateEquipmentComponent,
       },
+      {path: 'types/:tid/photos', component: PhotosComponent},
+      {path: 'types/:tid', component: TypeComponent,},
     ],
   },
 ];

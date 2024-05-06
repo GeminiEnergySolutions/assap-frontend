@@ -1,38 +1,47 @@
-<div class="container">
-  <div class="row">
-    <h1>
-      <a class="bi-chevron-left d-lg-none" routerLink=".."></a>
-      {{ audit?.auditName | titlecase }}
-    </h1>
-  </div>
-  <div class="d-flex mb-3">
-    <a class="btn btn-primary me-2" routerLink="report">
-      Generate Report
-    </a>
-    <div class="w-auto">
-      <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
+<div class="bg-dark text-light mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
+    <div class="bi-file-earmark-text px-3">
+      Audit
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
+        <a ngbDropdownItem class="bi-file-earmark-richtext" routerLink="report">
+          Generate Report
+        </a>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+          Rename
+        </button>
+      </div>
     </div>
   </div>
-  @if (auditService.currentProgress) {
-    <app-progress-bar class="mb-3" label="Audit" [progress]="auditService.currentProgress"></app-progress-bar>
-  }
-  <ul ngbNav [activeId]="route.firstChild?.routeConfig?.path ?? 'preaudit'" class="nav-tabs">
-    <li ngbNavItem="preaudit">
-      <a ngbNavLink routerLink=".">Preaudit</a>
-    </li>
-    <li ngbNavItem="zones">
-      <a ngbNavLink routerLink="zones">Zone</a>
-    </li>
-    <li ngbNavItem="photos">
-      <a ngbNavLink routerLink="photos">Photos</a>
-    </li>
-    <li ngbNavItem="grants">
-      <a ngbNavLink routerLink="grants">Grants</a>
-    </li>
-    <li ngbNavItem="cleanenergyhub">
-      <a ngbNavLink routerLink="cleanenergyhub">Clean Energy Hub</a>
-    </li>
-  </ul>
-
+  <div class="p-3">
+    <h1>
+      {{ audit?.auditName | titlecase }}
+    </h1>
+    <div class="d-flex align-items-center">
+      <div class="me-3 flex-grow-1">
+        @if (auditService.currentProgress) {
+          <app-progress-bar label="Audit" [progress]="auditService.currentProgress"></app-progress-bar>
+        }
+      </div>
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
+        Images
+      </a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <app-feature-card
+    title="Pre-Audit"
+    routerLink="preaudit"
+    [percentageQuery]="{percentageType: 'preaudit', auditId: route.snapshot.params.aid}"
+  ></app-feature-card>
+  <app-feature-card title="Grants" routerLink="grants"></app-feature-card>
+  <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub"></app-feature-card>
+  <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{percentageType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
   <router-outlet></router-outlet>
 </div>

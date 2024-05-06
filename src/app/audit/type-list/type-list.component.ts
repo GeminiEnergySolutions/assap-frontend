@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-type-list',
@@ -17,7 +18,8 @@ export class TypeListComponent implements OnInit {
   constructor(
     private auditService: AuditService,
     protected equipmentService: EquipmentService,
-    private route: ActivatedRoute,
+    private toastService: ToastService,
+    public route: ActivatedRoute,
   ) {
   }
 
@@ -38,13 +40,16 @@ export class TypeListComponent implements OnInit {
 
   private getEquipmentPercentage(equipment: any) {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
-    this.auditService
-      .getPercentage(`?percentageType=equipment&zoneId=${this.route.snapshot.params.zid}&equipmentId=${equipment.id}`)
-      .subscribe(res => this.auditService.currentProgress = res);
+    this.auditService.getPercentage({
+      percentageType: 'equipment',
+      zoneId: this.route.snapshot.params.zid,
+      equipmentId: equipment.id,
+    }).subscribe(res => this.auditService.currentProgress = res);
   }
 
   rename(item: any) {
-    const name = prompt('Rename Type', item.name);
+    const kind = item.typeChild?.name ?? item.type?.name;
+    const name = prompt(`Rename ${kind}`, item.name);
     if (!name) {
       return;
     }
@@ -52,8 +57,8 @@ export class TypeListComponent implements OnInit {
     this.equipmentService.updateEquipment({...item, name}).subscribe(res => {
       const index = this.subtypes.indexOf(item);
       this.subtypes[index] = res;
+      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
     });
-
   }
 
   delete(item: any) {

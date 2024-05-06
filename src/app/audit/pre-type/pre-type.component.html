@@ -5,8 +5,16 @@
       <li class="breadcrumb-item"><a routerLink="../../../..">{{audit?.auditName | titlecase}}</a></li>
       <li class="breadcrumb-item"><a routerLink="../../..">Zones</a></li>
       <li class="breadcrumb-item"><a routerLink="../..">{{zone?.zoneName | titlecase}}</a></li>
-      <li class="breadcrumb-item"><a routerLink=".">{{equipment?.equipmentName | titlecase}}</a></li>
+      <li class="breadcrumb-item">{{equipment?.equipmentName | titlecase}}</li>
     </ol>
   </nav>
   <app-type-list list></app-type-list>
+  <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
+    <h2>
+      Please select an equipment to continue.
+    </h2>
+    <h5>
+      Or go back to the <a routerLink="..">{{zone?.zoneName | titlecase}}</a> zone.
+    </h5>
+  </div>
 </app-master-detail>

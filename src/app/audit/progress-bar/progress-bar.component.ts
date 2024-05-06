@@ -7,6 +7,5 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
   styleUrl: './progress-bar.component.scss'
 })
 export class ProgressBarComponent {
-  @Input({required: true}) progress!: PercentageCompletion;
-  @Input({required: true}) label!: string;
+  @Input({required: true}) progress?: PercentageCompletion;
 }

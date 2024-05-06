@@ -1,0 +1,22 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <h5 class="card-title me-auto">
+        {{ title }}
+        @if (subtitle) {
+          <span class="small text-muted">
+            {{ subtitle }}
+          </span>
+        }
+      </h5>
+      <ng-content select="[options]"></ng-content>
+    </div>
+    <div class="card-text d-flex align-items-center">
+      @if (percentageQuery$.value) {
+        <app-progress-bar class="flex-grow-1" [progress]="progress"></app-progress-bar>
+      }
+
+      <a class="stretched-link" [routerLink]="routerLink"></a>
+    </div>
+  </div>
+</div>

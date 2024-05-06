@@ -50,7 +50,11 @@ export class TypeComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({tid}) => this.auditService.getPercentage(`?percentageType=form&subTypeId=${tid}`)),
+      switchMap(({zid, tid}) => this.auditService.getPercentage({
+        percentageType: 'form',
+        zoneId: zid,
+        subTypeId: tid,
+      })),
     ).subscribe(res => this.progress = res);
   }
 
@@ -90,6 +94,28 @@ export class TypeComponent implements OnInit {
   }
 
   private getPercentage() {
-    this.auditService.getPercentage(`?percentageType=form&subTypeId=${this.equipmentId}`).subscribe(res => this.progress = res);
+    this.equipmentId && this.auditService.getPercentage({
+      percentageType: 'form',
+      zoneId: this.route.snapshot.params.zid,
+      subTypeId: this.equipmentId,
+    }).subscribe(res => this.progress = res);
+  }
+
+  rename() {
+    const equipment = this.equipment;
+    if (!equipment) {
+      return;
+    }
+
+    const kind = equipment?.type?.name;
+    const name = prompt(`Rename ${kind}`, equipment.name);
+    if (!name) {
+      return;
+    }
+
+    this.equipmentService.updateEquipment({...equipment, name}).subscribe(res => {
+      equipment && (equipment.name = res.name);
+      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
+    });
   }
 }
