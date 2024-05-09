@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EquipmentType} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
 
@@ -20,6 +20,7 @@ export class CreateEquipmentComponent implements OnInit {
     private route: ActivatedRoute,
     protected equipmentService: EquipmentService,
     private toastService: ToastService,
+    private router: Router,
   ) {
   }
 
@@ -51,8 +52,14 @@ export class CreateEquipmentComponent implements OnInit {
       typeId: type.id,
       equipmentId: this.types[0].equipmentId,
       name: this.name,
-    }).subscribe(() => {
+    }).subscribe(result => {
       this.toastService.success('Create Equipment', 'Equipment created successfully');
+      this.router.navigate(['..'], {
+        relativeTo: this.route,
+        queryParams: {
+          new: result.id,
+        },
+      });
     });
   }
 }

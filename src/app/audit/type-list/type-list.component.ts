@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs';
+import {ActivatedRoute, Route, Router} from '@angular/router';
+import {EMPTY, switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
@@ -20,6 +20,7 @@ export class TypeListComponent implements OnInit {
     protected equipmentService: EquipmentService,
     private toastService: ToastService,
     public route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
@@ -35,6 +36,18 @@ export class TypeListComponent implements OnInit {
       switchMap(({aid, zid, eid}) => this.equipmentService.getEquipments(aid, zid, eid)),
     ).subscribe(res => {
       this.subtypes = res;
+    });
+
+    this.route.queryParams.pipe(
+      switchMap(({new: newId}) => newId ? this.equipmentService.getEquipment(newId) : EMPTY),
+    ).subscribe(newEquipment => {
+      const index = this.subtypes.findIndex(e => e.id === newEquipment.id);
+      if (index >= 0) {
+        this.subtypes[index] = newEquipment;
+      } else {
+        this.subtypes.push(newEquipment);
+      }
+      this.router.navigate(['.'], {relativeTo: this.route, queryParams: {new: null}});
     });
   }
 

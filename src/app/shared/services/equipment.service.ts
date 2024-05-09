@@ -45,8 +45,8 @@ export class EquipmentService {
   getEquipments(auditId: number, zoneId: number, id: number): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${id}`);
   }
-  createEquipment(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/equipmentSubType`, data);
+  createEquipment(data: any): Observable<Equipment> {
+    return this.http.post<Equipment>(`${this.rootUrl}api/equipmentSubType`, data);
   }
   updateEquipment(data: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/equipmentSubType`, data);

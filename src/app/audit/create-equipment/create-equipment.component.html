@@ -27,6 +27,6 @@
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">Cancel</button>
-    <button class="btn btn-primary" (click)="create(); modal.close()" [disabled]="!isValid()">Create</button>
+    <button class="btn btn-primary" (click)="create()" [disabled]="!isValid()">Create</button>
   </ng-container>
 </ngbx-modal>
