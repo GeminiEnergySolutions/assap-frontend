@@ -35,6 +35,7 @@ export class CleanEnergyHubComponent implements OnInit {
     ).subscribe(formData => {
       this.formData = formData ? formData : {data: {}};
     });
+    this.getPercentage();
   }
 
   save() {
@@ -56,8 +57,8 @@ export class CleanEnergyHubComponent implements OnInit {
 
   private getPercentage() {
     this.auditId && this.auditService.getPercentage({
-      percentageType: 'complete',
+      percentageType: 'ceh',
       auditId: this.auditId,
-    }).subscribe(res => this.auditService.currentProgress = res);
+    }).subscribe(res => this.progress = res);
   }
 }

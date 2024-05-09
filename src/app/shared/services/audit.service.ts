@@ -11,6 +11,8 @@ import {PercentageCompletion} from '../model/percentage-completion.interface';
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
   | { percentageType: 'preaudit', auditId: number }
+  | { percentageType: 'ceh', auditId: number }
+  | { percentageType: 'grants', auditId: number }
   | { percentageType: 'equipment', zoneId: number, equipmentId: number }
   | { percentageType: 'form', zoneId: number, subTypeId: number }
   | { percentageType: 'zone', auditId: number }

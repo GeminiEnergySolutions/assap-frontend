@@ -34,11 +34,7 @@ export class GrantComponent implements OnInit {
       this.formData = res ?? {data: {}};
     });
 
-    /* TODO grants percentage
-    this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.getPercentage(`?percentageType=grants&auditId=${aid}`)),
-    ).subscribe(res => this.progress = res);
-     */
+    this.getPercentage();
   }
 
   save() {
@@ -54,6 +50,14 @@ export class GrantComponent implements OnInit {
     request$.subscribe(res => {
       this.formData = res;
       this.toastService.success('Form', 'Successfully saved form input');
+      this.getPercentage();
     });
+  }
+
+  getPercentage() {
+    this.auditId && this.auditService.getPercentage({
+      percentageType: 'grants',
+      auditId: this.auditId,
+    }).subscribe(res => this.progress = res);
   }
 }
