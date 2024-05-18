@@ -54,6 +54,12 @@ export class EquipmentService {
   deleteEquipment(id: number): Observable<any> {
     return this.http.delete(`${this.rootUrl}api/equipmentSubType/${id}`);
   }
+  duplicateEquipment(zoneId: number, id: number): Observable<Equipment> {
+    return this.http.post<Equipment>(`${this.rootUrl}api/equipmentDuplicate`, {
+      zoneId,
+      subTypeId: id,
+    });
+  }
 
   getEquipmentTypeSchema(typeId: number): Observable<SchemaSection[]> {
     return this.http.get<SchemaSection[]>(`${this.rootUrl}api/schema/type/${typeId}/`);

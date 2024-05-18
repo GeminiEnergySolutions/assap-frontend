@@ -5,6 +5,7 @@ import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
+import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-type-list',
@@ -86,4 +87,9 @@ export class TypeListComponent implements OnInit {
     });
   }
 
+  duplicate(item: Equipment) {
+    this.equipmentService.duplicateEquipment(item.zoneId, item.id).subscribe(response => {
+      this.subtypes.push(response);
+    });
+  }
 }
