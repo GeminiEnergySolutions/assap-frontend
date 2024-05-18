@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {SchemaSection} from '../model/schema.interface';
-import {Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
+import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -42,17 +42,17 @@ export class EquipmentService {
   getEquipment(id: number): Observable<Equipment> {
     return this.http.get<Equipment>(`${this.rootUrl}api/equipmentSubType/${id}`);
   }
-  getEquipments(auditId: number, zoneId: number, id: number): Observable<Equipment[]> {
+  getEquipments(zoneId: number, id: number): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(`${this.rootUrl}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${id}`);
   }
-  createEquipment(data: any): Observable<Equipment> {
+  createEquipment(data: CreateEquipmentDto): Observable<Equipment> {
     return this.http.post<Equipment>(`${this.rootUrl}api/equipmentSubType`, data);
   }
-  updateEquipment(data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/equipmentSubType`, data);
+  updateEquipment(data: Equipment): Observable<Equipment> {
+    return this.http.put<Equipment>(`${this.rootUrl}api/equipmentSubType`, data);
   }
-  deleteEquipment(id: number): Observable<any> {
-    return this.http.delete(`${this.rootUrl}api/equipmentSubType/${id}`);
+  deleteEquipment(id: number): Observable<{ message: string; }> {
+    return this.http.delete<{ message: string; }>(`${this.rootUrl}api/equipmentSubType/${id}`);
   }
   duplicateEquipment(zoneId: number, id: number): Observable<Equipment> {
     return this.http.post<Equipment>(`${this.rootUrl}api/equipmentDuplicate`, {

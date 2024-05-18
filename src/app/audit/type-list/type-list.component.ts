@@ -34,7 +34,7 @@ export class TypeListComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({aid, zid, eid}) => this.equipmentService.getEquipments(aid, zid, eid)),
+      switchMap(({zid, eid}) => this.equipmentService.getEquipments(zid, eid)),
     ).subscribe(res => {
       this.subtypes = res;
     });

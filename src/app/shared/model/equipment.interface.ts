@@ -11,6 +11,8 @@ export interface Equipment {
   type: EquipmentType;
 }
 
+export type CreateEquipmentDto = Omit<Equipment, 'id' | 'type'>;
+
 /**
  * A special type of equipment, e.g. "LED Lights" or "Walk-In Freezers".
  */

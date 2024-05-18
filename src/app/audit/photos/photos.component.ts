@@ -148,7 +148,7 @@ export class PhotosComponent implements OnInit {
   }
 
   getEquipmentSubTypes(equipmentId: number) {
-    this.equipmentService.getEquipments(this.route.snapshot.params.aid, +this.zone, equipmentId).subscribe(res => {
+    this.equipmentService.getEquipments(this.zone, equipmentId).subscribe(res => {
       this.subTypeList = res;
     });
   }
