@@ -24,10 +24,18 @@ export interface SchemaElement {
   /** for type=select, this is a comma-separated string of colon-separated key value pairs */
   values: string;
   dataType: 'text' | 'number' | 'date';
+  validations?: SchemaRequirement[];
   isDateNow?: boolean;
   inputList?: SchemaSubElement[];
   isHeading?: boolean;
   heading?: string;
+}
+
+export interface SchemaRequirement {
+  level?: 'warning' | 'error';
+  type: 'min' | 'max' | 'pattern';
+  value: string | number;
+  message: string;
 }
 
 export interface SchemaSubElement extends SchemaElement {

@@ -69,6 +69,13 @@
     >
   }
 }
+<ul class="form-text">
+  @for (error of validationMessages; track error) {
+    <li [class]="error.level === 'warning' ? 'text-warning' : 'text-danger'">
+      {{ error.message }}
+    </li>
+  }
+</ul>
 <div [id]="id + '-help'" class="form-text">
   {{ element.hint }}
 </div>

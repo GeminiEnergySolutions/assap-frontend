@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {SchemaElement, SchemaSection} from '../model/schema.interface';
+import {SchemaElement, SchemaRequirement, SchemaSection} from '../model/schema.interface';
 
 @Component({
   selector: 'app-form-element',
@@ -16,6 +16,8 @@ export class FormElementComponent implements OnInit, OnChanges {
 
   id = '';
 
+  validationMessages: SchemaRequirement[] = [];
+
   ngOnChanges(changes: SimpleChanges) {
     this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
   }
@@ -30,6 +32,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     } else if (this.element.isDateNow) {
       this.formData.data[this.element.key] = new Date();
     }
+    this.validate();
   }
 
   coerce(value: string) {
@@ -51,8 +54,37 @@ export class FormElementComponent implements OnInit, OnChanges {
 
   setDirty() {
     globalThis?.localStorage.setItem(this.id, this.formData.data[this.element.key]);
+    this.validate();
     this.dirty.emit();
   }
+
+  validate() {
+    this.validationMessages = [];
+    if (!this.element.validations) {
+      return;
+    }
+    for (const requirement of this.element.validations) {
+      const value = this.formData.data[this.element.key];
+      switch (requirement.type) {
+        case 'min':
+          if (value < requirement.value) {
+            this.validationMessages.push(requirement);
+          }
+          break;
+        case 'max':
+          if (value > requirement.value) {
+            this.validationMessages.push(requirement);
+          }
+          break;
+        case 'pattern':
+          if (!new RegExp(String(requirement.value)).test(value)) {
+            this.validationMessages.push(requirement);
+          }
+          break;
+      }
+    }
+  }
+
   // TODO Autofill Dates:
   //   this.formData.data[element.key] = !this.formData.data[element.key] && element.isDateNow ? new Date().toISOString() : this.formData.data[element.key];
 
