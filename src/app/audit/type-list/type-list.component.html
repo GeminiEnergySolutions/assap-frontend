@@ -10,6 +10,15 @@
       [percentageQuery]="{percentageType: 'form', zoneId: this.route.snapshot.params.zid, subTypeId: item.id}"
     >
       <app-option-dropdown options style="z-index: 900">
+        @if (item?.type?.name === 'HVAC') {
+          <h5 class="dropdown-header">
+            HVAC Specific
+          </h5>
+          <a ngbDropdownItem class="bi-link-45deg" [routerLink]="['types', item.id, 'connect']">
+            Connect Zone
+          </a>
+          <div class="dropdown-divider"></div>
+        }
         <button ngbDropdownItem class="bi-pencil-square" (click)="rename(item)">
           Rename
         </button>

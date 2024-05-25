@@ -35,6 +35,7 @@ import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import { CreateEquipmentComponent } from './create-equipment/create-equipment.component';
 import { FeatureCardComponent } from './feature-card/feature-card.component';
+import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 
 @NgModule({
     imports: [
@@ -77,6 +78,7 @@ import { FeatureCardComponent } from './feature-card/feature-card.component';
     PreauditFormComponent,
     CreateEquipmentComponent,
     FeatureCardComponent,
+    ConnectZoneComponent,
   ],
 })
 export class AuditModule {

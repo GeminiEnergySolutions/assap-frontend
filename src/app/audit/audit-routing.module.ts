@@ -16,6 +16,7 @@ import {GenerateReportDialogComponent} from './generate-report-dialog/generate-r
 import {PreauditFormComponent} from "./preaudit-form/preaudit-form.component";
 import {ZoneFormComponent} from "./zone-form/zone-form.component";
 import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
+import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 
 const routes: Routes = [
   {
@@ -52,7 +53,13 @@ const routes: Routes = [
         path: 'new', component: CreateEquipmentComponent,
       },
       {path: 'types/:tid/photos', component: PhotosComponent},
-      {path: 'types/:tid', component: TypeComponent,},
+      {
+        path: 'types/:tid',
+        component: TypeComponent,
+        children: [
+          {path: 'connect', component: ConnectZoneComponent},
+        ],
+      },
     ],
   },
 ];
