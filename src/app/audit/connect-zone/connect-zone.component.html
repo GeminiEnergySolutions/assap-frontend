@@ -3,13 +3,30 @@
     Connect Zone
   </ng-container>
   <ng-container modal-body>
-
+    <p>
+      Select the zones you want to connect to this HVAC unit.
+    </p>
+    @for (zone of connectedZones; track zone.zoneId) {
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="zone-{{ zone.zoneId }}" [(ngModel)]="selection[zone.zoneId]">
+        <label class="form-check-label" for="zone-{{ zone.zoneId }}">
+          {{ zone.zoneName }}
+          <span class="text-muted">
+            &bullet;
+            {{ zone.isConnected ? 'Connected' : 'Not connected' }}
+          </span>
+        </label>
+      </div>
+    } @empty {
+      <div class="spinner-border spinner-border-sm"></div>
+      Loading zones...
+    }
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">
       Cancel
     </button>
-    <button class="btn btn-primary" (click)="save()">
+    <button class="btn btn-primary" (click)="save(); modal.close()">
       Save
     </button>
   </ng-container>

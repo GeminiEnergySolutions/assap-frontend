@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import {SchemaSection} from '../model/schema.interface';
 import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
+import {ConnectedZone} from '../model/zone.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,18 @@ export class EquipmentService {
   }
   updateEquipmentFormData(equipmentFormData: any): Observable<any> {
     return this.http.put(`${environment.url}api/equipmentForm`, equipmentFormData);
+  }
+
+  // HVACs
+
+  getConnectedZones(auditId: number, zoneId: number): Observable<{ data: ConnectedZone[] }> {
+    return this.http.get<{ data: ConnectedZone[] }>(`${environment.url}api/hvaConnectZone?auditId=${auditId}&zoneId=${zoneId}`);
+  }
+
+  setConnectedZones(equipmentId: number, zoneIds: number[]) {
+    return this.http.post(`${environment.url}api/hvaConnectZone`, {
+      subTypeId: equipmentId,
+      zoneIds,
+    });
   }
 }

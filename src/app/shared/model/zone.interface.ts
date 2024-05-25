@@ -18,3 +18,8 @@ export interface ZoneData {
 }
 
 export type CreateZoneData = Omit<ZoneData, 'id'>;
+
+export interface ConnectedZone extends Zone{
+  auditName: string;
+  isConnected: boolean;
+}
