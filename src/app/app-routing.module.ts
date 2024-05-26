@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
-import { AuthGuard } from './auth.guard';
-import { LoginGuard } from './login.guard';
+import { AuthGuard } from './shared/guard/auth.guard';
+import { LoginGuard } from './shared/guard/login.guard';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 
 const routes: Routes = [
   {
     path: 'audits',
     loadChildren: () => import('./audit/audit.module').then((m) => m.AuditModule),
-    canActivate: [AuthGuard], // Use the AuthGuard to guard the audits route
+    canActivate: [AuthGuard],
   },
   {
     path: 'settings',

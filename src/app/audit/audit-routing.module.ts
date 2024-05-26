@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {UnsavedChangesGuard} from '../unsaved-changes.guard';
+import {UnsavedChangesGuard} from '../shared/guard/unsaved-changes.guard';
 import {AuditComponent} from './audit/audit.component';
 import {PhotosComponent} from './photos/photos.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UnsavedChangesGuard } from '../unsaved-changes.guard';
+import { UnsavedChangesGuard } from '../shared/guard/unsaved-changes.guard';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
