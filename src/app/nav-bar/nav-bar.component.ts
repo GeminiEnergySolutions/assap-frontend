@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../shared/services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
 import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { LoginGuard } from './shared/guard/login.guard';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
