@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
-import {EquipmentService} from '../services/equipment.service';
-import {CopySpec, SchemaSection} from '../model/schema.interface';
+import {EquipmentService} from '../../services/equipment.service';
+import {CopySpec, SchemaSection} from '../../model/schema.interface';
 
 @Component({
   selector: 'app-form',

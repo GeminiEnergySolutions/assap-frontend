@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {SchemaElement, SchemaRequirement, SchemaSection} from '../model/schema.interface';
+import {SchemaElement, SchemaRequirement, SchemaSection} from '../../model/schema.interface';
 
 @Component({
   selector: 'app-form-element',

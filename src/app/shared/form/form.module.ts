@@ -3,9 +3,9 @@ import {NgModule} from '@angular/core';
 import {FormsModule as NgFormsModule} from '@angular/forms';
 import {NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormInputTypePipe} from './form-input-type.pipe';
-import {FormComponent} from './form.component';
+import {FormComponent} from './form/form.component';
 import {SharedModule} from '../shared.module';
-import {FormElementComponent} from '../form-element/form-element.component';
+import {FormElementComponent} from './form-element/form-element.component';
 
 @NgModule({
   declarations: [
