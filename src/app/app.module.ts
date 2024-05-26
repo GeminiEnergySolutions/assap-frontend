@@ -1,9 +1,7 @@
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {ToastModule} from '@mean-stream/ngbx';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -13,6 +11,8 @@ import {AuthInterceptor} from './shared/interceptor/auth.interceptor';
 import {ErrorInterceptor} from './shared/interceptor/error.interceptor';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,6 @@ import {NavBarComponent} from './nav-bar/nav-bar.component';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
@@ -33,7 +32,8 @@ import {NavBarComponent} from './nav-bar/nav-bar.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    ToastModule,
+    NgbDropdownModule,
+    NgbxDarkmodeModule,
   ],
   providers: [
     {
