@@ -14,7 +14,6 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {PortalModule} from '@angular/cdk/portal';
 import {PipeModule} from './pipe/pipe.module';
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
-import {SuccessPageComponent} from './components/success-page/success-page.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
@@ -29,7 +28,6 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
     PageNotFoundComponent,
     NavBarComponent,
     ChangePasswordComponent,
-    SuccessPageComponent
   ],
   imports: [
     CommonModule,
