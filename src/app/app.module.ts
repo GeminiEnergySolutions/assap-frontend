@@ -5,7 +5,6 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
 import {SharedModule} from './shared/shared.module';
 import {AuthInterceptor} from './shared/interceptor/auth.interceptor';
 import {ErrorInterceptor} from './shared/interceptor/error.interceptor';
@@ -17,7 +16,6 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     PageNotFoundComponent,
     NavBarComponent,
   ],
