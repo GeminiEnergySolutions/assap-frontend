@@ -1,4 +1,4 @@
-import {CommonModule, DatePipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {NgbCollapseModule, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -10,18 +10,21 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PortalModule} from '@angular/cdk/portal';
-import {PipeModule} from './pipe/pipe.module';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
+import {PhotosPipe} from './pipe/photos.pipe';
+import {SafePipe} from './pipe/safe.pipe';
 
 
 @NgModule({
   declarations: [
     MasterDetailComponent,
     OptionDropdownComponent,
+    PhotosPipe,
+    SafePipe,
   ],
   imports: [
     CommonModule,
@@ -39,15 +42,15 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
     MatSliderModule,
     MatToolbarModule,
     MatPaginatorModule,
-    PipeModule,
     NgbTooltip,
     NgbxDarkmodeModule,
   ],
   exports: [
     MasterDetailComponent,
     OptionDropdownComponent,
+    PhotosPipe,
+    SafePipe,
   ],
-  providers: [DatePipe]
 })
 export class SharedModule {
 }
