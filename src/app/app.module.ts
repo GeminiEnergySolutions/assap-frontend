@@ -11,7 +11,7 @@ import {ErrorInterceptor} from './shared/interceptor/error.interceptor';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
+import {NgbxDarkmodeModule, ToastModule} from '@mean-stream/ngbx';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import {NgbxDarkmodeModule} from '@mean-stream/ngbx';
     }),
     NgbDropdownModule,
     NgbxDarkmodeModule,
+    ToastModule,
   ],
   providers: [
     {
