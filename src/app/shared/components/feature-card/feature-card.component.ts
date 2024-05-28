@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AuditService, PercentageQuery} from '../../shared/services/audit.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {AuditService, PercentageQuery} from '../../services/audit.service';
+import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {BehaviorSubject, of, switchMap} from 'rxjs';
 
 @Component({

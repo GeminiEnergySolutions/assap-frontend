@@ -6,12 +6,18 @@ import {MasterDetailComponent} from './components/master-detail/master-detail.co
 import {OptionDropdownComponent} from './components/option-dropdown/option-dropdown.component';
 import {PhotosPipe} from './pipe/photos.pipe';
 import {SafePipe} from './pipe/safe.pipe';
+import {FeatureCardComponent} from './components/feature-card/feature-card.component';
+import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
+import {PhotoCaptureComponent} from './components/photo-capture/photo-capture.component';
 
 
 @NgModule({
   declarations: [
     MasterDetailComponent,
     OptionDropdownComponent,
+    FeatureCardComponent,
+    ProgressBarComponent,
+    PhotoCaptureComponent,
     PhotosPipe,
     SafePipe,
   ],
@@ -23,6 +29,9 @@ import {SafePipe} from './pipe/safe.pipe';
   exports: [
     MasterDetailComponent,
     OptionDropdownComponent,
+    FeatureCardComponent,
+    ProgressBarComponent,
+    PhotoCaptureComponent,
     PhotosPipe,
     SafePipe,
   ],

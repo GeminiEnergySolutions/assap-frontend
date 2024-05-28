@@ -5,16 +5,16 @@ import {AuditComponent} from './audit/audit.component';
 import {PhotosComponent} from './photos/photos.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {PreZoneComponent} from './pre-zone/pre-zone.component';
-import {ZoneListComponent} from './zone-list/zone-list.component';
+import {ZoneListComponent} from '../zone/zone-list/zone-list.component';
 import {PreTypeComponent} from './pre-type/pre-type.component';
 import {TypeListComponent} from './type-list/type-list.component';
 import {TypeComponent} from './type/type.component';
-import {ZoneComponent} from './zone/zone.component';
+import {ZoneComponent} from '../zone/zone/zone.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantComponent} from './grant/grant.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {PreauditFormComponent} from "./preaudit-form/preaudit-form.component";
-import {ZoneFormComponent} from "./zone-form/zone-form.component";
+import {ZoneFormComponent} from "../zone/zone-form/zone-form.component";
 import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
 import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 
@@ -38,12 +38,7 @@ const routes: Routes = [
   },
   {
     path: ':aid/zones',
-    component: PreZoneComponent,
-    children: [
-      {path: ':zid/details', component: ZoneFormComponent},
-      {path: ':zid/photos', component: PhotosComponent},
-      {path: ':zid', component: ZoneComponent},
-    ],
+    loadChildren: () => import('../zone/zone.module').then(m => m.ZoneModule),
   },
   {
     path: ':aid/zones/:zid/equipments/:eid',

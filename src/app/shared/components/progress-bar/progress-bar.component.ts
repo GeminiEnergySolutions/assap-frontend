@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {PercentageCompletion} from '../../model/percentage-completion.interface';
 
 @Component({
   selector: 'app-progress-bar',
