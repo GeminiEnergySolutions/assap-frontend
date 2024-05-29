@@ -7,11 +7,11 @@ import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
-  selector: 'app-pre-type',
-  templateUrl: './pre-type.component.html',
-  styleUrls: ['./pre-type.component.scss']
+  selector: 'app-equipment-master-detail',
+  templateUrl: './equipment-master-detail.component.html',
+  styleUrls: ['./equipment-master-detail.component.scss']
 })
-export class PreTypeComponent implements OnInit {
+export class EquipmentMasterDetailComponent implements OnInit {
 
   audit?: any;
   zone?: any;

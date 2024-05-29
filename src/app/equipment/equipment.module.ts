@@ -4,9 +4,9 @@ import {CommonModule} from '@angular/common';
 import {EquipmentRoutingModule} from './equipment-routing.module';
 import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
-import {TypeComponent} from './type/type.component';
-import {PreTypeComponent} from './pre-type/pre-type.component';
-import {TypeListComponent} from './type-list/type-list.component';
+import {EquipmentDetailComponent} from './equipment-detail/equipment-detail.component';
+import {EquipmentMasterDetailComponent} from './equipment-master-detail/equipment-master-detail.component';
+import {EquipmentListComponent} from './equipment-list/equipment-list.component';
 import {ModalModule} from '@mean-stream/ngbx';
 import {SharedModule} from '../shared/shared.module';
 import {FormsModule as AppFormsModule} from '../shared/form/form.module';
@@ -26,9 +26,9 @@ import {FormsModule} from '@angular/forms';
     AppFormsModule,
   ],
   declarations: [
-    TypeListComponent,
-    PreTypeComponent,
-    TypeComponent,
+    EquipmentListComponent,
+    EquipmentMasterDetailComponent,
+    EquipmentDetailComponent,
     CreateEquipmentComponent,
     ConnectZoneComponent,
   ],

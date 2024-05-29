@@ -11,11 +11,11 @@ import {Equipment} from '../../shared/model/equipment.interface';
 
 
 @Component({
-  selector: 'app-type',
-  templateUrl: './type.component.html',
-  styleUrls: ['./type.component.scss']
+  selector: 'app-equipment-detail',
+  templateUrl: './equipment-detail.component.html',
+  styleUrls: ['./equipment-detail.component.scss']
 })
-export class TypeComponent implements OnInit {
+export class EquipmentDetailComponent implements OnInit {
   auditId?: number;
   equipmentId?: number;
   equipment?: Equipment;

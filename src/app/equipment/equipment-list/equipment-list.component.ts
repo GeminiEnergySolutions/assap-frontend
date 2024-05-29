@@ -1,18 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
-import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
-  selector: 'app-type-list',
-  templateUrl: './type-list.component.html',
-  styleUrls: ['./type-list.component.scss'],
+  selector: 'app-equipment-list',
+  templateUrl: './equipment-list.component.html',
+  styleUrls: ['./equipment-list.component.scss'],
 })
-export class TypeListComponent implements OnInit {
+export class EquipmentListComponent implements OnInit {
   equipment?: EquipmentCategory;
   subtypes: Equipment[] = [];
 
