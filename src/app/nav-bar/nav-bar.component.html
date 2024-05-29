@@ -32,8 +32,9 @@
         </div>
       </div>
       @if (authService.currentLoginUser) {
-        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/change-password">
-          Change Password</a>
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/auth/change-password">
+          Change Password
+        </a>
         <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
           Log Out
         </button>

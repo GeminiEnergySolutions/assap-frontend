@@ -1,9 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuard } from './shared/guard/auth.guard';
-import { LoginGuard } from './shared/guard/login.guard';
-import { ChangePasswordComponent } from './auth/change-password/change-password.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {AuthGuard} from './shared/guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -27,12 +25,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
-    canActivate: [LoginGuard],
   },
-  {
-    path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard],
-  },
-  // {path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   {path: '**', component: PageNotFoundComponent},
 ];
@@ -43,4 +36,5 @@ const routes: Routes = [
   })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
