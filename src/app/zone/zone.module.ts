@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {ZoneRoutingModule} from './zone-routing.module';
 import {ZoneListComponent} from './zone-list/zone-list.component';
-import {PreZoneComponent} from '../audit/pre-zone/pre-zone.component';
+import {ZoneMasterDetailComponent} from './zone-master-detail/zone-master-detail.component';
 import {ZoneDetailComponent} from './zone/zone-detail.component';
 import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {SharedModule} from '../shared/shared.module';
@@ -14,7 +14,7 @@ import {FormsModule} from '../shared/form/form.module';
 @NgModule({
   declarations: [
     ZoneListComponent,
-    PreZoneComponent,
+    ZoneMasterDetailComponent,
     ZoneDetailComponent,
     ZoneFormComponent,
   ],

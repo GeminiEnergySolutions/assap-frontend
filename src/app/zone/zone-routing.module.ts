@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {PreZoneComponent} from '../audit/pre-zone/pre-zone.component';
+import {ZoneMasterDetailComponent} from './zone-master-detail/zone-master-detail.component';
 import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {PhotosComponent} from '../audit/photos/photos.component';
 import {ZoneDetailComponent} from './zone/zone-detail.component';
@@ -8,7 +8,7 @@ import {ZoneDetailComponent} from './zone/zone-detail.component';
 const routes: Routes = [
   {
     path: '',
-    component: PreZoneComponent,
+    component: ZoneMasterDetailComponent,
     children: [
       {path: ':zid/details', component: ZoneFormComponent},
       {path: ':zid/photos', component: PhotosComponent},
