@@ -23,7 +23,7 @@ export class ConnectZoneComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({aid, tid}) => this.equipmentService.getConnectedZones(aid, tid)),
+      switchMap(({aid, zid}) => this.equipmentService.getConnectedZones(aid, zid)),
     ).subscribe(result => {
       this.connectedZones = result.data;
     });

@@ -70,11 +70,11 @@ export class EquipmentService {
   // HVACs
 
   getConnectedZones(auditId: number, zoneId: number): Observable<{ data: ConnectedZone[] }> {
-    return this.http.get<{ data: ConnectedZone[] }>(`${environment.url}api/hvaConnectZone?auditId=${auditId}&zoneId=${zoneId}`);
+    return this.http.get<{ data: ConnectedZone[] }>(`${environment.url}api/hvacConnectZone?auditId=${auditId}&zoneId=${zoneId}`);
   }
 
   setConnectedZones(equipmentId: number, zoneIds: number[]) {
-    return this.http.post(`${environment.url}api/hvaConnectZone`, {
+    return this.http.post(`${environment.url}api/hvacConnectZone`, {
       subTypeId: equipmentId,
       zoneIds,
     });
