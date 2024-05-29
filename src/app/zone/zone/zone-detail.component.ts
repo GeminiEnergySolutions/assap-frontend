@@ -9,11 +9,11 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 
 @Component({
-  selector: 'app-zone',
-  templateUrl: './zone.component.html',
-  styleUrls: ['./zone.component.scss'],
+  selector: 'app-zone-detail',
+  templateUrl: './zone-detail.component.html',
+  styleUrls: ['./zone-detail.component.scss'],
 })
-export class ZoneComponent implements OnInit {
+export class ZoneDetailComponent implements OnInit {
 
   zone: any;
   equipments: EquipmentCategory[] = [];

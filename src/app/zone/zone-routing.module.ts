@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {PreZoneComponent} from '../audit/pre-zone/pre-zone.component';
 import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {PhotosComponent} from '../audit/photos/photos.component';
-import {ZoneComponent} from './zone/zone.component';
+import {ZoneDetailComponent} from './zone/zone-detail.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {path: ':zid/details', component: ZoneFormComponent},
       {path: ':zid/photos', component: PhotosComponent},
-      {path: ':zid', component: ZoneComponent},
+      {path: ':zid', component: ZoneDetailComponent},
     ],
   }
 ];
