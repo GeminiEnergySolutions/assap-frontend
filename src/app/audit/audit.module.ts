@@ -15,10 +15,7 @@ import {AuditRoutingModule} from './audit-routing.module';
 import {AuditComponent} from './audit/audit.component';
 import {PreAuditComponent} from './pre-audit/pre-audit.component';
 import {AuditZoneService} from '../shared/services/audit-zone.service';
-import {TypeListComponent} from './type-list/type-list.component';
 import {EquipmentService} from '../shared/services/equipment.service';
-import {PreTypeComponent} from './pre-type/pre-type.component';
-import {TypeComponent} from './type/type.component';
 import {PhotosComponent} from './photos/photos.component';
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
@@ -28,8 +25,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
-import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
-import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 
 @NgModule({
     imports: [
@@ -56,16 +51,11 @@ import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
     PreAuditComponent,
     AddDataCollectorModalComponent,
     PhotosComponent,
-    TypeListComponent,
-    PreTypeComponent,
-    TypeComponent,
     FileUploadComponent,
     GenerateReportDialogComponent,
     CleanEnergyHubComponent,
     GrantComponent,
     PreauditFormComponent,
-    CreateEquipmentComponent,
-    ConnectZoneComponent,
   ],
 })
 export class AuditModule {
