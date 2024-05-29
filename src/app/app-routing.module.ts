@@ -12,6 +12,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'audits/:aid/zones',
+    loadChildren: () => import('./zone/zone.module').then(m => m.ZoneModule),
+  },
+  {
+    path: 'audits/:aid/zones/:zid/equipments',
+    loadChildren: () => import('./equipment/equipment.module').then(m => m.EquipmentModule),
+  },
+  {
     path: 'settings',
     loadChildren: () => import('./settings/setting.module').then((m) => m.SettingModule),
     canActivate: [AuthGuard],

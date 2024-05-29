@@ -26,14 +26,6 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: ':aid/zones',
-    loadChildren: () => import('../zone/zone.module').then(m => m.ZoneModule),
-  },
-  {
-    path: ':aid/zones/:zid/equipments',
-    loadChildren: () => import('../equipment/equipment.module').then(m => m.EquipmentModule),
-  },
 ];
 
 @NgModule({
