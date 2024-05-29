@@ -1,25 +1,25 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuditComponent} from './audit/audit.component';
+import {AuditDetailComponent} from './audit-detail/audit-detail.component';
 import {PhotosComponent} from './photos/photos.component';
-import {PreAuditComponent} from './pre-audit/pre-audit.component';
+import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-detail.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
-import {GrantComponent} from './grant/grant.component';
+import {GrantsComponent} from './grants/grants.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PreAuditComponent,
+    component: AuditMasterDetailComponent,
     children: [
       {path: ':aid/preaudit', component: PreauditFormComponent},
-      {path: ':aid/grants', component: GrantComponent},
+      {path: ':aid/grants', component: GrantsComponent},
       {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
       {path: ':aid/photos', component: PhotosComponent},
       {
         path: ':aid',
-        component: AuditComponent,
+        component: AuditDetailComponent,
         children: [
           {path: 'report', component: GenerateReportDialogComponent},
         ],

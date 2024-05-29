@@ -8,11 +8,11 @@ import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
 
 @Component({
-  selector: 'app-grant',
-  templateUrl: './grant.component.html',
-  styleUrls: ['./grant.component.scss'],
+  selector: 'app-grants',
+  templateUrl: './grants.component.html',
+  styleUrls: ['./grants.component.scss'],
 })
-export class GrantComponent implements OnInit {
+export class GrantsComponent implements OnInit {
   auditId?: number;
   progress?: PercentageCompletion;
   typeSchema: SchemaSection[] = [];

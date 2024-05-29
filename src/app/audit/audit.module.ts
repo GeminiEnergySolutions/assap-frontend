@@ -12,15 +12,15 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {AuditRoutingModule} from './audit-routing.module';
-import {AuditComponent} from './audit/audit.component';
-import {PreAuditComponent} from './pre-audit/pre-audit.component';
+import {AuditDetailComponent} from './audit-detail/audit-detail.component';
+import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-detail.component';
 import {AuditZoneService} from '../shared/services/audit-zone.service';
 import {EquipmentService} from '../shared/services/equipment.service';
 import {PhotosComponent} from './photos/photos.component';
 import {FileUploadComponent} from './file-upload/file-upload.component';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
-import {GrantComponent} from './grant/grant.component';
+import {GrantsComponent} from './grants/grants.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
@@ -47,14 +47,14 @@ import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
     EquipmentService,
   ],
   declarations: [
-    AuditComponent,
-    PreAuditComponent,
+    AuditDetailComponent,
+    AuditMasterDetailComponent,
     AddDataCollectorModalComponent,
     PhotosComponent,
     FileUploadComponent,
     GenerateReportDialogComponent,
     CleanEnergyHubComponent,
-    GrantComponent,
+    GrantsComponent,
     PreauditFormComponent,
   ],
 })

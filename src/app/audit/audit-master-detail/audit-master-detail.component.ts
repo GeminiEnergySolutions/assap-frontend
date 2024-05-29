@@ -6,11 +6,11 @@ import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-da
 import {Audit} from '../../shared/model/audit.interface';
 
 @Component({
-  selector: 'app-pre-audit',
-  templateUrl: './pre-audit.component.html',
-  styleUrls: ['./pre-audit.component.scss'],
+  selector: 'app-audit-master-detail',
+  templateUrl: './audit-master-detail.component.html',
+  styleUrls: ['./audit-master-detail.component.scss'],
 })
-export class PreAuditComponent implements OnInit {
+export class AuditMasterDetailComponent implements OnInit {
   audits: Record<string, Audit[]> = {};
 
   constructor(

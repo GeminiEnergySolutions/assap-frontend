@@ -3,16 +3,15 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
+import {Audit} from '../../shared/model/audit.interface';
 
 @Component({
-  selector: 'app-audit',
-  templateUrl: './audit.component.html',
-  styleUrls: ['./audit.component.scss'],
+  selector: 'app-audit-detail',
+  templateUrl: './audit-detail.component.html',
+  styleUrls: ['./audit-detail.component.scss'],
 })
-export class AuditComponent implements OnInit {
-  audit?: any;
-  schema?: any;
-  isMenuCollapsed = true;
+export class AuditDetailComponent implements OnInit {
+  audit?: Audit;
 
   constructor(
     public auditService: AuditService,
@@ -37,12 +36,12 @@ export class AuditComponent implements OnInit {
   }
 
   rename() {
-    const name = prompt('Rename Audit', this.audit.auditName);
+    const name = prompt('Rename Audit', this.audit!.auditName);
     if (!name) {
       return;
     }
     this.auditService.updateAudit({...this.audit, auditName: name}).subscribe(() => {
-      this.audit.auditName = name;
+      this.audit!.auditName = name;
       this.toastService.success('Rename Audit', 'Successfully renamed audit.');
     });
   }
