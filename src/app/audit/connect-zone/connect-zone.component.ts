@@ -23,15 +23,15 @@ export class ConnectZoneComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({aid, tid}) => this.equipmentService.getConnectedZones(aid, tid)),
+      switchMap(({aid, zid}) => this.equipmentService.getConnectedZones(aid, zid)),
     ).subscribe(result => {
       this.connectedZones = result.data;
     });
   }
 
   save() {
-    const zoneIds = Object.keys(this.selection).map(i => +i);
-    this.equipmentService.setConnectedZones(this.route.snapshot.params.tid, zoneIds).subscribe(result => {
+    const zoneIds = Object.entries(this.selection).filter(([, value]) => value).map(([key]) => +key);
+    this.equipmentService.setConnectedZones(this.route.snapshot.params.tid, zoneIds).subscribe(() => {
       this.toastService.success('Connect Zones', `Successfully connected ${zoneIds.length} zones to HVAC unit.`);
     });
   }
