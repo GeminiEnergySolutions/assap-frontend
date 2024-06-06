@@ -36,7 +36,12 @@ export class ZoneFormComponent implements OnInit {
       }),
       switchMap(({zid}) => this.auditService.getZoneData(+zid)),
     ).subscribe(res => {
-      this.formData = res.data ?? {data: {}};
+      this.formData = res.data.data ? res.data : {
+        id: 0, // NB: if branch below that checks for this.formData.id will consider this as falsy
+        zoneId: this.zoneId!,
+        auditId: this.auditId!,
+        data: {},
+      };
       this.getPercentage();
     });
   }
