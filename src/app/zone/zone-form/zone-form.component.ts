@@ -70,6 +70,7 @@ export class ZoneFormComponent implements OnInit {
   private getPercentage() {
     this.zoneId && this.auditService.getPercentage({
       percentageType: 'zoneDetails',
+      auditId: this.route.snapshot.params.aid,
       zoneId: this.zoneId,
     }).subscribe(res => this.progress = res);
   }
