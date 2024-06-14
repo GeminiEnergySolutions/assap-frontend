@@ -8,4 +8,5 @@ import {PercentageCompletion} from '../../model/percentage-completion.interface'
 })
 export class ProgressBarComponent {
   @Input({required: true}) progress?: PercentageCompletion;
+  @Input() status = true;
 }

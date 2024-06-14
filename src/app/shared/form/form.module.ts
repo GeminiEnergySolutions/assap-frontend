@@ -5,6 +5,7 @@ import {NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormInputTypePipe} from './form-input-type.pipe';
 import {FormComponent} from './form/form.component';
 import {FormElementComponent} from './form-element/form-element.component';
+import {SharedModule} from '../shared.module';
 
 @NgModule({
   declarations: [
@@ -15,11 +16,12 @@ import {FormElementComponent} from './form-element/form-element.component';
   exports: [
     FormComponent,
   ],
-  imports: [
-    CommonModule,
-    NgFormsModule,
-    NgbAccordionModule,
-  ],
+    imports: [
+        CommonModule,
+        NgFormsModule,
+        NgbAccordionModule,
+        SharedModule,
+    ],
 })
 export class FormsModule {
 }

@@ -1,8 +1,10 @@
-@switch (progress?.percentage) {
+@switch (status && progress?.percentage) {
   @case (undefined) {
     <div>
       Loading Progress...
     </div>
+  }
+  @case (false) {
   }
   @case (0) {
     <div class="bi-hourglass text-info">
@@ -24,7 +26,7 @@
   <div class="progress flex-grow-1 bg-secondary" style="height: 0.25rem">
     <div class="progress-bar" role="progressbar" [style.width.%]="progress?.percentage"></div>
   </div>
-  <div class="ms-2 text-muted small">
+  <div class="ms-2 text-muted small" [style.width]="'5rem'">
     {{ progress?.completedFields }} / {{ progress?.totalFields }}
   </div>
 </div>

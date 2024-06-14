@@ -3,7 +3,10 @@
     <div ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
       <h2 ngbAccordionHeader>
         <button ngbAccordionButton>
-          {{ schema.name }}
+          <div class="flex-grow-1">
+            {{ schema.name }}
+          </div>
+          <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
         </button>
       </h2>
       <div ngbAccordionCollapse>

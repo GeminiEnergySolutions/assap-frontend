@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {EquipmentService} from '../../services/equipment.service';
 import {CopySpec, SchemaSection} from '../../model/schema.interface';
+import {PercentageCompletion} from '../../model/percentage-completion.interface';
 
 @Component({
   selector: 'app-form',
@@ -77,5 +78,12 @@ export class FormComponent {
       this.toastService.success(copy.buttonLabel, `Successfully copied ${changed} inputs`);
       this.setDirty();
     }
+  }
+
+  getProgress(schema: SchemaSection): PercentageCompletion {
+    const totalFields = schema.schema.length;
+    const completedFields = schema.schema.filter(e => this.formData?.data[e.key] !== undefined).length;
+    const percentage = (completedFields / totalFields) * 100;
+    return {totalFields, completedFields, percentage};
   }
 }
