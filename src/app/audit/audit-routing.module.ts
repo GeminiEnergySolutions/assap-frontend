@@ -5,7 +5,6 @@ import {PhotosComponent} from './photos/photos.component';
 import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-detail.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantsComponent} from './grants/grants.component';
-import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 
 const routes: Routes = [
@@ -17,13 +16,7 @@ const routes: Routes = [
       {path: ':aid/grants', component: GrantsComponent},
       {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
       {path: ':aid/photos', component: PhotosComponent},
-      {
-        path: ':aid',
-        component: AuditDetailComponent,
-        children: [
-          {path: 'report', component: GenerateReportDialogComponent},
-        ],
-      },
+      {path: ':aid', component: AuditDetailComponent},
     ],
   },
 ];

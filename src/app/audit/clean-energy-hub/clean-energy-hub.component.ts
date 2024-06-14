@@ -6,6 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-clean-energy-hub',
@@ -18,11 +20,16 @@ export class CleanEnergyHubComponent implements OnInit {
   typeSchema: SchemaSection[] = [];
   formData?: PreAuditData;
 
+  serverUrl = environment.url;
+  authToken: string;
+
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
     private toastService: ToastService,
+    authService: AuthService,
   ) {
+    this.authToken = authService.getAuthToken() ?? '';
   }
 
   ngOnInit() {

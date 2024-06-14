@@ -5,6 +5,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from '../../shared/services/auth.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-audit-options-dropdown',
@@ -15,6 +16,9 @@ export class OptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;
 
   @Output() deleted = new EventEmitter<Audit>();
+
+  serverUrl = environment.url;
+  authToken = this.authService.getAuthToken() ?? '';
 
   constructor(
     private auditService: AuditService,

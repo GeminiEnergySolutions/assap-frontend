@@ -8,9 +8,16 @@
       <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
-        <div class="dropdown-item-text">
-          No actions available.
-        </div>
+        <a ngbDropdownItem class="bi-clipboard-check"
+           [href]="serverUrl + 'api/feasibilityReport?auditId=' + auditId + '&auth_token=' + authToken"
+           download target="_blank">
+          Download Feasibility Report
+        </a>
+        <a ngbDropdownItem class="bi-grid-3x3"
+           [href]="serverUrl + 'api/cehMicrogridSheet?auditId=' + auditId + '&auth_token=' + authToken"
+           download target="_blank">
+          Download Microgrid Sheet
+        </a>
       </div>
     </div>
   </div>
