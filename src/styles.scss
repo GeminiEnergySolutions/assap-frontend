@@ -52,6 +52,10 @@ input[type=number] {
   padding: 5px; /* Add some padding for better spacing */
 }
 
+.list-group-item.active {
+  z-index: unset;
+}
+
 .input-group-text + .form-control::file-selector-button {
   display: none;
 }

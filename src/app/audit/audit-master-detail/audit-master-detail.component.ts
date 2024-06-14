@@ -16,7 +16,6 @@ export class AuditMasterDetailComponent implements OnInit {
   constructor(
     private auditService: AuditService,
     public authService: AuthService,
-    private modalService: NgbModal,
   ) {
   }
 
@@ -64,21 +63,10 @@ export class AuditMasterDetailComponent implements OnInit {
   }
 
   delete(state: string, audit: Audit) {
-    if (!confirm(`Are you sure you want to delete '${audit.auditName}'?`)) {
-      return;
+    let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
+    this.audits[state].splice(index, 1);
+    if (!this.audits[state].length) {
+      delete this.audits[state];
     }
-    this.auditService.deleteAudit(audit.auditId).subscribe(() => {
-      let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
-      this.audits[state].splice(index, 1);
-      if (!this.audits[state].length) {
-        delete this.audits[state];
-      }
-    });
   }
-
-  openAddDataCollectorModal(audit: Audit) {
-    const modalRef = this.modalService.open(AddDataCollectorModalComponent, {size: 'lg'});
-    modalRef.componentInstance.audit = audit;
-  }
-
 }

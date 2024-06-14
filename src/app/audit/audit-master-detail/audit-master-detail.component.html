@@ -29,23 +29,12 @@
                           ({{ audit.user?.userName | titlecase }})
                         }
                       </div>
-                      <app-option-dropdown class="visible-hover">
-                        <button ngbDropdownItem class="bi-pencil-square" (click)="rename(section.key, audit)">
-                          Rename
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit.user?.role?.role !== 'guest') {
-                          <button ngbDropdownItem class="bi-person-plus" (click)="openAddDataCollectorModal(audit)">
-                            Add DataCollector
-                          </button>
-                          <div class="dropdown-divider"></div>
-                        }
-                        @if (authService.currentLoginUser?.role?.role !== 'dataCollector' || (audit.user?.role?.role !== 'admin' && audit.user?.role?.role !== 'superAdmin')) {
-                          <button ngbDropdownItem class="text-danger bi-trash" (click)="delete(section.key, audit)">
-                            Delete
-                          </button>
-                        }
-                      </app-option-dropdown>
+                      <div class="ms-3" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+                        <app-audit-options-dropdown
+                          [audit]="audit"
+                          (deleted)="delete(section.key, audit)"
+                        ></app-audit-options-dropdown>
+                      </div>
                     </a>
                   }
                 </div>
