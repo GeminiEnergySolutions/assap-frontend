@@ -6,12 +6,14 @@ import {FormInputTypePipe} from './form-input-type.pipe';
 import {FormComponent} from './form/form.component';
 import {FormElementComponent} from './form-element/form-element.component';
 import {SharedModule} from '../shared.module';
+import {FormChoicesPipe} from './form-choices.pipe';
 
 @NgModule({
   declarations: [
     FormComponent,
     FormElementComponent,
     FormInputTypePipe,
+    FormChoicesPipe,
   ],
   exports: [
     FormComponent,

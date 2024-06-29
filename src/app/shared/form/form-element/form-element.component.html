@@ -20,9 +20,9 @@
       (change)="changeDropDown(element)"
       [attr.aria-describedby]="id + '-help'"
     >
-      @for (value of element.values.split(','); track value) {
-        <option [value]="value.substring(value.indexOf(':') + 1)">
-          {{ value.substring(value.indexOf(':') + 1) }}
+      @for (entry of element.values | formChoices; track entry[0]) {
+        <option [value]="entry[1]">
+          {{ entry[1] }}
         </option>
       }
     </select>
