@@ -29,6 +29,7 @@ export interface SchemaElement {
   inputList?: SchemaSubElement[];
   isHeading?: boolean;
   heading?: string;
+  required?: boolean;
 }
 
 export interface SchemaRequirement {

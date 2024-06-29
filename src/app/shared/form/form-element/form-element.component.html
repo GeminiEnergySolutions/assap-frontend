@@ -6,6 +6,9 @@
 @if (element.type !== 'checkbox') {
   <label [for]="id" class="form-label">
     {{ element.title }}
+    @if (element.required) {
+      <span class="text-danger" ngbTooltip="Required">*</span>
+    }
   </label>
 }
 @switch (element.type) {
