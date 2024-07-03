@@ -10,8 +10,8 @@ import {PercentageCompletion} from '../../model/percentage-completion.interface'
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent {
-  @Input() typeSchema: SchemaSection[] = [];
-  @Input() formData?: { id?: string | number; data: Record<string, string | number | boolean> };
+  @Input({required: true}) typeSchema!: SchemaSection[];
+  @Input({required: true}) formData!: { id?: string | number; data: any };
   /** for offline storage */
   @Input() formId: string = '';
   @Output() saved = new EventEmitter<void>();

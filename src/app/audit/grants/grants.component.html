@@ -21,10 +21,12 @@
   }
 </div>
 <div class="container">
-  <app-form
-    [typeSchema]="typeSchema"
-    [formData]="formData"
-    [formId]="'audits/' + auditId + '/grants'"
-    (saved)="save()"
-  ></app-form>
+  @if (typeSchema && formData) {
+    <app-form
+      [typeSchema]="typeSchema"
+      [formData]="formData"
+      [formId]="'audits/' + auditId + '/grants'"
+      (saved)="save()"
+    ></app-form>
+  }
 </div>

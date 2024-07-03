@@ -41,12 +41,14 @@
   </div>
 </div>
 <div class="container">
-  <app-form
-    [typeSchema]="typeSchema"
-    [formData]="formData"
-    [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"
-    (saved)="save()"
-  ></app-form>
+  @if (typeSchema && formData) {
+    <app-form
+      [typeSchema]="typeSchema"
+      [formData]="formData"
+      [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"
+      (saved)="save()"
+    ></app-form>
+  }
   <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
 </div>
 <router-outlet></router-outlet>
