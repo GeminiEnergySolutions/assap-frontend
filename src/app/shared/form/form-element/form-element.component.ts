@@ -26,30 +26,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     if (this.formData.data[this.element.key]) {
       return;
     }
-    const initialValue = globalThis.localStorage?.getItem(this.id);
-    if (initialValue) {
-      this.formData.data[this.element.key] = this.coerce(initialValue);
-    } else if (this.element.isDateNow) {
-      this.formData.data[this.element.key] = new Date();
-    }
     this.validate();
-  }
-
-  coerce(value: string) {
-    switch (this.element.type) {
-      case 'date':
-        return new Date(value);
-      case 'checkbox':
-        return value === 'true';
-    }
-    switch (this.element.dataType) {
-      case 'number':
-        return +value;
-      case 'date':
-        return new Date(value);
-      default:
-        return value;
-    }
   }
 
   setDirty() {
