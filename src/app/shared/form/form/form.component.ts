@@ -128,4 +128,6 @@ export class FormComponent implements OnInit {
     const percentage = (completedFields / totalFields) * 100;
     return {totalFields, completedFields, percentage};
   }
+
+  protected readonly Array = Array;
 }

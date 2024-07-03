@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SchemaElement, SchemaRequirement, SchemaSection} from '../../model/schema.interface';
+import {isArray} from 'class-validator';
 
 @Component({
   selector: 'app-form-element',
@@ -65,13 +66,13 @@ export class FormElementComponent implements OnInit, OnChanges {
   // TODO Autofill Dates:
   //   this.formData.data[element.key] = !this.formData.data[element.key] && element.isDateNow ? new Date().toISOString() : this.formData.data[element.key];
 
-  changeDropDown(element: any) {
+  changeDropDown(element: SchemaElement) {
     this.setDirty();
     if (!element.inputList?.length) {
       return;
     }
     const keyValue = this.formData.data[element.key];
-    let dependentInputList = element.inputList.filter((a: any) => a.dependentKeyValue != keyValue);
+    let dependentInputList = element.inputList.filter(subElement => Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue);
     for (const element1 of dependentInputList) {
       if (!this.formData.data[element1.key]) {
         continue;
@@ -86,4 +87,6 @@ export class FormElementComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  protected readonly isArray = Array.isArray;
 }

@@ -40,5 +40,5 @@ export interface SchemaRequirement {
 }
 
 export interface SchemaSubElement extends SchemaElement {
-  dependentKeyValue: string | number;
+  dependentKeyValue: string | number | boolean | (string | number | boolean)[];
 }

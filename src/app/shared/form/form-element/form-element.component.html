@@ -82,3 +82,12 @@
 <div [id]="id + '-help'" class="form-text">
   {{ element.hint }}
 </div>
+@if (element.inputList?.length) {
+  <div class="mt-3 mx-2">
+    @for (element1 of element.inputList; track element1.key) {
+      @if (!element1.dependentKeyValue && formData.data[element.key] || (isArray(element1.dependentKeyValue) ? element1.dependentKeyValue.includes(formData.data[element.key]) : element1.dependentKeyValue === formData.data[element.key])) {
+        <app-form-element [element]="element1" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
+      }
+    }
+  </div>
+}
