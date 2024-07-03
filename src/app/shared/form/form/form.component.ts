@@ -81,8 +81,12 @@ export class FormComponent {
   }
 
   getProgress(schema: SchemaSection): PercentageCompletion {
-    const totalFields = schema.schema.length;
-    const completedFields = schema.schema.filter(e => this.formData?.data[e.key] !== undefined).length;
+    let requireElements = schema.schema.filter(e => e.required);
+    const totalFields = requireElements.length;
+    const completedFields = requireElements.filter(e => {
+      const data = this.formData?.data[e.key];
+      return data !== undefined && data !== null && data !== '';
+    }).length;
     const percentage = (completedFields / totalFields) * 100;
     return {totalFields, completedFields, percentage};
   }
