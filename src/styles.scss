@@ -1,6 +1,13 @@
-$primary: #b6eb3f;
-$component-active-color: black;
-$dark: #1e3881;
+$ges-sustainability: #042f35;
+$ges-empowerment: #b6eb3f;
+$ges-clean-energy: #1e3881;
+$ges-equity: #e4e8da;
+
+$primary: $ges-clean-energy;
+$link-color-dark: $ges-empowerment;
+$primary-text-emphasis-dark: $ges-empowerment;
+$dark: $ges-sustainability;
+
 $color-mode-type: 'media-query';
 
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
@@ -61,11 +68,10 @@ input[type=number] {
   display: none;
 }
 
-.nav .nav-item.active {
-  background-color: $dark;
-}
-.nav .nav-item.active::before {
-  color: $primary;
+// Correction: On dark background, the link color should be lighter (i.e. the dark mode link color)
+.bg-dark, .list-group-item.active {
+  --bs-link-color: var(--bs-link-color-dark);
+  --bs-link-hover-color: var(--bs-link-hover-color-dark);
 }
 
 // Hide dropdown arrow if the button is only an icon without text
