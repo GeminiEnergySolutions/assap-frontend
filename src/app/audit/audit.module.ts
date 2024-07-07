@@ -25,6 +25,7 @@ import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
+import { CreateAuditModalComponent } from './create-audit-modal/create-audit-modal.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.comp
     GrantsComponent,
     PreauditFormComponent,
     OptionsDropdownComponent,
+    CreateAuditModalComponent,
   ],
 })
 export class AuditModule {

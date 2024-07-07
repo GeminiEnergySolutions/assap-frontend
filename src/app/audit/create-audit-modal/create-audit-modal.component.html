@@ -1,0 +1,22 @@
+<ngbx-modal #modal [back]="['..']">
+  <ng-container modal-title>
+    Create Audit
+  </ng-container>
+  <ng-container modal-body>
+    <div class="mb-3">
+      <label for="name" class="form-label">
+        Name
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="name" required>
+    </div>
+  </ng-container>
+  <ng-container modal-footer>
+    <button class="btn btn-secondary" (click)="modal.close()">
+      Cancel
+    </button>
+    <button class="btn btn-primary" (click)="create(); modal.close()" [disabled]="!name">
+      Create
+    </button>
+  </ng-container>
+</ngbx-modal>
