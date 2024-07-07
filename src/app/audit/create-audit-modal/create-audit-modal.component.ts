@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuditService} from '../../shared/services/audit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {switchMap} from 'rxjs';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-create-audit-modal',
@@ -14,6 +15,7 @@ export class CreateAuditModalComponent {
 
   constructor(
     private auditService: AuditService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -25,6 +27,8 @@ export class CreateAuditModalComponent {
         auditId: result.data.auditId,
         id: result.data.pre_audit_form.id,
         data: {
+          auditor_name: this.authService.currentLoginUser?.userName ?? '',
+          auditor_email: this.authService.currentLoginUser?.email ?? '',
           client_state: this.state,
         },
       })),
