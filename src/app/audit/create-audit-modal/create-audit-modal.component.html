@@ -10,12 +10,22 @@
       </label>
       <input type="text" class="form-control" id="name" [(ngModel)]="name" required>
     </div>
+    <div class="mb-3">
+      <label for="state" class="form-label">
+        State
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      <input type="text" class="form-control" id="state" [(ngModel)]="state" required>
+      <div class="form-text">
+        US state abbreviation (e.g. CA, TX, NY) or other location.
+      </div>
+    </div>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">
       Cancel
     </button>
-    <button class="btn btn-primary" (click)="create()" [disabled]="!name">
+    <button class="btn btn-primary" (click)="create()" [disabled]="!name || !state">
       Create
     </button>
   </ng-container>

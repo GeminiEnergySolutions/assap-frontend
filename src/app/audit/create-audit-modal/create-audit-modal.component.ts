@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuditService} from '../../shared/services/audit.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-create-audit-modal',
@@ -9,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CreateAuditModalComponent {
   name = '';
+  state = '';
 
   constructor(
     private auditService: AuditService,
@@ -18,7 +20,15 @@ export class CreateAuditModalComponent {
   }
 
   create() {
-    this.auditService.createAudit({auditName: this.name}).subscribe(result => {
+    this.auditService.createAudit({auditName: this.name}).pipe(
+      switchMap(result => this.auditService.updatePreAuditData(result.data.auditId, {
+        auditId: result.data.auditId,
+        id: result.data.pre_audit_form.id,
+        data: {
+          client_state: this.state,
+        },
+      })),
+    ).subscribe(result => {
       this.router.navigate(['..'], {
         relativeTo: this.route,
         queryParams: {
