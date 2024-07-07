@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuditService} from 'src/app/shared/services/audit.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from 'src/app/shared/services/auth.service';
-import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
 import {Audit} from '../../shared/model/audit.interface';
+import {EMPTY, switchMap} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-audit-master-detail',
@@ -16,6 +16,8 @@ export class AuditMasterDetailComponent implements OnInit {
   constructor(
     private auditService: AuditService,
     public authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
@@ -29,13 +31,28 @@ export class AuditMasterDetailComponent implements OnInit {
         this.groupAudits(res.data);
       });
     }
+
+    this.route.queryParams.pipe(
+      switchMap(({new: newId}) => newId ? this.auditService.getSingleAudit(newId) : EMPTY),
+    ).subscribe(response => {
+      this.addAudit(response.data);
+      this.router.navigate(['.'], {
+        relativeTo: this.route,
+        queryParams: {new: null},
+        replaceUrl: true,
+      });
+    });
   }
 
   private groupAudits(audits: Audit[]) {
     this.audits = {};
     for (const audit of audits) {
-      (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
+      this.addAudit(audit);
     }
+  }
+
+  private addAudit(audit: Audit) {
+    (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
   }
 
   rename(state: string, audit: Audit) {
