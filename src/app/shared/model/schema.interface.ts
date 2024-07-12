@@ -31,15 +31,18 @@ export interface SchemaElement {
   heading?: string;
   required?: boolean;
   disabled?: boolean;
+  defaultValue?: SchemaValue;
 }
+
+export type SchemaValue = string | number | boolean;
 
 export interface SchemaRequirement {
   level?: 'warning' | 'error';
   type: 'min' | 'max' | 'pattern';
-  value: string | number;
+  value: SchemaValue;
   message: string;
 }
 
 export interface SchemaSubElement extends SchemaElement {
-  dependentKeyValue: string | number | boolean | (string | number | boolean)[];
+  dependentKeyValue: SchemaValue | SchemaValue[];
 }

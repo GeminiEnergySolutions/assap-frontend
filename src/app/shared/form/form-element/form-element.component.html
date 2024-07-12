@@ -36,6 +36,7 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
+      [placeholder]="element.defaultValue"
     ></textarea>
   }
   @case ("checkbox") {
@@ -63,6 +64,7 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
+      [placeholder]="element.defaultValue"
     >
   }
   @default {
@@ -74,6 +76,7 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
+      [placeholder]="element.defaultValue"
     >
   }
 }
