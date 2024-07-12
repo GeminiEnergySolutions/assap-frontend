@@ -19,6 +19,7 @@
       [(ngModel)]="formData.data[element.key]"
       (change)="changeDropDown(element)"
       [attr.aria-describedby]="id + '-help'"
+      [disabled]="!!element.disabled"
     >
       @for (entry of element.values | formChoices; track entry[0]) {
         <option [value]="entry[1]">
@@ -34,6 +35,7 @@
       [(ngModel)]="formData.data[element.key]"
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
+      [disabled]="!!element.disabled"
     ></textarea>
   }
   @case ("checkbox") {
@@ -45,6 +47,7 @@
         [(ngModel)]="formData.data[element.key]"
         (change)="setDirty()"
         [attr.aria-describedby]="id + '-help'"
+        [disabled]="!!element.disabled"
       >
       <label class="form-check-label" [for]="id">
         {{ element.title }}
@@ -59,6 +62,7 @@
       [(ngModel)]="formData.data[element.key]"
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
+      [disabled]="!!element.disabled"
     >
   }
   @default {
@@ -69,6 +73,7 @@
       [(ngModel)]="formData.data[element.key]"
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
+      [disabled]="!!element.disabled"
     >
   }
 }

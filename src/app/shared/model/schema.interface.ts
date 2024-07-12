@@ -30,6 +30,7 @@ export interface SchemaElement {
   isHeading?: boolean;
   heading?: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export interface SchemaRequirement {
