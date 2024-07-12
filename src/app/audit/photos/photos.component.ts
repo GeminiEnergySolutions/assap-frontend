@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {MatPaginator} from '@angular/material/paginator';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-photos',
@@ -13,21 +13,18 @@ import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interfa
 })
 export class PhotosComponent implements OnInit {
 
-  @ViewChild(MatPaginator, {static: false}) paginator: any;
-
   photoType: string = 'All';
-  zoneList: any = [];
-  zone: number = 0;
+  zoneList: Zone[] = [];
+  zone?: number;
   equipmentList: EquipmentCategory[] = [];
-  equipment: number = 0;
+  equipment?: number;
   subTypeList: Equipment[] = [];
-  subType: number = 0;
-  data: any = [];
-  data2 = [];
-  dataForLength = [];
+  subType?: number;
 
   page = 0;
-  size = 8;
+  size = 10;
+
+  photos: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -42,126 +39,61 @@ export class PhotosComponent implements OnInit {
     this.equipmentService.getEquipmentCategories().subscribe(res => {
       this.equipmentList = res.data;
     });
-  }
-
-  getPhotos() {
-    this.auditService.getPhotos(this.route.snapshot.params.aid).subscribe((photos: any) => {
-      this.data2 = photos.data;
-      this.getData({pageIndex: this.page, pageSize: this.size});
-    });
-  }
-
-  updatePhotosFilter() {
-    this.getData({pageIndex: 0, pageSize: 8});
-  }
-
-  getData(obj: any) {
-
-    let index = 0,
-      startingIndex = obj.pageIndex * obj.pageSize,
-      endingIndex = startingIndex + obj.pageSize;
-
-    if (this.photoType === 'Audit') {
-      this.dataForLength = this.data2.filter((a: any) => !a.zoneId && !a.equipmentId);
-      this.data = this.dataForLength.filter((a: any) => {
-        index++;
-        return (index > startingIndex && index <= endingIndex && !a.zoneId && !a.equipmentId);
-      });
-    } else if (this.photoType === 'Zone') {
-
-      if (this.subType) {
-        this.dataForLength = this.data2.filter((a: any) => a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment) && a.subTypeId === Number(this.subType));
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return (index > startingIndex && index <= endingIndex && a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment) && a.subTypeId === Number(this.subType));
-        });
-      } else if (this.equipment) {
-        this.dataForLength = this.data2.filter((a: any) => a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment));
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return (index > startingIndex && index <= endingIndex && a.zoneId === Number(this.zone) && a.equipmentId === Number(this.equipment));
-        });
-      } else if (this.zone) {
-        this.dataForLength = this.data2.filter((a: any) => a.zoneId === Number(this.zone) && !a.equipmentId);
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return (index > startingIndex && index <= endingIndex && a.zoneId === Number(this.zone) && !a.equipmentId);
-        });
-      } else {
-        this.dataForLength = this.data2.filter((a: any) => a.zoneId && !a.equipmentId);
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return !!(index > startingIndex && index <= endingIndex && a.zoneId && !a.equipmentId);
-        });
-      }
-
-    } else {
-      if (this.equipment) {
-        this.dataForLength = this.data2.filter((a: any) => a.equipmentId === Number(this.equipment));
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return (index > startingIndex && index <= endingIndex && a.equipmentId === Number(this.equipment));
-        });
-      } else {
-        this.dataForLength = this.data2;
-        this.data = this.dataForLength.filter((a: any) => {
-          index++;
-          return (index > startingIndex && index <= endingIndex);
-        });
-      }
-    }
-  }
-
-  changePhotoType() {
-    this.zoneList = [];
-    this.zone = 0;
-    this.equipment = 0;
-    this.subTypeList = [];
-    this.subType = 0;
-
-    if (this.photoType === 'Zone') {
-      this.getAllAuditZone(this.route.snapshot.params.aid);
-    }
-    this.getPhotos();
-    // this.getData({ pageIndex: 0, pageSize: 8 });
-  }
-
-  getAllAuditZone(auditId: number) {
-    this.auditZoneService.getAllAuditZone(auditId).subscribe((res: any) => {
+    this.auditZoneService.getAllAuditZone(this.route.snapshot.params.aid).subscribe(res => {
       this.zoneList = res.data;
     });
   }
 
-  changeZone() {
-    this.equipment = 0;
-    this.getData({pageIndex: 0, pageSize: 8});
-
-  }
-
-  changeEquipment() {
-    this.subType = 0;
-    this.subTypeList = [];
-
-    this.getData({pageIndex: 0, pageSize: 8});
-
-    this.getEquipmentSubTypes(this.equipment);
-  }
-
-  getEquipmentSubTypes(equipmentId: number) {
-    this.equipmentService.getEquipments(this.zone, equipmentId).subscribe(res => {
-      this.subTypeList = res;
+  getPhotos() {
+    this.auditService.getPhotos(this.route.snapshot.params.aid, this.page, this.size, {
+      zoneId: this.zone,
+      equipmentId: this.equipment,
+      typeId: this.subType,
+    }).subscribe(response => {
+      this.photos = response.data;
     });
   }
 
+  changeEquipmentAll() {
+    this.getPhotos();
+  }
+
+  changePhotoType() {
+    this.zoneList = [];
+    this.zone = undefined;
+    this.equipment = undefined;
+    this.subTypeList = [];
+    this.subType = undefined;
+    this.page = 0;
+
+    this.getPhotos();
+  }
+
+  changeZone() {
+    this.equipment = undefined;
+    this.page = 0;
+    this.getPhotos();
+  }
+
+  changeEquipment() {
+    this.subType = undefined;
+    this.subTypeList = [];
+    this.page = 0;
+
+    this.equipmentService.getEquipments(this.zone!, this.equipment!).subscribe(res => {
+      this.subTypeList = res;
+    });
+    this.getPhotos();
+  }
+
   changeSubType() {
-    this.getData({pageIndex: 0, pageSize: 8});
+    this.page = 0;
+    this.getPhotos();
   }
 
   deletePhoto(id: number) {
     this.auditService.deletePhoto(id).subscribe(() => {
-      this.data = this.data.filter((a: any) => a.id !== id);
-      this.data2 = this.data2.filter((a: any) => a.id !== id);
-      this.dataForLength = this.dataForLength.filter((a: any) => a.id !== id);
+      this.photos = this.photos.filter((a: any) => a.id !== id);
     });
   }
 }

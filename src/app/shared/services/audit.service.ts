@@ -46,8 +46,15 @@ export class AuditService {
     return this.http.post(`${this.rootUrl}api/assign/`,data);
   }
 
-  getPhotos(auditId: Number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`);
+  getPhotos(auditId: number, pageNo: number, size: number, options?: {zoneId?: number; equipmentId?: number, typeId?: number}): Observable<any> {
+    return this.http.get(`${this.rootUrl}api/auditPhoto`, {
+      params: {
+        auditId,
+        pageNo,
+        size,
+        ...Object.fromEntries(Object.entries(options ?? {}).filter(([_, v]) => v !== undefined)),
+      },
+    });
   }
   deletePhoto(id: number): Observable<any> {
     return this.http.delete(`${this.rootUrl}api/auditPhoto`, {params: {id}});

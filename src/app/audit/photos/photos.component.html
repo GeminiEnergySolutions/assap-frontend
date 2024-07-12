@@ -29,7 +29,7 @@
   @if (photoType === 'All') {
     <div class="col">
       <span>Equipment</span>
-      <select [(ngModel)]="equipment" (change)="updatePhotosFilter()" class="form-select">
+      <select [(ngModel)]="equipment" (change)="changeEquipmentAll()" class="form-select">
         @for (item of equipmentList; track item) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
@@ -68,7 +68,7 @@
   }
 </div>
 <div class="row">
-  @for (item of data; track item) {
+  @for (item of photos; track item) {
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box p-0">
       <img [src]="item.photo" class="img-fluid">
       <div class="overlay">
@@ -86,7 +86,7 @@
     </div>
   }
 
-  <mat-paginator [length]="dataForLength.length" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[4, 8, 16, 32]"
-                 (page)="getData($event)">
+  <mat-paginator [length]="100" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[10, 25, 50, 100]"
+                 (page)="page = $event.pageIndex; size = $event.pageSize; getPhotos()">
   </mat-paginator>
 </div>
