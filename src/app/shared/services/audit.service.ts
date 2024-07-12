@@ -7,6 +7,7 @@ import {SchemaResponse, SchemaSection} from '../model/schema.interface';
 import {Audit} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
+import {Photo} from '../model/photo.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
@@ -46,8 +47,8 @@ export class AuditService {
     return this.http.post(`${this.rootUrl}api/assign/`,data);
   }
 
-  getPhotos(auditId: number, pageNo: number, size: number, options?: {zoneId?: number; equipmentId?: number, typeId?: number}): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/auditPhoto`, {
+  getPhotos(auditId: number, pageNo: number, size: number, options?: {zoneId?: number; equipmentId?: number, typeId?: number}): Observable<{ data: Photo[] }> {
+    return this.http.get<{ data: Photo[] }>(`${this.rootUrl}api/auditPhoto`, {
       params: {
         auditId,
         pageNo,

@@ -5,6 +5,7 @@ import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {Photo} from '../../shared/model/photo.interface';
 
 @Component({
   selector: 'app-photos',
@@ -24,7 +25,7 @@ export class PhotosComponent implements OnInit {
   page = 0;
   size = 10;
 
-  photos: any[] = [];
+  photos: Photo[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -93,7 +94,7 @@ export class PhotosComponent implements OnInit {
 
   deletePhoto(id: number) {
     this.auditService.deletePhoto(id).subscribe(() => {
-      this.photos = this.photos.filter((a: any) => a.id !== id);
+      this.photos = this.photos.filter(photo => photo.id !== id);
     });
   }
 }

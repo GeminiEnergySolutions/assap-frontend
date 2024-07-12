@@ -74,10 +74,10 @@
       <div class="overlay">
         {{
           item.equipmentId ?
-            (item.auditName.auditName + ' / ' + item.zoneName.zoneName + ' / ' + item.equipmentName.equipmentName + ' / ' + item.typeName.name + ' / ' + item.subTypeName.name | uppercase)
+            (item.auditName.auditName + ' / ' + item.zoneName?.zoneName + ' / ' + item.equipmentName?.equipmentName + ' / ' + item.typeName?.name + ' / ' + item.subTypeName?.name | uppercase)
             :
             item.zoneId ?
-              (item.auditName.auditName + ' / ' + item.zoneName.zoneName | uppercase)
+              (item.auditName.auditName + ' / ' + item.zoneName?.zoneName | uppercase)
               :
               (item.auditName.auditName | uppercase)
         }}
