@@ -156,4 +156,12 @@ export class PhotosComponent implements OnInit {
   changeSubType() {
     this.getData({pageIndex: 0, pageSize: 8});
   }
+
+  deletePhoto(id: number) {
+    this.auditService.deletePhoto(id).subscribe(() => {
+      this.data = this.data.filter((a: any) => a.id !== id);
+      this.data2 = this.data2.filter((a: any) => a.id !== id);
+      this.dataForLength = this.dataForLength.filter((a: any) => a.id !== id);
+    });
+  }
 }

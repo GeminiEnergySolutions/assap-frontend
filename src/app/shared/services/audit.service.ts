@@ -49,6 +49,9 @@ export class AuditService {
   getPhotos(auditId: Number): Observable<any> {
     return this.http.get(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`);
   }
+  deletePhoto(id: number): Observable<any> {
+    return this.http.delete(`${this.rootUrl}api/auditPhoto`, {params: {id}});
+  }
   uploadPhoto(auditId: Number, formData: any): Observable<any> {
     return this.http.post(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`, formData);
   }
