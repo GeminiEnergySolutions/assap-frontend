@@ -24,6 +24,7 @@ export class PhotosComponent implements OnInit {
 
   page = 0;
   size = 10;
+  totalCount = 0;
 
   photos: Photo[] = [];
 
@@ -46,12 +47,13 @@ export class PhotosComponent implements OnInit {
   }
 
   getPhotos() {
-    this.auditService.getPhotos(this.route.snapshot.params.aid, this.page, this.size, {
+    this.auditService.getPhotos(this.route.snapshot.params.aid, this.page + 1, this.size, {
       zoneId: this.zone,
       equipmentId: this.equipment,
       typeId: this.subType,
     }).subscribe(response => {
-      this.photos = response.data;
+      this.photos = response.data.photos;
+      this.totalCount = response.data.count_total_photos;
     });
   }
 

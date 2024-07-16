@@ -86,7 +86,7 @@
     </div>
   }
 
-  <mat-paginator [length]="100" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[10, 25, 50, 100]"
+  <mat-paginator [length]="totalCount" [pageSize]="size" [pageIndex]="page" [pageSizeOptions]="[2, 10, 25, 50, 100]"
                  (page)="page = $event.pageIndex; size = $event.pageSize; getPhotos()">
   </mat-paginator>
 </div>

@@ -47,8 +47,17 @@ export class AuditService {
     return this.http.post(`${this.rootUrl}api/assign/`,data);
   }
 
-  getPhotos(auditId: number, pageNo: number, size: number, options?: {zoneId?: number; equipmentId?: number, typeId?: number}): Observable<{ data: Photo[] }> {
-    return this.http.get<{ data: Photo[] }>(`${this.rootUrl}api/auditPhoto`, {
+  getPhotos(auditId: number, pageNo: number, size: number, options?: {
+    zoneId?: number;
+    equipmentId?: number,
+    typeId?: number
+  }): Observable<{
+    data: {
+      photos: Photo[];
+      count_total_photos: number;
+    }
+  }> {
+    return this.http.get<any>(`${this.rootUrl}api/auditPhoto`, {
       params: {
         auditId,
         pageNo,
