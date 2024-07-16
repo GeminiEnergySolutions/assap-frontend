@@ -62,7 +62,6 @@ export class PhotosComponent implements OnInit {
   }
 
   changePhotoType() {
-    this.zoneList = [];
     this.zone = undefined;
     this.equipment = undefined;
     this.subTypeList = [];
@@ -83,7 +82,7 @@ export class PhotosComponent implements OnInit {
     this.subTypeList = [];
     this.page = 0;
 
-    this.equipmentService.getEquipments(this.zone!, this.equipment!).subscribe(res => {
+    this.equipment && this.equipmentService.getEquipments(this.zone!, this.equipment).subscribe(res => {
       this.subTypeList = res;
     });
     this.getPhotos();
