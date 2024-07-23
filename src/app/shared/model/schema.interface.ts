@@ -19,7 +19,7 @@ export interface CopySpec {
 export interface SchemaElement {
   key: string;
   hint: 'rq' | string;
-  type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date';
+  type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date' | 'radio';
   title: string;
   /**
    * An array of options for type=select.
