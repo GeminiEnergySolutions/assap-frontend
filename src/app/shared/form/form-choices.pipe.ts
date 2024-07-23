@@ -4,7 +4,10 @@ import {Pipe, PipeTransform} from '@angular/core';
   name: 'formChoices',
 })
 export class FormChoicesPipe implements PipeTransform {
-  transform(value: string): [string, string][] {
-    return value.split(',').map((v) => v.split(':', 2) as [string, string]);
+  transform(value: string | string[]): string[] {
+    if (typeof value === 'string') {
+      return value.split(',').map((v) => v.substring(v.indexOf(':') + 1));
+    }
+    return value;
   }
 }

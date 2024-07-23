@@ -21,9 +21,9 @@
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
     >
-      @for (entry of element.values | formChoices; track entry[0]) {
-        <option [value]="entry[1]">
-          {{ entry[1] }}
+      @for (entry of (element.values ?? []) | formChoices; track entry) {
+        <option [value]="entry">
+          {{ entry }}
         </option>
       }
     </select>
