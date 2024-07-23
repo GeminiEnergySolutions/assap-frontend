@@ -36,7 +36,9 @@ export class FormComponent implements OnInit {
     if (initialValue) {
       this.formData.data[element.key] = this.coerce(element, initialValue);
     } else if (element.isDateNow) {
-      this.formData.data[element.key] = new Date();
+      this.formData.data[element.key] ??= new Date();
+    } else if (element.defaultValue) {
+      this.formData.data[element.key] ??= element.defaultValue;
     }
 
     for (const subElement of element.inputList ?? []) {
