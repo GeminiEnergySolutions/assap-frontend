@@ -20,7 +20,7 @@ export class EquipmentDetailComponent implements OnInit {
   equipmentId?: number;
   equipment?: Equipment;
   progress?: PercentageCompletion;
-  typeSchema: SchemaSection[] = [];
+  typeSchema?: SchemaSection[];
   formData?: ZoneData;
 
   constructor(

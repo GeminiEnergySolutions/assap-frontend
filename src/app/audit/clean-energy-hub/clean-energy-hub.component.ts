@@ -17,7 +17,7 @@ import {AuthService} from '../../shared/services/auth.service';
 export class CleanEnergyHubComponent implements OnInit {
   auditId?: number;
   progress?: PercentageCompletion;
-  typeSchema: SchemaSection[] = [];
+  typeSchema?: SchemaSection[];
   formData?: PreAuditData;
 
   serverUrl = environment.url;

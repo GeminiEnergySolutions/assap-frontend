@@ -15,7 +15,7 @@ import {switchMap, tap} from 'rxjs';
 export class GrantsComponent implements OnInit {
   auditId?: number;
   progress?: PercentageCompletion;
-  typeSchema: SchemaSection[] = [];
+  typeSchema?: SchemaSection[];
   formData?: PreAuditData;
 
   constructor(
