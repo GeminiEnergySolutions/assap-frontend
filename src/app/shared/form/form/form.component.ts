@@ -35,12 +35,14 @@ export class FormComponent implements OnInit {
     const initialValue = globalThis.localStorage?.getItem(id);
     if (initialValue) {
       this.formData.data[element.key] = this.coerce(element, initialValue);
-    } else if (element.isDateNow) {
-      this.formData.data[element.key] ??= new Date();
-    } else if (element.defaultValue && element.disabled) {
+    } else if (element.disabled && element.defaultValue) {
       this.formData.data[element.key] = element.defaultValue;
-    } else if (element.defaultValue) {
-      this.formData.data[element.key] ??= element.defaultValue;
+    } else {
+      const currentValue = this.formData.data[element.key];
+      const defaultValue = element.defaultValue ?? (element.isDateNow ? new Date() : undefined);
+      if (defaultValue !== undefined && (currentValue === undefined || currentValue === null || currentValue === '')) {
+        this.formData.data[element.key] = defaultValue;
+      }
     }
 
     for (const subElement of element.inputList ?? []) {
