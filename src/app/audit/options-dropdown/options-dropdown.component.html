@@ -8,6 +8,12 @@
       Download Energy Audit Report
     </a>
     <div class="dropdown-divider"></div>
+    <button ngbDropdownItem class="bi-eye" (click)="setSection('grantStatus', !audit?.grantStatus)">
+      {{ audit?.grantStatus ? 'Hide' : 'Show' }} Grants section
+    </button>
+    <button ngbDropdownItem class="bi-eye-slash" (click)="setSection('cehStatus', !audit?.cehStatus)">
+      {{ audit?.cehStatus ? 'Hide' : 'Show' }} Clean Energy Hub section
+    </button>
     <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
       Rename
     </button>

@@ -28,6 +28,16 @@ export class OptionsDropdownComponent {
   ) {
   }
 
+  setSection(section: 'cehStatus' | 'grantStatus', status: boolean) {
+    if (!this.audit) {
+      return;
+    }
+    this.auditService.updateAudit({...this.audit, [section]: status}).subscribe(() => {
+      this.audit![section] = status;
+      this.toastService.success('Update Audit', `Successfully updated Feasibility Study sections.`);
+    });
+  }
+
   rename() {
     if (!this.audit) {
       return;
