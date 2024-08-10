@@ -28,8 +28,12 @@
     routerLink="preaudit"
     [percentageQuery]="{percentageType: 'preaudit', auditId: route.snapshot.params.aid}"
   ></app-feature-card>
-  <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{percentageType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>
-  <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub" [percentageQuery]="{percentageType: 'ceh', auditId: route.snapshot.params.aid}"></app-feature-card>
+  @if (audit?.grantStatus) {
+    <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{percentageType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>
+  }
+  @if (audit?.cehStatus) {
+    <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub" [percentageQuery]="{percentageType: 'ceh', auditId: route.snapshot.params.aid}"></app-feature-card>
+  }
   <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{percentageType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
   <router-outlet></router-outlet>
 </div>
