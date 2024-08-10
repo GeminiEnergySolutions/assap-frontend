@@ -5,6 +5,8 @@ export interface Audit {
   auditId: number;
   auditCreatedOn: string;
   auditName: string;
+  cehStatus: boolean;
+  grantStatus: boolean;
   deleteStatus: false;
   userId: number;
   user?: User;

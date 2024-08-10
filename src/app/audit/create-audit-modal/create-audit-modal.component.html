@@ -20,6 +20,15 @@
         US state abbreviation (e.g. CA, TX, NY) or other location.
       </div>
     </div>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="active" [(ngModel)]="feasibilityStudy">
+      <label class="form-check-label" for="active">
+        Feasibility Study (Add Clean Energy Hub and Grants sections)
+      </label>
+      <div class="form-text">
+        These features can also be added or removed after the audit is created.
+      </div>
+    </div>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn-secondary" (click)="modal.close()">

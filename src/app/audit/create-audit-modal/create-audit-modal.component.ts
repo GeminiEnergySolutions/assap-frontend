@@ -12,6 +12,7 @@ import {AuthService} from '../../shared/services/auth.service';
 export class CreateAuditModalComponent {
   name = '';
   state = '';
+  feasibilityStudy = false;
 
   constructor(
     private auditService: AuditService,
@@ -22,7 +23,11 @@ export class CreateAuditModalComponent {
   }
 
   create() {
-    this.auditService.createAudit({auditName: this.name}).pipe(
+    this.auditService.createAudit({
+      auditName: this.name,
+      grantStatus: this.feasibilityStudy,
+      cehStatus: this.feasibilityStudy,
+    }).pipe(
       switchMap(result => this.auditService.updatePreAuditData(result.data.auditId, {
         auditId: result.data.auditId,
         id: result.data.pre_audit_form.id,
