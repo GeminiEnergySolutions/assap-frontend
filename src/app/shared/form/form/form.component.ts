@@ -40,7 +40,7 @@ export class FormComponent implements OnInit {
     } else {
       const currentValue = this.formData.data[element.key];
       const defaultValue = element.defaultValue ?? (element.isDateNow ? new Date() : undefined);
-      if (defaultValue !== undefined && (currentValue === undefined || currentValue === null || currentValue === '')) {
+      if (defaultValue !== undefined && (currentValue === undefined || currentValue === null)) {
         this.formData.data[element.key] = defaultValue;
       }
     }
