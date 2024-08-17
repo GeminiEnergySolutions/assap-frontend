@@ -26,6 +26,7 @@ import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-dat
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
 import { CreateAuditModalComponent } from './create-audit-modal/create-audit-modal.component';
+import { EquipmentOverviewComponent } from './equipment-overview/equipment-overview.component';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { CreateAuditModalComponent } from './create-audit-modal/create-audit-mod
     PreauditFormComponent,
     OptionsDropdownComponent,
     CreateAuditModalComponent,
+    EquipmentOverviewComponent,
   ],
 })
 export class AuditModule {

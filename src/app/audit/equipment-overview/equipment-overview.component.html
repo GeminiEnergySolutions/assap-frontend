@@ -1,0 +1,52 @@
+<div class="bg-dark text-light mb-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
+    <div class="bi-binoculars px-3">
+      Overview
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
+        <div class="dropdown-item-text">
+          No actions available.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mx-3">
+  <div class="col-lg">
+    <h3>
+      Zones
+      <small class="text-muted">{{ zones.length }}</small>
+    </h3>
+    <ul>
+      @for (zone of zones; track zone.zoneId) {
+        <li>
+          <a [routerLink]="['../zones', zone.zoneId]">
+            {{ zone.zoneName }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+  @for (section of sections; track section[1]) {
+    <div class="col-lg">
+      <h3>
+        {{ section[0] }}
+        <small class="text-muted">{{ details?.[section[1]]?.equipment_list?.length }}</small>
+      </h3>
+      <ul>
+        @for (equipment of details?.[section[1]]?.equipment_list; track equipment.id) {
+          <li>
+            <a [routerLink]="['../zones', equipment.zoneId, 'equipments', details?.[section[1]]?.id, 'types', equipment.id]">
+              {{ equipment.name }}
+            </a>
+            <div class="small text-muted">{{ zonesById[equipment.zoneId]?.zoneName }}</div>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

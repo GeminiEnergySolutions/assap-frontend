@@ -12,3 +12,12 @@ export interface Audit {
   user?: User;
   pre_audit_form: PreAuditData;
 }
+
+export type AuditDetails = Record<'KitchenEquipment' | 'Refrigeration' | 'Lighting' | 'WaterHeater' | 'HVAC', {
+  id: number;
+  equipment_list: {
+    id: number;
+    zoneId: number;
+    name: string;
+  }[];
+}>;

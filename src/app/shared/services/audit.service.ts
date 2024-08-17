@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {SchemaResponse, SchemaSection} from '../model/schema.interface';
-import {Audit} from '../model/audit.interface';
+import {Audit, AuditDetails} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {Photo} from '../model/photo.interface';
@@ -87,6 +87,10 @@ export class AuditService {
   }
   deleteAudit(id: number): Observable<any> {
     return this.http.delete(`${this.rootUrl}api/audit?auditId=${id}`);
+  }
+
+  getAuditDetails(id: number): Observable<{ data: AuditDetails }> {
+    return this.http.get<{ data: AuditDetails }>(`${this.rootUrl}api/auditDetail/${id}`);
   }
 
   getAllDataCollectorAudit(): Observable<Audit[]> {
