@@ -21,9 +21,9 @@
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
     >
-      @for (entry of element.values | formChoices; track entry[0]) {
-        <option [value]="entry[1]">
-          {{ entry[1] }}
+      @for (entry of (element.values ?? []) | formChoices; track entry) {
+        <option [value]="entry">
+          {{ entry }}
         </option>
       }
     </select>
@@ -36,7 +36,7 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
-      [placeholder]="element.defaultValue"
+      [placeholder]="element.defaultValue ?? ''"
     ></textarea>
   }
   @case ("checkbox") {
@@ -64,8 +64,19 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
-      [placeholder]="element.defaultValue"
+      [placeholder]="element.defaultValue ?? ''"
     >
+  }
+  @case ("radio") {
+    @for (entry of (element.values ?? []) | formChoices; track entry) {
+      <div class="form-check">
+        <input class="form-check-input" type="radio" [name]="id" [id]="id + '-' + $index"
+               [checked]="formData.data[element.key] === entry" (change)="formData.data[element.key] = entry; setDirty()">
+        <label class="form-check-label" [for]="id + '-' + $index">
+          {{ entry }}
+        </label>
+      </div>
+    }
   }
   @default {
     <input
@@ -76,7 +87,7 @@
       (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
-      [placeholder]="element.defaultValue"
+      [placeholder]="element.defaultValue ?? ''"
     >
   }
 }

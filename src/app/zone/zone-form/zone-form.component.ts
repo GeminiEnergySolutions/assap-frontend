@@ -16,7 +16,7 @@ export class ZoneFormComponent implements OnInit {
   auditId?: number;
   zoneId?: number;
   progress?: PercentageCompletion;
-  typeSchema: SchemaSection[] = [];
+  typeSchema?: SchemaSection[];
   formData?: ZoneData;
 
   constructor(

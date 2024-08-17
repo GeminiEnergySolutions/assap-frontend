@@ -15,7 +15,7 @@ import {ToastService} from '@mean-stream/ngbx';
 export class PreauditFormComponent implements OnInit {
   auditId?: number;
   progress?: PercentageCompletion;
-  typeSchema: SchemaSection[] = [];
+  typeSchema?: SchemaSection[];
   formData?: PreAuditData;
 
   constructor(

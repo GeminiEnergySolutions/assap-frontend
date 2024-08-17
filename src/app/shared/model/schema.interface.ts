@@ -19,10 +19,14 @@ export interface CopySpec {
 export interface SchemaElement {
   key: string;
   hint: 'rq' | string;
-  type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date';
+  type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date' | 'radio';
   title: string;
-  /** for type=select, this is a comma-separated string of colon-separated key value pairs */
-  values: string;
+  /**
+   * An array of options for type=select.
+   * In older schemas, this is a comma-separated string of colon-separated key value pairs.
+   * @see FormChoicesPipe
+   */
+  values?: string | string[];
   dataType: 'text' | 'number' | 'date';
   validations?: SchemaRequirement[];
   isDateNow?: boolean;
