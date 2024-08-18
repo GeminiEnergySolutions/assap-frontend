@@ -5,12 +5,12 @@
   @for (item of subtypes; track item) {
     <app-feature-card
       [title]="item.name | titlecase"
-      [subtitle]="item.type?.name"
+      [subtitle]="item.type.name"
       [routerLink]="['types', item.id]"
       [percentageQuery]="{percentageType: 'form', zoneId: this.route.snapshot.params.zid, subTypeId: item.id}"
     >
       <app-option-dropdown options style="z-index: 900">
-        @if (item?.type?.name === 'HVAC') {
+        @if (item.type.name === 'HVAC') {
           <h5 class="dropdown-header">
             HVAC Specific
           </h5>

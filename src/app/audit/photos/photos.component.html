@@ -61,7 +61,7 @@
       <span>Type</span>
       <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
         @for (item of subTypeList; track item) {
-          <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type?.name | uppercase) }}</option>
+          <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
       </select>
     </div>

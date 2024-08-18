@@ -14,7 +14,7 @@ import {Zone} from '../../shared/model/zone.interface';
 export class EquipmentOverviewComponent implements OnInit {
   details?: AuditDetails;
   zones: Zone[] = [];
-  zonesById: Record<number, Zone> = {};
+  zonesById: Partial<Record<number, Zone>> = {};
 
   readonly sections: [string, keyof AuditDetails][] = [
     ['HVAC', 'HVAC'],
