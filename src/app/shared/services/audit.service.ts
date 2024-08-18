@@ -8,6 +8,7 @@ import {Audit, AuditDetails} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {Photo} from '../model/photo.interface';
+import {DataCollector} from '../model/data-collector.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
@@ -40,10 +41,10 @@ export class AuditService {
     });
   }
 
-  dataCollectors(auditId: number):Observable<any> {
-    return this.http.get(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
+  dataCollectors(auditId: number): Observable<DataCollector[]> {
+    return this.http.get<DataCollector[]>(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
   }
-  assignAudits(data: any[]):Observable<any> {
+  assignAudits(data: { auditId: number; dataCollectorId: number }[]):Observable<any> {
     return this.http.post(`${this.rootUrl}api/assign/`,data);
   }
 

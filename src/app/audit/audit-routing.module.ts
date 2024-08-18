@@ -8,6 +8,7 @@ import {GrantsComponent} from './grants/grants.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal.component';
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
+import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       {path: ':aid/cleanenergyhub', component: CleanEnergyHubComponent},
       {path: ':aid/photos', component: PhotosComponent},
       {path: ':aid/overview', component: EquipmentOverviewComponent},
+      {path: ':aid/data-collectors', component: AddDataCollectorModalComponent},
       {path: ':aid', component: AuditDetailComponent},
     ],
   },

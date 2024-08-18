@@ -1,8 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {DataCollector} from './data-collector.interface';
+import {Component, OnInit} from '@angular/core';
+import {DataCollector} from '../../shared/model/data-collector.interface';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
+import {Audit} from '../../shared/model/audit.interface';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-add-data-collector-modal',
@@ -10,50 +12,42 @@ import {ToastService} from '@mean-stream/ngbx';
   styleUrls: ['./add-data-collector-modal.component.scss'],
 })
 export class AddDataCollectorModalComponent implements OnInit {
-  audit: any;
+  audit?: Audit;
   dataCollectors: DataCollector[] = [];
+  selected: Partial<Record<number, boolean>> = {};
 
   constructor(
     private auditService: AuditService,
-    public activeModal: NgbActiveModal,
-    private cdRef: ChangeDetectorRef,
     private toastService: ToastService,
-  ) {}
-
-  ngOnInit(): void {
-    this.fetchDataCollectors();
+    private route: ActivatedRoute,
+  ) {
   }
 
-  fetchDataCollectors(): void {
-    this.auditService.dataCollectors(this.audit.auditId).subscribe((res: DataCollector[]) => {
-      this.dataCollectors = res.map((item: DataCollector) => ({
-        ...item,
-        selected: false,
-      }));
-      this.cdRef.detectChanges();
+  ngOnInit(): void {
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => this.audit = data);
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.dataCollectors(aid)),
+    ).subscribe((res: DataCollector[]) => {
+      this.dataCollectors = res;
+      this.selected = {};
     });
   }
 
   onOkClick(): void {
-    const selectedDataCollectors = this.dataCollectors.filter((item) => item.selected);
-
-    if (!selectedDataCollectors.length) {
-      this.activeModal.close();
+    const assigned = this.dataCollectors
+      .filter(d => this.selected[d.id])
+      .map(d => ({
+        auditId: this.audit!.auditId,
+        dataCollectorId: d.id,
+      }));
+    if (!assigned.length) {
       return;
     }
-
-    let dataCollectorArray:any = [];
-    for (const dataCollector of selectedDataCollectors) {
-      const assignmentRequest = {
-        dataCollectorId: dataCollector.id,
-        auditId: this.audit.auditId,
-      };
-      dataCollectorArray.push(assignmentRequest);
-    }
-
-    this.auditService.assignAudits(dataCollectorArray).subscribe((res: any)=>{
+    this.auditService.assignAudits(assigned).subscribe(() => {
       this.toastService.success('Success', `Audit Assignment successful`);
     });
-    this.activeModal.close();
   }
 }

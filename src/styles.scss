@@ -56,11 +56,6 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.data-collector-item {
-  list-style-type: none; /* Remove the dot before the checkbox */
-  padding: 5px; /* Add some padding for better spacing */
-}
-
 .list-group-item.active {
   z-index: unset;
 }

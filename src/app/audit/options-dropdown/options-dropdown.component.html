@@ -18,9 +18,9 @@
       Rename
     </button>
     @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
-      <button ngbDropdownItem class="bi-person-plus" (click)="openAddDataCollectorModal()">
+      <a ngbDropdownItem class="bi-person-plus" [routerLink]="['/audits', audit?.auditId, 'data-collectors']">
         Add DataCollector
-      </button>
+      </a>
     }
     @if (authService.currentLoginUser?.role?.role !== 'dataCollector' || (audit?.user?.role?.role !== 'admin' && audit?.user?.role?.role !== 'superAdmin')) {
       <div class="dropdown-divider"></div>
