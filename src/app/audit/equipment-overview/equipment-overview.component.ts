@@ -2,24 +2,25 @@ import {Component, OnInit} from '@angular/core';
 import {AuditService} from '../../shared/services/audit.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
-import {Audit, AuditDetails} from '../../shared/model/audit.interface';
+import {AuditDetails} from '../../shared/model/audit.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-equipment-overview',
   templateUrl: './equipment-overview.component.html',
-  styleUrl: './equipment-overview.component.scss'
+  styleUrl: './equipment-overview.component.scss',
 })
 export class EquipmentOverviewComponent implements OnInit {
   details?: AuditDetails;
   zones: Zone[] = [];
   zonesById: Partial<Record<number, Zone>> = {};
+  zonesWithLighting: Partial<Record<number, true>> = {};
 
   readonly sections: [string, keyof AuditDetails][] = [
     ['HVAC', 'HVAC'],
     ['Water Heating', 'WaterHeater'],
-    ['Lighting', 'Lighting'],
+    // ['Lighting', 'Lighting'],
     ['Refrigeration', 'Refrigeration'],
     ['Kitchen Equipment', 'KitchenEquipment'],
   ];
@@ -28,7 +29,7 @@ export class EquipmentOverviewComponent implements OnInit {
     private auditService: AuditService,
     private zoneService: AuditZoneService,
     private route: ActivatedRoute,
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -36,6 +37,10 @@ export class EquipmentOverviewComponent implements OnInit {
       switchMap(({aid}) => this.auditService.getAuditDetails(aid)),
     ).subscribe(({data}) => {
       this.details = data;
+      this.zonesWithLighting = {};
+      for (const lighting of data.Lighting.equipment_list) {
+        this.zonesWithLighting[lighting.zoneId] = true;
+      }
     });
     this.route.params.pipe(
       switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),

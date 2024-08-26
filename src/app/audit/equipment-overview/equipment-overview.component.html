@@ -27,7 +27,27 @@
           <a [routerLink]="['../zones', zone.zoneId]">
             {{ zone.zoneName }}
           </a>
+          @if (!zonesWithLighting[zone.zoneId]) {
+            <i class="bi-lightbulb-off text-warning" ngbTooltip="This zone has no lighting equipment!"></i>
+          }
         </li>
+      }
+    </ul>
+  </div>
+  <div class="col-lg">
+    <h3>
+      No Lighting
+      <small class="text-muted">{{ zones.length - (zonesWithLighting | keyvalue).length }}</small>
+    </h3>
+    <ul>
+      @for (zone of zones; track zone.zoneId) {
+        @if (!zonesWithLighting[zone.zoneId]) {
+          <li>
+            <a [routerLink]="['../zones', zone.zoneId]">
+              {{ zone.zoneName }}
+            </a>
+          </li>
+        }
       }
     </ul>
   </div>
