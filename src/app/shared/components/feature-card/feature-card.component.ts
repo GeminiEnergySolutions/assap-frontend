@@ -23,7 +23,7 @@ export class FeatureCardComponent implements OnInit {
   }
 
   @Input()
-  set percentageQuery(query: PercentageQuery) {
+  set percentageQuery(query: PercentageQuery | undefined) {
     this.percentageQuery$.next(query);
   }
 

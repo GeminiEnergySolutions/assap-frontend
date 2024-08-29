@@ -14,8 +14,8 @@ export class AuditZoneService {
   constructor(private http: HttpClient,
   ) { }
 
-  getSingleZone(zoneId: number): Observable<any> {
-    return this.http.get(`${this.rootUrl}api/auditZone?zoneId=${zoneId}`);
+  getSingleZone(zoneId: number): Observable<{ data: Zone }> {
+    return this.http.get<{ data: Zone }>(`${this.rootUrl}api/auditZone?zoneId=${zoneId}`);
   }
   getAllAuditZone(auditId: number): Observable<{ data: Zone[] }> {
     return this.http.get<{ data: Zone[] }>(`${this.rootUrl}api/auditZone?auditId=${auditId}`);
