@@ -34,6 +34,12 @@ export class ErrorInterceptor implements HttpInterceptor {
         break;
       case 500:
         break;
+      case 400:
+        if (err.error?.message === 'Authorized still in pending') {
+          // Don't show a toast -- this error is handled by the login component
+          break;
+        }
+        // fallthrough
       default:
         this.toaster.error('Error', message);
         break;

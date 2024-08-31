@@ -26,3 +26,19 @@
     Don't have an account? <a routerLink="/auth/signup">Sign Up</a>
   </div>
 </div>
+
+<ng-template #pendingModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Pending Admin Approval</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Thank you for signing up with Conserve!
+      Our admin still needs to approve your account – we’ll send you an email shortly when you’re all set to log in.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.dismiss()">OK</button>
+  </div>
+</ng-template>

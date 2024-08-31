@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, TemplateRef, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from 'src/app/shared/services/auth.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -8,12 +9,15 @@ import {AuthService} from 'src/app/shared/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<any>;
+
   loggingIn = false;
   email = '';
   password = '';
 
   constructor(
     private authService: AuthService,
+    private modalService: NgbModal,
     private router: Router,
   ) {
   }
@@ -28,7 +32,10 @@ export class LoginComponent {
       localStorage.setItem('accessToken', res.token);
       this.authService.currentLoginUser = res.user;
       this.router.navigate(['audits']);
-    }, () => {
+    }, err => {
+      if (err.status === 400 && err.error.message === 'Authorized still in pending') {
+        this.modalService.open(this.pendingModal);
+      }
       this.loggingIn = false;
     });
   }
