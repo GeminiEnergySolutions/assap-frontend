@@ -22,18 +22,18 @@
     "@angular/platform-browser-dynamic": "^18.2.3",
     "@angular/router": "^18.2.3",
     "@angular/service-worker": "^18.2.3",
-    "@babel/runtime": "^7.24.1",
+    "@babel/runtime": "^7.25.6",
     "@mean-stream/ngbx": "^0.13.0",
-    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "class-validator": "^0.14.1",
-    "libphonenumber-js": "^1.10.58",
+    "libphonenumber-js": "^1.11.7",
     "reflect-metadata": "^0.1.14",
     "rxjs": "~7.8.1",
-    "tslib": "^2.6.2",
-    "validator": "^13.11.0",
+    "tslib": "^2.7.0",
+    "validator": "^13.12.0",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
@@ -47,11 +47,11 @@
     "@angular/compiler-cli": "^18.2.3",
     "@types/jasmine": "~3.6.11",
     "@types/jasminewd2": "~2.0.13",
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.16.4",
     "@types/uuid": "^9.0.8",
-    "@types/validator": "^13.11.9",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@types/validator": "^13.12.1",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.0",
     "jasmine-core": "~3.8.0",
     "jasmine-spec-reporter": "~5.0.2",
@@ -62,7 +62,7 @@
     "karma-jasmine-html-reporter": "^1.7.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.5.4",
-    "undici-types": "^6.10.0"
+    "undici-types": "^6.19.8"
   },
   "resolutions": {
     "webpack-dev-middleware": "^6.1.2"
