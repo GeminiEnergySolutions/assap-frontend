@@ -9,6 +9,7 @@ import {SafePipe} from './pipe/safe.pipe';
 import {FeatureCardComponent} from './components/feature-card/feature-card.component';
 import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
 import {PhotoCaptureComponent} from './components/photo-capture/photo-capture.component';
+import {EvalPipe} from './pipe/eval.pipe';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {PhotoCaptureComponent} from './components/photo-capture/photo-capture.co
     PhotoCaptureComponent,
     PhotosPipe,
     SafePipe,
+    EvalPipe,
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import {PhotoCaptureComponent} from './components/photo-capture/photo-capture.co
     PhotoCaptureComponent,
     PhotosPipe,
     SafePipe,
+    EvalPipe,
   ],
 })
 export class SharedModule {

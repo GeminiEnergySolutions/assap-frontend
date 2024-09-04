@@ -8,6 +8,16 @@ export interface SchemaSection {
   name: string;
   schema: SchemaElement[];
   copySchema?: CopySpec[];
+  conditionalSchema?: ConditionalSchema;
+}
+
+export interface ConditionalSchema {
+  disabled?: DisabledSchema[];
+}
+
+export interface DisabledSchema {
+  if: string;
+  message: string;
 }
 
 export interface CopySpec {
