@@ -7,6 +7,8 @@ import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Audit} from '../../shared/model/audit.interface';
+import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-zone-detail',
@@ -14,8 +16,8 @@ import {EquipmentCategory} from '../../shared/model/equipment.interface';
   styleUrls: ['./zone-detail.component.scss'],
 })
 export class ZoneDetailComponent implements OnInit {
-
-  zone: any;
+  audit?: Audit;
+  zone?: Zone;
   equipments: EquipmentCategory[] = [];
   progress?: PercentageCompletion;
 
@@ -30,6 +32,12 @@ export class ZoneDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => {
+      this.audit = data;
+    });
+
     this.route.params.pipe(
       switchMap(({zid}) => this.auditZoneService.getSingleZone(zid)),
     ).subscribe(res => {
@@ -49,12 +57,15 @@ export class ZoneDetailComponent implements OnInit {
   }
 
   rename() {
+    if (!this.zone) {
+      return;
+    }
     const name = prompt('Rename Zone', this.zone.zoneName);
     if (!name) {
       return;
     }
     this.zoneService.updateAuditZone({...this.zone, zoneName: name}, this.zone.zoneId).subscribe(() => {
-      this.zone.zoneName = name;
+      this.zone!.zoneName = name;
       this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });
   }
