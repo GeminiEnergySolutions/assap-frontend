@@ -2,11 +2,19 @@
   <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-    <a ngbDropdownItem class="bi-file-earmark-richtext"
-       [href]="serverUrl + 'api/energyAuditReport?auditId=' + audit?.auditId + '&auth_token=' + authToken"
-       download target="_blank">
-      Download Energy Audit Report
-    </a>
+    @let isGuest = audit?.user?.role?.role === 'guest';
+    <div [ngbTooltip]="isGuest ? 'You must be logged in as a Data Collector to download the report' : null">
+      <a
+        ngbDropdownItem
+        class="bi-file-earmark-richtext"
+        [disabled]="isGuest"
+        [href]="isGuest ? null : serverUrl + 'api/energyAuditReport?auditId=' + audit?.auditId + '&auth_token=' + authToken"
+        download
+        target="_blank"
+      >
+        Download Energy Audit Report
+      </a>
+    </div>
     <div class="dropdown-divider"></div>
     <button ngbDropdownItem class="bi-eye" (click)="setSection('grantStatus', !audit?.grantStatus)">
       {{ audit?.grantStatus ? 'Hide' : 'Show' }} Grants section
