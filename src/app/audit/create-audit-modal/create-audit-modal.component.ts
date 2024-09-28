@@ -1,25 +1,31 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuditService} from '../../shared/services/audit.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {switchMap} from 'rxjs';
-import {AuthService} from '../../shared/services/auth.service';
+import {State} from '../../shared/model/state.interface';
+import {StateService} from '../../shared/services/state.service';
 
 @Component({
   selector: 'app-create-audit-modal',
   templateUrl: './create-audit-modal.component.html',
   styleUrl: './create-audit-modal.component.scss',
 })
-export class CreateAuditModalComponent {
+export class CreateAuditModalComponent implements OnInit {
   name = '';
-  state = '';
+  stateId = 0;
   feasibilityStudy = false;
 
+  states: State[] = [];
+
   constructor(
+    private stateService: StateService,
     private auditService: AuditService,
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
+  }
+
+  ngOnInit() {
+    this.stateService.getStates().subscribe(result => this.states = result);
   }
 
   create() {
@@ -27,17 +33,8 @@ export class CreateAuditModalComponent {
       auditName: this.name,
       grantStatus: this.feasibilityStudy,
       cehStatus: this.feasibilityStudy,
-    }).pipe(
-      switchMap(result => this.auditService.updatePreAuditData(result.data.auditId, {
-        auditId: result.data.auditId,
-        id: result.data.pre_audit_form.id,
-        data: {
-          auditor_name: this.authService.currentLoginUser?.userName ?? '',
-          auditor_email: this.authService.currentLoginUser?.email ?? '',
-          client_state: this.state,
-        },
-      })),
-    ).subscribe(result => {
+      stateId: this.stateId,
+    }).subscribe(result => {
       this.router.navigate(['..'], {
         relativeTo: this.route,
         queryParams: {

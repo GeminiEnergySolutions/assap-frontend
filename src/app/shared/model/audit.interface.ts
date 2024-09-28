@@ -10,6 +10,7 @@ export interface Audit {
   deleteStatus: false;
   userId: number;
   user?: User;
+  stateId?: number;
   pre_audit_form: PreAuditData;
 }
 
