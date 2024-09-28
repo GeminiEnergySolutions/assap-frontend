@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {CopySpec, SchemaElement, SchemaSection} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
+import {ExpressionService} from '../../services/expression.service';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +20,7 @@ export class FormComponent implements OnInit {
 
   constructor(
     private toastService: ToastService,
+    private expressionService: ExpressionService,
   ) {
   }
 
