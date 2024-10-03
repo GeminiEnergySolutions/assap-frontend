@@ -12,6 +12,14 @@
           Home
         </a>
       }
+      @if (authService.currentLoginUser?.role?.role === 'superAdmin') {
+        <h6 class="nav-item navbar-text text-muted fw-light">
+          Superadmin Tools
+        </h6>
+        <a class="nav-item nav-link bi-ui-checks" routerLinkActive="active" routerLink="/schema-editor">
+          Schema Editor
+        </a>
+      }
       <div class="flex-grow-1"></div>
       <div ngbDropdown class="d-inline-block">
         <button class="nav-link bi-moon-stars" ngbDropdownToggle>

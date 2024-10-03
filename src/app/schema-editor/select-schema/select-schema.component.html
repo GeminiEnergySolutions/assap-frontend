@@ -1,0 +1,69 @@
+<div class="container">
+  <h1 class="text-center">
+    Select Schema
+  </h1>
+  <h3>
+    General
+  </h3>
+  <div class="list-group mb-3">
+    <a class="list-group-item list-group-item-action" routerLink="preaudit/0">
+      <h5 class="bi-file-earmark-text">
+        Pre Audit
+      </h5>
+      Basic information about the audit.
+    </a>
+    <a class="list-group-item list-group-item-action" routerLink="ceh/0">
+      <h5 class="bi-plug">
+        Clean Energy Hub
+      </h5>
+      CEH information.
+    </a>
+    <a class="list-group-item list-group-item-action" routerLink="grants/0">
+      <h5 class="bi-patch-check">
+        Grants
+      </h5>
+      Grant information.
+    </a>
+    <a class="list-group-item list-group-item-action" routerLink="zone/0">
+      <h5 class="bi-dice-4">
+        Zone
+      </h5>
+      Common information about individual zones.
+    </a>
+  </div>
+  <h3>
+    Equipment
+  </h3>
+  <div class="list-group">
+    @for (category of categories; track category.id) {
+      @let equipments = equipmentTypes[category.id] ?? [];
+      @if (equipments.length === 1) {
+        <a class="list-group-item list-group-item-action" [routerLink]="['equipment', equipments[0].id]">
+          <h5>
+            {{ category.equipmentName }}
+          </h5>
+        </a>
+      } @else {
+        <div class="list-group-item">
+          <h5>
+            {{ category.equipmentName }}
+          </h5>
+          <details>
+            <summary class="text-muted">
+              {{ equipments.length }} Subtypes
+            </summary>
+            <ul>
+              @for (equipmentType of equipments; track equipmentType.id) {
+                <li>
+                  <a [routerLink]="['equipment', equipmentType.id]">
+                    {{ equipmentType.name }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </details>
+        </div>
+      }
+    }
+  </div>
+</div>
