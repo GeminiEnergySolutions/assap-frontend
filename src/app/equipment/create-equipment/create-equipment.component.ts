@@ -26,7 +26,7 @@ export class CreateEquipmentComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({eid}) => this.equipmentService.getEquipmentType(eid)),
+      switchMap(({eid}) => this.equipmentService.getEquipmentTypes(eid)),
     ).subscribe(res => {
       this.types = res.data;
       if (this.types.length === 1) {

@@ -20,7 +20,7 @@ export class SelectSchemaComponent implements OnInit {
     this.equipmentService.getEquipmentCategories().subscribe(categories => {
       this.categories = categories.data;
       for (const category of categories.data) {
-        this.equipmentService.getEquipmentType(category.id).subscribe(types => {
+        this.equipmentService.getEquipmentTypes(category.id).subscribe(types => {
           this.equipmentTypes[category.id] = types.data;
         });
       }

@@ -23,12 +23,10 @@ export class EquipmentService {
     return this.http.get<{ data: EquipmentCategory[] }>(`${environment.url}api/equipment`);
   }
 
-  /* TODO no idea what this is for
-      getSingleEquipmentType(id: Number): Observable<any> {
-        return this.http.get(`${environment.url}api/equipmentType?equipmentTypeId=${id}`);
-      }
-   */
-  getEquipmentType(categoryId: number): Observable<{ data: EquipmentType[] }> {
+  getEquipmentType(id: number): Observable<{ data: EquipmentType }> {
+    return this.http.get<{ data: EquipmentType }>(`${environment.url}api/equipmentType?equipmentTypeId=${id}`);
+  }
+  getEquipmentTypes(categoryId: number): Observable<{ data: EquipmentType[] }> {
     return this.http.get<{ data: EquipmentType[] }>(`${environment.url}api/equipmentTypesByEquipmentId?equipmentId=${categoryId}`);
   }
 
