@@ -13,8 +13,16 @@
               {{ schema.conditionalSchema?.disabled?.[0]?.message }}
             </div>
           } @else if (editable) {
-            <div class="btn btn-sm btn-secondary bi-grip-vertical me-3" ngbTooltip="Drag to Reorder" cdkDragHandle>
-            </div>
+            <button
+              class="btn btn-sm btn-primary bi-plus me-2"
+              ngbTooltip="Add Field"
+              (click)="addFormElement(schema); $event.stopPropagation()"
+            ></button>
+            <div
+              class="btn btn-sm btn-secondary bi-grip-vertical me-3"
+              ngbTooltip="Drag to Reorder"
+              cdkDragHandle
+            ></div>
           } @else {
             <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
           }
@@ -29,13 +37,27 @@
               </button>
             }
             <div class="row">
-              @if (formData) {
-                @for (element of schema.schema; track element; let i = $index) {
-                  <div class="mb-3 {{isMediumPage(schema, element)}}">
+              @for (element of schema.schema; track element; let i = $index) {
+                <div class="mb-3 position-relative {{isMediumPage(schema, element)}}">
+                  @if (formData) {
                     <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
                                       (dirty)="setDirty()"></app-form-element>
-                  </div>
-                }
+                  }
+                  @if (editable) {
+                    <div class="position-absolute top-0 end-0">
+                      <a
+                        class="btn btn-sm btn-primary bi-pencil me-2"
+                        ngbTooltip="Edit Field"
+                        [routerLink]="['field', element.key]"
+                      ></a>
+                      <button
+                        class="btn btn-sm btn-danger bi-trash me-2"
+                        ngbTooltip="Remove Field"
+                        (click)="schema.schema.splice(i, 1)"
+                      ></button>
+                    </div>
+                  }
+                </div>
               }
             </div>
           </ng-template>

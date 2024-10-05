@@ -140,4 +140,14 @@ export class FormComponent implements OnInit {
   drop(event: CdkDragDrop<SchemaSection[]>) {
     moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
   }
+
+  addFormElement(schema: SchemaSection) {
+    schema.schema.push({
+      key: `new_${schema.schema.length + 1}`,
+      type: 'textBox',
+      dataType: 'text',
+      title: 'New Field',
+      hint: '',
+    });
+  }
 }

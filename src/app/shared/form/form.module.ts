@@ -8,6 +8,7 @@ import {FormElementComponent} from './form-element/form-element.component';
 import {SharedModule} from '../shared.module';
 import {FormChoicesPipe} from './form-choices.pipe';
 import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
+import {RouterLink} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
     CdkDropList,
     CdkDragHandle,
     CdkDrag,
+    RouterLink,
   ],
 })
 export class FormsModule {
