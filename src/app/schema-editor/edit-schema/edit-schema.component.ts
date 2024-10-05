@@ -3,7 +3,6 @@ import {ActivatedRoute} from '@angular/router';
 import {EMPTY, map, switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {AuditService} from '../../shared/services/audit.service';
-import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 
 @Component({

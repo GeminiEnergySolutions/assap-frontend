@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {CopySpec, SchemaElement, SchemaSection} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
-import {ExpressionService} from '../../services/expression.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-form',
@@ -14,13 +14,13 @@ export class FormComponent implements OnInit {
   @Input({required: true}) formData!: { id?: string | number; data: any };
   /** for offline storage */
   @Input() formId: string = '';
+  @Input() editable = false;
   @Output() saved = new EventEmitter<void>();
 
   dirty = false;
 
   constructor(
     private toastService: ToastService,
-    private expressionService: ExpressionService,
   ) {
   }
 
@@ -137,5 +137,7 @@ export class FormComponent implements OnInit {
     return {totalFields, completedFields, percentage};
   }
 
-  protected readonly Array = Array;
+  drop(event: CdkDragDrop<SchemaSection[]>) {
+    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+  }
 }

@@ -1,6 +1,17 @@
-<div class="container">
-  <h1>
-    <a class="bi-chevron-left" routerLink="../.."></a>
-    Edit Schema: {{ schemaKind }}
-  </h1>
-</div>
+<app-master-detail>
+  <div list class="m-3">
+    <h4>
+      <a class="bi-chevron-left" routerLink="../.."></a>
+      Edit Schema: {{ schemaKind }}
+    </h4>
+    <h5>
+      Preview
+    </h5>
+    <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true"></app-form>
+  </div>
+  <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
+    <h2>
+      Select a field to edit.
+    </h2>
+  </div>
+</app-master-detail>
