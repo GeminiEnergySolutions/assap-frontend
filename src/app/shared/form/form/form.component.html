@@ -3,7 +3,7 @@
   cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
 >
   @for (schema of typeSchema; track schema) {
-    <div ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name" cdkDrag>
+    <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name" cdkDrag>
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
@@ -16,16 +16,25 @@
               {{ schema.conditionalSchema?.disabled?.[0]?.message }}
             </div>
           } @else if (editable) {
+            @let collapsed = accordion.collapsed;
             <button
               class="btn btn-sm btn-primary bi-plus me-2"
               ngbTooltip="Add Field"
-              (click)="addFormElement(schema); $event.stopPropagation()"
+              (click)="accordion.expand(); addFormElement(schema); $event.stopPropagation()"
             ></button>
             <div
-              class="btn btn-sm btn-secondary bi-grip-vertical me-3"
+              class="btn btn-sm btn-secondary bi-grip-vertical me-2"
               ngbTooltip="Drag to Reorder"
+              [class.disabled]="!collapsed"
               cdkDragHandle
+              [cdkDragHandleDisabled]="!collapsed"
             ></div>
+            <button
+              class="btn btn-sm btn-danger bi-trash me-2"
+              ngbTooltip="Remove Section"
+              [disabled]="!collapsed"
+              (click)="typeSchema.splice($index, 1); $event.stopPropagation()"
+            ></button>
           } @else {
             <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
           }
@@ -40,7 +49,7 @@
               </button>
             }
             <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
-              @for (element of schema.schema; track element; let i = $index) {
+              @for (element of schema.schema; track element) {
                 <div
                   class="mb-3 position-relative {{isMediumPage(schema, element)}}"
                   cdkDrag
@@ -65,7 +74,7 @@
                       <button
                         class="btn btn-sm btn-danger bi-trash me-2"
                         ngbTooltip="Remove Field"
-                        (click)="schema.schema.splice(i, 1)"
+                        (click)="schema.schema.splice($index, 1)"
                       ></button>
                     </div>
                   }
