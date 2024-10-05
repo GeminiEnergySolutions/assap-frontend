@@ -1,4 +1,7 @@
-<div ngbAccordion [closeOthers]="true" cdkDropList (cdkDropListDropped)="drop($event)">
+<div
+  ngbAccordion [closeOthers]="true"
+  cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
+>
   @for (schema of typeSchema; track schema) {
     <div ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name" cdkDrag>
       <h2 ngbAccordionHeader>
@@ -36,9 +39,13 @@
                 {{ copy.buttonLabel }}
               </button>
             }
-            <div class="row">
+            <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
               @for (element of schema.schema; track element; let i = $index) {
-                <div class="mb-3 position-relative {{isMediumPage(schema, element)}}">
+                <div
+                  class="mb-3 position-relative {{isMediumPage(schema, element)}}"
+                  cdkDrag
+                  (cdkDragDropped)="dropField(schema, $event)"
+                >
                   @if (formData) {
                     <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
                                       (dirty)="setDirty()"></app-form-element>
@@ -50,6 +57,11 @@
                         ngbTooltip="Edit Field"
                         [routerLink]="['field', element.key]"
                       ></a>
+                      <div
+                        class="btn btn-sm btn-secondary bi-grip-vertical me-2"
+                        ngbTooltip="Drag to Reorder"
+                        cdkDragHandle
+                      ></div>
                       <button
                         class="btn btn-sm btn-danger bi-trash me-2"
                         ngbTooltip="Remove Field"
