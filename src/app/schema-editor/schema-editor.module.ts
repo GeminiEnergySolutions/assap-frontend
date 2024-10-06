@@ -3,16 +3,19 @@ import {CommonModule} from '@angular/common';
 
 import {SchemaEditorRoutingModule} from './schema-editor-routing.module';
 import {SelectSchemaComponent} from './select-schema/select-schema.component';
-import { EditSchemaComponent } from './edit-schema/edit-schema.component';
-import {FormsModule} from '../shared/form/form.module';
+import {EditSchemaComponent} from './edit-schema/edit-schema.component';
+import {FormsModule as FormModule} from '../shared/form/form.module';
 import {
   NgbAccordionBody,
   NgbAccordionButton,
   NgbAccordionCollapse,
-  NgbAccordionDirective, NgbAccordionHeader, NgbAccordionItem,
+  NgbAccordionDirective,
+  NgbAccordionHeader,
+  NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
-import { EditSectionComponent } from './edit-section/edit-section.component';
+import {EditSectionComponent} from './edit-section/edit-section.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -24,7 +27,7 @@ import { EditSectionComponent } from './edit-section/edit-section.component';
   imports: [
     CommonModule,
     SchemaEditorRoutingModule,
-    FormsModule,
+    FormModule,
     NgbAccordionBody,
     NgbAccordionButton,
     NgbAccordionCollapse,
@@ -32,6 +35,7 @@ import { EditSectionComponent } from './edit-section/edit-section.component';
     NgbAccordionHeader,
     NgbAccordionItem,
     SharedModule,
+    FormsModule,
   ],
 })
 export class SchemaEditorModule {

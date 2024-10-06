@@ -9,7 +9,7 @@ import {SchemaContextService} from '../schema-context.service';
   styleUrl: './edit-section.component.scss',
 })
 export class EditSectionComponent implements OnInit {
-  section?: SchemaSection;
+  section: SchemaSection = {id: 0, name: '', schema: []};
 
   constructor(
     private route: ActivatedRoute,
@@ -19,7 +19,7 @@ export class EditSectionComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(({section}) => {
-      this.section = this.schemaContext.schema.find(s => s.id == section);
+      this.section = this.schemaContext.schema.find(s => s.id == section) ?? this.section;
     });
   }
 }

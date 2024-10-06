@@ -1,5 +1,11 @@
 <div class="container">
   <h1>
-    Edit Section: {{ section?.name }}
+    Edit Section: {{ section.name }}
   </h1>
+  <div class="form">
+    <div class="mb-3">
+      <label class="form-label" for="name">Name</label>
+      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" />
+    </div>
+  </div>
 </div>
