@@ -12,12 +12,14 @@ import {
   NgbAccordionDirective, NgbAccordionHeader, NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
+import { EditSectionComponent } from './edit-section/edit-section.component';
 
 
 @NgModule({
   declarations: [
     SelectSchemaComponent,
     EditSchemaComponent,
+    EditSectionComponent,
   ],
   imports: [
     CommonModule,

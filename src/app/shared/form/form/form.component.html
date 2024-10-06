@@ -17,8 +17,14 @@
             </div>
           } @else if (editable) {
             @let collapsed = accordion.collapsed;
+            <a
+              class="btn btn-sm btn-primary bi-pencil me-2"
+              ngbTooltip="Edit Section"
+              [routerLink]="['section', schema.id]" [state]="{section: schema}"
+              (click)="$event.stopPropagation()"
+            ></a>
             <button
-              class="btn btn-sm btn-primary bi-plus me-2"
+              class="btn btn-sm btn-success bi-plus-lg me-2"
               ngbTooltip="Add Field"
               (click)="accordion.expand(); addFormElement(schema); $event.stopPropagation()"
             ></button>

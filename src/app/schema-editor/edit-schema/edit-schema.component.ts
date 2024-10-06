@@ -4,11 +4,13 @@ import {EMPTY, map, switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
+import {SchemaContextService} from '../schema-context.service';
 
 @Component({
   selector: 'app-edit-schema',
   templateUrl: './edit-schema.component.html',
   styleUrl: './edit-schema.component.scss',
+  providers: [SchemaContextService],
 })
 export class EditSchemaComponent {
   schemaKind = '';
@@ -18,6 +20,7 @@ export class EditSchemaComponent {
     private route: ActivatedRoute,
     private auditService: AuditService,
     private equipmentService: EquipmentService,
+    private schemaContext: SchemaContextService,
   ) {
   }
 
@@ -48,6 +51,7 @@ export class EditSchemaComponent {
       }),
     ).subscribe(sections => {
       this.schemaSections = sections;
+      this.schemaContext.schema = sections;
     });
   }
 
