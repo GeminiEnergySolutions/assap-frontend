@@ -23,11 +23,6 @@
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
-            <button
-              class="btn btn-sm btn-success bi-plus-lg me-2"
-              ngbTooltip="Add Field"
-              (click)="accordion.expand(); addFormElement(schema); $event.stopPropagation()"
-            ></button>
             <div
               class="btn btn-sm btn-secondary bi-grip-vertical me-2"
               ngbTooltip="Drag to Reorder"
@@ -87,6 +82,11 @@
                 </div>
               }
             </div>
+            @if (editable) {
+              <button class="btn btn-success bi-plus-lg" (click)="addFormElement(schema)">
+                Add Field
+              </button>
+            }
           </ng-template>
         </div>
       </div>
