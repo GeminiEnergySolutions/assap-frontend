@@ -50,4 +50,12 @@ export class EditSchemaComponent {
       this.schemaSections = sections;
     });
   }
+
+  addSection() {
+    this.schemaSections.push({
+      id: -1,
+      name: 'New Section',
+      schema: [],
+    });
+  }
 }
