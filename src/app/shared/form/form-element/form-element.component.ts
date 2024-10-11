@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SchemaElement, SchemaRequirement, SchemaSection} from '../../model/schema.interface';
-import {isArray} from 'class-validator';
+import {ExpressionService} from '../../services/expression.service';
 
 @Component({
   selector: 'app-form-element',
@@ -18,6 +18,11 @@ export class FormElementComponent implements OnInit, OnChanges {
   id = '';
 
   validationMessages: SchemaRequirement[] = [];
+
+  constructor(
+    private expressionService: ExpressionService,
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
@@ -41,26 +46,13 @@ export class FormElementComponent implements OnInit, OnChanges {
     if (!this.element.validations) {
       return;
     }
-    for (const requirement of this.element.validations) {
-      const value = this.formData.data[this.element.key];
-      switch (requirement.type) {
-        case 'min':
-          if (value < requirement.value) {
-            this.validationMessages.push(requirement);
-          }
-          break;
-        case 'max':
-          if (value > requirement.value) {
-            this.validationMessages.push(requirement);
-          }
-          break;
-        case 'pattern':
-          if (!new RegExp(String(requirement.value)).test(value)) {
-            this.validationMessages.push(requirement);
-          }
-          break;
+    Promise.all(this.element.validations.map(async requirement => {
+      if (await this.expressionService.eval(requirement.if, this.formData.data)) {
+        return requirement;
       }
-    }
+    })).then(results => {
+      this.validationMessages = results.filter(r => !!r);
+    });
   }
 
   // TODO Autofill Dates:

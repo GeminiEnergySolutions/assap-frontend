@@ -62,8 +62,7 @@ export type SchemaValue = string | number | boolean;
 
 export interface SchemaRequirement {
   level?: 'warning' | 'error';
-  type: 'min' | 'max' | 'pattern';
-  value: SchemaValue;
+  if: string;
   message: string;
 }
 
