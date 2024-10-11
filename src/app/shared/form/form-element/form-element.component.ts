@@ -64,17 +64,12 @@ export class FormElementComponent implements OnInit, OnChanges {
       return;
     }
     const keyValue = this.formData.data[element.key];
-    let dependentInputList = element.inputList.filter(subElement => Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue);
-    for (const element1 of dependentInputList) {
-      if (!this.formData.data[element1.key]) {
-        continue;
-      }
-      this.formData.data[element1.key] = '';
-      if (element1.inputList && element1.inputList.length) {
-        for (const element2 of dependentInputList) { // FIXME this is probably wrong. Why would we loop over the same list again?
-          if (this.formData.data[element2.key]) {
-            this.formData.data[element2.key] = '';
-          }
+    for (const subElement of element.inputList) {
+      if (Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+        if (subElement.defaultValue !== undefined) {
+          this.formData.data[subElement.key] = subElement.defaultValue;
+        } else {
+          delete this.formData.data[subElement.key];
         }
       }
     }
