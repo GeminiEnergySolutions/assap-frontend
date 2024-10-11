@@ -74,4 +74,39 @@
   <button class="btn btn-success bi-plus-lg" (click)="addValidation()">
     Add Validation
   </button>
+  <h2 class="mt-3">
+    Subfields
+  </h2>
+  <div class="list-group mb-3" cdkDropList (cdkDropListDropped)="dropSubfield($event)">
+    @for (subField of field.inputList; track subField) {
+      <div class="list-group-item" cdkDrag>
+        <div class="row">
+          <div class="col">
+            <label class="visually-hidden">Dependent Value</label>
+            <input class="form-control font-monospace" placeholder="Dependent Value" [(ngModel)]="subField.dependentKeyValue" [ngbTooltip]="'The value of ' + field.key + ' that triggers this subfield'"/>
+          </div>
+          <div class="col">
+            <label class="visually-hidden">Key</label>
+            <input class="form-control font-monospace" placeholder="Key" [(ngModel)]="subField.key" [ngbTooltip]="'The key of this subfield'"/>
+          </div>
+          <div class="col">
+            <label class="visually-hidden">Title</label>
+            <input class="form-control" placeholder="Title" [(ngModel)]="subField.title" [ngbTooltip]="'The title of this subfield'"/>
+          </div>
+          <div class="col-auto">
+            <a class="btn btn-primary bi-pencil me-2" ngbTooltip="Edit Subfield" [routerLink]="['..', subField.key]"></a>
+            <div class="btn btn-secondary bi-grip-vertical me-2" cdkDragHandle ngbTooltip="Drag to Reorder"></div>
+            <button class="btn btn-danger bi-trash" ngbTooltip="Remove Subfield" (click)="removeSubfield($index)"></button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="list-group-item text-muted">
+        No subfields.
+      </div>
+    }
+  </div>
+  <button class="btn btn-success bi-plus-lg" (click)="addSubfield()">
+    Add Subfield
+  </button>
 </div>

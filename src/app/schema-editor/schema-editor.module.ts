@@ -17,6 +17,7 @@ import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
 import {FormsModule} from '@angular/forms';
 import {EditFieldComponent} from './edit-field/edit-field.component';
+import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -40,6 +41,9 @@ import {EditFieldComponent} from './edit-field/edit-field.component';
     FormsModule,
     NgbTooltip,
     NgbPopover,
+    CdkDropList,
+    CdkDragHandle,
+    CdkDrag,
   ],
 })
 export class SchemaEditorModule {

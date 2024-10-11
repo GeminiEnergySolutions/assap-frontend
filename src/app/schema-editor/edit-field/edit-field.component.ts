@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {SchemaElement, SchemaSection} from '../../shared/model/schema.interface';
+import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
 import {ActivatedRoute} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-edit-field',
@@ -246,5 +247,24 @@ export class EditFieldComponent implements OnInit {
 
   removeValidation(index: number) {
     this.field.validations?.splice(index, 1);
+  }
+
+  addSubfield() {
+    (this.field.inputList ??= []).push({
+      dependentKeyValue: '',
+      key: `${this.field.key}_${this.field.inputList.length}`,
+      dataType: 'text',
+      type: 'textBox',
+      title: 'New Field',
+      hint: '',
+    });
+  }
+
+  removeSubfield(index: number) {
+    this.field.inputList?.splice(index, 1);
+  }
+
+  dropSubfield(event: CdkDragDrop<SchemaSubElement[]>) {
+    this.field.inputList && moveItemInArray(this.field.inputList, event.previousIndex, event.currentIndex);
   }
 }
