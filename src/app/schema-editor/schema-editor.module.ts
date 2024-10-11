@@ -16,6 +16,7 @@ import {
 import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
 import {FormsModule} from '@angular/forms';
+import {EditFieldComponent} from './edit-field/edit-field.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {FormsModule} from '@angular/forms';
     SelectSchemaComponent,
     EditSchemaComponent,
     EditSectionComponent,
+    EditFieldComponent,
   ],
   imports: [
     CommonModule,

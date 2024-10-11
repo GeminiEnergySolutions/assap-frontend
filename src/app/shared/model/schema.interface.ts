@@ -27,25 +27,35 @@ export interface CopySpec {
 }
 
 export interface SchemaElement {
+  // Required properties
   key: string;
-  hint: 'rq' | string;
+  dataType: 'text' | 'number' | 'date' | 'bool';
   type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date' | 'radio';
   title: string;
+  hint: 'rq' | string;
+
+  // Type-specific properties
   /**
    * An array of options for type=select.
    * In older schemas, this is a comma-separated string of colon-separated key value pairs.
    * @see FormChoicesPipe
    */
   values?: string | string[];
-  dataType: 'text' | 'number' | 'date';
-  validations?: SchemaRequirement[];
+  /**
+   * For type=date, default is today.
+   */
   isDateNow?: boolean;
-  inputList?: SchemaSubElement[];
+
+  // Display properties
   isHeading?: boolean;
   heading?: string;
   required?: boolean;
   disabled?: boolean;
   defaultValue?: SchemaValue;
+
+  // Advanced properties
+  validations?: SchemaRequirement[];
+  inputList?: SchemaSubElement[];
 }
 
 export type SchemaValue = string | number | boolean;
