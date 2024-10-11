@@ -87,6 +87,7 @@ export class EditFieldComponent implements OnInit {
               hint: 'The type of input field',
               values: ['textBox', 'select', 'textArea', 'radio'],
               required: true,
+              defaultValue: 'textBox',
               inputList: [
                 {
                   dependentKeyValue: ['select', 'radio'],
@@ -116,6 +117,7 @@ export class EditFieldComponent implements OnInit {
               hint: 'The type of input field',
               values: ['textBox', 'select', 'radio'],
               required: true,
+              defaultValue: 'textBox',
               inputList: [
                 {
                   dependentKeyValue: ['select', 'radio'],
