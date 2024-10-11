@@ -235,4 +235,16 @@ export class EditFieldComponent implements OnInit {
       }
     }
   }
+
+  addValidation() {
+    (this.field.validations ??= []).push({
+      level: 'warning',
+      if: 'true',
+      message: 'New Validation',
+    });
+  }
+
+  removeValidation(index: number) {
+    this.field.validations?.splice(index, 1);
+  }
 }

@@ -6,4 +6,72 @@
     Basic Information
   </h2>
   <app-form [typeSchema]="metaSchema" [formData]="{data: field}"></app-form>
+  <h2>
+    Validation
+    <i class="small bi-info-circle" ngbTooltip="About Validation" [ngbPopover]="popup" popoverTitle="About Validation"></i>
+  </h2>
+  <ng-template #popup>
+    <dl>
+      <dt>Message</dt>
+      <dd>
+        Validation messages are displayed when the condition is met.
+      </dd>
+      <dt>Severity</dt>
+      <dd>
+        The severity (error or warning) determines how the color of the message and whether the form is considered valid.
+      </dd>
+      <dt>Conditions</dt>
+      <dd>
+        Conditions are written in Jexl, a simple expression language.
+        You can refer to any field in the form by its key.
+        <br>
+        <a class="bi-info-circle me-2" target="_blank" href="https://github.com/TomFrost/Jexl#all-the-details">
+          Learn more
+        </a>
+      </dd>
+      <dt>
+        Example
+      </dt>
+      <dd>
+        To display an error message when a field named <code>year</code> is before 1900:
+        <ul>
+          <li>Severity: Error</li>
+          <li>Condition: <code>year < 1900</code></li>
+          <li>Message: Year must be after 1900</li>
+        </ul>
+    </dl>
+  </ng-template>
+  <div class="list-group mb-3">
+    @for (validation of field.validations; track validation) {
+      <div class="list-group-item">
+        <div class="row">
+          <div class="col-auto">
+            <label class="visually-hidden">Severity</label>
+            <select class="form-select" ngbTooltip="The severity of the validation" [(ngModel)]="validation.level">
+              <option value="error">Error</option>
+              <option value="warning">Warning</option>
+            </select>
+          </div>
+          <div class="col-5">
+            <label class="visually-hidden">Condition</label>
+            <input class="form-control font-monospace" [(ngModel)]="validation['if']" ngbTooltip="The condition that must be met for the validation to be triggered."/>
+          </div>
+          <div class="col-5">
+            <label class="visually-hidden">Message</label>
+            <input class="form-control" [(ngModel)]="validation.message" ngbTooltip="The message to display if the validation is triggered."/>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-danger bi-trash" ngbTooltip="Remove Validation" (click)="removeValidation($index)"></button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="list-group-item text-muted">
+        No validations.
+      </div>
+    }
+  </div>
+  <button class="btn btn-success bi-plus-lg" (click)="addValidation()">
+    Add Validation
+  </button>
 </div>

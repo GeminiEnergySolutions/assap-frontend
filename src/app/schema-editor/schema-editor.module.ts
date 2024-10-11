@@ -11,7 +11,7 @@ import {
   NgbAccordionCollapse,
   NgbAccordionDirective,
   NgbAccordionHeader,
-  NgbAccordionItem,
+  NgbAccordionItem, NgbPopover, NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
@@ -38,6 +38,8 @@ import {EditFieldComponent} from './edit-field/edit-field.component';
     NgbAccordionItem,
     SharedModule,
     FormsModule,
+    NgbTooltip,
+    NgbPopover,
   ],
 })
 export class SchemaEditorModule {
