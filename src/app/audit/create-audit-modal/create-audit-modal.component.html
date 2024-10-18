@@ -15,10 +15,14 @@
         State
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <input type="text" class="form-control" id="state" [(ngModel)]="state" required>
-      <div class="form-text">
-        US state abbreviation (e.g. CA, TX, NY) or other location.
-      </div>
+      <select class="form-select" id="state" [(ngModel)]="stateId">
+        <option [value]="0">Select a state</option>
+        @for (state of states; track state.id) {
+          <option [value]="state.id">
+            {{ state.state }}
+          </option>
+        }
+      </select>
     </div>
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="active" [(ngModel)]="feasibilityStudy">
@@ -34,7 +38,7 @@
     <button class="btn btn-secondary" (click)="modal.close()">
       Cancel
     </button>
-    <button class="btn btn-primary" (click)="create()" [disabled]="!name || !state">
+    <button class="btn btn-primary" (click)="create()" [disabled]="!name || !stateId">
       Create
     </button>
   </ng-container>
