@@ -5,7 +5,12 @@
   <div class="form">
     <div class="mb-3">
       <label class="form-label" for="name">Name</label>
-      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" />
+      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="dirty = true"/>
     </div>
   </div>
+  <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
+          [class]="dirty ? 'btn-primary' : 'btn-secondary'"
+          [ngbTooltip]="dirty ? 'Unsaved changes. Click to Save.' : null">
+    Save
+  </button>
 </div>
