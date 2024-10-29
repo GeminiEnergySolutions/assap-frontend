@@ -7,7 +7,7 @@
     <h5>
       Preview
     </h5>
-    <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true"></app-form>
+    <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true" (deleted)="deleteSection($event)"></app-form>
     <button class="btn btn-success bi-plus-lg mt-3" (click)="addSection()">
       Add Section
     </button>

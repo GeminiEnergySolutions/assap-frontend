@@ -16,6 +16,7 @@ export class FormComponent implements OnInit {
   @Input() formId: string = '';
   @Input() editable = false;
   @Output() saved = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<SchemaSection>();
 
   dirty = false;
 

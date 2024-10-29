@@ -71,4 +71,14 @@ export class EditSchemaComponent implements OnInit {
       this.schemaSections.push(data);
     });
   }
+
+  deleteSection(section: SchemaSection) {
+    if (!confirm('Are you sure you want to delete this section? This cannot be undone.')) {
+      return;
+    }
+
+    this.schemaService.deleteSchemaSection(this.kind, section.id).subscribe(() => {
+      this.schemaSections.splice(this.schemaSections.indexOf(section), 1);
+    });
+  }
 }

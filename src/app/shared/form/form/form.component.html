@@ -34,7 +34,7 @@
               class="btn btn-sm btn-danger bi-trash me-2"
               ngbTooltip="Remove Section"
               [disabled]="!collapsed"
-              (click)="typeSchema.splice($index, 1); $event.stopPropagation()"
+              (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {
             <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
