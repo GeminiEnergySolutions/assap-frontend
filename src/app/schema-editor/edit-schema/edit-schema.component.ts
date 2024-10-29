@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
-import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
-import {SchemaService} from '../../shared/services/schema.service';
+import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-edit-schema',
@@ -13,8 +12,9 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrl: './edit-schema.component.scss',
   providers: [SchemaContextService],
 })
-export class EditSchemaComponent {
-  schemaKind = '';
+export class EditSchemaComponent implements OnInit {
+  kind: SchemaKind = 'preAudit';
+  title = '';
   schemaSections: SchemaSection[] = [];
 
   constructor(
@@ -30,25 +30,31 @@ export class EditSchemaComponent {
       switchMap(({kind, id}) => {
         switch (kind) {
           case 'preaudit':
-            this.schemaKind = 'Preaudit';
-            return this.schemaService.getSchema('preAudit');
+            this.kind = 'preAudit';
+            this.title = 'Preaudit';
+            break;
           case 'grants':
-            this.schemaKind = 'Grants';
-            return this.schemaService.getSchema('grants');
+            this.kind = 'grants';
+            this.title = 'Grants';
+            break;
           case 'ceh':
-            this.schemaKind = 'Clean Energy Hub';
-            return this.schemaService.getSchema('ceh');
+            this.kind = 'ceh';
+            this.title = 'Clean Energy Hub';
+            break;
           case 'zone':
-            this.schemaKind = 'Zone';
-            return this.schemaService.getSchema('zone');
+            this.kind = 'zone';
+            this.title = 'Zone';
+            break;
           case 'equipment':
-            this.schemaKind = 'Equipment';
-            this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.schemaKind = data.name);
-            return this.schemaService.getSchema(`equipment/${id}`);
+            this.kind = `equipment/${id}`;
+            this.title = 'Equipment';
+            this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.title = data.name);
+            break;
           default:
-            this.schemaKind = '(invalid)';
+            this.title = '(invalid)';
             return EMPTY;
         }
+        return this.schemaService.getSchema(this.kind);
       }),
     ).subscribe(({data}) => {
       this.schemaSections = data;
@@ -57,10 +63,12 @@ export class EditSchemaComponent {
   }
 
   addSection() {
-    this.schemaSections.push({
-      id: -1,
+    this.schemaService.createSchemaSection(this.kind, {
+      id: 0,
       name: 'New Section',
       schema: [],
+    }).subscribe(({data}) => {
+      this.schemaSections.push(data);
     });
   }
 }
