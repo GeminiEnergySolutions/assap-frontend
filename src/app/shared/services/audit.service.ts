@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
-import {SchemaResponse, SchemaSection} from '../model/schema.interface';
+import {SchemaResponse} from '../model/schema.interface';
 import {Audit, AuditDetails} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
@@ -107,8 +107,8 @@ export class AuditService {
   updateGrantsData(auditId: number, formData: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/grantdata/${auditId}/`, formData);
   }
-  getGrantsJsonSchema(): Observable<SchemaSection[]> {
-    return this.http.get<SchemaSection[]>(`${this.rootUrl}api/grantschema/`);
+  getGrantsJsonSchema(): Observable<SchemaResponse> {
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/schemas/grants/`);
   }
 
   getCleanEnergyHubData(auditId: number): Observable<any> {
@@ -120,12 +120,12 @@ export class AuditService {
   updateCleanEnergyHubData(auditId: number, formData: any): Observable<any> {
     return this.http.put(`${this.rootUrl}api/cleanenergyhubdata/${auditId}/`, formData);
   }
-  getCleanEnergyHubJsonSchema(): Observable<SchemaSection[]> {
-    return this.http.get<SchemaSection[]>(`${this.rootUrl}api/cleanenergyhubschema/`);
+  getCleanEnergyHubJsonSchema(): Observable<SchemaResponse> {
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/schemas/ceh`);
   }
 
   getPreAuditJsonSchema(): Observable<SchemaResponse> {
-    return this.http.get<SchemaResponse>(`${this.rootUrl}api/preAuditSchema/`);
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/schemas/preAudit`);
   }
   getPreAuditData(auditId: number): Observable<PreAuditDataResponse> {
     return this.http.get<PreAuditDataResponse>(`${this.rootUrl}api/preAuditFormData/${auditId}/`);
@@ -138,7 +138,7 @@ export class AuditService {
   }
 
   getZoneJsonSchema(): Observable<SchemaResponse> {
-    return this.http.get<SchemaResponse>(`${this.rootUrl}api/zoneSchema/`);
+    return this.http.get<SchemaResponse>(`${this.rootUrl}api/schemas/zone`);
   }
   getZoneData(zoneId: number): Observable<ZoneDataResponse> {
     return this.http.get<ZoneDataResponse>(`${this.rootUrl}api/zoneFormData/${zoneId}/`);

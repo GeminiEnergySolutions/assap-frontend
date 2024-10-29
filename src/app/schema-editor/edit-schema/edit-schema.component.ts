@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {EMPTY, map, switchMap} from 'rxjs';
+import {EMPTY, switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
@@ -30,7 +30,7 @@ export class EditSchemaComponent {
         switch (kind) {
           case 'preaudit':
             this.schemaKind = 'Preaudit';
-            return this.auditService.getPreAuditJsonSchema().pipe(map(({data}) => data));
+            return this.auditService.getPreAuditJsonSchema();
           case 'grants':
             this.schemaKind = 'Grants';
             return this.auditService.getGrantsJsonSchema();
@@ -39,7 +39,7 @@ export class EditSchemaComponent {
             return this.auditService.getCleanEnergyHubJsonSchema();
           case 'zone':
             this.schemaKind = 'Zone';
-            return this.auditService.getZoneJsonSchema().pipe(map(({data}) => data));
+            return this.auditService.getZoneJsonSchema();
           case 'equipment':
             this.schemaKind = 'Equipment';
             this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.schemaKind = data.name);
@@ -49,9 +49,9 @@ export class EditSchemaComponent {
             return EMPTY;
         }
       }),
-    ).subscribe(sections => {
-      this.schemaSections = sections;
-      this.schemaContext.schema = sections;
+    ).subscribe(({data}) => {
+      this.schemaSections = data;
+      this.schemaContext.schema = data;
     });
   }
 

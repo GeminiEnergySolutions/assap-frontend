@@ -35,8 +35,8 @@ export class EquipmentDetailComponent implements OnInit {
       switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
       tap(equipment => this.equipment = equipment),
       switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.type?.id ?? equipment.typeId)),
-    ).subscribe(schema => {
-      this.typeSchema = schema;
+    ).subscribe(({data}) => {
+      this.typeSchema = data;
     });
 
     this.route.params.pipe(

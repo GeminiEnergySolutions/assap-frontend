@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
-import {SchemaSection} from '../model/schema.interface';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment.prod';
+import {SchemaResponse} from '../model/schema.interface';
 import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
 import {ConnectedZone} from '../model/zone.interface';
 
@@ -52,8 +52,8 @@ export class EquipmentService {
     });
   }
 
-  getEquipmentTypeSchema(typeId: number): Observable<SchemaSection[]> {
-    return this.http.get<SchemaSection[]>(`${environment.url}api/schema/type/${typeId}/`);
+  getEquipmentTypeSchema(typeId: number): Observable<SchemaResponse> {
+    return this.http.get<SchemaResponse>(`${environment.url}api/schemas/equipment/${typeId}/`);
   }
   getEquipmentFormData(id: number): Observable<any> {
     return this.http.get(`${environment.url}api/equipmentForm?subTypeId=${id}`);

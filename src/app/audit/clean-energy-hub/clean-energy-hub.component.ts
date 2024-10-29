@@ -33,8 +33,8 @@ export class CleanEnergyHubComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auditService.getCleanEnergyHubJsonSchema().subscribe((schema: any) => {
-      this.typeSchema = schema;
+    this.auditService.getCleanEnergyHubJsonSchema().subscribe(({data}) => {
+      this.typeSchema = data;
     });
     this.route.params.pipe(
       tap(({aid}) => this.auditId = +aid),

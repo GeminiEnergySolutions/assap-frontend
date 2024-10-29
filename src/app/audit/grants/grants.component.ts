@@ -26,7 +26,7 @@ export class GrantsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auditService.getGrantsJsonSchema().subscribe(schema => this.typeSchema = schema);
+    this.auditService.getGrantsJsonSchema().subscribe(({data}) => this.typeSchema = data);
     this.route.params.pipe(
       tap(({aid}) => this.auditId = +aid),
       switchMap(({aid}) => this.auditService.getGrantsData(aid)),
