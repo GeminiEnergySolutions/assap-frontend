@@ -49,7 +49,10 @@ export class FormComponent implements OnInit {
     }
 
     for (const subElement of element.inputList ?? []) {
-      this.init(section, subElement);
+      const keyValue = this.formData.data[element.key];
+      if (Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+        this.init(section, subElement);
+      }
     }
   }
 
