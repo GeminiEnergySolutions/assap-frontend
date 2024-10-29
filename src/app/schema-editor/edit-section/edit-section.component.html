@@ -37,9 +37,15 @@
     @for (condition of section.conditionalSchema?.disabled; track condition) {
       <div class="list-group-item">
         <div class="row">
+          @let conditionProblem = condition['if'] | expressionError:{};
           <div class="col-5">
             <label class="visually-hidden">Condition</label>
-            <input class="form-control font-monospace" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="dirty = true"/>
+            <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="dirty = true"/>
+            @if (conditionProblem) {
+              <div class="invalid-feedback">
+                {{ conditionProblem }}
+              </div>
+            }
           </div>
           <div class="col-5">
             <label class="visually-hidden">Message</label>
