@@ -6,6 +6,7 @@ import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap, tap} from 'rxjs';
 import {ZoneData, ZoneDataResponse} from '../../shared/model/zone.interface';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-zone-form',
@@ -22,12 +23,13 @@ export class ZoneFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
   }
 
   ngOnInit() {
-    this.auditService.getZoneJsonSchema().subscribe(schema => this.typeSchema = schema.data);
+    this.schemaService.getSchema('zone').subscribe(schema => this.typeSchema = schema.data);
 
     this.route.params.pipe(
       tap(({aid, zid}) => {

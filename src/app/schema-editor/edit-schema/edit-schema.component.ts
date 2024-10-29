@@ -5,6 +5,7 @@ import {EquipmentService} from '../../shared/services/equipment.service';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-edit-schema',
@@ -18,7 +19,7 @@ export class EditSchemaComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private auditService: AuditService,
+    private schemaService: SchemaService,
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
   ) {
@@ -30,20 +31,20 @@ export class EditSchemaComponent {
         switch (kind) {
           case 'preaudit':
             this.schemaKind = 'Preaudit';
-            return this.auditService.getPreAuditJsonSchema();
+            return this.schemaService.getSchema('preAudit');
           case 'grants':
             this.schemaKind = 'Grants';
-            return this.auditService.getGrantsJsonSchema();
+            return this.schemaService.getSchema('grants');
           case 'ceh':
             this.schemaKind = 'Clean Energy Hub';
-            return this.auditService.getCleanEnergyHubJsonSchema();
+            return this.schemaService.getSchema('ceh');
           case 'zone':
             this.schemaKind = 'Zone';
-            return this.auditService.getZoneJsonSchema();
+            return this.schemaService.getSchema('zone');
           case 'equipment':
             this.schemaKind = 'Equipment';
             this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.schemaKind = data.name);
-            return this.equipmentService.getEquipmentTypeSchema(id);
+            return this.schemaService.getSchema(`equipment/${id}`);
           default:
             this.schemaKind = '(invalid)';
             return EMPTY;

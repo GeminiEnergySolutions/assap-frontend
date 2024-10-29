@@ -8,6 +8,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '../../shared/services/auth.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-clean-energy-hub',
@@ -26,6 +27,7 @@ export class CleanEnergyHubComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private schemaService: SchemaService,
     private toastService: ToastService,
     authService: AuthService,
   ) {
@@ -33,7 +35,7 @@ export class CleanEnergyHubComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auditService.getCleanEnergyHubJsonSchema().subscribe(({data}) => {
+    this.schemaService.getSchema('ceh').subscribe(({data}) => {
       this.typeSchema = data;
     });
     this.route.params.pipe(
