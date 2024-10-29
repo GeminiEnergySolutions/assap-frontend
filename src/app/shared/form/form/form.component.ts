@@ -34,8 +34,8 @@ export class FormComponent implements OnInit {
   }
 
   init(section: SchemaSection, element: SchemaElement) {
-    const id = `${this.formId}/s-${section.id}/${element.key}`;
-    const initialValue = globalThis.localStorage?.getItem(id);
+    const id = this.formId && `${this.formId}/s-${section.id}/${element.key}`;
+    const initialValue = id && globalThis.localStorage?.getItem(id);
     if (initialValue) {
       this.formData.data[element.key] = this.coerce(element, initialValue);
     } else if (element.disabled && element.defaultValue) {
@@ -75,11 +75,13 @@ export class FormComponent implements OnInit {
       return;
     }
 
-    // delete localStorage keys starting with this.formId
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key?.startsWith(this.formId)) {
-        localStorage.removeItem(key);
+    if (this.formId) {
+      // delete localStorage keys starting with this.formId
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith(this.formId)) {
+          localStorage.removeItem(key);
+        }
       }
     }
 
