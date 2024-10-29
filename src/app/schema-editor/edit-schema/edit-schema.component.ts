@@ -58,6 +58,7 @@ export class EditSchemaComponent implements OnInit {
       }),
     ).subscribe(({data}) => {
       this.schemaSections = data;
+      this.schemaContext.kind = this.kind;
       this.schemaContext.schema = data;
     });
   }

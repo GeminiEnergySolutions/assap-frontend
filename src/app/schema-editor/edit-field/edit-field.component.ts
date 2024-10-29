@@ -3,6 +3,7 @@ import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model
 import {ActivatedRoute} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-edit-field',
@@ -10,6 +11,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   styleUrl: './edit-field.component.scss'
 })
 export class EditFieldComponent implements OnInit {
+  section?: SchemaSection;
   field: SchemaElement = {
     key: 'new',
     hint: 'rq',
@@ -216,12 +218,20 @@ export class EditFieldComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
+    private schemaService: SchemaService,
   ) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(({key}) => {
-      this.field = this.findField(key, this.schemaContext.schema.flatMap(s => s.schema)) || this.field;
+      for (const section of this.schemaContext.schema) {
+        const found = this.findField(key, section.schema);
+        if (found) {
+          this.section = section;
+          this.field = found;
+          break;
+        }
+      }
     });
   }
 
@@ -237,6 +247,10 @@ export class EditFieldComponent implements OnInit {
         }
       }
     }
+  }
+
+  save() {
+    this.section && this.schemaService.updateSchemaSection(this.schemaContext.kind, this.section.id, this.section).subscribe();
   }
 
   addValidation() {
