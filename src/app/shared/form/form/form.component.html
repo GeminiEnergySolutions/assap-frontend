@@ -53,7 +53,7 @@
             <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
               @for (element of schema.schema; track element) {
                 <div
-                  class="mb-3 position-relative {{isMediumPage(schema, element)}}"
+                  class="mb-3 position-relative col-{{element.gridSize ?? 12}}"
                   cdkDrag
                   (cdkDragDropped)="dropField(schema, $event)"
                 >

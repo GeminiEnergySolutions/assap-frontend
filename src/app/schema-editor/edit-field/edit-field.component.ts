@@ -211,6 +211,15 @@ export class EditFieldComponent implements OnInit {
             },
           ]
         },
+        {
+          key: 'gridSize',
+          dataType: 'number',
+          type: 'select',
+          title: 'Grid Size',
+          defaultValue: 12,
+          hint: 'The size of the field in the grid. 12 is full width',
+          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        },
       ]
     }
   ];

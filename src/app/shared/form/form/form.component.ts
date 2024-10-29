@@ -93,18 +93,6 @@ export class FormComponent implements OnInit {
     this.dirty = false;
   }
 
-  isMediumPage(schema: any, element: any) {
-    let gridSize = 'col-12';
-    if (schema.name == "Electric Vehicle") {
-      gridSize = element.key.includes("ev_type_1_time") || element.key.includes("ev_type_2_time") || element.key.includes("ev_type_3_time") ? 'col-6' : gridSize;
-    } else if (schema.name == "Non Electric Vehicle") {
-      gridSize = element.key.includes("non_ev_type_1_time") || element.key.includes("non_ev_type_2_time") || element.key.includes("non_ev_type_3_time") ? 'col-6' : gridSize;
-    } else if (schema.name == "Occupied Hours") {
-      gridSize = element.key.includes("hour_time_") ? 'col-6' : gridSize;
-    }
-    return gridSize;
-  }
-
   setDirty() {
     this.dirty = true;
   }

@@ -40,7 +40,7 @@ export interface SchemaElement {
    * In older schemas, this is a comma-separated string of colon-separated key value pairs.
    * @see FormChoicesPipe
    */
-  values?: string | string[];
+  values?: string | SchemaValue[];
   /**
    * For type=date, default is today.
    */
@@ -52,6 +52,7 @@ export interface SchemaElement {
   required?: boolean;
   disabled?: boolean;
   defaultValue?: SchemaValue;
+  gridSize?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
   // Advanced properties
   validations?: SchemaRequirement[];
