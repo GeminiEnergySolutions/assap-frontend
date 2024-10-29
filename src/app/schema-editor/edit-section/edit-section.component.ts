@@ -31,4 +31,14 @@ export class EditSectionComponent implements OnInit {
       this.dirty = false;
     });
   }
+
+  addCondition() {
+    this.dirty = true;
+    ((this.section.conditionalSchema ??= {}).disabled ??= []).push({if: 'false', message: ''});
+  }
+
+  removeCondition($index: number) {
+    this.dirty = true;
+    this.section.conditionalSchema?.disabled?.splice($index, 1);
+  }
 }

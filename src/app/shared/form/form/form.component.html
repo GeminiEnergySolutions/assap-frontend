@@ -7,7 +7,7 @@
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
-        <button ngbAccordionButton [disabled]="disabled">
+        <button ngbAccordionButton [disabled]="!editable && disabled">
           <div class="flex-grow-1">
             {{ schema.name }}
           </div>
@@ -15,7 +15,8 @@
             <div class="text-muted me-3">
               {{ schema.conditionalSchema?.disabled?.[0]?.message }}
             </div>
-          } @else if (editable) {
+          }
+          @if (editable) {
             @let collapsed = accordion.collapsed;
             <a
               class="btn btn-sm btn-primary bi-pencil me-2"
