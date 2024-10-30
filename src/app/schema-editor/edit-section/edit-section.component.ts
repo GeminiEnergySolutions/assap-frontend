@@ -63,7 +63,7 @@ export class EditSectionComponent implements OnInit {
   }
 
   addCopySpec() {
-    this.section.copySchema?.push({buttonLabel: '', mappingInputs: {}});
+    this.section.copySchema?.push({buttonLabel: 'Copy', mappingInputs: {}});
     this.setDirty();
   }
 

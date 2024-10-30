@@ -74,7 +74,7 @@
         <div class="row">
           <div class="col">
             <label class="form-label visually-hidden" for="buttonLabel-{{ $index }}">Button Label</label>
-            <input class="form-control" id="buttonLabel-{{ $index }}" type="text" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
+            <input class="form-control" id="buttonLabel-{{ $index }}" type="text" placeholder="Button Label" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
           </div>
           <div class="col-auto text-muted p-2">
             {{ (copySpec.mappingInputs | keyvalue).length }} Mapped Fields
