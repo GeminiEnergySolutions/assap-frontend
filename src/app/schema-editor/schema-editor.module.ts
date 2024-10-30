@@ -11,7 +11,7 @@ import {
   NgbAccordionCollapse,
   NgbAccordionDirective,
   NgbAccordionHeader,
-  NgbAccordionItem, NgbPopover, NgbTooltip,
+  NgbAccordionItem, NgbOffcanvas, NgbOffcanvasModule, NgbPopover, NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
@@ -37,6 +37,7 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
     NgbAccordionDirective,
     NgbAccordionHeader,
     NgbAccordionItem,
+    NgbOffcanvasModule,
     SharedModule,
     FormsModule,
     NgbTooltip,

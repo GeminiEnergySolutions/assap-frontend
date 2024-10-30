@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {combineLatestWith} from 'rxjs';
+import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-section',
@@ -12,9 +13,12 @@ import {combineLatestWith} from 'rxjs';
 export class EditSectionComponent implements OnInit {
   section: SchemaSection = {id: 0, name: '', schema: []};
 
+  editSpec?: CopySpec;
+
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
+    protected ngbOffcanvas: NgbOffcanvas,
   ) {
   }
 
@@ -54,13 +58,13 @@ export class EditSectionComponent implements OnInit {
     this.setDirty();
   }
 
-  addMapping(copySpec: CopySpec, source: string, target: string) {
-    copySpec.mappingInputs[target] = source;
+  addMapping(source: string, target: string) {
+    this.editSpec!.mappingInputs[target] = source;
     this.setDirty();
   }
 
-  deleteMapping(copySpec: CopySpec, key: string) {
-    delete copySpec.mappingInputs[key];
+  deleteMapping(key: string) {
+    delete this.editSpec!.mappingInputs[key];
     this.setDirty();
   }
 }

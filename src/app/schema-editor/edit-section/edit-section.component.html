@@ -71,74 +71,24 @@
   <div class="list-group mb-3">
     @for (copySpec of section.copySchema; track copySpec) {
       <div class="list-group-item">
-        <div class="mb-3">
-          <label class="form-label" for="buttonLabel-{{ $index }}">Button Label</label>
-          <input class="form-control" id="buttonLabel-{{ $index }}" type="text" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
+        <div class="row">
+          <div class="col">
+            <label class="form-label visually-hidden" for="buttonLabel-{{ $index }}">Button Label</label>
+            <input class="form-control" id="buttonLabel-{{ $index }}" type="text" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
+          </div>
+          <div class="col-auto text-muted p-2">
+            {{ (copySpec.mappingInputs | keyvalue).length }} Mapped Fields
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary bi-pencil me-2" (click)="editSpec = copySpec; ngbOffcanvas.open(fieldMappings, {
+              position: 'end',
+              panelClass: 'w-auto',
+            })">
+              Edit Field Mapping
+            </button>
+            <button class="btn btn-danger bi-trash" (click)="deleteCopySpec($index)" ngbTooltip="Remove"></button>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="mapping-{{ $index }}">Field Mapping</label>
-          <details class="border p-2 rounded" id="mapping-{{ $index }}">
-            <summary>
-              {{ (copySpec.mappingInputs | keyvalue).length }} Fields
-            </summary>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Source</th>
-                  <th></th>
-                  <th>Target</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (field of copySpec.mappingInputs | keyvalue; track field) {
-                  <tr>
-                    <td class="font-monospace">
-                      {{ field.value }}
-                    </td>
-                    <td class="text-center align-middle">
-                      <i class="bi-arrow-right"></i>
-                    </td>
-                    <td class="font-monospace">
-                      {{ field.key }}
-                    </td>
-                    <td class="p-0">
-                      <button
-                        class="btn btn-sm btn-danger bi-trash"
-                        ngbTooltip="Remove Mapping"
-                        (click)="deleteMapping(copySpec, field.key)"
-                      ></button>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-              <tfoot>
-              <tr>
-                <td class="p-0 font-monospace">
-                  <input #source type="text" class="form-control" placeholder="Source Field">
-                </td>
-                <td class="text-center align-middle">
-                  <i class="bi-arrow-right"></i>
-                </td>
-                <td class="p-0 font-monospace">
-                  <input #target type="text" class="form-control" placeholder="Target Field">
-                </td>
-                <td class="p-0">
-                  <button
-                    class="btn btn-sm btn-success bi-plus-lg"
-                    ngbTooltip="Add Mapping"
-                    [disabled]="!source.value || !target.value"
-                    (click)="addMapping(copySpec, source.value, target.value)"
-                  ></button>
-                </td>
-              </tr>
-              </tfoot>
-            </table>
-          </details>
-        </div>
-        <button class="btn btn-danger bi-trash" (click)="deleteCopySpec($index)">
-          Remove Copy Button
-        </button>
       </div>
     } @empty {
       <div class="list-group-item text-muted">
@@ -155,3 +105,62 @@
     Save
   </button>
 </div>
+<ng-template #fieldMappings let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title">Edit Field Mappings</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="editSpec = undefined; offcanvas.dismiss()"></button>
+  </div>
+  <div class="offcanvas-body pt-0">
+    <table class="table">
+      <thead class="sticky-top">
+      <tr>
+        <th>Source</th>
+        <th></th>
+        <th>Target</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td class="p-0 font-monospace">
+          <input #source type="text" class="form-control" placeholder="Source Field">
+        </td>
+        <td class="text-center align-middle">
+          <i class="bi-arrow-right"></i>
+        </td>
+        <td class="p-0 font-monospace">
+          <input #target type="text" class="form-control" placeholder="Target Field">
+        </td>
+        <td class="p-0">
+          <button
+            class="btn btn-sm btn-success bi-plus-lg"
+            ngbTooltip="Add Mapping"
+            [disabled]="!source.value || !target.value"
+            (click)="addMapping(source.value, target.value)"
+          ></button>
+        </td>
+      </tr>
+      </thead>
+      <tbody>
+        @for (field of (editSpec?.mappingInputs ?? {}) | keyvalue; track field) {
+          <tr>
+            <td class="font-monospace">
+              {{ field.value }}
+            </td>
+            <td class="text-center align-middle">
+              <i class="bi-arrow-right"></i>
+            </td>
+            <td class="font-monospace">
+              {{ field.key }}
+            </td>
+            <td class="p-0">
+              <button
+                class="btn btn-sm btn-danger bi-trash"
+                ngbTooltip="Remove Mapping"
+                (click)="deleteMapping(field.key)"
+              ></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</ng-template>
