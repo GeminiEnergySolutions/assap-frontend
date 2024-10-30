@@ -6,9 +6,12 @@
     Basic Information
   </h2>
   <app-form [typeSchema]="metaSchema" [formData]="{data: field}" (saved)="save()" [dirty]="!!section?._dirty" (dirtyChange)="setDirty($event)"></app-form>
-  <h2>
+  <h2 class="d-flex align-items-center">
     Validation
-    <i class="small bi-info-circle" ngbTooltip="About Validation" [ngbPopover]="popup" popoverTitle="About Validation"></i>
+    <i class="small bi-info-circle ms-2" ngbTooltip="About Validation" [ngbPopover]="popup" popoverTitle="About Validation"></i>
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addValidation()">
+      Add Validation
+    </button>
   </h2>
   <ng-template #popup>
     <dl>
@@ -71,11 +74,11 @@
       </div>
     }
   </div>
-  <button class="btn btn-success bi-plus-lg" (click)="addValidation()">
-    Add Validation
-  </button>
-  <h2 class="mt-3">
+  <h2 class="d-flex align-items-center">
     Subfields
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addSubfield()">
+      Add Subfield
+    </button>
   </h2>
   <div class="list-group mb-3" cdkDropList (cdkDropListDropped)="dropSubfield($event)">
     @for (subField of field.inputList; track subField) {
@@ -106,7 +109,4 @@
       </div>
     }
   </div>
-  <button class="btn btn-success bi-plus-lg" (click)="addSubfield()">
-    Add Subfield
-  </button>
 </div>

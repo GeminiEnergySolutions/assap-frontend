@@ -8,9 +8,12 @@
       <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="setDirty()"/>
     </div>
   </div>
-  <h2>
+  <h2 class="d-flex align-items-center">
     Conditional Rules
-    <i class="small bi-info-circle" ngbTooltip="About Conditions" [ngbPopover]="popup" popoverTitle="About Conditions"></i>
+    <i class="small bi-info-circle ms-2" ngbTooltip="About Conditions" [ngbPopover]="popup" popoverTitle="About Conditions"></i>
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCondition()">
+      Add Rule
+    </button>
   </h2>
   <ng-template #popup>
     <dl>
@@ -58,15 +61,15 @@
       </div>
     } @empty {
       <div class="list-group-item text-muted">
-        No conditions.
+        No conditional rules.
       </div>
     }
   </div>
-  <button class="btn btn-success bi-plus-lg" (click)="addCondition()">
-    Add Condition
-  </button>
-  <h2>
+  <h2 class="d-flex align-items-center">
     Copy Buttons
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCopySpec()">
+      Add Copy Button
+    </button>
   </h2>
   <div class="list-group mb-3">
     @for (copySpec of section.copySchema; track copySpec) {
@@ -96,9 +99,6 @@
       </div>
     }
   </div>
-  <button class="btn btn-success bi-plus-lg" (click)="addCopySpec()">
-    Add Copy Button
-  </button>
   <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
           [class]="section._dirty ? 'btn-primary' : 'btn-secondary'"
           [ngbTooltip]="section._dirty ? 'Unsaved changes. Click to Save.' : null">
