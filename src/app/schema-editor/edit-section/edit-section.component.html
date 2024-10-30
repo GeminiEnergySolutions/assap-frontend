@@ -65,6 +65,90 @@
   <button class="btn btn-success bi-plus-lg" (click)="addCondition()">
     Add Condition
   </button>
+  <h2>
+    Copy Buttons
+  </h2>
+  <div class="list-group mb-3">
+    @for (copySpec of section.copySchema; track copySpec) {
+      <div class="list-group-item">
+        <div class="mb-3">
+          <label class="form-label" for="buttonLabel-{{ $index }}">Button Label</label>
+          <input class="form-control" id="buttonLabel-{{ $index }}" type="text" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="mapping-{{ $index }}">Field Mapping</label>
+          <details class="border p-2 rounded" id="mapping-{{ $index }}">
+            <summary>
+              {{ (copySpec.mappingInputs | keyvalue).length }} Fields
+            </summary>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th></th>
+                  <th>Target</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (field of copySpec.mappingInputs | keyvalue; track field) {
+                  <tr>
+                    <td class="font-monospace">
+                      {{ field.value }}
+                    </td>
+                    <td class="text-center align-middle">
+                      <i class="bi-arrow-right"></i>
+                    </td>
+                    <td class="font-monospace">
+                      {{ field.key }}
+                    </td>
+                    <td class="p-0">
+                      <button
+                        class="btn btn-sm btn-danger bi-trash"
+                        ngbTooltip="Remove Mapping"
+                        (click)="deleteMapping(copySpec, field.key)"
+                      ></button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="p-0 font-monospace">
+                  <input #source type="text" class="form-control" placeholder="Source Field">
+                </td>
+                <td class="text-center align-middle">
+                  <i class="bi-arrow-right"></i>
+                </td>
+                <td class="p-0 font-monospace">
+                  <input #target type="text" class="form-control" placeholder="Target Field">
+                </td>
+                <td class="p-0">
+                  <button
+                    class="btn btn-sm btn-success bi-plus-lg"
+                    ngbTooltip="Add Mapping"
+                    [disabled]="!source.value || !target.value"
+                    (click)="addMapping(copySpec, source.value, target.value)"
+                  ></button>
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+          </details>
+        </div>
+        <button class="btn btn-danger bi-trash" (click)="deleteCopySpec($index)">
+          Remove Copy Button
+        </button>
+      </div>
+    } @empty {
+      <div class="list-group-item text-muted">
+        No copy button.
+      </div>
+    }
+  </div>
+  <button class="btn btn-success bi-plus-lg" (click)="addCopySpec()">
+    Add Copy Button
+  </button>
   <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
           [class]="section._dirty ? 'btn-primary' : 'btn-secondary'"
           [ngbTooltip]="section._dirty ? 'Unsaved changes. Click to Save.' : null">

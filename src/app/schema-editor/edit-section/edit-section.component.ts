@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {SchemaSection} from '../../shared/model/schema.interface';
+import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {combineLatestWith} from 'rxjs';
 
@@ -42,5 +42,25 @@ export class EditSectionComponent implements OnInit {
 
   setDirty() {
     this.section._dirty = true;
+  }
+
+  addCopySpec() {
+    this.section.copySchema?.push({buttonLabel: '', mappingInputs: {}});
+    this.setDirty();
+  }
+
+  deleteCopySpec($index: number) {
+    this.section.copySchema?.splice($index, 1);
+    this.setDirty();
+  }
+
+  addMapping(copySpec: CopySpec, source: string, target: string) {
+    copySpec.mappingInputs[target] = source;
+    this.setDirty();
+  }
+
+  deleteMapping(copySpec: CopySpec, key: string) {
+    delete copySpec.mappingInputs[key];
+    this.setDirty();
   }
 }
