@@ -32,7 +32,6 @@ export class EditFieldComponent implements OnInit {
           title: 'Key',
           hint: 'The key that uniquely identifies this field',
           required: true,
-          disabled: true,
         },
         {
           key: 'title',
