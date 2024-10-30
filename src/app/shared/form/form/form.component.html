@@ -1,7 +1,4 @@
-<div
-  ngbAccordion [closeOthers]="true"
-  cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
->
+<div ngbAccordion [closeOthers]="true">
   @for (schema of typeSchema; track schema) {
     <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name" cdkDrag>
       <h2 ngbAccordionHeader>
@@ -27,6 +24,7 @@
               (click)="$event.stopPropagation()"
             ></a>
             @let collapsed = accordion.collapsed;
+            <!-- TODO Drag to reorder.
             <div
               class="btn btn-sm btn-secondary bi-grip-vertical me-2"
               ngbTooltip="Drag to Reorder"
@@ -34,6 +32,10 @@
               cdkDragHandle
               [cdkDragHandleDisabled]="!collapsed"
             ></div>
+            Also need
+              cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
+            on the ngbAccordion div.
+            -->
             <button
               class="btn btn-sm btn-danger bi-trash me-2"
               ngbTooltip="Remove Section"
