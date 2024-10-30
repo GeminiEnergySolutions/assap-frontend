@@ -121,20 +121,20 @@
       </tr>
       <tr>
         <td class="p-0 font-monospace">
-          <input #source type="text" class="form-control" placeholder="Source Field">
+          <input type="text" class="form-control" placeholder="Source Field" [(ngModel)]="newSource" [ngbTypeahead]="search">
         </td>
         <td class="text-center align-middle">
           <i class="bi-arrow-right"></i>
         </td>
         <td class="p-0 font-monospace">
-          <input #target type="text" class="form-control" placeholder="Target Field">
+          <input type="text" class="form-control" placeholder="Target Field" [(ngModel)]="newTarget" [ngbTypeahead]="search">
         </td>
         <td class="p-0">
           <button
             class="btn btn-sm btn-success bi-plus-lg"
             ngbTooltip="Add Mapping"
-            [disabled]="!source.value || !target.value"
-            (click)="addMapping(source.value, target.value)"
+            [disabled]="!newSource || !newTarget"
+            (click)="addMapping(newSource, newTarget)"
           ></button>
         </td>
       </tr>

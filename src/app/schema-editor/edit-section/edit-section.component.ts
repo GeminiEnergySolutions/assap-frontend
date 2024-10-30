@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
-import {combineLatestWith} from 'rxjs';
+import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,7 +13,20 @@ import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 export class EditSectionComponent implements OnInit {
   section: SchemaSection = {id: 0, name: '', schema: []};
 
+  allKeys: string[] = [];
+
   editSpec?: CopySpec;
+  newSource = '';
+  newTarget = '';
+
+  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term) =>
+        term.length < 2 ? [] : this.allKeys.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+      ),
+    );
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +40,7 @@ export class EditSectionComponent implements OnInit {
       combineLatestWith(this.schemaContext.loaded$),
     ).subscribe(([{section}]) => {
       this.section = this.schemaContext.schema.find(s => s.id == section) ?? this.section;
+      this.allKeys = this.schemaContext.schema.flatMap(s => s.schema).map(e => e.key);
     });
   }
 
