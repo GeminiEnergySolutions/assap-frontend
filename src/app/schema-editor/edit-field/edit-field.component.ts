@@ -3,6 +3,7 @@ import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model
 import {ActivatedRoute} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {combineLatestWith} from 'rxjs';
 
 @Component({
   selector: 'app-edit-field',
@@ -230,7 +231,9 @@ export class EditFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({key}) => {
+    this.route.params.pipe(
+      combineLatestWith(this.schemaContext.loaded$),
+    ).subscribe(([{key}]) => {
       for (const section of this.schemaContext.schema) {
         const found = this.findField(key, section.schema);
         if (found) {

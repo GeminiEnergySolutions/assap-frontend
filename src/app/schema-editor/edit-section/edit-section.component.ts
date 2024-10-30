@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
+import {combineLatestWith} from 'rxjs';
 
 @Component({
   selector: 'app-edit-section',
@@ -18,7 +19,9 @@ export class EditSectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(({section}) => {
+    this.route.params.pipe(
+      combineLatestWith(this.schemaContext.loaded$),
+    ).subscribe(([{section}]) => {
       this.section = this.schemaContext.schema.find(s => s.id == section) ?? this.section;
     });
   }
