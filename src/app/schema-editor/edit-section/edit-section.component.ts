@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
-import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-edit-section',
@@ -11,12 +10,10 @@ import {SchemaService} from '../../shared/services/schema.service';
 })
 export class EditSectionComponent implements OnInit {
   section: SchemaSection = {id: 0, name: '', schema: []};
-  dirty = false;
 
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
-    private schemaService: SchemaService,
   ) {
   }
 
@@ -27,18 +24,20 @@ export class EditSectionComponent implements OnInit {
   }
 
   save() {
-    this.schemaService.updateSchemaSection(this.schemaContext.kind, this.section.id, this.section).subscribe(() => {
-      this.dirty = false;
-    });
+    this.schemaContext.save(this.section).subscribe();
   }
 
   addCondition() {
-    this.dirty = true;
     ((this.section.conditionalSchema ??= {}).disabled ??= []).push({if: 'false', message: ''});
+    this.setDirty();
   }
 
   removeCondition($index: number) {
-    this.dirty = true;
     this.section.conditionalSchema?.disabled?.splice($index, 1);
+    this.setDirty();
+  }
+
+  setDirty() {
+    this.section._dirty = true;
   }
 }

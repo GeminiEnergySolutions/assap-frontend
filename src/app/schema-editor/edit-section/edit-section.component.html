@@ -5,7 +5,7 @@
   <div class="form">
     <div class="mb-3">
       <label class="form-label" for="name">Name</label>
-      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="dirty = true"/>
+      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="setDirty()"/>
     </div>
   </div>
   <h2>
@@ -40,7 +40,7 @@
           @let conditionProblem = condition['if'] | expressionError:{};
           <div class="col-5">
             <label class="visually-hidden">Condition</label>
-            <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="dirty = true"/>
+            <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="setDirty()"/>
             @if (conditionProblem) {
               <div class="invalid-feedback">
                 {{ conditionProblem }}
@@ -49,7 +49,7 @@
           </div>
           <div class="col-5">
             <label class="visually-hidden">Message</label>
-            <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="dirty = true"/>
+            <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="setDirty()"/>
           </div>
           <div class="col-auto">
             <button class="btn btn-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>
@@ -66,8 +66,8 @@
     Add Condition
   </button>
   <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
-          [class]="dirty ? 'btn-primary' : 'btn-secondary'"
-          [ngbTooltip]="dirty ? 'Unsaved changes. Click to Save.' : null">
+          [class]="section._dirty ? 'btn-primary' : 'btn-secondary'"
+          [ngbTooltip]="section._dirty ? 'Unsaved changes. Click to Save.' : null">
     Save
   </button>
 </div>

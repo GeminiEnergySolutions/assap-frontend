@@ -9,6 +9,8 @@ export interface SchemaSection {
   schema: SchemaElement[];
   copySchema?: CopySpec[];
   conditionalSchema?: ConditionalSchema;
+
+  _dirty?: boolean;
 }
 
 export interface ConditionalSchema {

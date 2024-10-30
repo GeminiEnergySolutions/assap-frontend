@@ -3,7 +3,6 @@ import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model
 import {ActivatedRoute} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-edit-field',
@@ -227,7 +226,6 @@ export class EditFieldComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
-    private schemaService: SchemaService,
   ) {
   }
 
@@ -259,7 +257,11 @@ export class EditFieldComponent implements OnInit {
   }
 
   save() {
-    this.section && this.schemaService.updateSchemaSection(this.schemaContext.kind, this.section.id, this.section).subscribe();
+    this.section && this.schemaContext.save(this.section).subscribe();
+  }
+
+  setDirty(dirty = true) {
+    this.section!._dirty = dirty;
   }
 
   addValidation() {
@@ -268,10 +270,12 @@ export class EditFieldComponent implements OnInit {
       if: 'true',
       message: 'New Validation',
     });
+    this.setDirty();
   }
 
   removeValidation(index: number) {
     this.field.validations?.splice(index, 1);
+    this.setDirty();
   }
 
   addSubfield() {
@@ -283,13 +287,16 @@ export class EditFieldComponent implements OnInit {
       title: 'New Field',
       hint: '',
     });
+    this.setDirty();
   }
 
   removeSubfield(index: number) {
     this.field.inputList?.splice(index, 1);
+    this.setDirty();
   }
 
   dropSubfield(event: CdkDragDrop<SchemaSubElement[]>) {
     this.field.inputList && moveItemInArray(this.field.inputList, event.previousIndex, event.currentIndex);
+    this.setDirty();
   }
 }

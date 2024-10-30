@@ -17,13 +17,16 @@
             </div>
           }
           @if (editable) {
-            @let collapsed = accordion.collapsed;
+            @if (schema._dirty) {
+              <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
+            }
             <a
               class="btn btn-sm btn-primary bi-pencil me-2"
               ngbTooltip="Edit Section"
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
+            @let collapsed = accordion.collapsed;
             <div
               class="btn btn-sm btn-secondary bi-grip-vertical me-2"
               ngbTooltip="Drag to Reorder"

@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
   @Output() saved = new EventEmitter<void>();
   @Output() deleted = new EventEmitter<SchemaSection>();
 
-  dirty = false;
+  @Input() dirty = false;
+  @Output() dirtyChange = new EventEmitter<boolean>();
 
   constructor(
     private toastService: ToastService,
@@ -90,11 +91,12 @@ export class FormComponent implements OnInit {
 
     this.saved.emit();
 
-    this.dirty = false;
+    this.setDirty(false);
   }
 
-  setDirty() {
-    this.dirty = true;
+  setDirty(dirty = true) {
+    this.dirty = dirty;
+    this.dirtyChange.emit(this.dirty);
   }
 
   canDeactivate(): boolean {
