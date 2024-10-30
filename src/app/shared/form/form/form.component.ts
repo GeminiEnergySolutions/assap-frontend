@@ -139,15 +139,22 @@ export class FormComponent implements OnInit {
 
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
     moveItemInArray(section.schema, event.previousIndex, event.currentIndex);
+    section._dirty = true;
   }
 
-  addFormElement(schema: SchemaSection) {
-    schema.schema.push({
-      key: `new_${schema.schema.length + 1}`,
+  addFormElement(section: SchemaSection) {
+    section.schema.push({
+      key: `new_${section.schema.length + 1}`,
       type: 'textBox',
       dataType: 'text',
       title: 'New Field',
       hint: '',
     });
+    section._dirty = true;
+  }
+
+  removeFormElement(section: SchemaSection, $index: number) {
+    section.schema.splice($index, 1);
+    section._dirty = true;
   }
 }

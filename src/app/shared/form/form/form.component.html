@@ -81,7 +81,7 @@
                       <button
                         class="btn btn-sm btn-danger bi-trash me-2"
                         ngbTooltip="Remove Field"
-                        (click)="schema.schema.splice($index, 1)"
+                        (click)="removeFormElement(schema, $index)"
                       ></button>
                     </div>
                   }
