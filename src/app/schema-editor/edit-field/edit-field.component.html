@@ -86,7 +86,14 @@
         <div class="row">
           <div class="col">
             <label class="visually-hidden">Dependent Value</label>
-            <input class="form-control font-monospace" placeholder="Dependent Value" [(ngModel)]="subField.dependentKeyValue" [ngbTooltip]="'The value of ' + field.key + ' that triggers this subfield'"/>
+            @if (field.dataType === 'bool') {
+              <select class="form-select" [(ngModel)]="subField.dependentKeyValue" ngbTooltip="The value of '{{ field.key }}' that triggers this subfield">
+                <option [value]="true">True</option>
+                <option [value]="false">False</option>
+              </select>
+            } @else {
+              <input class="form-control font-monospace" [placeholder]="field.dataType" [type]="field.dataType" [(ngModel)]="subField.dependentKeyValue" ngbTooltip="The value of '{{ field.key }}' that triggers this subfield"/>
+            }
           </div>
           <div class="col">
             <label class="visually-hidden">Key</label>
