@@ -1,6 +1,6 @@
 <div ngbAccordion [closeOthers]="true">
   @for (schema of typeSchema; track schema) {
-    <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name" cdkDrag>
+    <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
@@ -33,6 +33,8 @@
               [cdkDragHandleDisabled]="!collapsed"
             ></div>
             Also need
+              cdkDrag
+            on the ngbAccordionItem div and
               cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
             on the ngbAccordion div.
             -->
