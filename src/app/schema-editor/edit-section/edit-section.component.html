@@ -39,9 +39,12 @@
   <div class="list-group mb-3">
     @for (condition of section.conditionalSchema?.disabled; track condition) {
       <div class="list-group-item">
-        <div class="row">
+        <div class="row g-2 align-items-center">
           @let conditionProblem = condition['if'] | expressionError:{};
-          <div class="col-5">
+          <div class="col-auto">
+            When
+          </div>
+          <div class="col">
             <label class="visually-hidden">Condition</label>
             <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="setDirty()"/>
             @if (conditionProblem) {
@@ -50,7 +53,10 @@
               </div>
             }
           </div>
-          <div class="col-5">
+          <div class="col-auto">
+            then disable this section and display
+          </div>
+          <div class="col">
             <label class="visually-hidden">Message</label>
             <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="setDirty()"/>
           </div>
@@ -74,13 +80,16 @@
   <div class="list-group mb-3">
     @for (copySpec of section.copySchema; track copySpec) {
       <div class="list-group-item">
-        <div class="row">
+        <div class="row g-2 align-items-center">
+          <div class="col-auto">
+            Button
+          </div>
           <div class="col">
             <label class="form-label visually-hidden" for="buttonLabel-{{ $index }}">Button Label</label>
             <input class="form-control" id="buttonLabel-{{ $index }}" type="text" placeholder="Button Label" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
           </div>
           <div class="col-auto text-muted p-2">
-            {{ (copySpec.mappingInputs | keyvalue).length }} Mapped Fields
+            maps {{ (copySpec.mappingInputs | keyvalue).length }} fields
           </div>
           <div class="col-auto">
             <button class="btn btn-primary bi-pencil me-2" (click)="editSpec = copySpec; ngbOffcanvas.open(fieldMappings, {
