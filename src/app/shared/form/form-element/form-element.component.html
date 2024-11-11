@@ -70,8 +70,15 @@
   @case ("radio") {
     @for (entry of (element.values ?? []) | formChoices; track entry) {
       <div class="form-check">
-        <input class="form-check-input" type="radio" [name]="id" [id]="id + '-' + $index"
-               [checked]="formData.data[element.key] === entry" (change)="formData.data[element.key] = entry; setDirty()">
+        <input
+          type="radio"
+          class="form-check-input"
+          [name]="id"
+          [id]="id + '-' + $index"
+          [checked]="formData.data[element.key] === entry"
+          (change)="formData.data[element.key] = entry; setDirty()"
+          [disabled]="!!element.disabled"
+        >
         <label class="form-check-label" [for]="id + '-' + $index">
           {{ entry }}
         </label>
