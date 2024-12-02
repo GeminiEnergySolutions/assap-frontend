@@ -8,6 +8,7 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {ZoneData} from '../../shared/model/zone.interface';
 import {Equipment} from '../../shared/model/equipment.interface';
+import {SchemaService} from '../../shared/services/schema.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class EquipmentDetailComponent implements OnInit {
   constructor(
     public equipmentService: EquipmentService,
     public auditService: AuditService,
+    private schemaService: SchemaService,
     private route: ActivatedRoute,
     private toastService: ToastService,
   ) { }
@@ -34,9 +36,9 @@ export class EquipmentDetailComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
       tap(equipment => this.equipment = equipment),
-      switchMap(equipment => this.equipmentService.getEquipmentTypeSchema(equipment.type?.id ?? equipment.typeId)),
-    ).subscribe(schema => {
-      this.typeSchema = schema;
+      switchMap(equipment => this.schemaService.getSchema(`equipment/${equipment.type?.id ?? equipment.typeId}`)),
+    ).subscribe(({data}) => {
+      this.typeSchema = data;
     });
 
     this.route.params.pipe(

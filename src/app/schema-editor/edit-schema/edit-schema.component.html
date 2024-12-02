@@ -1,0 +1,20 @@
+<app-master-detail>
+  <div list class="m-3">
+    <h4>
+      <a class="bi-chevron-left" routerLink="../.."></a>
+      Edit Schema: {{ title }}
+    </h4>
+    <h5>
+      Preview
+    </h5>
+    <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true" (deleted)="deleteSection($event)"></app-form>
+    <button class="btn btn-success bi-plus-lg mt-3" (click)="addSection()">
+      Add Section
+    </button>
+  </div>
+  <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
+    <h2>
+      Select a field to edit.
+    </h2>
+  </div>
+</app-master-detail>

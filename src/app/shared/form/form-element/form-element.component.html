@@ -70,8 +70,15 @@
   @case ("radio") {
     @for (entry of (element.values ?? []) | formChoices; track entry) {
       <div class="form-check">
-        <input class="form-check-input" type="radio" [name]="id" [id]="id + '-' + $index"
-               [checked]="formData.data[element.key] === entry" (change)="formData.data[element.key] = entry; setDirty()">
+        <input
+          type="radio"
+          class="form-check-input"
+          [name]="id"
+          [id]="id + '-' + $index"
+          [checked]="formData.data[element.key] === entry"
+          (change)="formData.data[element.key] = entry; setDirty()"
+          [disabled]="!!element.disabled"
+        >
         <label class="form-check-label" [for]="id + '-' + $index">
           {{ entry }}
         </label>
@@ -103,7 +110,7 @@
 </div>
 @if (element.inputList?.length) {
   <div class="mt-3 mx-2">
-    @for (element1 of element.inputList; track element1.key) {
+    @for (element1 of element.inputList; track element1 // cannot track key because it might be duplicated) {
       @if (!element1.dependentKeyValue && formData.data[element.key] || (isArray(element1.dependentKeyValue) ? element1.dependentKeyValue.includes(formData.data[element.key]) : element1.dependentKeyValue === formData.data[element.key])) {
         <app-form-element [element]="element1" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
       }

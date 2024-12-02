@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-grants',
@@ -21,12 +22,13 @@ export class GrantsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
   }
 
   ngOnInit() {
-    this.auditService.getGrantsJsonSchema().subscribe(schema => this.typeSchema = schema);
+    this.schemaService.getSchema('grants').subscribe(({data}) => this.typeSchema = data);
     this.route.params.pipe(
       tap(({aid}) => this.auditId = +aid),
       switchMap(({aid}) => this.auditService.getGrantsData(aid)),

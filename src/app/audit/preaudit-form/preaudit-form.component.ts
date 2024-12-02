@@ -6,6 +6,7 @@ import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {switchMap, tap} from 'rxjs';
 import {ToastService} from '@mean-stream/ngbx';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-preaudit-form',
@@ -21,12 +22,13 @@ export class PreauditFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
   }
 
   ngOnInit() {
-    this.auditService.getPreAuditJsonSchema().subscribe(res => this.typeSchema = res.data);
+    this.schemaService.getSchema('preAudit').subscribe(res => this.typeSchema = res.data);
 
     this.route.params.pipe(
       tap(({aid}) => this.auditId = +aid),

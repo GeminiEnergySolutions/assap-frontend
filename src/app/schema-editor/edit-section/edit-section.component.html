@@ -1,0 +1,175 @@
+<div class="container">
+  <h1>
+    Edit Section: {{ section.name }}
+  </h1>
+  <div class="form">
+    <div class="mb-3">
+      <label class="form-label" for="name">Name</label>
+      <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="setDirty()"/>
+    </div>
+  </div>
+  <h2 class="d-flex align-items-center">
+    Conditional Rules
+    <i class="small bi-info-circle ms-2" ngbTooltip="About Conditions" [ngbPopover]="popup" popoverTitle="About Conditions"></i>
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCondition()">
+      Add Rule
+    </button>
+  </h2>
+  <ng-template #popup>
+    <dl>
+      <dt>Purpose</dt>
+      <dd>
+        Conditional rules allow you to disable a section based on the values of other fields in the form.
+      </dd>
+      <dt>Conditions</dt>
+      <dd>
+        Conditions are written in Jexl, a simple expression language.
+        You can refer to any field in the form by its key.
+        <br>
+        <a class="bi-info-circle me-2" target="_blank" href="https://github.com/TomFrost/Jexl#all-the-details">
+          Learn more
+        </a>
+      </dd>
+      <dt>Message</dt>
+      <dd>
+        Messages are displayed in the section header when the condition is met.
+      </dd>
+    </dl>
+  </ng-template>
+  <div class="list-group mb-3">
+    @for (condition of section.conditionalSchema?.disabled; track condition) {
+      <div class="list-group-item">
+        <div class="row g-2 align-items-center">
+          @let conditionProblem = condition['if'] | expressionError:{};
+          <div class="col-auto">
+            When
+          </div>
+          <div class="col">
+            <label class="visually-hidden">Condition</label>
+            <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="setDirty()"/>
+            @if (conditionProblem) {
+              <div class="invalid-feedback">
+                {{ conditionProblem }}
+              </div>
+            }
+          </div>
+          <div class="col-auto">
+            then disable this section and display
+          </div>
+          <div class="col">
+            <label class="visually-hidden">Message</label>
+            <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="setDirty()"/>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="list-group-item text-muted">
+        No conditional rules.
+      </div>
+    }
+  </div>
+  <h2 class="d-flex align-items-center">
+    Copy Buttons
+    <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCopySpec()">
+      Add Copy Button
+    </button>
+  </h2>
+  <div class="list-group mb-3">
+    @for (copySpec of section.copySchema; track copySpec) {
+      <div class="list-group-item">
+        <div class="row g-2 align-items-center">
+          <div class="col-auto">
+            Button
+          </div>
+          <div class="col">
+            <label class="form-label visually-hidden" for="buttonLabel-{{ $index }}">Button Label</label>
+            <input class="form-control" id="buttonLabel-{{ $index }}" type="text" placeholder="Button Label" [(ngModel)]="copySpec.buttonLabel" (change)="setDirty()"/>
+          </div>
+          <div class="col-auto text-muted p-2">
+            maps {{ (copySpec.mappingInputs | keyvalue).length }} fields
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary bi-pencil me-2" (click)="editSpec = copySpec; ngbOffcanvas.open(fieldMappings, {
+              position: 'end',
+              panelClass: 'w-auto',
+            })">
+              Edit Field Mapping
+            </button>
+            <button class="btn btn-danger bi-trash" (click)="deleteCopySpec($index)" ngbTooltip="Remove"></button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="list-group-item text-muted">
+        No copy button.
+      </div>
+    }
+  </div>
+  <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
+          [class]="section._dirty ? 'btn-primary' : 'btn-secondary'"
+          [ngbTooltip]="section._dirty ? 'Unsaved changes. Click to Save.' : null">
+    Save
+  </button>
+</div>
+<ng-template #fieldMappings let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title">Edit Field Mappings</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="editSpec = undefined; offcanvas.dismiss()"></button>
+  </div>
+  <div class="offcanvas-body pt-0">
+    <table class="table">
+      <thead class="sticky-top">
+      <tr>
+        <th>Source</th>
+        <th></th>
+        <th>Target</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td class="p-0 font-monospace">
+          <input type="text" class="form-control" placeholder="Source Field" [(ngModel)]="newSource" [ngbTypeahead]="search">
+        </td>
+        <td class="text-center align-middle">
+          <i class="bi-arrow-right"></i>
+        </td>
+        <td class="p-0 font-monospace">
+          <input type="text" class="form-control" placeholder="Target Field" [(ngModel)]="newTarget" [ngbTypeahead]="search">
+        </td>
+        <td class="p-0">
+          <button
+            class="btn btn-sm btn-success bi-plus-lg"
+            ngbTooltip="Add Mapping"
+            [disabled]="!newSource || !newTarget"
+            (click)="addMapping(newSource, newTarget)"
+          ></button>
+        </td>
+      </tr>
+      </thead>
+      <tbody>
+        @for (field of (editSpec?.mappingInputs ?? {}) | keyvalue; track field) {
+          <tr>
+            <td class="font-monospace">
+              {{ field.value }}
+            </td>
+            <td class="text-center align-middle">
+              <i class="bi-arrow-right"></i>
+            </td>
+            <td class="font-monospace">
+              {{ field.key }}
+            </td>
+            <td class="p-0">
+              <button
+                class="btn btn-sm btn-danger bi-trash"
+                ngbTooltip="Remove Mapping"
+                (click)="deleteMapping(field.key)"
+              ></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</ng-template>

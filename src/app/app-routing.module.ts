@@ -26,6 +26,11 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'schema-editor',
+    loadChildren: () => import('./schema-editor/schema-editor.module').then((m) => m.SchemaEditorModule),
+    canActivate: [AuthGuard],
+  },
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   {path: '**', component: PageNotFoundComponent},
 ];

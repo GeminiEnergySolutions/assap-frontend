@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
-import {SchemaSection} from '../model/schema.interface';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment.prod';
 import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
 import {ConnectedZone} from '../model/zone.interface';
 
@@ -23,12 +22,10 @@ export class EquipmentService {
     return this.http.get<{ data: EquipmentCategory[] }>(`${environment.url}api/equipment`);
   }
 
-  /* TODO no idea what this is for
-      getSingleEquipmentType(id: Number): Observable<any> {
-        return this.http.get(`${environment.url}api/equipmentType?equipmentTypeId=${id}`);
-      }
-   */
-  getEquipmentType(categoryId: number): Observable<{ data: EquipmentType[] }> {
+  getEquipmentType(id: number): Observable<{ data: EquipmentType }> {
+    return this.http.get<{ data: EquipmentType }>(`${environment.url}api/equipmentType?equipmentTypeId=${id}`);
+  }
+  getEquipmentTypes(categoryId: number): Observable<{ data: EquipmentType[] }> {
     return this.http.get<{ data: EquipmentType[] }>(`${environment.url}api/equipmentTypesByEquipmentId?equipmentId=${categoryId}`);
   }
 
@@ -54,9 +51,6 @@ export class EquipmentService {
     });
   }
 
-  getEquipmentTypeSchema(typeId: number): Observable<SchemaSection[]> {
-    return this.http.get<SchemaSection[]>(`${environment.url}api/schema/type/${typeId}/`);
-  }
   getEquipmentFormData(id: number): Observable<any> {
     return this.http.get(`${environment.url}api/equipmentForm?subTypeId=${id}`);
   }

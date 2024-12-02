@@ -1,10 +1,10 @@
 <div ngbAccordion [closeOthers]="true">
   @for (schema of typeSchema; track schema) {
-    <div ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
+    <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
-        <button ngbAccordionButton [disabled]="disabled">
+        <button ngbAccordionButton [disabled]="!editable && disabled">
           <div class="flex-grow-1">
             {{ schema.name }}
           </div>
@@ -12,6 +12,38 @@
             <div class="text-muted me-3">
               {{ schema.conditionalSchema?.disabled?.[0]?.message }}
             </div>
+          }
+          @if (editable) {
+            @if (schema._dirty) {
+              <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
+            }
+            <a
+              class="btn btn-sm btn-primary bi-pencil me-2"
+              ngbTooltip="Edit Section"
+              [routerLink]="['section', schema.id]" [state]="{section: schema}"
+              (click)="$event.stopPropagation()"
+            ></a>
+            @let collapsed = accordion.collapsed;
+            <!-- TODO Drag to reorder.
+            <div
+              class="btn btn-sm btn-secondary bi-grip-vertical me-2"
+              ngbTooltip="Drag to Reorder"
+              [class.disabled]="!collapsed"
+              cdkDragHandle
+              [cdkDragHandleDisabled]="!collapsed"
+            ></div>
+            Also need
+              cdkDrag
+            on the ngbAccordionItem div and
+              cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
+            on the ngbAccordion div.
+            -->
+            <button
+              class="btn btn-sm btn-danger bi-trash me-2"
+              ngbTooltip="Remove Section"
+              [disabled]="!collapsed"
+              (click)="deleted.next(schema); $event.stopPropagation()"
+            ></button>
           } @else {
             <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
           }
@@ -25,28 +57,57 @@
                 {{ copy.buttonLabel }}
               </button>
             }
-            <div class="row">
-              @if (formData) {
-                @for (element of schema.schema; track element; let i = $index) {
-                  <div class="mb-3 {{isMediumPage(schema, element)}}">
+            <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
+              @for (element of schema.schema; track element) {
+                <div
+                  class="mb-3 position-relative col-{{element.gridSize ?? 12}}"
+                  cdkDrag
+                  (cdkDragDropped)="dropField(schema, $event)"
+                >
+                  @if (formData) {
                     <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
                                       (dirty)="setDirty()"></app-form-element>
-                  </div>
-                }
+                  }
+                  @if (editable) {
+                    <div class="position-absolute top-0 end-0">
+                      <a
+                        class="btn btn-sm btn-primary bi-pencil me-2"
+                        ngbTooltip="Edit Field"
+                        [routerLink]="['field', element.key]"
+                      ></a>
+                      <div
+                        class="btn btn-sm btn-secondary bi-grip-vertical me-2"
+                        ngbTooltip="Drag to Reorder"
+                        cdkDragHandle
+                      ></div>
+                      <button
+                        class="btn btn-sm btn-danger bi-trash me-2"
+                        ngbTooltip="Remove Field"
+                        (click)="removeFormElement(schema, $index)"
+                      ></button>
+                    </div>
+                  }
+                </div>
               }
             </div>
+            @if (editable) {
+              <button class="btn btn-success bi-plus-lg" (click)="addFormElement(schema)">
+                Add Field
+              </button>
+            }
           </ng-template>
         </div>
       </div>
     </div>
   }
 </div>
-
-<p class="text-center text-muted mt-3 mb-5">
-  Don't forget to save when you're done filling out the form!
-</p>
-<button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
-        [class]="dirty ? 'btn-primary' : 'btn-secondary'"
-        [ngbTooltip]="dirty ? 'Unsaved changes. Click to Save.' : null">
-  Save
-</button>
+@if (!editable) {
+  <p class="text-center text-muted mt-3 mb-5">
+    Don't forget to save when you're done filling out the form!
+  </p>
+  <button type="button" class="btn btn-lg btn-floating-action mb-5" (click)="save()"
+          [class]="dirty ? 'btn-primary' : 'btn-secondary'"
+          [ngbTooltip]="dirty ? 'Unsaved changes. Click to Save.' : null">
+    Save
+  </button>
+}

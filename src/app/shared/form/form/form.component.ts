@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {CopySpec, SchemaElement, SchemaSection} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
-import {ExpressionService} from '../../services/expression.service';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-form',
@@ -14,13 +14,15 @@ export class FormComponent implements OnInit {
   @Input({required: true}) formData!: { id?: string | number; data: any };
   /** for offline storage */
   @Input() formId: string = '';
+  @Input() editable = false;
   @Output() saved = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<SchemaSection>();
 
-  dirty = false;
+  @Input() dirty = false;
+  @Output() dirtyChange = new EventEmitter<boolean>();
 
   constructor(
     private toastService: ToastService,
-    private expressionService: ExpressionService,
   ) {
   }
 
@@ -33,8 +35,8 @@ export class FormComponent implements OnInit {
   }
 
   init(section: SchemaSection, element: SchemaElement) {
-    const id = `${this.formId}/s-${section.id}/${element.key}`;
-    const initialValue = globalThis.localStorage?.getItem(id);
+    const id = this.formId && `${this.formId}/s-${section.id}/${element.key}`;
+    const initialValue = id && globalThis.localStorage?.getItem(id);
     if (initialValue) {
       this.formData.data[element.key] = this.coerce(element, initialValue);
     } else if (element.disabled && element.defaultValue) {
@@ -48,7 +50,10 @@ export class FormComponent implements OnInit {
     }
 
     for (const subElement of element.inputList ?? []) {
-      this.init(section, subElement);
+      const keyValue = this.formData.data[element.key];
+      if (Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+        this.init(section, subElement);
+      }
     }
   }
 
@@ -74,33 +79,24 @@ export class FormComponent implements OnInit {
       return;
     }
 
-    // delete localStorage keys starting with this.formId
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key?.startsWith(this.formId)) {
-        localStorage.removeItem(key);
+    if (this.formId) {
+      // delete localStorage keys starting with this.formId
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith(this.formId)) {
+          localStorage.removeItem(key);
+        }
       }
     }
 
     this.saved.emit();
 
-    this.dirty = false;
+    this.setDirty(false);
   }
 
-  isMediumPage(schema: any, element: any) {
-    let gridSize = 'col-12';
-    if (schema.name == "Electric Vehicle") {
-      gridSize = element.key.includes("ev_type_1_time") || element.key.includes("ev_type_2_time") || element.key.includes("ev_type_3_time") ? 'col-6' : gridSize;
-    } else if (schema.name == "Non Electric Vehicle") {
-      gridSize = element.key.includes("non_ev_type_1_time") || element.key.includes("non_ev_type_2_time") || element.key.includes("non_ev_type_3_time") ? 'col-6' : gridSize;
-    } else if (schema.name == "Occupied Hours") {
-      gridSize = element.key.includes("hour_time_") ? 'col-6' : gridSize;
-    }
-    return gridSize;
-  }
-
-  setDirty() {
-    this.dirty = true;
+  setDirty(dirty = true) {
+    this.dirty = dirty;
+    this.dirtyChange.emit(this.dirty);
   }
 
   canDeactivate(): boolean {
@@ -137,5 +133,28 @@ export class FormComponent implements OnInit {
     return {totalFields, completedFields, percentage};
   }
 
-  protected readonly Array = Array;
+  dropSection(event: CdkDragDrop<SchemaSection[]>) {
+    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+  }
+
+  dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
+    moveItemInArray(section.schema, event.previousIndex, event.currentIndex);
+    section._dirty = true;
+  }
+
+  addFormElement(section: SchemaSection) {
+    section.schema.push({
+      key: `new_${section.schema.length + 1}`,
+      type: 'textBox',
+      dataType: 'text',
+      title: 'New Field',
+      hint: '',
+    });
+    section._dirty = true;
+  }
+
+  removeFormElement(section: SchemaSection, $index: number) {
+    section.schema.splice($index, 1);
+    section._dirty = true;
+  }
 }
