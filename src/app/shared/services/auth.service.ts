@@ -22,16 +22,25 @@ export class AuthService {
     return this.http.get<{ data: User }>(`${environment.url}authApi/v1/user`).pipe(map(r => r.data));
   }
 
-  signUp(data: any): Observable<any> {
-    return this.http.post(`${environment.url}authApi/v1/register`, data);
+  signUp(data: {
+    userName: string;
+    email: string;
+    password: string;
+    password_confirm: string;
+    role: string;
+  }): Observable<any> {
+    return this.http.post(`${environment.url}authApi/v1/user`, {data});
   }
 
-  login(data: { email: string; password: string }): Observable<{ token: string; user: User }> {
+  login(data: {
+    email: string;
+    password: string;
+  }): Observable<{ token: string; user: User }> {
     return this.http.post<{ token: string; user: User }>(`${environment.url}authApi/v1/login`, {data});
   }
 
   logout(): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${environment.url}authApi/v1/logout/`, null);
+    return this.http.post<{ message: string }>(`${environment.url}authApi/v1/logout`, null);
   }
 
   forgotPassword(data: any): Observable<any> {
