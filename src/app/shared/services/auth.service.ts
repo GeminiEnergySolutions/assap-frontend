@@ -36,7 +36,7 @@ export class AuthService {
     email: string;
     password: string;
   }): Observable<{ token: string; user: User }> {
-    return this.http.post<{ token: string; user: User }>(`${environment.url}authApi/v1/login`, {data});
+    return this.http.post<{ token: string; user: User }>(`${environment.url}authApi/v1/login`, data);
   }
 
   logout(): Observable<{ message: string }> {
