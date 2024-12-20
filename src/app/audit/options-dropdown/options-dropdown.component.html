@@ -16,10 +16,10 @@
       </a>
     </div>
     <div class="dropdown-divider"></div>
-    <button ngbDropdownItem class="bi-eye" (click)="setSection('grantStatus', !audit?.grantStatus)">
+    <button ngbDropdownItem [class]="audit?.grantStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('grantStatus', !audit?.grantStatus)">
       {{ audit?.grantStatus ? 'Hide' : 'Show' }} Grants section
     </button>
-    <button ngbDropdownItem class="bi-eye-slash" (click)="setSection('cehStatus', !audit?.cehStatus)">
+    <button ngbDropdownItem [class]="audit?.cehStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('cehStatus', !audit?.cehStatus)">
       {{ audit?.cehStatus ? 'Hide' : 'Show' }} Clean Energy Hub section
     </button>
     <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
