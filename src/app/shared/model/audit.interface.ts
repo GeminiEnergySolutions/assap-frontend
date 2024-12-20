@@ -22,3 +22,6 @@ export type AuditDetails = Record<'KitchenEquipment' | 'Refrigeration' | 'Lighti
     name: string;
   }[];
 }>;
+
+export type CreateAuditDto = Pick<Audit, 'auditName' | 'grantStatus' | 'cehStatus' | 'stateId'>;
+export type UpdateAuditDto = Partial<CreateAuditDto> & Pick<Audit, 'auditName'>; // for some reason the auditName is required to update an audit

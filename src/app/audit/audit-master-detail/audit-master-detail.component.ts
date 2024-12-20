@@ -60,11 +60,9 @@ export class AuditMasterDetailComponent implements OnInit {
     if (!name) {
       return;
     }
-    let auditData = {...audit, auditName: name};
-
-    this.auditService.updateAudit(auditData).subscribe(() => {
+    this.auditService.updateAudit(audit.auditId, {auditName: name}).subscribe(res => {
       let index = this.audits[state].indexOf(audit);
-      this.audits[state][index] = auditData;
+      this.audits[state][index].auditName = name;
     });
   }
 

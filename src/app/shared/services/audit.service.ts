@@ -3,11 +3,12 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
-import {Audit, AuditDetails} from '../model/audit.interface';
+import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {Photo} from '../model/photo.interface';
 import {DataCollector} from '../model/data-collector.interface';
+import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
@@ -73,20 +74,20 @@ export class AuditService {
     return this.http.post(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`, formData);
   }
 
-  getSingleAudit(auditId: number): Observable<{ data: Audit }> {
-    return this.http.get<{ data: Audit }>(`${this.rootUrl}api/audit?auditId=${auditId}`);
+  getSingleAudit(id: number): Observable<Response<Audit>> {
+    return this.http.get<Response<Audit>>(`${this.rootUrl}api/audit/${id}`);
   }
-  getAllAudit(): Observable<{ data: Audit[] }> {
-    return this.http.get<{ data: Audit[] }>(`${this.rootUrl}api/audit`);
+  getAllAudit(): Observable<Response<Audit[]>> {
+    return this.http.get<Response<Audit[]>>(`${this.rootUrl}api/audit`);
   }
-  createAudit(data: any): Observable<{ data: Audit }> {
-    return this.http.post<{ data: Audit }>(`${this.rootUrl}api/audit`, data);
+  createAudit(data: CreateAuditDto): Observable<Response<Audit>> {
+    return this.http.post<Response<Audit>>(`${this.rootUrl}api/audit`, data);
   }
-  updateAudit(data: any): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/audit?auditId=${data.auditId}`, data);
+  updateAudit(id: number, data: UpdateAuditDto): Observable<Response<Audit>> {
+    return this.http.put<Response<Audit>>(`${this.rootUrl}api/audit/${id}`, data);
   }
-  deleteAudit(id: number): Observable<any> {
-    return this.http.delete(`${this.rootUrl}api/audit?auditId=${id}`);
+  deleteAudit(id: number): Observable<Response> {
+    return this.http.delete<Response>(`${this.rootUrl}api/audit/${id}`);
   }
 
   getAuditDetails(id: number): Observable<{ data: AuditDetails }> {
