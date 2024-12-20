@@ -8,7 +8,7 @@
         ngbDropdownItem
         class="bi-file-earmark-richtext"
         [disabled]="isGuest"
-        [href]="isGuest ? null : serverUrl + 'api/energyAuditReport?auditId=' + audit?.auditId + '&auth_token=' + authToken"
+        [href]="isGuest ? null : serverUrl + 'api/reports/energyAudit/' + audit?.auditId + '?auth_token=' + authToken"
         download
         target="_blank"
       >

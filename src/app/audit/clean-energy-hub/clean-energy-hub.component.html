@@ -9,12 +9,12 @@
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
         <a ngbDropdownItem class="bi-clipboard-check"
-           [href]="serverUrl + 'api/feasibilityReport?auditId=' + auditId + '&auth_token=' + authToken"
+           [href]="serverUrl + 'api/reports/feasibility/' + auditId + '?auth_token=' + authToken"
            download target="_blank">
           Download Feasibility Report
         </a>
         <a ngbDropdownItem class="bi-grid-3x3"
-           [href]="serverUrl + 'api/cehMicrogridSheet?auditId=' + auditId + '&auth_token=' + authToken"
+           [href]="serverUrl + 'api/reports/cehMicrogridSheet/' + auditId + '?auth_token=' + authToken"
            download target="_blank">
           Download Microgrid Sheet
         </a>
