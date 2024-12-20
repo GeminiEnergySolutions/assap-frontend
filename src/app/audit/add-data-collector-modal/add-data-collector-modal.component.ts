@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DataCollector} from '../../shared/model/data-collector.interface';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Audit} from '../../shared/model/audit.interface';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
+import {User} from '../../shared/model/user.interface';
 
 @Component({
   selector: 'app-add-data-collector-modal',
@@ -13,7 +13,7 @@ import {switchMap} from 'rxjs';
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;
-  dataCollectors: DataCollector[] = [];
+  dataCollectors: User[] = [];
   selected: Partial<Record<number, boolean>> = {};
 
   constructor(
@@ -30,8 +30,8 @@ export class AddDataCollectorModalComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.dataCollectors(aid)),
-    ).subscribe((res: DataCollector[]) => {
-      this.dataCollectors = res;
+    ).subscribe(({data}) => {
+      this.dataCollectors = data;
       this.selected = {};
     });
   }

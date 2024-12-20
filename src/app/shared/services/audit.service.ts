@@ -7,8 +7,8 @@ import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audi
 import {CreateZoneData, ZoneData, ZoneDataResponse} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {Photo} from '../model/photo.interface';
-import {DataCollector} from '../model/data-collector.interface';
 import {Response} from '../model/response.interface';
+import {User} from '../model/user.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
@@ -41,11 +41,12 @@ export class AuditService {
     }).pipe(map(({data}) => data));
   }
 
-  dataCollectors(auditId: number): Observable<DataCollector[]> {
-    return this.http.get<DataCollector[]>(`${this.rootUrl}authApi/v1/data-collectors?auditId=${auditId}`);
+  dataCollectors(auditId: number): Observable<Response<User[]>> {
+    return this.http.get<Response<User[]>>(`${this.rootUrl}authApi/v1/audit/${auditId}/dataCollectors/unassigned`);
   }
-  assignAudits(data: { auditId: number; dataCollectorId: number }[]):Observable<any> {
-    return this.http.post(`${this.rootUrl}api/assign/`,data);
+
+  assignAudits(data: { auditId: number; dataCollectorId: number }[]): Observable<Response> {
+    return this.http.post<Response>(`${this.rootUrl}api/auditAssignment`, data);
   }
 
   getPhotos(auditId: number, pageNo: number, size: number, options?: {
