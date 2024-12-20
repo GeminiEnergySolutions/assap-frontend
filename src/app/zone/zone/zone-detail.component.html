@@ -43,7 +43,7 @@
     <app-feature-card
       [title]="equipment.equipmentName | titlecase"
       [routerLink]="['equipments', equipment.id]"
-      [percentageQuery]="{percentageType: 'equipment', zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
+      [percentageQuery]="{percentageType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
     ></app-feature-card>
   }
   <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>

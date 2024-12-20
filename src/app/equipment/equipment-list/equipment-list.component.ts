@@ -55,6 +55,7 @@ export class EquipmentListComponent implements OnInit {
     this.auditService.equipmentHeadingValue = equipment.equipmentName;
     this.auditService.getPercentage({
       percentageType: 'equipment',
+      auditId: this.route.snapshot.params.aid,
       zoneId: this.route.snapshot.params.zid,
       equipmentId: equipment.id,
     }).subscribe(res => this.auditService.currentProgress = res);

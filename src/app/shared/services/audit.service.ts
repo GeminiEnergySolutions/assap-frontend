@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData, PreAuditDataResponse} from '../model/pre-audit-data.interface';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
@@ -12,13 +12,13 @@ import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
-  | { percentageType: 'preaudit', auditId: number }
+  | { percentageType: 'preAudit', auditId: number }
   | { percentageType: 'ceh', auditId: number }
   | { percentageType: 'grants', auditId: number }
-  | { percentageType: 'equipment', zoneId: number, equipmentId: number }
-  | { percentageType: 'form', zoneId: number, subTypeId: number }
+  | { percentageType: 'equipment', auditId: number, zoneId: number, equipmentId: number }
+  | { percentageType: 'equipmentForm', auditId: number, zoneId: number, subTypeId: number }
   | { percentageType: 'zone', auditId: number }
-  | { percentageType: 'zone', zoneId: number }
+  | { percentageType: 'zone', auditId: number, zoneId: number }
   | { percentageType: 'zoneDetails', auditId: number, zoneId: number }
 
 @Injectable({
@@ -36,9 +36,9 @@ export class AuditService {
   }
 
   getPercentage(params: PercentageQuery): Observable<PercentageCompletion> {
-    return this.http.get<PercentageCompletion>(`${this.rootUrl}api/percentageCompletion`, {
+    return this.http.get<Response<PercentageCompletion>>(`${this.rootUrl}api/formData/progress`, {
       params,
-    });
+    }).pipe(map(({data}) => data));
   }
 
   dataCollectors(auditId: number): Observable<DataCollector[]> {

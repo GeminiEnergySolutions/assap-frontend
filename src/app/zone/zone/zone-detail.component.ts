@@ -49,8 +49,9 @@ export class ZoneDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({zid}) => this.auditService.getPercentage({
+      switchMap(({aid, zid}) => this.auditService.getPercentage({
         percentageType: 'zone',
+        auditId: aid,
         zoneId: zid,
       })),
     ).subscribe(res => this.progress = res);

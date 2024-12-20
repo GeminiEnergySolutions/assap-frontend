@@ -26,7 +26,7 @@
   <app-feature-card
     title="Pre-Audit"
     routerLink="preaudit"
-    [percentageQuery]="{percentageType: 'preaudit', auditId: route.snapshot.params.aid}"
+    [percentageQuery]="{percentageType: 'preAudit', auditId: route.snapshot.params.aid}"
   ></app-feature-card>
   @if (audit?.grantStatus) {
     <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{percentageType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>

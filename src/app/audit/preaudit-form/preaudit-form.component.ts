@@ -39,7 +39,7 @@ export class PreauditFormComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage({
-        percentageType: 'preaudit',
+        percentageType: 'preAudit',
         auditId: aid,
       })),
     ).subscribe(res => this.progress = res);
@@ -71,7 +71,7 @@ export class PreauditFormComponent implements OnInit {
       auditId: this.auditId,
     }).subscribe(res => this.auditService.currentProgress = res);
     this.auditService.getPercentage({
-      percentageType: 'preaudit',
+      percentageType: 'preAudit',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }
