@@ -47,7 +47,10 @@ export class PhotosComponent implements OnInit {
   }
 
   getPhotos() {
-    this.auditService.getPhotos(this.route.snapshot.params.aid, this.page + 1, this.size, {
+    this.auditService.getPhotos({
+      auditId: +this.route.snapshot.params.aid,
+      pageNo: this.page + 1,
+      size: this.size,
       zoneId: this.zone,
       equipmentId: this.equipment,
       typeId: this.subType,

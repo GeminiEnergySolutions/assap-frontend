@@ -74,12 +74,12 @@
       <div class="overlay">
         {{
           item.equipmentId ?
-            (item.auditName.auditName + ' / ' + item.zoneName?.zoneName + ' / ' + item.equipmentName?.equipmentName + ' / ' + item.typeName?.name + ' / ' + item.subTypeName?.name | uppercase)
+            (item.audit?.auditName + ' / ' + item.zone?.zoneName + ' / ' + item.equipment?.equipmentName + ' / ' + item.type?.name + ' / ' + item.subType?.name | uppercase)
             :
             item.zoneId ?
-              (item.auditName.auditName + ' / ' + item.zoneName?.zoneName | uppercase)
+              (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
               :
-              (item.auditName.auditName | uppercase)
+              (item.audit?.auditName | uppercase)
         }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
       </div>

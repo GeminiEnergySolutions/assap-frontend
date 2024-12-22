@@ -48,30 +48,29 @@ export class AuditService {
     return this.http.post<Response>(`${this.rootUrl}api/auditAssignment`, data);
   }
 
-  getPhotos(auditId: number, pageNo: number, size: number, options?: {
+  getPhotos(params: {
+    auditId: number;
+    pageNo: number;
+    size: number;
     zoneId?: number;
     equipmentId?: number,
     typeId?: number
-  }): Observable<{
-    data: {
-      photos: Photo[];
-      count_total_photos: number;
+  }): Observable<Response<{
+    photos: Photo[];
+    count_total_photos: number;
+  }>> {
+    for (const key of Object.keys(params) as (keyof typeof params)[]) {
+      if (params[key] === undefined) {
+        delete params[key];
+      }
     }
-  }> {
-    return this.http.get<any>(`${this.rootUrl}api/auditPhoto`, {
-      params: {
-        auditId,
-        pageNo,
-        size,
-        ...Object.fromEntries(Object.entries(options ?? {}).filter(([_, v]) => v !== undefined)),
-      },
-    });
+    return this.http.get<any>(`${this.rootUrl}api/photos`, {params});
   }
-  deletePhoto(id: number): Observable<any> {
-    return this.http.delete(`${this.rootUrl}api/auditPhoto`, {params: {id}});
+  deletePhoto(id: number): Observable<Response> {
+    return this.http.delete<Response>(`${this.rootUrl}api/photos`, {params: {id}});
   }
-  uploadPhoto(auditId: Number, formData: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/auditPhoto?auditId=${auditId}`, formData);
+  uploadPhoto(formData: FormData): Observable<Response> {
+    return this.http.post<Response>(`${this.rootUrl}api/photos`, formData);
   }
 
   getSingleAudit(id: number): Observable<Response<Audit>> {

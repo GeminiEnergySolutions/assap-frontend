@@ -69,7 +69,7 @@ export class EquipmentDetailComponent implements OnInit {
     formData.append('typeId', this.equipment?.typeId + '');
     formData.append('subTypeId', tid);
     formData.append('photo', file, file.name);
-    this.auditService.uploadPhoto(aid, formData).subscribe(() => {
+    this.auditService.uploadPhoto(formData).subscribe(() => {
       this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }
