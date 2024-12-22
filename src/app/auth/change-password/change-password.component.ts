@@ -34,7 +34,7 @@ export class ChangePasswordComponent implements OnInit {
       confirmNewPassword: this.changePasswordForm.get('confirmNewPassword')?.value,
     };
 
-    this.authService.changePassword(objData).subscribe((res: any) => {
+    this.authService.changePassword(objData).subscribe(() => {
       this.toastService.success('Success', 'Password changed Successfully, login again with new password');
       this.router.navigate(['']);
     });
