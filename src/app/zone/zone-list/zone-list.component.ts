@@ -2,16 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {Zone} from "../../shared/model/zone.interface";
+import {Zone} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-zone-list',
   templateUrl: './zone-list.component.html',
-  styleUrls: ['./zone-list.component.scss']
+  styleUrls: ['./zone-list.component.scss'],
 })
 export class ZoneListComponent implements OnInit {
 
-  zones: any = [];
+  zones: Zone[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -21,9 +21,9 @@ export class ZoneListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({ aid }) => this.zoneService.getAllAuditZone(aid)),
-    ).subscribe((zones: any) => {
-      this.zones = zones.data;
+      switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),
+    ).subscribe(({data}) => {
+      this.zones = data;
     });
   }
 
@@ -33,36 +33,33 @@ export class ZoneListComponent implements OnInit {
       return;
     }
 
-    this.route.params.pipe(
-      switchMap(({ aid }) => this.zoneService.createAuditZone({ auditId: aid, zoneName: name }, aid)),
-    ).subscribe((res: any) => {
-      this.zones.push(res.data);
+    this.zoneService.createAuditZone({
+      auditId: this.route.snapshot.params.aid,
+      zoneName: name,
+    }).subscribe(({data}) => {
+      this.zones.push(data);
     });
   }
 
-  rename(zone: any) {
+  rename(zone: Zone) {
     const name = prompt('Rename Zone ', zone.zoneName);
     if (!name) {
       return;
     }
-    let zoneData = { ...zone, zoneName: name };
-
-    this.route.params.pipe(
-      switchMap(({ aid, zid }) => this.zoneService.updateAuditZone(zoneData, zone.zoneId)),
-    ).subscribe((res: any) => {
-      let index = this.zones.indexOf(zone);
-      this.zones[index] = zoneData;
+    this.zoneService.updateAuditZone(zone.auditId, zone.zoneId, {
+      ...zone, zoneName: name,
+    }).subscribe(({data}) => {
+      const index = this.zones.indexOf(zone);
+      this.zones[index] = data;
     });
   }
 
-  delete(zone: any) {
+  delete(zone: Zone) {
     if (!confirm(`Are you sure you want to delete '${zone.zoneName}'?`)) {
       return;
     }
-    this.route.params.pipe(
-      switchMap(({ aid }) => this.zoneService.deleteAuditZone(zone.zoneId)),
-    ).subscribe((res: any) => {
-      let index = this.zones.findIndex((a: any) => a.zoneId === zone.zoneId);
+    this.zoneService.deleteAuditZone(zone.auditId, zone.zoneId).subscribe(() => {
+      const index = this.zones.findIndex(a => a.zoneId === zone.zoneId);
       this.zones.splice(index, 1);
     });
   }

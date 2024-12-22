@@ -1,38 +1,43 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
-import {Zone} from "../model/zone.interface";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment.prod';
+import {CreateZoneDto, UpdateZoneDto, Zone} from '../model/zone.interface';
+import {Response} from '../model/response.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuditZoneService {
+  constructor(
+    private http: HttpClient,
+  ) {
+  }
 
-  rootUrl = environment.url;
+  getSingleZone(auditId: number, zoneId: number): Observable<Response<Zone>> {
+    return this.http.get<Response<Zone>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}`);
+  }
 
-  constructor(private http: HttpClient,
-  ) { }
+  getAllAuditZone(auditId: number): Observable<Response<Zone[]>> {
+    return this.http.get<Response<Zone[]>>(`${environment.url}api/audit/${auditId}/zone`);
+  }
 
-  getSingleZone(zoneId: number): Observable<{ data: Zone }> {
-    return this.http.get<{ data: Zone }>(`${this.rootUrl}api/auditZone?zoneId=${zoneId}`);
+  createAuditZone(dto: CreateZoneDto): Observable<Response<Zone>> {
+    return this.http.post<Response<Zone>>(`${environment.url}api/audit/${dto.auditId}/zone`, dto);
   }
-  getAllAuditZone(auditId: number): Observable<{ data: Zone[] }> {
-    return this.http.get<{ data: Zone[] }>(`${this.rootUrl}api/auditZone?auditId=${auditId}`);
+
+  updateAuditZone(auditId: number, zoneId: number, data: UpdateZoneDto): Observable<Response<Zone>> {
+    return this.http.put<Response<Zone>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}`, data);
   }
-  createAuditZone(data: any, auditId: number): Observable<any> {
-    return this.http.post(`${this.rootUrl}api/auditZone?auditId=${auditId}`, data);
-  }
-  updateAuditZone(data: any, zoneId: number): Observable<any> {
-    return this.http.put(`${this.rootUrl}api/auditZone?zoneId=${zoneId}`, data);
-  }
-  duplicateAuditZone(id: number, count: number): Observable<{ data: Zone[] }> {
-    return this.http.post<{ data: Zone[] }>(`${this.rootUrl}api/zoneDuplicate`, {
-      zoneId: id,
+
+  duplicateAuditZone(zoneId: number, count: number): Observable<Response<Zone[]>> {
+    return this.http.post<Response<Zone[]>>(`${environment.url}api/zone/duplicate`, {
+      zoneId,
       countDuplicate: count,
     });
   }
-  deleteAuditZone(id: number): Observable<any> {
-    return this.http.delete(`${this.rootUrl}api/auditZone?zoneId=${id}`);
+
+  deleteAuditZone(auditId: number, zoneId: number): Observable<Response> {
+    return this.http.delete<Response>(`${(environment.url)}api/audit/${auditId}/zone/${zoneId}`);
   }
 }

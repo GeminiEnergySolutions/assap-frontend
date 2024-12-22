@@ -39,7 +39,7 @@ export class ZoneDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({zid}) => this.auditZoneService.getSingleZone(zid)),
+      switchMap(({aid, zid}) => this.auditZoneService.getSingleZone(aid, zid)),
     ).subscribe(res => {
       this.zone = res.data;
     });
@@ -65,7 +65,10 @@ export class ZoneDetailComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.zoneService.updateAuditZone({...this.zone, zoneName: name}, this.zone.zoneId).subscribe(() => {
+    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
+      ...this.zone,
+      zoneName: name,
+    }).subscribe(() => {
       this.zone!.zoneName = name;
       this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });

@@ -5,6 +5,9 @@ export interface Zone {
   auditId: number;
 }
 
+export type CreateZoneDto = Pick<Zone, 'zoneName' | 'auditId'>;
+export type UpdateZoneDto = CreateZoneDto;
+
 export interface ZoneDataResponse {
   message: string;
   data: ZoneData;
