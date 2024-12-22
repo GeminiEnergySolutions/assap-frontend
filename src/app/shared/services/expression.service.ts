@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {compile, Jexl} from 'jexl';
+import {Jexl} from 'jexl';
 import Expression from 'jexl/Expression';
 
 @Injectable({
@@ -9,11 +9,11 @@ export class ExpressionService {
   private jexl = new Jexl();
   private compiledExpressions = new Map<string, Expression>;
 
-  evalSync(expression: string, context?: Record<string, any>): any {
+  evalSync(expression: string, context?: Record<string, unknown>): unknown {
     return this.compile(expression).evalSync(context);
   }
 
-  eval(expression: string, context?: Record<string, any>): Promise<any> {
+  eval(expression: string, context?: Record<string, unknown>): Promise<unknown> {
     return this.compile(expression).eval(context);
   }
 
