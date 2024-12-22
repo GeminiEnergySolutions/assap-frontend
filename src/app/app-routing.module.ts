@@ -18,11 +18,6 @@ const routes: Routes = [
     loadChildren: () => import('./equipment/equipment.module').then(m => m.EquipmentModule),
   },
   {
-    path: 'settings',
-    loadChildren: () => import('./settings/setting.module').then((m) => m.SettingModule),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
