@@ -8,11 +8,6 @@ export interface Zone {
 export type CreateZoneDto = Pick<Zone, 'zoneName' | 'auditId'>;
 export type UpdateZoneDto = CreateZoneDto;
 
-export interface ZoneDataResponse {
-  message: string;
-  data: ZoneData;
-}
-
 export interface ZoneData {
   id: number;
   auditId: number;

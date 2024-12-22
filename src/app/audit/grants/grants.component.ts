@@ -33,7 +33,7 @@ export class GrantsComponent implements OnInit {
       tap(({aid}) => this.auditId = +aid),
       switchMap(({aid}) => this.auditService.getGrantsData(aid)),
     ).subscribe(res => {
-      this.formData = res ?? {data: {}};
+      this.formData = res.data ?? {data: {}};
     });
 
     this.getPercentage();
@@ -50,7 +50,7 @@ export class GrantsComponent implements OnInit {
         data: this.formData.data,
       });
     request$.subscribe(res => {
-      this.formData = res;
+      this.formData = res.data;
       this.toastService.success('Form', 'Successfully saved form input');
       this.getPercentage();
     });

@@ -5,8 +5,9 @@ import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap, tap} from 'rxjs';
-import {ZoneData, ZoneDataResponse} from '../../shared/model/zone.interface';
+import {ZoneData} from '../../shared/model/zone.interface';
 import {SchemaService} from '../../shared/services/schema.service';
+import {Response} from '../../shared/model/response.interface';
 
 @Component({
   selector: 'app-zone-form',
@@ -52,7 +53,7 @@ export class ZoneFormComponent implements OnInit {
     if (!this.formData || !this.auditId || !this.zoneId) {
       return;
     }
-    let request$: Observable<ZoneDataResponse>;
+    let request$: Observable<Response<ZoneData>>;
     if (this.formData.id) {
       request$ = this.auditService.updateZoneData(this.zoneId, this.formData);
     } else {

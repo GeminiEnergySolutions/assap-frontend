@@ -1,8 +1,3 @@
-export interface PreAuditDataResponse {
-  message: string;
-  data: PreAuditData;
-}
-
 export interface PreAuditData {
   id: number;
   auditId: number;

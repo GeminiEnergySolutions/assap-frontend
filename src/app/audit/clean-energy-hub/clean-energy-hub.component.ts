@@ -42,7 +42,7 @@ export class CleanEnergyHubComponent implements OnInit {
       tap(({aid}) => this.auditId = +aid),
       switchMap(({aid}) => this.auditService.getCleanEnergyHubData(+aid)),
     ).subscribe(formData => {
-      this.formData = formData ? formData : {data: {}};
+      this.formData = formData.data ?? {data: {}};
     });
     this.getPercentage();
   }
@@ -58,7 +58,7 @@ export class CleanEnergyHubComponent implements OnInit {
         data: this.formData.data,
       });
     request$.subscribe(res => {
-      this.formData = res;
+      this.formData = res.data;
       this.toastService.success('Form', 'Successfully saved form input');
       this.getPercentage();
     });
