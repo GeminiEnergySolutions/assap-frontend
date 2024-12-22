@@ -48,7 +48,8 @@ export class EditSchemaComponent implements OnInit {
           case 'equipment':
             this.kind = `equipment/${id}`;
             this.title = 'Equipment';
-            this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.title = data.name);
+            // TODO category ID?
+            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => this.title = data.name);
             break;
           default:
             this.title = '(invalid)';

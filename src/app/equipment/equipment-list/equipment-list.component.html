@@ -1,8 +1,8 @@
 <a routerLink="new" class="btn btn-outline-secondary bi-plus mb-3 w-100">
-  Add {{ equipment?.equipmentName }}
+  Add {{ category?.equipmentName }}
 </a>
 <div class="list-group rounded-0">
-  @for (item of subtypes; track item) {
+  @for (item of equipments; track item) {
     <app-feature-card
       [title]="item.name | titlecase"
       [subtitle]="item.type.name"

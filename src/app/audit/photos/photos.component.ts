@@ -83,7 +83,7 @@ export class PhotosComponent implements OnInit {
     this.page = 0;
 
     this.equipment && this.equipmentService.getEquipments(this.zone!, this.equipment).subscribe(res => {
-      this.subTypeList = res;
+      this.subTypeList = res.data;
     });
     this.getPhotos();
   }

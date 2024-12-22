@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap, tap} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
@@ -34,8 +34,8 @@ export class EquipmentDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      switchMap(({tid}) => this.equipmentService.getEquipment(+tid)),
-      tap(equipment => this.equipment = equipment),
+      switchMap(({zid, eid, tid}) => this.equipmentService.getEquipment(+zid, +eid, +tid)),
+      map(({data}) => this.equipment = data),
       switchMap(equipment => this.schemaService.getSchema(`equipment/${equipment.type?.id ?? equipment.typeId}`)),
     ).subscribe(({data}) => {
       this.typeSchema = data;
@@ -111,14 +111,14 @@ export class EquipmentDetailComponent implements OnInit {
       return;
     }
 
-    const kind = equipment?.type?.name;
+    const kind = equipment.type?.name;
     const name = prompt(`Rename ${kind}`, equipment.name);
     if (!name) {
       return;
     }
 
-    this.equipmentService.updateEquipment({...equipment, name}).subscribe(res => {
-      equipment && (equipment.name = res.name);
+    this.equipmentService.updateEquipment({...equipment, name}).subscribe(({data}) => {
+      equipment.name = data.name;
       this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
     });
   }

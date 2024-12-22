@@ -27,7 +27,6 @@ export type PercentageQuery =
 export class AuditService {
   rootUrl = environment.url;
 
-  equipmentHeadingValue: string = '';
   currentProgress?: PercentageCompletion;
 
   constructor(
