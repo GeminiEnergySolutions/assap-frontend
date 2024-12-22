@@ -9,7 +9,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<any>;
+  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<{}>;
 
   loggingIn = false;
   email = '';

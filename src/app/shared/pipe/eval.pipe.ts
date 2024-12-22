@@ -11,7 +11,7 @@ export class EvalPipe implements PipeTransform {
   ) {
   }
 
-  transform(expression: string, context?: Record<string, any>): Promise<any> {
+  transform(expression: string, context?: Record<string, unknown>): Promise<unknown> {
     return this.expressionService.eval(expression, context);
   }
 }
