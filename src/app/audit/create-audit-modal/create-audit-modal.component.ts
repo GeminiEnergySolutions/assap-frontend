@@ -25,7 +25,7 @@ export class CreateAuditModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stateService.getStates().subscribe(result => this.states = result);
+    this.stateService.getStates().subscribe(res => this.states = res.data);
   }
 
   create() {

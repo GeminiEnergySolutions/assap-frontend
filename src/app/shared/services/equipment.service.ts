@@ -10,7 +10,7 @@ import {
   EquipmentFormData,
   EquipmentType,
 } from '../model/equipment.interface';
-import {HvacConnectedZone, Zone, ZoneWithHvacConnected} from '../model/zone.interface';
+import {HvacConnectedZone, ZoneWithHvacConnected} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
 
 @Injectable({providedIn: 'root'})
@@ -21,20 +21,20 @@ export class EquipmentService {
   ) {
   }
 
-  getEquipmentCategory(id: number): Observable<{ data: EquipmentCategory }> {
-    return this.http.get<{ data: EquipmentCategory }>(`${environment.url}api/audit/equipment/${id}`);
+  getEquipmentCategory(id: number): Observable<Response<EquipmentCategory>> {
+    return this.http.get<Response<EquipmentCategory>>(`${environment.url}api/audit/equipment/${id}`);
   }
 
-  getEquipmentCategories(): Observable<{ data: EquipmentCategory[] }> {
-    return this.http.get<{ data: EquipmentCategory[] }>(`${environment.url}api/audit/equipment`);
+  getEquipmentCategories(): Observable<Response<EquipmentCategory[]>> {
+    return this.http.get<Response<EquipmentCategory[]>>(`${environment.url}api/audit/equipment`);
   }
 
-  getEquipmentType(categoryId: number, id: number): Observable<{ data: EquipmentType }> {
-    return this.http.get<{ data: EquipmentType }>(`${environment.url}api/equipment/${categoryId}/type/${id}`);
+  getEquipmentType(categoryId: number, id: number): Observable<Response<EquipmentType>> {
+    return this.http.get<Response<EquipmentType>>(`${environment.url}api/equipment/${categoryId}/type/${id}`);
   }
 
-  getEquipmentTypes(categoryId: number): Observable<{ data: EquipmentType[] }> {
-    return this.http.get<{ data: EquipmentType[] }>(`${environment.url}api/equipment/${categoryId}/type`);
+  getEquipmentTypes(categoryId: number): Observable<Response<EquipmentType[]>> {
+    return this.http.get<Response<EquipmentType[]>>(`${environment.url}api/equipment/${categoryId}/type`);
   }
 
   getEquipment(zoneId: number, categoryId: number, id: number): Observable<Response<Equipment>> {

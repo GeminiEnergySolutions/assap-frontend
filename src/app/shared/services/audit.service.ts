@@ -90,12 +90,12 @@ export class AuditService {
     return this.http.delete<Response>(`${this.rootUrl}api/audit/${id}`);
   }
 
-  getAuditDetails(id: number): Observable<{ data: AuditDetails }> {
-    return this.http.get<{ data: AuditDetails }>(`${this.rootUrl}api/auditDetail/${id}`);
+  getAuditDetails(id: number): Observable<Response<AuditDetails>> {
+    return this.http.get<Response<AuditDetails>>(`${this.rootUrl}api/auditDetail/${id}`);
   }
 
-  getAllDataCollectorAudit(): Observable<Audit[]> {
-    return this.http.get<Audit[]>(`${this.rootUrl}api/dataCollectorAudits`);
+  getAllDataCollectorAudit(): Observable<Response<Audit[]>> {
+    return this.http.get<Response<Audit[]>>(`${this.rootUrl}api/audit/dataCollector`);
   }
 
   getGrantsData(auditId: number): Observable<Response<PreAuditData>> {
