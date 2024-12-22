@@ -6,7 +6,7 @@ export class ExpressionErrorPipe implements PipeTransform {
   constructor(private expressionService: ExpressionService) {
   }
 
-  transform(expression: string, context: any) {
+  transform(expression: string, context: Record<string, unknown>) {
     try {
       this.expressionService.evalSync(expression, context);
       return null;
