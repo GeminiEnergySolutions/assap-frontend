@@ -21,8 +21,8 @@ export class AuditDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
-    ).subscribe((res: any) => {
-      this.audit = res.data;
+    ).subscribe(({data}) => {
+      this.audit = data;
     });
 
     this.route.params.pipe(
