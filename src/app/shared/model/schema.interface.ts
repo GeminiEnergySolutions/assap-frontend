@@ -1,8 +1,3 @@
-export interface SchemaResponse {
-  message: string;
-  data: SchemaSection[];
-}
-
 export interface SchemaSection {
   id: number;
   name: string;

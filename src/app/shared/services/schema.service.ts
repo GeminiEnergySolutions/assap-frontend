@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {SchemaResponse, SchemaSection} from '../model/schema.interface';
+import {SchemaSection} from '../model/schema.interface';
 import {environment} from '../../../environments/environment.prod';
 import {HttpClient} from '@angular/common/http';
+import {Response} from '../model/response.interface';
 
 export type SchemaKind = 'preAudit' | 'ceh' | 'grants' | 'zone' | `equipment/${number}`;
 
@@ -13,20 +14,23 @@ export class SchemaService {
   ) {
   }
 
-  getSchema(kind: SchemaKind): Observable<SchemaResponse> {
-    return this.http.get<SchemaResponse>(`${environment.url}api/schemas/${kind}`);
+  getSchema(kind: SchemaKind): Observable<Response<SchemaSection[]>> {
+    return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`);
   }
 
-  createSchemaSection(kind: SchemaKind, data: SchemaSection): Observable<{ data: SchemaSection }> {
-    return this.http.post<{ data: SchemaSection }>(`${environment.url}api/schemas/${kind}/`, data);
+  createSchemaSection(kind: SchemaKind, data: SchemaSection): Observable<Response<SchemaSection>> {
+    return this.http.post<Response<SchemaSection>>(`${environment.url}api/schemas/${kind}`, data);
   }
-  getSchemaSection(kind: SchemaKind, section: number): Observable<{ data: SchemaSection }> {
-    return this.http.get<{ data: SchemaSection }>(`${environment.url}api/schemas/${kind}/${section}/`);
+
+  getSchemaSection(kind: SchemaKind, section: number): Observable<Response<SchemaSection>> {
+    return this.http.get<Response<SchemaSection>>(`${environment.url}api/schemas/${kind}/${section}`);
   }
-  updateSchemaSection(kind: SchemaKind, section: number, data: SchemaSection): Observable<{}> {
-    return this.http.put<{}>(`${environment.url}api/schemas/${kind}/${section}/`, data);
+
+  updateSchemaSection(kind: SchemaKind, section: number, data: SchemaSection): Observable<Response<SchemaSection>> {
+    return this.http.put<Response<SchemaSection>>(`${environment.url}api/schemas/${kind}/${section}`, data);
   }
-  deleteSchemaSection(kind: SchemaKind, section: number): Observable<{}> {
-    return this.http.delete<{}>(`${environment.url}api/schemas/${kind}/${section}/`);
+
+  deleteSchemaSection(kind: SchemaKind, section: number): Observable<Response> {
+    return this.http.delete<Response>(`${environment.url}api/schemas/${kind}/${section}`);
   }
 }
