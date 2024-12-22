@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {Zone} from "../../shared/model/zone.interface";
+import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-zone-list',
@@ -16,6 +17,7 @@ export class ZoneListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private zoneService: AuditZoneService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -37,6 +39,7 @@ export class ZoneListComponent implements OnInit {
       switchMap(({ aid }) => this.zoneService.createAuditZone({ auditId: aid, zoneName: name }, aid)),
     ).subscribe((res: any) => {
       this.zones.push(res.data);
+      this.toastService.success('Create Zone', 'Successfully created new zone.');
     });
   }
 
@@ -52,6 +55,7 @@ export class ZoneListComponent implements OnInit {
     ).subscribe((res: any) => {
       let index = this.zones.indexOf(zone);
       this.zones[index] = zoneData;
+      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });
   }
 
@@ -64,6 +68,7 @@ export class ZoneListComponent implements OnInit {
     ).subscribe((res: any) => {
       let index = this.zones.findIndex((a: any) => a.zoneId === zone.zoneId);
       this.zones.splice(index, 1);
+      this.toastService.warn('Delete Zone', 'Successfully deleted zone.');
     });
   }
 
@@ -74,6 +79,7 @@ export class ZoneListComponent implements OnInit {
     }
     this.zoneService.duplicateAuditZone(zone.zoneId, +count).subscribe(response => {
       this.zones.push(...response.data);
+      this.toastService.success('Duplicate Zone', 'Successfully duplicated zone.');
     });
   }
 }

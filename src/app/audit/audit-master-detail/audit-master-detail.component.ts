@@ -55,19 +55,6 @@ export class AuditMasterDetailComponent implements OnInit {
     (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
   }
 
-  rename(state: string, audit: Audit) {
-    const name = prompt('Rename Audit', audit.auditName);
-    if (!name) {
-      return;
-    }
-    let auditData = {...audit, auditName: name};
-
-    this.auditService.updateAudit(auditData).subscribe(() => {
-      let index = this.audits[state].indexOf(audit);
-      this.audits[state][index] = auditData;
-    });
-  }
-
   delete(state: string, audit: Audit) {
     let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
     this.audits[state].splice(index, 1);
