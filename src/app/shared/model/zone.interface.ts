@@ -17,7 +17,13 @@ export interface ZoneData {
 
 export type CreateZoneData = Omit<ZoneData, 'id'>;
 
-export interface ConnectedZone extends Zone{
-  auditName: string;
+export interface ZoneWithHvacConnected extends Zone {
   isConnected: boolean;
+}
+
+export interface HvacConnectedZone {
+  id: number;
+  subTypeId: number;
+  zoneId: number;
+  zone?: Zone;
 }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ConnectedZone} from '../../shared/model/zone.interface';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
+import {ZoneWithHvacConnected} from '../../shared/model/zone.interface';
 
 @Component({
   selector: 'app-connect-zone',
@@ -11,7 +11,7 @@ import {switchMap} from 'rxjs';
   styleUrl: './connect-zone.component.scss',
 })
 export class ConnectZoneComponent implements OnInit {
-  connectedZones: ConnectedZone[] = [];
+  connectedZones: ZoneWithHvacConnected[] = [];
   selection: Record<number, boolean> = {};
 
   constructor(
@@ -31,7 +31,8 @@ export class ConnectZoneComponent implements OnInit {
 
   save() {
     const zoneIds = Object.entries(this.selection).filter(([, value]) => value).map(([key]) => +key);
-    this.equipmentService.setConnectedZones(this.route.snapshot.params.tid, zoneIds).subscribe(() => {
+    const {aid, zid, tid} = this.route.snapshot.params;
+    this.equipmentService.setConnectedZones(+aid, +zid, +tid, zoneIds).subscribe(() => {
       this.toastService.success('Connect Zones', `Successfully connected ${zoneIds.length} zones to HVAC unit.`);
     });
   }

@@ -3,13 +3,14 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {
-  CreateEquipmentDto, CreateEquipmentFormData,
+  CreateEquipmentDto,
+  CreateEquipmentFormData,
   Equipment,
   EquipmentCategory,
   EquipmentFormData,
   EquipmentType,
 } from '../model/equipment.interface';
-import {ConnectedZone} from '../model/zone.interface';
+import {HvacConnectedZone, Zone, ZoneWithHvacConnected} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
 
 @Injectable({providedIn: 'root'})
@@ -77,14 +78,12 @@ export class EquipmentService {
 
   // HVACs
 
-  getConnectedZones(auditId: number, zoneId: number): Observable<{ data: ConnectedZone[] }> {
-    return this.http.get<{
-      data: ConnectedZone[]
-    }>(`${environment.url}api/hvacConnectZone?auditId=${auditId}&zoneId=${zoneId}`);
+  getConnectedZones(auditId: number, zoneId: number): Observable<Response<ZoneWithHvacConnected[]>> {
+    return this.http.get<Response<ZoneWithHvacConnected[]>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}/equipment/hvacConnectZone`);
   }
 
-  setConnectedZones(equipmentId: number, zoneIds: number[]) {
-    return this.http.post(`${environment.url}api/hvacConnectZone`, {
+  setConnectedZones(auditId: number, zoneId: number, equipmentId: number, zoneIds: number[]): Observable<Response<HvacConnectedZone[]>> {
+    return this.http.post<Response<HvacConnectedZone[]>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}/equipment/hvacConnectZone`, {
       subTypeId: equipmentId,
       zoneIds,
     });
