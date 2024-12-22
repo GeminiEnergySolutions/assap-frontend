@@ -2,7 +2,13 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
+import {
+  CreateEquipmentDto, CreateEquipmentFormData,
+  Equipment,
+  EquipmentCategory,
+  EquipmentFormData,
+  EquipmentType,
+} from '../model/equipment.interface';
 import {ConnectedZone} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
 
@@ -57,16 +63,16 @@ export class EquipmentService {
     });
   }
 
-  getEquipmentFormData(id: number): Observable<any> {
-    return this.http.get(`${environment.url}api/equipmentForm?subTypeId=${id}`);
+  getEquipmentFormData(equipmentId: number): Observable<Response<EquipmentFormData>> {
+    return this.http.get<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${equipmentId}`);
   }
 
-  createEquipmentFormData(equipmentFormData: any): Observable<any> {
-    return this.http.post(`${environment.url}api/equipmentForm`, equipmentFormData);
+  createEquipmentFormData(data: CreateEquipmentFormData): Observable<Response<EquipmentFormData>> {
+    return this.http.post<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${data.subTypeId}`, data);
   }
 
-  updateEquipmentFormData(equipmentFormData: any): Observable<any> {
-    return this.http.put(`${environment.url}api/equipmentForm`, equipmentFormData);
+  updateEquipmentFormData(data: EquipmentFormData): Observable<Response<EquipmentFormData>> {
+    return this.http.put<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${data.subTypeId}`, data);
   }
 
   // HVACs

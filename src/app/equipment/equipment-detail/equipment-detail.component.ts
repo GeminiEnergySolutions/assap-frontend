@@ -6,8 +6,7 @@ import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
-import {ZoneData} from '../../shared/model/zone.interface';
-import {Equipment} from '../../shared/model/equipment.interface';
+import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {SchemaService} from '../../shared/services/schema.service';
 
 
@@ -22,7 +21,7 @@ export class EquipmentDetailComponent implements OnInit {
   equipment?: Equipment;
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
-  formData?: ZoneData;
+  formData?: EquipmentFormData;
 
   constructor(
     public equipmentService: EquipmentService,
@@ -48,7 +47,7 @@ export class EquipmentDetailComponent implements OnInit {
       }),
       switchMap(({tid}) => this.equipmentService.getEquipmentFormData(+tid)),
     ).subscribe(res => {
-      this.formData = res ?? {data: {}};
+      this.formData = res.data ?? {data: {}};
     });
 
     this.route.params.pipe(
@@ -67,7 +66,7 @@ export class EquipmentDetailComponent implements OnInit {
     formData.append('auditId', aid);
     formData.append('zoneId', zid);
     formData.append('equipmentId', this.equipment?.equipmentId + '');
-    formData.append('typeId', this.equipment?.type?.id + '');
+    formData.append('typeId', this.equipment?.typeId + '');
     formData.append('subTypeId', tid);
     formData.append('photo', file, file.name);
     this.auditService.uploadPhoto(aid, formData).subscribe(() => {
@@ -82,15 +81,15 @@ export class EquipmentDetailComponent implements OnInit {
     const request$ = this.formData.id
       ? this.equipmentService.updateEquipmentFormData(this.formData)
       : this.equipmentService.createEquipmentFormData({
-        auditId: this.auditId,
-        zoneId: this.route.snapshot.params.zid,
-        equipmentId: this.equipment.type?.equipment.id,
-        typeId: this.equipment.type?.id,
+        auditId: this.equipment.auditId,
+        zoneId: this.equipment.zoneId,
+        equipmentId: this.equipment.equipmentId,
+        typeId: this.equipment.typeId,
         subTypeId: this.equipment.id,
         data: this.formData.data,
       });
-    request$.subscribe((res: any) => {
-      this.formData = res;
+    request$.subscribe(res => {
+      this.formData = res.data;
       this.getPercentage();
       this.toastService.success('Form', 'Successfully saved form input');
     });
