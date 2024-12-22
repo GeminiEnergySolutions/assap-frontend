@@ -17,7 +17,6 @@ import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-det
 import {AuditZoneService} from '../shared/services/audit-zone.service';
 import {EquipmentService} from '../shared/services/equipment.service';
 import {PhotosComponent} from './photos/photos.component';
-import {FileUploadComponent} from './file-upload/file-upload.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantsComponent} from './grants/grants.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -25,8 +24,8 @@ import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
-import { CreateAuditModalComponent } from './create-audit-modal/create-audit-modal.component';
-import { EquipmentOverviewComponent } from './equipment-overview/equipment-overview.component';
+import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal.component';
+import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
 
 @NgModule({
   imports: [
@@ -53,7 +52,6 @@ import { EquipmentOverviewComponent } from './equipment-overview/equipment-overv
     AuditMasterDetailComponent,
     AddDataCollectorModalComponent,
     PhotosComponent,
-    FileUploadComponent,
     CleanEnergyHubComponent,
     GrantsComponent,
     PreauditFormComponent,
