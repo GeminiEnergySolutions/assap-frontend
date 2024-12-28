@@ -11,6 +11,7 @@ import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
   templateUrl: './edit-schema.component.html',
   styleUrl: './edit-schema.component.scss',
   providers: [SchemaContextService],
+  standalone: false,
 })
 export class EditSchemaComponent implements OnInit {
   kind: SchemaKind = 'preAudit';

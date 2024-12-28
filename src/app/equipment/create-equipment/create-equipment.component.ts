@@ -9,6 +9,7 @@ import {ToastService} from '@mean-stream/ngbx';
   selector: 'app-create-equipment',
   templateUrl: './create-equipment.component.html',
   styleUrl: './create-equipment.component.scss',
+  standalone: false,
 })
 export class CreateEquipmentComponent implements OnInit {
   types: EquipmentType[] = [];

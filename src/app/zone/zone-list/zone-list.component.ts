@@ -9,6 +9,7 @@ import {ToastService} from '@mean-stream/ngbx';
   selector: 'app-zone-list',
   templateUrl: './zone-list.component.html',
   styleUrls: ['./zone-list.component.scss'],
+  standalone: false,
 })
 export class ZoneListComponent implements OnInit {
 

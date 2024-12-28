@@ -5,11 +5,12 @@ import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.int
 @Component({
   selector: 'app-select-schema',
   templateUrl: './select-schema.component.html',
-  styleUrl: './select-schema.component.scss'
+  styleUrl: './select-schema.component.scss',
+  standalone: false,
 })
 export class SelectSchemaComponent implements OnInit {
   categories: EquipmentCategory[] = [];
-  equipmentTypes: Record<number, EquipmentType[]> = {};
+  equipmentTypes: Partial<Record<number, EquipmentType[]>> = {};
 
   constructor(
     private equipmentService: EquipmentService,

@@ -10,6 +10,7 @@ import {User} from '../../shared/model/user.interface';
   selector: 'app-add-data-collector-modal',
   templateUrl: './add-data-collector-modal.component.html',
   styleUrls: ['./add-data-collector-modal.component.scss'],
+  standalone: false,
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;

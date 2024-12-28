@@ -8,6 +8,7 @@ import {Audit} from '../../shared/model/audit.interface';
   selector: 'app-audit-detail',
   templateUrl: './audit-detail.component.html',
   styleUrls: ['./audit-detail.component.scss'],
+  standalone: false,
 })
 export class AuditDetailComponent implements OnInit {
   audit?: Audit;

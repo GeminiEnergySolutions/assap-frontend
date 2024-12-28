@@ -4,6 +4,7 @@ import {ExpressionService} from '../services/expression.service';
 @Pipe({
   name: 'eval',
   pure: true,
+  standalone: false,
 })
 export class EvalPipe implements PipeTransform {
   constructor(

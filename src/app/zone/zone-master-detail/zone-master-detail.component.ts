@@ -8,6 +8,7 @@ import {Audit} from '../../shared/model/audit.interface';
   selector: 'app-zone-master-detail',
   templateUrl: './zone-master-detail.component.html',
   styleUrls: ['./zone-master-detail.component.scss'],
+  standalone: false,
 })
 export class ZoneMasterDetailComponent implements OnInit {
   audit?: Audit;

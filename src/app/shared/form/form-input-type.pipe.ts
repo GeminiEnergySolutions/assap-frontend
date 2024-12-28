@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'formInputType',
+  standalone: false,
 })
 export class FormInputTypePipe implements PipeTransform {
   static readonly mapping: Record<string, string> = {

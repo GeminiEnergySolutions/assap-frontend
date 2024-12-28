@@ -8,6 +8,7 @@ import {StateService} from '../../shared/services/state.service';
   selector: 'app-create-audit-modal',
   templateUrl: './create-audit-modal.component.html',
   styleUrl: './create-audit-modal.component.scss',
+  standalone: false,
 })
 export class CreateAuditModalComponent implements OnInit {
   name = '';

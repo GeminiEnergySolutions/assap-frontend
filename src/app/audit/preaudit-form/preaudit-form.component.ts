@@ -12,6 +12,7 @@ import {SchemaService} from '../../shared/services/schema.service';
   selector: 'app-preaudit-form',
   templateUrl: './preaudit-form.component.html',
   styleUrl: './preaudit-form.component.scss',
+  standalone: false,
 })
 export class PreauditFormComponent implements OnInit {
   auditId?: number;

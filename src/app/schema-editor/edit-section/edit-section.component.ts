@@ -9,6 +9,7 @@ import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-edit-section',
   templateUrl: './edit-section.component.html',
   styleUrl: './edit-section.component.scss',
+  standalone: false,
 })
 export class EditSectionComponent implements OnInit {
   section: SchemaSection = {id: 0, name: '', schema: []};

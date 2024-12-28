@@ -9,6 +9,7 @@ import {ZoneWithHvacConnected} from '../../shared/model/zone.interface';
   selector: 'app-connect-zone',
   templateUrl: './connect-zone.component.html',
   styleUrl: './connect-zone.component.scss',
+  standalone: false,
 })
 export class ConnectZoneComponent implements OnInit {
   connectedZones: ZoneWithHvacConnected[] = [];

@@ -12,6 +12,7 @@ import {Zone} from '../../shared/model/zone.interface';
   selector: 'app-equipment-master-detail',
   templateUrl: './equipment-master-detail.component.html',
   styleUrls: ['./equipment-master-detail.component.scss'],
+  standalone: false,
 })
 export class EquipmentMasterDetailComponent implements OnInit {
   audit?: Audit;

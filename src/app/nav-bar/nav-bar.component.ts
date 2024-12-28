@@ -2,12 +2,13 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
-import {NgbOffcanvas} from "@ng-bootstrap/ng-bootstrap";
+import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
+  standalone: false,
 })
 export class NavBarComponent {
 

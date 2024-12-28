@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   selector: 'app-audit-master-detail',
   templateUrl: './audit-master-detail.component.html',
   styleUrls: ['./audit-master-detail.component.scss'],
+  standalone: false,
 })
 export class AuditMasterDetailComponent implements OnInit {
   audits: Record<string, Audit[]> = {};

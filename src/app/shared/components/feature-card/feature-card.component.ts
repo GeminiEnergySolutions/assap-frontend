@@ -7,6 +7,7 @@ import {BehaviorSubject, of, switchMap} from 'rxjs';
   selector: 'app-feature-card',
   templateUrl: './feature-card.component.html',
   styleUrl: './feature-card.component.scss',
+  standalone: false,
 })
 export class FeatureCardComponent implements OnInit {
   @Input({required: true}) title!: string;

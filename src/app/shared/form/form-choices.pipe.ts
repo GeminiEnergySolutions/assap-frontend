@@ -3,6 +3,7 @@ import {SchemaValue} from '../model/schema.interface';
 
 @Pipe({
   name: 'formChoices',
+  standalone: false,
 })
 export class FormChoicesPipe implements PipeTransform {
   transform(value: string | SchemaValue[]): SchemaValue[] {
