@@ -7,6 +7,7 @@ import {
   NgbCollapse,
   NgbDropdownModule,
   NgbNavModule,
+  NgbPagination,
   NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +20,6 @@ import {EquipmentService} from '../shared/services/equipment.service';
 import {PhotosComponent} from './photos/photos.component';
 import {CleanEnergyHubComponent} from './clean-energy-hub/clean-energy-hub.component';
 import {GrantsComponent} from './grants/grants.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
@@ -31,7 +31,6 @@ import {EquipmentOverviewComponent} from './equipment-overview/equipment-overvie
   imports: [
     CommonModule,
     SharedModule,
-    MatPaginatorModule,
     FormsModule,
     NgbNavModule,
     NgbDropdownModule,
@@ -42,6 +41,7 @@ import {EquipmentOverviewComponent} from './equipment-overview/equipment-overvie
     ModalModule,
     NgbAccordionModule,
     NgbCollapse,
+    NgbPagination,
   ],
   providers: [
     AuditZoneService,

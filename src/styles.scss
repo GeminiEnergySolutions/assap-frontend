@@ -75,6 +75,11 @@ input[type=number] {
   display: none;
 }
 
+// Avoid margin below pagination
+ul.pagination {
+  margin-bottom: 0;
+}
+
 .icon-conserve::before {
   display: inline-block;
   font-style: normal;
