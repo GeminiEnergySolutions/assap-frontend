@@ -5,7 +5,8 @@ import {ExpressionService} from '../../services/expression.service';
 @Component({
   selector: 'app-form-element',
   templateUrl: './form-element.component.html',
-  styleUrl: './form-element.component.scss'
+  styleUrl: './form-element.component.scss',
+  standalone: false,
 })
 export class FormElementComponent implements OnInit, OnChanges {
   @Input() element!: SchemaElement;

@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {Zone} from "../../shared/model/zone.interface";
+import {Zone} from '../../shared/model/zone.interface';
 import {ToastService} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-zone-list',
   templateUrl: './zone-list.component.html',
-  styleUrls: ['./zone-list.component.scss']
+  styleUrls: ['./zone-list.component.scss'],
+  standalone: false,
 })
 export class ZoneListComponent implements OnInit {
 

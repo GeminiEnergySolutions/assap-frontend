@@ -14,7 +14,8 @@ import {SchemaService} from '../../shared/services/schema.service';
 @Component({
   selector: 'app-equipment-detail',
   templateUrl: './equipment-detail.component.html',
-  styleUrls: ['./equipment-detail.component.scss']
+  styleUrls: ['./equipment-detail.component.scss'],
+  standalone: false,
 })
 export class EquipmentDetailComponent implements OnInit {
   auditId?: number;

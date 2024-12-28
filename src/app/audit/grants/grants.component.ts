@@ -12,6 +12,7 @@ import {SchemaService} from '../../shared/services/schema.service';
   selector: 'app-grants',
   templateUrl: './grants.component.html',
   styleUrls: ['./grants.component.scss'],
+  standalone: false,
 })
 export class GrantsComponent implements OnInit {
   auditId?: number;

@@ -10,6 +10,7 @@ import {ToastService} from '@mean-stream/ngbx';
   selector: 'app-equipment-list',
   templateUrl: './equipment-list.component.html',
   styleUrls: ['./equipment-list.component.scss'],
+  standalone: false,
 })
 export class EquipmentListComponent implements OnInit {
   equipment?: EquipmentCategory;

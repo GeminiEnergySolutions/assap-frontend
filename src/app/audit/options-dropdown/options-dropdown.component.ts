@@ -10,7 +10,8 @@ import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-audit-options-dropdown',
   templateUrl: './options-dropdown.component.html',
-  styleUrl: './options-dropdown.component.scss'
+  styleUrl: './options-dropdown.component.scss',
+  standalone: false,
 })
 export class OptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;

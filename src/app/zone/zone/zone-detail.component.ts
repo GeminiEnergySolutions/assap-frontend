@@ -14,6 +14,7 @@ import {Zone} from '../../shared/model/zone.interface';
   selector: 'app-zone-detail',
   templateUrl: './zone-detail.component.html',
   styleUrls: ['./zone-detail.component.scss'],
+  standalone: false,
 })
 export class ZoneDetailComponent implements OnInit {
   audit?: Audit;

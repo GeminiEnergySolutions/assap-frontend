@@ -8,7 +8,8 @@ import {combineLatestWith} from 'rxjs';
 @Component({
   selector: 'app-edit-field',
   templateUrl: './edit-field.component.html',
-  styleUrl: './edit-field.component.scss'
+  styleUrl: './edit-field.component.scss',
+  standalone: false,
 })
 export class EditFieldComponent implements OnInit {
   section?: SchemaSection;

@@ -3,7 +3,8 @@ import {Component, EventEmitter, Output} from '@angular/core';
 @Component({
   selector: 'app-photo-capture',
   templateUrl: './photo-capture.component.html',
-  styleUrl: './photo-capture.component.scss'
+  styleUrl: './photo-capture.component.scss',
+  standalone: false,
 })
 export class PhotoCaptureComponent {
   @Output() photoUploaded = new EventEmitter<File>();

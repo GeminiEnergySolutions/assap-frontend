@@ -10,6 +10,7 @@ import {Zone} from '../../shared/model/zone.interface';
   selector: 'app-equipment-overview',
   templateUrl: './equipment-overview.component.html',
   styleUrl: './equipment-overview.component.scss',
+  standalone: false,
 })
 export class EquipmentOverviewComponent implements OnInit {
   details?: AuditDetails;

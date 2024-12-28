@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-option-dropdown',
   templateUrl: './option-dropdown.component.html',
-  styleUrls: ['./option-dropdown.component.scss']
+  styleUrls: ['./option-dropdown.component.scss'],
+  standalone: false,
 })
 export class OptionDropdownComponent {
 

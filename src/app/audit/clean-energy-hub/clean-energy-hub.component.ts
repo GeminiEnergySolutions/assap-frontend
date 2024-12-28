@@ -14,6 +14,7 @@ import {SchemaService} from '../../shared/services/schema.service';
   selector: 'app-clean-energy-hub',
   templateUrl: './clean-energy-hub.component.html',
   styleUrls: ['./clean-energy-hub.component.scss'],
+  standalone: false,
 })
 export class CleanEnergyHubComponent implements OnInit {
   auditId?: number;

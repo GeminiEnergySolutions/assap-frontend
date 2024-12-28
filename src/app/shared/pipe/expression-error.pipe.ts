@@ -1,7 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {ExpressionService} from '../services/expression.service';
 
-@Pipe({name: 'expressionError'})
+@Pipe({
+  name: 'expressionError',
+  standalone: false,
+})
 export class ExpressionErrorPipe implements PipeTransform {
   constructor(private expressionService: ExpressionService) {
   }

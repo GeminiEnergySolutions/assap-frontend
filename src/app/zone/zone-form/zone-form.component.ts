@@ -11,7 +11,8 @@ import {SchemaService} from '../../shared/services/schema.service';
 @Component({
   selector: 'app-zone-form',
   templateUrl: './zone-form.component.html',
-  styleUrl: './zone-form.component.scss'
+  styleUrl: './zone-form.component.scss',
+  standalone: false,
 })
 export class ZoneFormComponent implements OnInit {
   auditId?: number;
