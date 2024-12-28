@@ -55,6 +55,7 @@ export class ZoneListComponent implements OnInit {
       const index = this.zones.indexOf(zone);
       this.zones[index] = data;
       this.toastService.success('Rename Zone', 'Successfully renamed zone.');
+      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });
   }
 
