@@ -24,7 +24,7 @@
     "@angular/service-worker": "^19.0.5",
     "@babel/runtime": "^7.26.0",
     "@mean-stream/ngbx": "^0.13.0",
-    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
+    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
