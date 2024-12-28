@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
-import {AuditService, PhotoQuery} from 'src/app/shared/services/audit.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {Photo} from '../../shared/model/photo.interface';
-import {map, of, switchMap, tap} from 'rxjs';
+import {map, of, switchMap} from 'rxjs';
+import {PhotoQuery, PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-photos',
@@ -33,7 +33,7 @@ export class PhotosComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private auditService: AuditService,
+    private photoService: PhotoService,
     private auditZoneService: AuditZoneService,
     private equipmentService: EquipmentService,
   ) {
@@ -42,7 +42,7 @@ export class PhotosComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.pipe(
       map(query => Object.assign(this.query, query, {auditId: +this.route.snapshot.params.aid})),
-      switchMap(query => this.auditService.getPhotos(query)),
+      switchMap(query => this.photoService.getPhotos(query)),
     ).subscribe(({data}) => {
       this.photos = data.photos;
       this.totalCount = data.count_total_photos;
@@ -117,7 +117,7 @@ export class PhotosComponent implements OnInit {
   }
 
   deletePhoto(id: number) {
-    this.auditService.deletePhoto(id).subscribe(() => {
+    this.photoService.deletePhoto(id).subscribe(() => {
       this.photos = this.photos.filter(photo => photo.id !== id);
       this.totalCount--;
     });

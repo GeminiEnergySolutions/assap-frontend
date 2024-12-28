@@ -9,6 +9,7 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-zone-detail',
@@ -25,6 +26,7 @@ export class ZoneDetailComponent implements OnInit {
   constructor(
     private auditZoneService: AuditZoneService,
     private auditService: AuditService,
+    private photoService: PhotoService,
     private equipmentService: EquipmentService,
     private zoneService: AuditZoneService,
     public route: ActivatedRoute,
@@ -81,7 +83,7 @@ export class ZoneDetailComponent implements OnInit {
     formData.append('auditId', aid);
     formData.append('zoneId', zid);
     formData.append('photo', file, file.name);
-    this.auditService.uploadPhoto(formData).subscribe(() => {
+    this.photoService.uploadPhoto(formData).subscribe(() => {
       this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`);
     });
   }

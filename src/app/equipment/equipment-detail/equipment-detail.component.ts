@@ -8,6 +8,7 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {SchemaService} from '../../shared/services/schema.service';
+import {PhotoService} from '../../shared/services/photo.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class EquipmentDetailComponent implements OnInit {
   constructor(
     public equipmentService: EquipmentService,
     public auditService: AuditService,
+    private photoService: PhotoService,
     private schemaService: SchemaService,
     private route: ActivatedRoute,
     private toastService: ToastService,
@@ -70,7 +72,7 @@ export class EquipmentDetailComponent implements OnInit {
     formData.append('typeId', this.equipment?.typeId + '');
     formData.append('subTypeId', tid);
     formData.append('photo', file, file.name);
-    this.auditService.uploadPhoto(formData).subscribe(() => {
+    this.photoService.uploadPhoto(formData).subscribe(() => {
       this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }

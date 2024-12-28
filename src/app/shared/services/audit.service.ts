@@ -21,14 +21,6 @@ export type PercentageQuery =
   | { percentageType: 'zone', auditId: number, zoneId: number }
   | { percentageType: 'zoneDetails', auditId: number, zoneId: number }
 
-export interface PhotoQuery {
-  auditId: number;
-  pageNo: number;
-  size: number;
-  zoneId?: number;
-  equipmentId?: number;
-  typeId?: number;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -55,20 +47,6 @@ export class AuditService {
 
   assignAudits(data: { auditId: number; dataCollectorId: number }[]): Observable<Response> {
     return this.http.post<Response>(`${this.rootUrl}api/auditAssignment`, data);
-  }
-
-  getPhotos(query: PhotoQuery): Observable<Response<{
-    photos: Photo[];
-    count_total_photos: number;
-  }>> {
-    const params: Record<string, string | number> = Object.fromEntries(Object.entries(query).filter(([, value]) => value !== undefined));
-    return this.http.get<any>(`${this.rootUrl}api/photos`, {params});
-  }
-  deletePhoto(id: number): Observable<Response> {
-    return this.http.delete<Response>(`${this.rootUrl}api/photos`, {params: {id}});
-  }
-  uploadPhoto(formData: FormData): Observable<Response> {
-    return this.http.post<Response>(`${this.rootUrl}api/photos`, formData);
   }
 
   getSingleAudit(id: number): Observable<Response<Audit>> {
