@@ -23,7 +23,7 @@ export class PhotosComponent implements OnInit {
   subTypeList: Equipment[] = [];
   subType?: number;
 
-  page = 0;
+  page = 1;
   size = 10;
   totalCount = 0;
 
@@ -50,7 +50,7 @@ export class PhotosComponent implements OnInit {
   getPhotos() {
     this.auditService.getPhotos({
       auditId: +this.route.snapshot.params.aid,
-      pageNo: this.page + 1,
+      pageNo: this.page,
       size: this.size,
       zoneId: this.zone,
       equipmentId: this.equipment,
@@ -70,21 +70,21 @@ export class PhotosComponent implements OnInit {
     this.equipment = undefined;
     this.subTypeList = [];
     this.subType = undefined;
-    this.page = 0;
+    this.page = 1;
 
     this.getPhotos();
   }
 
   changeZone() {
     this.equipment = undefined;
-    this.page = 0;
+    this.page = 1;
     this.getPhotos();
   }
 
   changeEquipment() {
     this.subType = undefined;
     this.subTypeList = [];
-    this.page = 0;
+    this.page = 1;
 
     this.equipment && this.equipmentService.getEquipments(this.zone!, this.equipment).subscribe(res => {
       this.subTypeList = res.data;
@@ -93,7 +93,7 @@ export class PhotosComponent implements OnInit {
   }
 
   changeSubType() {
-    this.page = 0;
+    this.page = 1;
     this.getPhotos();
   }
 
