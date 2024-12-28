@@ -4,9 +4,9 @@ import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
-import {Photo} from '../../shared/model/photo.interface';
+import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
 import {map, of, switchMap} from 'rxjs';
-import {PhotoQuery, PhotoService} from '../../shared/services/photo.service';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-photos',

@@ -1,26 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Response} from '../model/response.interface';
-import {Photo} from '../model/photo.interface';
+import {Photo, PhotoInfo, PhotoQuery} from '../model/photo.interface';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-
-export interface PhotoQuery {
-  auditId: number;
-  pageNo: number;
-  size: number;
-  zoneId?: number;
-  equipmentId?: number;
-  typeId?: number;
-}
-
-export interface PhotoInfo {
-  auditId: number;
-  zoneId: number;
-  equipmentId?: number;
-  typeId?: number;
-  subTypeId?: number;
-}
 
 @Injectable({providedIn: 'root'})
 export class PhotoService {

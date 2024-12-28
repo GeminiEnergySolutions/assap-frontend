@@ -17,3 +17,20 @@ export interface Photo {
   subTypeId?: number;
   subType?: Equipment;
 }
+
+export interface PhotoQuery {
+  auditId: number;
+  pageNo: number;
+  size: number;
+  zoneId?: number;
+  equipmentId?: number;
+  typeId?: number;
+}
+
+export interface PhotoInfo {
+  auditId: number;
+  zoneId: number;
+  equipmentId?: number;
+  typeId?: number;
+  subTypeId?: number;
+}
