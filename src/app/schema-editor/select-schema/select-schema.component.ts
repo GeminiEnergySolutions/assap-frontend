@@ -10,7 +10,7 @@ import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.int
 })
 export class SelectSchemaComponent implements OnInit {
   categories: EquipmentCategory[] = [];
-  equipmentTypes: Record<number, EquipmentType[]> = {};
+  equipmentTypes: Partial<Record<number, EquipmentType[]>> = {};
 
   constructor(
     private equipmentService: EquipmentService,
