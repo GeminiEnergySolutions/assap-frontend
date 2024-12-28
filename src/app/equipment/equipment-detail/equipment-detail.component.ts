@@ -64,15 +64,17 @@ export class EquipmentDetailComponent implements OnInit {
   }
 
   uploadPhoto(file: File) {
-    const {aid, tid, zid} = this.route.snapshot.params;
-    const formData = new FormData();
-    formData.append('auditId', aid);
-    formData.append('zoneId', zid);
-    formData.append('equipmentId', this.equipment?.equipmentId + '');
-    formData.append('typeId', this.equipment?.typeId + '');
-    formData.append('subTypeId', tid);
-    formData.append('photo', file, file.name);
-    this.photoService.uploadPhoto(formData).subscribe(() => {
+    if (!this.equipment) {
+      return;
+    }
+
+    this.photoService.uploadPhoto({
+      auditId: this.equipment.auditId,
+      zoneId: this.equipment.zoneId,
+      equipmentId: this.equipment.equipmentId,
+      typeId: this.equipment.typeId,
+      subTypeId: this.equipment.id,
+    }, file).subscribe(() => {
       this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }

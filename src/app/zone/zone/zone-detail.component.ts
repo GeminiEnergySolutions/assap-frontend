@@ -78,12 +78,14 @@ export class ZoneDetailComponent implements OnInit {
   }
 
   uploadPhoto(file: File) {
-    const {aid, zid} = this.route.snapshot.params;
-    const formData = new FormData();
-    formData.append('auditId', aid);
-    formData.append('zoneId', zid);
-    formData.append('photo', file, file.name);
-    this.photoService.uploadPhoto(formData).subscribe(() => {
+    if (!this.zone) {
+      return;
+    }
+
+    this.photoService.uploadPhoto({
+      auditId: this.zone.auditId,
+      zoneId: this.zone.zoneId,
+    }, file).subscribe(() => {
       this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`);
     });
   }

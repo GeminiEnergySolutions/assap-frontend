@@ -14,6 +14,14 @@ export interface PhotoQuery {
   typeId?: number;
 }
 
+export interface PhotoInfo {
+  auditId: number;
+  zoneId: number;
+  equipmentId?: number;
+  typeId?: number;
+  subTypeId?: number;
+}
+
 @Injectable({providedIn: 'root'})
 export class PhotoService {
   constructor(
@@ -33,7 +41,12 @@ export class PhotoService {
     return this.http.delete<Response>(`${environment.url}api/photos`, {params: {id}});
   }
 
-  uploadPhoto(formData: FormData): Observable<Response> {
+  uploadPhoto(info: PhotoInfo, file: File): Observable<Response> {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(info)) {
+      formData.append(key, String(value));
+    }
+    formData.append('photo', file, file.name);
     return this.http.post<Response>(`${environment.url}api/photos`, formData);
   }
 }
