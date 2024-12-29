@@ -74,7 +74,12 @@
       <ol class="breadcrumb">
         @for (breadcrumb of breadcrumbService.breadcrumbs$ | async; track breadcrumb) {
           <li class="breadcrumb-item" [class.active]="$last" [attr.aria-current]="$last ? 'page' : null">
-            <a [routerLink]="breadcrumb.routerLink" [relativeTo]="breadcrumb.relativeTo" [class]="breadcrumb.class">
+            <a
+              [class]="breadcrumb.class"
+              [routerLink]="breadcrumb.routerLink" [relativeTo]="breadcrumb.relativeTo"
+              routerLinkActive="link-body-emphasis text-decoration-none"
+              [routerLinkActiveOptions]="{exact: true}"
+            >
               {{ breadcrumb.label }}
             </a>
           </li>
