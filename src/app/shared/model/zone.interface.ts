@@ -1,3 +1,5 @@
+import {SchemaValue} from './schema.interface';
+
 export interface Zone {
   zoneId: number;
   zoneName: string;
@@ -12,7 +14,7 @@ export interface ZoneData {
   id: number;
   auditId: number;
   zoneId: number;
-  data: Record<string, string | number | boolean>;
+  data: Record<string, SchemaValue>;
 }
 
 export type CreateZoneData = Omit<ZoneData, 'id'>;

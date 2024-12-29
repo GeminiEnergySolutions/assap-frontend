@@ -41,7 +41,7 @@ export class EquipmentMasterDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({aid, zid, eid}) => this.equipmentService.getEquipmentCategory(eid)),
+      switchMap(({eid}) => this.equipmentService.getEquipmentCategory(eid)),
     ).subscribe(({data}) => {
       this.equipment = data;
     });

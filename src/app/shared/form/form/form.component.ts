@@ -134,9 +134,11 @@ export class FormComponent implements OnInit {
     return {totalFields, completedFields, percentage};
   }
 
-  dropSection(event: CdkDragDrop<SchemaSection[]>) {
-    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
-  }
+  /* TODO drag to reorder
+    dropSection(event: CdkDragDrop<SchemaSection[]>) {
+      moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+    }
+   */
 
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
     moveItemInArray(section.schema, event.previousIndex, event.currentIndex);

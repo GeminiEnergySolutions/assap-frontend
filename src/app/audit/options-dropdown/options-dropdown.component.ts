@@ -3,8 +3,6 @@ import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from '../../shared/services/auth.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -25,7 +23,6 @@ export class OptionsDropdownComponent {
     private auditService: AuditService,
     private toastService: ToastService,
     protected authService: AuthService,
-    private modalService: NgbModal,
   ) {
   }
 
@@ -65,10 +62,5 @@ export class OptionsDropdownComponent {
       this.deleted.emit(this.audit);
       this.toastService.success('Delete Audit', 'Successfully deleted audit.');
     });
-  }
-
-  openAddDataCollectorModal() {
-    const modalRef = this.modalService.open(AddDataCollectorModalComponent, {size: 'lg'});
-    modalRef.componentInstance.audit = this.audit;
   }
 }
