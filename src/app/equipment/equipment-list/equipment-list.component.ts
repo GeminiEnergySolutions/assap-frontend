@@ -1,16 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {OptionDropdownComponent} from '../../shared/components/option-dropdown/option-dropdown.component';
+import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-equipment-list',
   templateUrl: './equipment-list.component.html',
   styleUrls: ['./equipment-list.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    FeatureCardComponent,
+    OptionDropdownComponent,
+    NgbDropdownItem,
+    NgbDropdownButtonItem,
+    TitleCasePipe,
+  ],
 })
 export class EquipmentListComponent implements OnInit {
   category?: EquipmentCategory;

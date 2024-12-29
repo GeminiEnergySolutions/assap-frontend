@@ -14,11 +14,7 @@ import {NgbxDarkmodeModule, ToastModule} from '@mean-stream/ngbx';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageNotFoundComponent,
-    NavBarComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,6 +28,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     NgbDropdownModule,
     NgbxDarkmodeModule,
     ToastModule,
+    PageNotFoundComponent,
+    NavBarComponent,
   ],
   providers: [
     {

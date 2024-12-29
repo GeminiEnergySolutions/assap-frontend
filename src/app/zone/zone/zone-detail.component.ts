@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
@@ -10,12 +10,34 @@ import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {PhotoService} from '../../shared/services/photo.service';
+import {
+  NgbDropdown,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+} from '@ng-bootstrap/ng-bootstrap';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-zone-detail',
   templateUrl: './zone-detail.component.html',
   styleUrls: ['./zone-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    ProgressBarComponent,
+    FeatureCardComponent,
+    PhotoCaptureComponent,
+    TitleCasePipe,
+  ],
 })
 export class ZoneDetailComponent implements OnInit {
   audit?: Audit;

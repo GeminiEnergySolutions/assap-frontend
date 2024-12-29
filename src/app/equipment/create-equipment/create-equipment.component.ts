@@ -3,13 +3,19 @@ import {switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EquipmentType} from '../../shared/model/equipment.interface';
-import {ToastService} from '@mean-stream/ngbx';
+import {ModalModule, ToastService} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-create-equipment',
   templateUrl: './create-equipment.component.html',
   styleUrl: './create-equipment.component.scss',
-  standalone: false,
+  imports: [
+    ModalModule,
+    NgbTooltip,
+    FormsModule,
+  ],
 })
 export class CreateEquipmentComponent implements OnInit {
   types: EquipmentType[] = [];

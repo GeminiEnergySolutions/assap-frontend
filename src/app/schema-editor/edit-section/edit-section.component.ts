@@ -3,13 +3,23 @@ import {ActivatedRoute} from '@angular/router';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
-import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {NgbOffcanvas, NgbPopover, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {KeyValuePipe} from '@angular/common';
+import {ExpressionErrorPipe} from '../../shared/pipe/expression-error.pipe';
 
 @Component({
   selector: 'app-edit-section',
   templateUrl: './edit-section.component.html',
   styleUrl: './edit-section.component.scss',
-  standalone: false,
+  imports: [
+    FormsModule,
+    NgbTooltip,
+    NgbPopover,
+    NgbTypeahead,
+    KeyValuePipe,
+    ExpressionErrorPipe,
+  ],
 })
 export class EditSectionComponent implements OnInit {
   section: SchemaSection = {id: 0, name: '', schema: []};

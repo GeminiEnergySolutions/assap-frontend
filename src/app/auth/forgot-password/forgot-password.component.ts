@@ -1,12 +1,19 @@
 import {Component} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from 'src/app/shared/services/auth.service';
+import {BrandHeaderComponent} from '../brand-header/brand-header.component';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
-  standalone: false,
+  imports: [
+    BrandHeaderComponent,
+    FormsModule,
+    RouterLink,
+  ],
 })
 export class ForgotPasswordComponent {
   email = '';

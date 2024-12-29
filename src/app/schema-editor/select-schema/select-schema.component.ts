@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.interface';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-select-schema',
   templateUrl: './select-schema.component.html',
   styleUrl: './select-schema.component.scss',
-  standalone: false,
+  imports: [RouterLink],
 })
 export class SelectSchemaComponent implements OnInit {
   categories: EquipmentCategory[] = [];

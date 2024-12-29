@@ -1,14 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from 'src/app/shared/services/auth.service';
+import {BrandHeaderComponent} from '../brand-header/brand-header.component';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  standalone: false,
+  imports: [
+    BrandHeaderComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    TitleCasePipe,
+  ],
 })
 export class SignupComponent implements OnInit {
   readonly userTypes = ['guest', 'dataCollector'] as const;

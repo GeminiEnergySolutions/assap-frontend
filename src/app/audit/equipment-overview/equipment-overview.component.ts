@@ -1,16 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {AuditService} from '../../shared/services/audit.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditDetails} from '../../shared/model/audit.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {Zone} from '../../shared/model/zone.interface';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-equipment-overview',
   templateUrl: './equipment-overview.component.html',
   styleUrl: './equipment-overview.component.scss',
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTooltip,
+  ],
 })
 export class EquipmentOverviewComponent implements OnInit {
   details?: AuditDetails;

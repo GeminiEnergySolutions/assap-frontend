@@ -1,14 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
 import {Audit} from '../../shared/model/audit.interface';
+import {OptionsDropdownComponent} from '../options-dropdown/options-dropdown.component';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-audit-detail',
   templateUrl: './audit-detail.component.html',
   styleUrls: ['./audit-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    OptionsDropdownComponent,
+    ProgressBarComponent,
+    FeatureCardComponent,
+    RouterOutlet,
+    TitleCasePipe,
+  ],
 })
 export class AuditDetailComponent implements OnInit {
   audit?: Audit;

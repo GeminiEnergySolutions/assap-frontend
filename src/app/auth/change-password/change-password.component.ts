@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../shared/services/auth.service';
 import {ToastService} from '@mean-stream/ngbx';
@@ -8,7 +8,7 @@ import {ToastService} from '@mean-stream/ngbx';
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class ChangePasswordComponent implements OnInit {
 

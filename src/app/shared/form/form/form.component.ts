@@ -2,13 +2,43 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {
+  NgbAccordionBody,
+  NgbAccordionButton,
+  NgbAccordionCollapse,
+  NgbAccordionDirective,
+  NgbAccordionHeader,
+  NgbAccordionItem,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
+import {RouterLink} from '@angular/router';
+import {ProgressBarComponent} from '../../components/progress-bar/progress-bar.component';
+import {FormElementComponent} from '../form-element/form-element.component';
+import {AsyncPipe} from '@angular/common';
+import {EvalPipe} from '../../pipe/eval.pipe';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  standalone: false,
+  imports: [
+    NgbAccordionDirective,
+    NgbAccordionItem,
+    NgbAccordionHeader,
+    NgbAccordionButton,
+    NgbTooltip,
+    RouterLink,
+    ProgressBarComponent,
+    NgbAccordionCollapse,
+    NgbAccordionBody,
+    CdkDropList,
+    CdkDrag,
+    FormElementComponent,
+    CdkDragHandle,
+    AsyncPipe,
+    EvalPipe,
+  ],
 })
 export class FormComponent implements OnInit {
   @Input({required: true}) typeSchema!: SchemaSection[];

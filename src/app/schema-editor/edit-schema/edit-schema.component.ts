@@ -1,17 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {FormComponent} from '../../shared/form/form/form.component';
 
 @Component({
   selector: 'app-edit-schema',
   templateUrl: './edit-schema.component.html',
   styleUrl: './edit-schema.component.scss',
   providers: [SchemaContextService],
-  standalone: false,
+  imports: [
+    MasterDetailComponent,
+    RouterLink,
+    FormComponent,
+  ],
 })
 export class EditSchemaComponent implements OnInit {
   kind: SchemaKind = 'preAudit';

@@ -12,12 +12,6 @@ import {ProgressBarComponent} from '../components/progress-bar/progress-bar.comp
 import {EvalPipe} from '../pipe/eval.pipe';
 
 @NgModule({
-  declarations: [
-    FormComponent,
-    FormElementComponent,
-    FormInputTypePipe,
-    FormChoicesPipe,
-  ],
   exports: [
     FormComponent,
   ],
@@ -33,6 +27,10 @@ import {EvalPipe} from '../pipe/eval.pipe';
     CdkDropListGroup,
     ProgressBarComponent,
     EvalPipe,
+    FormComponent,
+    FormElementComponent,
+    FormInputTypePipe,
+    FormChoicesPipe,
   ],
 })
 export class FormsModule {

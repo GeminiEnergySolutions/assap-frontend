@@ -1,18 +1,28 @@
 import {Component, OnInit} from '@angular/core';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {switchMap, tap} from 'rxjs';
 import {ToastService} from '@mean-stream/ngbx';
 import {SchemaService} from '../../shared/services/schema.service';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {FormComponent} from '../../shared/form/form/form.component';
 
 @Component({
   selector: 'app-preaudit-form',
   templateUrl: './preaudit-form.component.html',
   styleUrl: './preaudit-form.component.scss',
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    ProgressBarComponent,
+    FormComponent,
+  ],
 })
 export class PreauditFormComponent implements OnInit {
   auditId?: number;

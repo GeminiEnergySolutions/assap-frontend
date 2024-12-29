@@ -32,8 +32,6 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
     FeatureCardComponent,
     PhotoCaptureComponent,
     MasterDetailComponent,
-  ],
-  declarations: [
     EquipmentListComponent,
     EquipmentMasterDetailComponent,
     EquipmentDetailComponent,

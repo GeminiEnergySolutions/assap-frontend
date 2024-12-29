@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SelectSchemaComponent } from './select-schema.component';
+import {SelectSchemaComponent} from './select-schema.component';
 
 describe('SelectSchemaComponent', () => {
   let component: SelectSchemaComponent;
@@ -8,7 +8,7 @@ describe('SelectSchemaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectSchemaComponent]
+      imports: [SelectSchemaComponent],
     })
     .compileComponents();
 

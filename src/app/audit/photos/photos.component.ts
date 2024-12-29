@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
@@ -7,12 +7,24 @@ import {Zone} from '../../shared/model/zone.interface';
 import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
 import {map, of, switchMap} from 'rxjs';
 import {PhotoService} from '../../shared/services/photo.service';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    FormsModule,
+    NgbTooltip,
+    NgbPagination,
+    UpperCasePipe,
+  ],
 })
 export class PhotosComponent implements OnInit {
 

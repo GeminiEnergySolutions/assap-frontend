@@ -1,17 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {AuditService} from 'src/app/shared/services/audit.service';
-import {ToastService} from '@mean-stream/ngbx';
+import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {Audit} from '../../shared/model/audit.interface';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {User} from '../../shared/model/user.interface';
 import {DataCollectorService} from '../../shared/services/data-collector.service';
+import {FormsModule} from '@angular/forms';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-add-data-collector-modal',
   templateUrl: './add-data-collector-modal.component.html',
   styleUrls: ['./add-data-collector-modal.component.scss'],
-  standalone: false,
+  imports: [
+    ModalModule,
+    FormsModule,
+    TitleCasePipe,
+  ],
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;

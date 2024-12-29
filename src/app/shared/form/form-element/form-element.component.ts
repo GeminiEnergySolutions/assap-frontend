@@ -1,12 +1,19 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SchemaElement, SchemaRequirement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {ExpressionService} from '../../services/expression.service';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
+import {FormChoicesPipe} from '../form-choices.pipe';
 
 @Component({
   selector: 'app-form-element',
   templateUrl: './form-element.component.html',
   styleUrl: './form-element.component.scss',
-  standalone: false,
+  imports: [
+    NgbTooltip,
+    FormsModule,
+    FormChoicesPipe,
+  ],
 })
 export class FormElementComponent implements OnInit, OnChanges {
   @Input() element!: SchemaElement;

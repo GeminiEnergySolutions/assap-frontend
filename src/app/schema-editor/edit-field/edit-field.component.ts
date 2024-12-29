@@ -1,15 +1,27 @@
 import {Component, OnInit} from '@angular/core';
 import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {combineLatestWith} from 'rxjs';
+import {FormComponent} from '../../shared/form/form/form.component';
+import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-field',
   templateUrl: './edit-field.component.html',
   styleUrl: './edit-field.component.scss',
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgbTooltip,
+    NgbPopover,
+    FormsModule,
+    CdkDropList,
+    CdkDrag,
+    RouterLink,
+    CdkDragHandle,
+  ],
 })
 export class EditFieldComponent implements OnInit {
   section?: SchemaSection;

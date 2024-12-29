@@ -16,12 +16,6 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
 
 
 @NgModule({
-  declarations: [
-    ZoneListComponent,
-    ZoneMasterDetailComponent,
-    ZoneDetailComponent,
-    ZoneFormComponent,
-  ],
   imports: [
     CommonModule,
     ZoneRoutingModule,
@@ -32,6 +26,10 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
     FeatureCardComponent,
     OptionDropdownComponent,
     MasterDetailComponent,
+    ZoneListComponent,
+    ZoneMasterDetailComponent,
+    ZoneDetailComponent,
+    ZoneFormComponent,
   ],
 })
 export class ZoneModule { }

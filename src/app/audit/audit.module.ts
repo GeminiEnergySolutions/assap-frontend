@@ -46,12 +46,6 @@ import {FeatureCardComponent} from '../shared/components/feature-card/feature-ca
     ProgressBarComponent,
     MasterDetailComponent,
     FeatureCardComponent,
-  ],
-  providers: [
-    AuditZoneService,
-    EquipmentService,
-  ],
-  declarations: [
     AuditDetailComponent,
     AuditMasterDetailComponent,
     AddDataCollectorModalComponent,
@@ -62,6 +56,10 @@ import {FeatureCardComponent} from '../shared/components/feature-card/feature-ca
     OptionsDropdownComponent,
     CreateAuditModalComponent,
     EquipmentOverviewComponent,
+  ],
+  providers: [
+    AuditZoneService,
+    EquipmentService,
   ],
 })
 export class AuditModule {

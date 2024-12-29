@@ -26,12 +26,6 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
 
 
 @NgModule({
-  declarations: [
-    SelectSchemaComponent,
-    EditSchemaComponent,
-    EditSectionComponent,
-    EditFieldComponent,
-  ],
   imports: [
     CommonModule,
     SchemaEditorRoutingModule,
@@ -52,6 +46,10 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
     NgbTypeahead,
     ExpressionErrorPipe,
     MasterDetailComponent,
+    SelectSchemaComponent,
+    EditSchemaComponent,
+    EditSectionComponent,
+    EditFieldComponent,
   ],
 })
 export class SchemaEditorModule {

@@ -16,15 +16,13 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
     FormsModule,
     ReactiveFormsModule,
     AppFormsModule,
-  ],
-  providers: [],
-  declarations: [
     LoginComponent,
     SignupComponent,
     ForgotPasswordComponent,
     ChangePasswordComponent,
     BrandHeaderComponent,
   ],
+  providers: [],
   exports: [
     BrandHeaderComponent,
   ],

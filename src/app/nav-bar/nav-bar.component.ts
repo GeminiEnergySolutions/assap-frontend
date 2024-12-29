@@ -1,14 +1,31 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
-import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbOffcanvas,
+} from '@ng-bootstrap/ng-bootstrap';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLinkActive,
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    TitleCasePipe,
+  ],
 })
 export class NavBarComponent {
 

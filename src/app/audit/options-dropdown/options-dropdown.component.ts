@@ -3,15 +3,32 @@ import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from '../../shared/services/auth.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
 import {environment} from '../../../environments/environment';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-audit-options-dropdown',
   templateUrl: './options-dropdown.component.html',
   styleUrl: './options-dropdown.component.scss',
-  standalone: false,
+  imports: [
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTooltip,
+    NgbDropdownItem,
+    NgbDropdownButtonItem,
+    RouterLink,
+  ],
 })
 export class OptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
@@ -9,13 +9,36 @@ import {SchemaSection} from '../../shared/model/schema.interface';
 import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {SchemaService} from '../../shared/services/schema.service';
 import {PhotoService} from '../../shared/services/photo.service';
+import {
+  NgbDropdown,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+} from '@ng-bootstrap/ng-bootstrap';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {FormComponent} from '../../shared/form/form/form.component';
+import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
+import {TitleCasePipe} from '@angular/common';
 
 
 @Component({
   selector: 'app-equipment-detail',
   templateUrl: './equipment-detail.component.html',
   styleUrls: ['./equipment-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    NgbDropdownButtonItem,
+    ProgressBarComponent,
+    FormComponent,
+    PhotoCaptureComponent,
+    RouterOutlet,
+    TitleCasePipe,
+  ],
 })
 export class EquipmentDetailComponent implements OnInit {
   auditId?: number;
