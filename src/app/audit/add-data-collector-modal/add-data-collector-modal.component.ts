@@ -5,6 +5,7 @@ import {Audit} from '../../shared/model/audit.interface';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {User} from '../../shared/model/user.interface';
+import {DataCollectorService} from '../../shared/services/data-collector.service';
 
 @Component({
   selector: 'app-add-data-collector-modal',
@@ -19,6 +20,7 @@ export class AddDataCollectorModalComponent implements OnInit {
 
   constructor(
     private auditService: AuditService,
+    private dataCollectorService: DataCollectorService,
     private toastService: ToastService,
     private route: ActivatedRoute,
   ) {
@@ -30,7 +32,7 @@ export class AddDataCollectorModalComponent implements OnInit {
     ).subscribe(({data}) => this.audit = data);
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.dataCollectors(aid)),
+      switchMap(({aid}) => this.dataCollectorService.getUnassignedDataCollectors(aid)),
     ).subscribe(({data}) => {
       this.dataCollectors = data;
       this.selected = {};
@@ -47,7 +49,7 @@ export class AddDataCollectorModalComponent implements OnInit {
     if (!assigned.length) {
       return;
     }
-    this.auditService.assignAudits(assigned).subscribe(() => {
+    this.dataCollectorService.assignDataCollectors(assigned).subscribe(() => {
       this.toastService.success('Success', `Audit Assignment successful`);
     });
   }

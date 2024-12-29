@@ -41,12 +41,8 @@ export class AuditService {
     }).pipe(map(({data}) => data));
   }
 
-  dataCollectors(auditId: number): Observable<Response<User[]>> {
-    return this.http.get<Response<User[]>>(`${this.rootUrl}authApi/v1/audit/${auditId}/dataCollectors/unassigned`);
-  }
-
-  assignAudits(data: { auditId: number; dataCollectorId: number }[]): Observable<Response> {
-    return this.http.post<Response>(`${this.rootUrl}api/auditAssignment`, data);
+  getAllDataCollectorAudit(): Observable<Response<Audit[]>> {
+    return this.http.get<Response<Audit[]>>(`${environment.url}api/audit/dataCollector`);
   }
 
   getSingleAudit(id: number): Observable<Response<Audit>> {
@@ -67,10 +63,6 @@ export class AuditService {
 
   getAuditDetails(id: number): Observable<Response<AuditDetails>> {
     return this.http.get<Response<AuditDetails>>(`${this.rootUrl}api/auditDetail/${id}`);
-  }
-
-  getAllDataCollectorAudit(): Observable<Response<Audit[]>> {
-    return this.http.get<Response<Audit[]>>(`${this.rootUrl}api/audit/dataCollector`);
   }
 
   getGrantsData(auditId: number): Observable<Response<PreAuditData>> {
