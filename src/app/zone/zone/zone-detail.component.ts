@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
@@ -10,6 +10,7 @@ import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {PhotoService} from '../../shared/services/photo.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-zone-detail',
@@ -17,7 +18,7 @@ import {PhotoService} from '../../shared/services/photo.service';
   styleUrls: ['./zone-detail.component.scss'],
   standalone: false,
 })
-export class ZoneDetailComponent implements OnInit {
+export class ZoneDetailComponent implements OnInit, OnDestroy {
   audit?: Audit;
   zone?: Zone;
   equipments: EquipmentCategory[] = [];
@@ -31,10 +32,14 @@ export class ZoneDetailComponent implements OnInit {
     private zoneService: AuditZoneService,
     public route: ActivatedRoute,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '<Zone>', routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
     ).subscribe(({data}) => {
@@ -43,8 +48,9 @@ export class ZoneDetailComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({aid, zid}) => this.auditZoneService.getSingleZone(aid, zid)),
-    ).subscribe(res => {
-      this.zone = res.data;
+    ).subscribe(({data}) => {
+      this.zone = data;
+      breadcrumb.label = data.zoneName;
     });
 
     this.equipmentService.getEquipmentCategories().subscribe(res => {
@@ -58,6 +64,10 @@ export class ZoneDetailComponent implements OnInit {
         zoneId: zid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   rename() {
