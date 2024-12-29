@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 import {AuditDetailComponent} from './audit-detail/audit-detail.component';
 import {PhotosComponent} from './photos/photos.component';
 import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-detail.component';
@@ -10,7 +9,7 @@ import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: AuditMasterDetailComponent,
@@ -26,10 +25,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class AuditRoutingModule {
-}

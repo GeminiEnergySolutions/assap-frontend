@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {EquipmentMasterDetailComponent} from './equipment-master-detail/equipment-master-detail.component';
 import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
 import {EquipmentDetailComponent} from './equipment-detail/equipment-detail.component';
 import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 import {PhotosComponent} from '../audit/photos/photos.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: ':eid',
     component: EquipmentMasterDetailComponent,
@@ -25,9 +24,3 @@ const routes: Routes = [
     ],
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class EquipmentRoutingModule { }

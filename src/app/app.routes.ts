@@ -5,24 +5,24 @@ import {AuthGuard} from './shared/guard/auth.guard';
 export const routes: Routes = [
   {
     path: 'audits',
-    loadChildren: () => import('./audit/audit.module').then((m) => m.AuditModule),
+    loadChildren: () => import('./audit/audit.routes').then((m) => m.routes),
     canActivate: [AuthGuard],
   },
   {
     path: 'audits/:aid/zones',
-    loadChildren: () => import('./zone/zone.module').then(m => m.ZoneModule),
+    loadChildren: () => import('./zone/zone.routes').then(m => m.routes),
   },
   {
     path: 'audits/:aid/zones/:zid/equipments',
-    loadChildren: () => import('./equipment/equipment.module').then(m => m.EquipmentModule),
+    loadChildren: () => import('./equipment/equipment.routes').then(m => m.routes),
   },
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.routes),
   },
   {
     path: 'schema-editor',
-    loadChildren: () => import('./schema-editor/schema-editor.module').then((m) => m.SchemaEditorModule),
+    loadChildren: () => import('./schema-editor/schema-editor.routes').then((m) => m.routes),
     canActivate: [AuthGuard],
   },
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
