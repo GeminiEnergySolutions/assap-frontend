@@ -7,11 +7,12 @@ import {AuthInterceptor} from './app/shared/interceptor/auth.interceptor';
 import {ErrorInterceptor} from './app/shared/interceptor/error.interceptor';
 import {bootstrapApplication, BrowserModule} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from './app/app-routing.module';
+import {routes} from './app/app.routes';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbxDarkmodeModule, ToastModule} from '@mean-stream/ngbx';
 import {AppComponent} from './app/app.component';
+import {provideRouter, withRouterConfig} from '@angular/router';
 
 if (environment.production) {
   enableProdMode();
@@ -21,7 +22,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       BrowserModule,
-      AppRoutingModule,
       ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: environment.production,
         // Register the ServiceWorker as soon as the app is stable
@@ -42,6 +42,9 @@ bootstrapApplication(AppComponent, {
       multi: true,
       useClass: ErrorInterceptor,
     },
+    provideRouter(routes, withRouterConfig({
+      paramsInheritanceStrategy: 'always',
+    })),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
   ],

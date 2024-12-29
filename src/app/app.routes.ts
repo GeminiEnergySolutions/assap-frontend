@@ -1,9 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthGuard} from './shared/guard/auth.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'audits',
     loadChildren: () => import('./audit/audit.module').then((m) => m.AuditModule),
@@ -29,12 +28,3 @@ const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   {path: '**', component: PageNotFoundComponent},
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    paramsInheritanceStrategy: 'always',
-  })],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {
-}
