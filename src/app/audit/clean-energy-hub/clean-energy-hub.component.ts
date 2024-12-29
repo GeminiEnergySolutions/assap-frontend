@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap, tap} from 'rxjs';
+import {Observable, switchMap, tap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '../../shared/services/auth.service';
 import {SchemaService} from '../../shared/services/schema.service';
+import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-clean-energy-hub',
@@ -16,7 +18,9 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrls: ['./clean-energy-hub.component.scss'],
   standalone: false,
 })
-export class CleanEnergyHubComponent implements OnInit {
+export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
@@ -33,6 +37,10 @@ export class CleanEnergyHubComponent implements OnInit {
     authService: AuthService,
   ) {
     this.authToken = authService.getAuthToken() ?? '';
+  }
+
+  isSaved(): boolean {
+    return !this.form || !this.form.dirty;
   }
 
   ngOnInit() {

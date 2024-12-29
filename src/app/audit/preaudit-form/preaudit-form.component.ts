@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {ActivatedRoute} from '@angular/router';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
-import {switchMap, tap} from 'rxjs';
+import {Observable, switchMap, tap} from 'rxjs';
 import {ToastService} from '@mean-stream/ngbx';
 import {SchemaService} from '../../shared/services/schema.service';
+import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-preaudit-form',
@@ -14,7 +16,9 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrl: './preaudit-form.component.scss',
   standalone: false,
 })
-export class PreauditFormComponent implements OnInit {
+export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
@@ -26,6 +30,10 @@ export class PreauditFormComponent implements OnInit {
     private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
+  }
+
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
   }
 
   ngOnInit() {

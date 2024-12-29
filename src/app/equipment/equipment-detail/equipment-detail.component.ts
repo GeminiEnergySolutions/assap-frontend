@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
@@ -9,6 +9,8 @@ import {SchemaSection} from '../../shared/model/schema.interface';
 import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {SchemaService} from '../../shared/services/schema.service';
 import {PhotoService} from '../../shared/services/photo.service';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {FormComponent} from '../../shared/form/form/form.component';
 
 
 @Component({
@@ -17,7 +19,9 @@ import {PhotoService} from '../../shared/services/photo.service';
   styleUrls: ['./equipment-detail.component.scss'],
   standalone: false,
 })
-export class EquipmentDetailComponent implements OnInit {
+export class EquipmentDetailComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   equipmentId?: number;
   equipment?: Equipment;
@@ -33,6 +37,10 @@ export class EquipmentDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private toastService: ToastService,
   ) { }
+
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
+  }
 
   ngOnInit(): void {
     this.route.params.pipe(

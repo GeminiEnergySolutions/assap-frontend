@@ -3,6 +3,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-form',
@@ -10,7 +11,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   styleUrls: ['./form.component.scss'],
   standalone: false,
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input({required: true}) typeSchema!: SchemaSection[];
   @Input({required: true}) formData!: { id?: string | number; data: Partial<Record<string, SchemaValue>> };
   /** for offline storage */
@@ -100,7 +101,7 @@ export class FormComponent implements OnInit {
     this.dirtyChange.emit(this.dirty);
   }
 
-  canDeactivate(): boolean {
+  isSaved(): boolean {
     return !this.dirty;
   }
 

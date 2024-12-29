@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {ActivatedRoute} from '@angular/router';
@@ -9,6 +9,8 @@ import {ZoneData} from '../../shared/model/zone.interface';
 import {SchemaService} from '../../shared/services/schema.service';
 import {Response} from '../../shared/model/response.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {FormComponent} from '../../shared/form/form/form.component';
 
 @Component({
   selector: 'app-zone-form',
@@ -16,7 +18,9 @@ import {AuditZoneService} from '../../shared/services/audit-zone.service';
   styleUrl: './zone-form.component.scss',
   standalone: false,
 })
-export class ZoneFormComponent implements OnInit {
+export class ZoneFormComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   zoneId?: number;
   progress?: PercentageCompletion;
@@ -30,6 +34,10 @@ export class ZoneFormComponent implements OnInit {
     private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
+  }
+
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
   }
 
   ngOnInit() {

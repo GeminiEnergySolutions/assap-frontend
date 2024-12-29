@@ -23,6 +23,7 @@
 <div class="container">
   @if (formData && typeSchema) {
     <app-form
+      #form
       [typeSchema]="typeSchema"
       [formData]="formData"
       [formId]="'audits/' + auditId + '/preaudit'"
