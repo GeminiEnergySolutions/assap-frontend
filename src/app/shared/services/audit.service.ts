@@ -23,8 +23,6 @@ export type PercentageQuery =
   providedIn: 'root',
 })
 export class AuditService {
-  rootUrl = environment.url;
-
   currentProgress?: PercentageCompletion;
 
   constructor(
@@ -33,7 +31,7 @@ export class AuditService {
   }
 
   getPercentage(params: PercentageQuery): Observable<PercentageCompletion> {
-    return this.http.get<Response<PercentageCompletion>>(`${this.rootUrl}api/formData/progress`, {
+    return this.http.get<Response<PercentageCompletion>>(`${environment.url}api/formData/progress`, {
       params,
     }).pipe(map(({data}) => data));
   }
@@ -43,52 +41,52 @@ export class AuditService {
   }
 
   getSingleAudit(id: number): Observable<Response<Audit>> {
-    return this.http.get<Response<Audit>>(`${this.rootUrl}api/audit/${id}`);
+    return this.http.get<Response<Audit>>(`${environment.url}api/audit/${id}`);
   }
   getAllAudit(): Observable<Response<Audit[]>> {
-    return this.http.get<Response<Audit[]>>(`${this.rootUrl}api/audit`);
+    return this.http.get<Response<Audit[]>>(`${environment.url}api/audit`);
   }
   createAudit(data: CreateAuditDto): Observable<Response<Audit>> {
-    return this.http.post<Response<Audit>>(`${this.rootUrl}api/audit`, data);
+    return this.http.post<Response<Audit>>(`${environment.url}api/audit`, data);
   }
   updateAudit(id: number, data: UpdateAuditDto): Observable<Response<Audit>> {
-    return this.http.put<Response<Audit>>(`${this.rootUrl}api/audit/${id}`, data);
+    return this.http.put<Response<Audit>>(`${environment.url}api/audit/${id}`, data);
   }
   deleteAudit(id: number): Observable<Response> {
-    return this.http.delete<Response>(`${this.rootUrl}api/audit/${id}`);
+    return this.http.delete<Response>(`${environment.url}api/audit/${id}`);
   }
 
   getAuditDetails(id: number): Observable<Response<AuditDetails>> {
-    return this.http.get<Response<AuditDetails>>(`${this.rootUrl}api/auditDetail/${id}`);
+    return this.http.get<Response<AuditDetails>>(`${environment.url}api/auditDetail/${id}`);
   }
 
   getGrantsData(auditId: number): Observable<Response<PreAuditData>> {
-    return this.http.get<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/grants`);
+    return this.http.get<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/grants`);
   }
   createGrantsData(auditId: number, formData: CreatePreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.post<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/grants`, formData);
+    return this.http.post<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/grants`, formData);
   }
   updateGrantsData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.put<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/grants`, formData);
+    return this.http.put<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/grants`, formData);
   }
 
   getCleanEnergyHubData(auditId: number): Observable<Response<PreAuditData>> {
-    return this.http.get<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/ceh`);
+    return this.http.get<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/ceh`);
   }
   createCleanEnergyHubData(auditId: number, formData: CreatePreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.post<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/ceh`, formData);
+    return this.http.post<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/ceh`, formData);
   }
   updateCleanEnergyHubData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.put<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/ceh`, formData);
+    return this.http.put<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/ceh`, formData);
   }
 
   getPreAuditData(auditId: number): Observable<Response<PreAuditData>> {
-    return this.http.get<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/preAudit`);
+    return this.http.get<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/preAudit`);
   }
   createPreAuditData(auditId: number, formData: CreatePreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.post<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/preAudit`, formData);
+    return this.http.post<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/preAudit`, formData);
   }
   updatePreAuditData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
-    return this.http.put<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/preAudit`, formData);
+    return this.http.put<Response<PreAuditData>>(`${environment.url}api/formData/audit/${auditId}/preAudit`, formData);
   }
 }
