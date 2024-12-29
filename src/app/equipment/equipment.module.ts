@@ -8,10 +8,14 @@ import {EquipmentDetailComponent} from './equipment-detail/equipment-detail.comp
 import {EquipmentMasterDetailComponent} from './equipment-master-detail/equipment-master-detail.component';
 import {EquipmentListComponent} from './equipment-list/equipment-list.component';
 import {ModalModule} from '@mean-stream/ngbx';
-import {SharedModule} from '../shared/shared.module';
 import {FormsModule as AppFormsModule} from '../shared/form/form.module';
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
+import {ProgressBarComponent} from '../shared/components/progress-bar/progress-bar.component';
+import {OptionDropdownComponent} from '../shared/components/option-dropdown/option-dropdown.component';
+import {FeatureCardComponent} from '../shared/components/feature-card/feature-card.component';
+import {PhotoCaptureComponent} from '../shared/components/photo-capture/photo-capture.component';
+import {MasterDetailComponent} from '../shared/components/master-detail/master-detail.component';
 
 
 @NgModule({
@@ -22,8 +26,12 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
     NgbDropdownModule,
     NgbTooltipModule,
-    SharedModule,
     AppFormsModule,
+    ProgressBarComponent,
+    OptionDropdownComponent,
+    FeatureCardComponent,
+    PhotoCaptureComponent,
+    MasterDetailComponent,
   ],
   declarations: [
     EquipmentListComponent,

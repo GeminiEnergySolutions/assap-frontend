@@ -1,10 +1,16 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-photo-capture',
   templateUrl: './photo-capture.component.html',
   styleUrl: './photo-capture.component.scss',
-  standalone: false,
+  imports: [
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+  ],
 })
 export class PhotoCaptureComponent {
   @Output() photoUploaded = new EventEmitter<File>();

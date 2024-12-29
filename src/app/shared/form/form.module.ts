@@ -5,10 +5,11 @@ import {NgbAccordionModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {FormInputTypePipe} from './form-input-type.pipe';
 import {FormComponent} from './form/form.component';
 import {FormElementComponent} from './form-element/form-element.component';
-import {SharedModule} from '../shared.module';
 import {FormChoicesPipe} from './form-choices.pipe';
 import {CdkDrag, CdkDragHandle, CdkDropList, CdkDropListGroup} from '@angular/cdk/drag-drop';
 import {RouterLink} from '@angular/router';
+import {ProgressBarComponent} from '../components/progress-bar/progress-bar.component';
+import {EvalPipe} from '../pipe/eval.pipe';
 
 @NgModule({
   declarations: [
@@ -24,13 +25,14 @@ import {RouterLink} from '@angular/router';
     CommonModule,
     NgFormsModule,
     NgbAccordionModule,
-    SharedModule,
     NgbTooltip,
     CdkDropList,
     CdkDragHandle,
     CdkDrag,
     RouterLink,
     CdkDropListGroup,
+    ProgressBarComponent,
+    EvalPipe,
   ],
 })
 export class FormsModule {

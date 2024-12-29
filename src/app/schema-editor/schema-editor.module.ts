@@ -11,13 +11,18 @@ import {
   NgbAccordionCollapse,
   NgbAccordionDirective,
   NgbAccordionHeader,
-  NgbAccordionItem, NgbOffcanvas, NgbOffcanvasModule, NgbPopover, NgbTooltip, NgbTypeahead,
+  NgbAccordionItem,
+  NgbOffcanvasModule,
+  NgbPopover,
+  NgbTooltip,
+  NgbTypeahead,
 } from '@ng-bootstrap/ng-bootstrap';
-import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
 import {FormsModule} from '@angular/forms';
 import {EditFieldComponent} from './edit-field/edit-field.component';
 import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
+import {ExpressionErrorPipe} from '../shared/pipe/expression-error.pipe';
+import {MasterDetailComponent} from '../shared/components/master-detail/master-detail.component';
 
 
 @NgModule({
@@ -38,7 +43,6 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
     NgbAccordionHeader,
     NgbAccordionItem,
     NgbOffcanvasModule,
-    SharedModule,
     FormsModule,
     NgbTooltip,
     NgbPopover,
@@ -46,6 +50,8 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
     CdkDragHandle,
     CdkDrag,
     NgbTypeahead,
+    ExpressionErrorPipe,
+    MasterDetailComponent,
   ],
 })
 export class SchemaEditorModule {

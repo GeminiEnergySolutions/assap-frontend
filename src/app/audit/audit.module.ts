@@ -11,7 +11,6 @@ import {
   NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import {SharedModule} from '../shared/shared.module';
 import {AuditRoutingModule} from './audit-routing.module';
 import {AuditDetailComponent} from './audit-detail/audit-detail.component';
 import {AuditMasterDetailComponent} from './audit-master-detail/audit-master-detail.component';
@@ -26,11 +25,13 @@ import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
 import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal.component';
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
+import {ProgressBarComponent} from '../shared/components/progress-bar/progress-bar.component';
+import {MasterDetailComponent} from '../shared/components/master-detail/master-detail.component';
+import {FeatureCardComponent} from '../shared/components/feature-card/feature-card.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule,
     FormsModule,
     NgbNavModule,
     NgbDropdownModule,
@@ -42,6 +43,9 @@ import {EquipmentOverviewComponent} from './equipment-overview/equipment-overvie
     NgbAccordionModule,
     NgbCollapse,
     NgbPagination,
+    ProgressBarComponent,
+    MasterDetailComponent,
+    FeatureCardComponent,
   ],
   providers: [
     AuditZoneService,
