@@ -1,13 +1,4 @@
 <app-master-detail>
-  <nav breadcrumb aria-label="breadcrumb">
-    <ol class="breadcrumb p-3 bg-dark-subtle">
-      <li class="breadcrumb-item"><a routerLink="../../../../..">Audits</a></li>
-      <li class="breadcrumb-item"><a routerLink="../../../..">{{audit?.auditName | titlecase}}</a></li>
-      <li class="breadcrumb-item"><a routerLink="../../..">Zones</a></li>
-      <li class="breadcrumb-item"><a routerLink="../..">{{zone?.zoneName | titlecase}}</a></li>
-      <li class="breadcrumb-item">{{equipment?.equipmentName | titlecase}}</li>
-    </ol>
-  </nav>
   <app-equipment-list list></app-equipment-list>
   <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
     <h2>
