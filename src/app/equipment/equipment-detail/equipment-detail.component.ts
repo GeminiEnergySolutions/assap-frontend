@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
@@ -11,6 +11,7 @@ import {SchemaService} from '../../shared/services/schema.service';
 import {PhotoService} from '../../shared/services/photo.service';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {FormComponent} from '../../shared/form/form/form.component';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ import {FormComponent} from '../../shared/form/form/form.component';
   styleUrls: ['./equipment-detail.component.scss'],
   standalone: false,
 })
-export class EquipmentDetailComponent implements OnInit, SaveableChangesComponent {
+export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
@@ -36,6 +37,7 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
     private schemaService: SchemaService,
     private route: ActivatedRoute,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) { }
 
   isSaved(): boolean {
@@ -43,9 +45,16 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
   }
 
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '<Equipment>', routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
       switchMap(({zid, eid, tid}) => this.equipmentService.getEquipment(+zid, +eid, +tid)),
-      map(({data}) => this.equipment = data),
+      map(({data}) => {
+        breadcrumb.label = data.name;
+        this.equipment = data;
+        return data;
+      }),
       switchMap(equipment => this.schemaService.getSchema(`equipment/${equipment.type?.id ?? equipment.typeId}`)),
     ).subscribe(({data}) => {
       this.typeSchema = data;
@@ -69,6 +78,10 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
         subTypeId: tid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   uploadPhoto(file: File) {
