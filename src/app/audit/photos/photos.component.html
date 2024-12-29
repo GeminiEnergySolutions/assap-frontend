@@ -70,17 +70,14 @@
 <div class="row g-0">
   @for (item of photos; track item) {
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box">
-      <img [src]="item.photo" class="img-fluid">
+      @let text = item.equipmentId
+        ? (item.audit?.auditName + ' / ' + item.zone?.zoneName + ' / ' + item.equipment?.equipmentName + ' / ' + item.type?.name + ' / ' + item.subType?.name | uppercase)
+        : item.zoneId
+          ? (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
+          : (item.audit?.auditName | uppercase);
+      <img [src]="item.photo" class="img-fluid" [alt]="text">
       <div class="overlay">
-        {{
-          item.equipmentId ?
-            (item.audit?.auditName + ' / ' + item.zone?.zoneName + ' / ' + item.equipment?.equipmentName + ' / ' + item.type?.name + ' / ' + item.subType?.name | uppercase)
-            :
-            item.zoneId ?
-              (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
-              :
-              (item.audit?.auditName | uppercase)
-        }}
+        {{ text }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
       </div>
     </div>
