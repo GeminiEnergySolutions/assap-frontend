@@ -4,11 +4,8 @@ import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
-import {CreateZoneData, ZoneData} from '../model/zone.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
-import {Photo} from '../model/photo.interface';
 import {Response} from '../model/response.interface';
-import {User} from '../model/user.interface';
 
 export type PercentageQuery =
   | { percentageType: 'complete', auditId: number }
@@ -93,15 +90,5 @@ export class AuditService {
   }
   updatePreAuditData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
     return this.http.put<Response<PreAuditData>>(`${this.rootUrl}api/formData/audit/${auditId}/preAudit`, formData);
-  }
-
-  getZoneData(zoneId: number): Observable<Response<ZoneData>> {
-    return this.http.get<Response<ZoneData>>(`${this.rootUrl}api/formData/zone/${zoneId}`);
-  }
-  createZoneData(zoneId: number, formData: CreateZoneData): Observable<Response<ZoneData>> {
-    return this.http.post<Response<ZoneData>>(`${this.rootUrl}api/formData/zone/${zoneId}`, formData);
-  }
-  updateZoneData(zoneId: number, formData: ZoneData): Observable<Response<ZoneData>> {
-    return this.http.put<Response<ZoneData>>(`${this.rootUrl}api/formData/zone/${zoneId}`, formData);
   }
 }
