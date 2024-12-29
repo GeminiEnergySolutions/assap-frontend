@@ -7,7 +7,7 @@ import {ZoneMasterDetailComponent} from './zone-master-detail/zone-master-detail
 import {ZoneDetailComponent} from './zone/zone-detail.component';
 import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '../shared/form/form.module';
+
 import {ProgressBarComponent} from '../shared/components/progress-bar/progress-bar.component';
 import {PhotoCaptureComponent} from '../shared/components/photo-capture/photo-capture.component';
 import {FeatureCardComponent} from '../shared/components/feature-card/feature-card.component';
@@ -20,7 +20,6 @@ import {MasterDetailComponent} from '../shared/components/master-detail/master-d
     CommonModule,
     ZoneRoutingModule,
     NgbDropdownModule,
-    FormsModule,
     ProgressBarComponent,
     PhotoCaptureComponent,
     FeatureCardComponent,

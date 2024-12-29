@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {FormsModule as AppFormsModule} from '../shared/form/form.module';
+
 import {
   NgbAccordionModule,
   NgbCollapse,
@@ -37,7 +37,6 @@ import {FeatureCardComponent} from '../shared/components/feature-card/feature-ca
     NgbDropdownModule,
     AuditRoutingModule,
     NgbTooltipModule,
-    AppFormsModule,
     NgbTypeaheadModule,
     ModalModule,
     NgbAccordionModule,
