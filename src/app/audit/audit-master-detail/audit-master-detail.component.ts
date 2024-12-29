@@ -4,6 +4,7 @@ import {AuthService} from 'src/app/shared/services/auth.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {EMPTY, switchMap} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-audit-master-detail',
@@ -18,11 +19,16 @@ export class AuditMasterDetailComponent implements OnInit {
     private auditService: AuditService,
     public authService: AuthService,
     private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
     private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      {label: 'Audits', routerLink: '.', relativeTo: this.route},
+    ]);
+
     if (this.authService.currentLoginUser?.role?.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe(res => {
         this.groupAudits(res.data);

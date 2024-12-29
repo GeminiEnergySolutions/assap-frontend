@@ -70,6 +70,19 @@
     <button class="navbar-toggler" type="button" (click)="offcanvas.open(content)">
       &#9776;
     </button>
-    <!-- TODO: Show breadcrumbs / current page title -->
+    <nav aria-label="breadcrumb" class="align-self-center">
+      <ol class="breadcrumb">
+        @for (breadcrumb of breadcrumbService.breadcrumbs$ | async; track breadcrumb) {
+          <li class="breadcrumb-item" [class.active]="$last" [attr.aria-current]="$last ? 'page' : null">
+            <a [routerLink]="breadcrumb.routerLink" [relativeTo]="breadcrumb.relativeTo" [class]="breadcrumb.class">
+              {{ breadcrumb.label }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+    <div>
+      <!-- Placeholder -->
+    </div>
   </div>
 </nav>
