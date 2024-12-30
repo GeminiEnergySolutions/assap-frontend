@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.interface';
+import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-select-schema',
@@ -14,10 +16,16 @@ export class SelectSchemaComponent implements OnInit {
 
   constructor(
     private equipmentService: EquipmentService,
+    private breadcrumbService: BreadcrumbService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
+    this.breadcrumbService.setBreadcrumbs([
+      {label: 'Schema Editor', routerLink: '.', relativeTo: this.route},
+    ]);
+
     this.equipmentService.getEquipmentCategories().subscribe(categories => {
       this.categories = categories.data;
       for (const category of categories.data) {

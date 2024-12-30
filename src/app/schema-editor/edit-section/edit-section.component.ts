@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-edit-section',
@@ -11,7 +12,7 @@ import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './edit-section.component.scss',
   standalone: false,
 })
-export class EditSectionComponent implements OnInit {
+export class EditSectionComponent implements OnInit, OnDestroy {
   section: SchemaSection = {id: 0, name: '', schema: []};
 
   allKeys: string[] = [];
@@ -32,17 +33,26 @@ export class EditSectionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
+    private breadcrumbService: BreadcrumbService,
     protected ngbOffcanvas: NgbOffcanvas,
   ) {
   }
 
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '<Section>', class: 'bi-card-list', routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
       combineLatestWith(this.schemaContext.loaded$),
     ).subscribe(([{section}]) => {
       this.section = this.schemaContext.schema.find(s => s.id == section) ?? this.section;
       this.allKeys = this.schemaContext.schema.flatMap(s => s.schema).map(e => e.key);
+      breadcrumb.label = this.section.name;
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   save() {
