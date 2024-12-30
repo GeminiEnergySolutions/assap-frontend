@@ -12,6 +12,7 @@ import {PhotoService} from '../../shared/services/photo.service';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChan
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Equipment>', routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '<Equipment>', class: icons.equipment, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

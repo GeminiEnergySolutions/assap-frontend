@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-audit-detail',
@@ -22,7 +23,7 @@ export class AuditDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Audit>', routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

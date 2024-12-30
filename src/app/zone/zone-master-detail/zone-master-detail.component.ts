@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-zone-master-detail',
@@ -22,7 +23,7 @@ export class ZoneMasterDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const auditBreadcrumb: Breadcrumb = {label: '<Audit>', routerLink: '..', relativeTo: this.route};
+    const auditBreadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Audits', routerLink: '../..', relativeTo: this.route},
       auditBreadcrumb,

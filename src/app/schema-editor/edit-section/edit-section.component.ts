@@ -5,6 +5,7 @@ import {SchemaContextService} from '../schema-context.service';
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-edit-section',
@@ -39,7 +40,7 @@ export class EditSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Section>', class: 'bi-card-list', routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '<Section>', class: icons.schemaSection, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

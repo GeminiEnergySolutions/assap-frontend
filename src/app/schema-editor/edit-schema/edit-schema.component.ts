@@ -7,6 +7,7 @@ import {SchemaContextService} from '../schema-context.service';
 import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-edit-schema',
@@ -34,7 +35,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Schema>', routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '<Schema>', class: icons.schema, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Schema Editor', routerLink: '../..', relativeTo: this.route},
       breadcrumb,

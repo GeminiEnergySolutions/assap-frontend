@@ -8,6 +8,7 @@ import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-equipment-master-detail',
@@ -30,8 +31,8 @@ export class EquipmentMasterDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const auditBreadcrumb = {label: '<Audit>', routerLink: '../../../..', relativeTo: this.route};
-    const zoneBreadcrumb = {label: '<Zone>', routerLink: '../..', relativeTo: this.route};
+    const auditBreadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};
+    const zoneBreadcrumb = {label: '<Zone>', class: icons.zone, routerLink: '../..', relativeTo: this.route};
     const equipmentBreadcrumb = {label: '<Equipment>', routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Audits', routerLink: '../../../../..'},

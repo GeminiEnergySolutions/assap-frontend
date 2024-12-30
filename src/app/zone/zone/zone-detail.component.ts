@@ -11,6 +11,7 @@ import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {PhotoService} from '../../shared/services/photo.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-zone-detail',
@@ -37,7 +38,7 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Zone>', routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '<Zone>', class: icons.zone, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

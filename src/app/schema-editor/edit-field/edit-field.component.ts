@@ -5,6 +5,7 @@ import {SchemaContextService} from '../schema-context.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {combineLatestWith} from 'rxjs';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-edit-field',
@@ -233,9 +234,9 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const sectionBreadcrumb: Breadcrumb = {label: '<Section>', class: 'bi-card-list', relativeTo: this.route};
+    const sectionBreadcrumb: Breadcrumb = {label: '<Section>', class: icons.schemaSection, relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(sectionBreadcrumb);
-    const fieldBreadcrumb: Breadcrumb = {label: '<Field>', class: 'bi-input-cursor-text', routerLink: '.', relativeTo: this.route};
+    const fieldBreadcrumb: Breadcrumb = {label: '<Field>', class: icons.schemaField, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(fieldBreadcrumb);
 
     this.route.params.pipe(
