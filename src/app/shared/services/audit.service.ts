@@ -57,7 +57,7 @@ export class AuditService {
   }
 
   getAuditDetails(id: number): Observable<Response<AuditDetails>> {
-    return this.http.get<Response<AuditDetails>>(`${environment.url}api/auditDetail/${id}`);
+    return this.http.get<Response<AuditDetails>>(`${environment.url}api/audit/${id}/auditDetail`);
   }
 
   getGrantsData(auditId: number): Observable<Response<PreAuditData>> {
