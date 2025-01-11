@@ -7,7 +7,7 @@
       [title]="item.name | titlecase"
       [subtitle]="item.type.name"
       [routerLink]="['types', item.id]"
-      [percentageQuery]="{percentageType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
+      [percentageQuery]="{progressType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
     >
       <app-option-dropdown options style="z-index: 900">
         @if (item.type.name === 'HVAC') {

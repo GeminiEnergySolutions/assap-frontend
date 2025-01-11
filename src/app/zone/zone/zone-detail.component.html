@@ -36,14 +36,14 @@
     title="Zone Details"
     [subtitle]="buildingTotalArea ? 'Not Required (Building Total Area in Pre Audit is enabled)' : undefined"
     routerLink="details"
-    [percentageQuery]="buildingTotalArea ? undefined : {percentageType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
+    [percentageQuery]="buildingTotalArea ? undefined : {progressType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
   ></app-feature-card>
   <hr/>
   @for (equipment of equipments; track equipment) {
     <app-feature-card
       [title]="equipment.equipmentName | titlecase"
       [routerLink]="['equipments', equipment.id]"
-      [percentageQuery]="{percentageType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
+      [percentageQuery]="{progressType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
     ></app-feature-card>
   }
   <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>

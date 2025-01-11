@@ -63,7 +63,7 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
 
     this.route.params.pipe(
       switchMap(({zid, tid}) => this.auditService.getPercentage({
-        percentageType: 'equipmentForm',
+        progressType: 'equipmentForm',
         auditId: this.auditId!,
         zoneId: zid,
         subTypeId: tid,
@@ -110,7 +110,7 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
 
   private getPercentage() {
     this.equipmentId && this.auditService.getPercentage({
-      percentageType: 'equipmentForm',
+      progressType: 'equipmentForm',
       auditId: this.auditId!,
       zoneId: this.route.snapshot.params.zid,
       subTypeId: this.equipmentId,
