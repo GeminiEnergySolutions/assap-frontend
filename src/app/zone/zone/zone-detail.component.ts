@@ -2,13 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {icons} from '../../shared/icons';
@@ -30,7 +30,6 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
     private auditService: AuditService,
     private photoService: PhotoService,
     private equipmentService: EquipmentService,
-    private zoneService: AuditZoneService,
     public route: ActivatedRoute,
     private toastService: ToastService,
     private breadcrumbService: BreadcrumbService,
@@ -73,23 +72,6 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.breadcrumbService.popBreadcrumb();
-  }
-
-  rename() {
-    if (!this.zone) {
-      return;
-    }
-    const name = prompt('Rename Zone', this.zone.zoneName);
-    if (!name) {
-      return;
-    }
-    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
-      ...this.zone,
-      zoneName: name,
-    }).subscribe(() => {
-      this.zone!.zoneName = name;
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
-    });
   }
 
   uploadPhoto(file: File) {
