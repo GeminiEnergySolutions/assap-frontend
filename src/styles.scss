@@ -75,7 +75,7 @@ input[type=number] {
 }
 
 // Avoid margin below pagination
-ul.pagination {
+ul.pagination, ol.breadcrumb {
   margin-bottom: 0;
 }
 

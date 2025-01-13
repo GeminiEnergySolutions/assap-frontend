@@ -1,16 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
-import {Observable, switchMap, tap} from 'rxjs';
+import {switchMap, tap} from 'rxjs';
+
 import {environment} from '../../../environments/environment';
-import {AuthService} from '../../shared/services/auth.service';
-import {SchemaService} from '../../shared/services/schema.service';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {AuthService} from '../../shared/services/auth.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-clean-energy-hub',
@@ -18,7 +21,7 @@ import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard
   styleUrls: ['./clean-energy-hub.component.scss'],
   standalone: false,
 })
-export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent {
+export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy {
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
@@ -34,6 +37,7 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
     private auditService: AuditService,
     private schemaService: SchemaService,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
     authService: AuthService,
   ) {
     this.authToken = authService.getAuthToken() ?? '';
@@ -44,6 +48,18 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
   }
 
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Clean Energy Hub', class: icons.ceh, routerLink: '.', relativeTo: this.route,
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => {
+      breadcrumb.label = data.auditName;
+    });
+
     this.schemaService.getSchema('ceh').subscribe(({data}) => {
       this.typeSchema = data;
     });
@@ -54,6 +70,11 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
       this.formData = formData.data ?? {data: {}};
     });
     this.getPercentage();
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   save() {

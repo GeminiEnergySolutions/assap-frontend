@@ -1,14 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
 
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
 import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
 import {SchemaService} from '../../shared/services/schema.service';
@@ -19,7 +21,7 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrls: ['./equipment-detail.component.scss'],
   standalone: false,
 })
-export class EquipmentDetailComponent implements OnInit, SaveableChangesComponent {
+export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
@@ -36,6 +38,7 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
     private schemaService: SchemaService,
     private route: ActivatedRoute,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) { }
 
   isSaved(): boolean {
@@ -43,9 +46,20 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
   }
 
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.equipment, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
+      tap(() => {
+        this.equipment = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({zid, eid, tid}) => this.equipmentService.getEquipment(+zid, +eid, +tid)),
-      map(({data}) => this.equipment = data),
+      map(({data}) => {
+        breadcrumb.label = data.name;
+        this.equipment = data;
+        return data;
+      }),
       switchMap(equipment => this.schemaService.getSchema(`equipment/${equipment.type?.id ?? equipment.typeId}`)),
     ).subscribe(({data}) => {
       this.typeSchema = data;
@@ -71,6 +85,10 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
     ).subscribe(res => this.progress = res);
   }
 
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+  }
+
   uploadPhoto(file: File) {
     if (!this.equipment) {
       return;
@@ -83,7 +101,7 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
       typeId: this.equipment.typeId,
       subTypeId: this.equipment.id,
     }, file).subscribe(() => {
-      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
+      this.toastService.success('Upload Equipment Photo', `Successfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }
 

@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
 import {ActivatedRoute} from '@angular/router';
 import {SchemaContextService} from '../schema-context.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {combineLatestWith} from 'rxjs';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-edit-field',
@@ -11,7 +13,7 @@ import {combineLatestWith} from 'rxjs';
   styleUrl: './edit-field.component.scss',
   standalone: false,
 })
-export class EditFieldComponent implements OnInit {
+export class EditFieldComponent implements OnInit, OnDestroy {
   section?: SchemaSection;
   field: SchemaElement = {
     key: 'new',
@@ -227,10 +229,16 @@ export class EditFieldComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit() {
+    const sectionBreadcrumb: Breadcrumb = {label: '', class: icons.schemaSection, relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(sectionBreadcrumb);
+    const fieldBreadcrumb: Breadcrumb = {label: '', class: icons.schemaField, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(fieldBreadcrumb);
+
     this.route.params.pipe(
       combineLatestWith(this.schemaContext.loaded$),
     ).subscribe(([{key}]) => {
@@ -239,10 +247,18 @@ export class EditFieldComponent implements OnInit {
         if (found) {
           this.section = section;
           this.field = found;
+          sectionBreadcrumb.label = section.name;
+          sectionBreadcrumb.routerLink = `../../section/${section.id}`;
+          fieldBreadcrumb.label = found.title;
           break;
         }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   private findField(key: string, fields: SchemaElement[]): SchemaElement | undefined {

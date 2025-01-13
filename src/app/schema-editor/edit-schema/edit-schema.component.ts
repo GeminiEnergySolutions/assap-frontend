@@ -6,6 +6,8 @@ import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {icons} from '../../shared/icons';
 
 @Component({
   selector: 'app-edit-schema',
@@ -24,6 +26,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
     private schemaService: SchemaService,
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
@@ -32,33 +35,41 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.schema, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.setBreadcrumbs([
+      {label: 'Schema Editor', routerLink: '../..', relativeTo: this.route},
+      breadcrumb,
+    ]);
+
     this.route.params.pipe(
       switchMap(({kind, id}) => {
         switch (kind) {
           case 'preaudit':
             this.kind = 'preAudit';
-            this.title = 'Preaudit';
+            this.title = breadcrumb.label = 'Preaudit';
             break;
           case 'grants':
             this.kind = 'grants';
-            this.title = 'Grants';
+            this.title = breadcrumb.label = 'Grants';
             break;
           case 'ceh':
             this.kind = 'ceh';
-            this.title = 'Clean Energy Hub';
+            this.title = breadcrumb.label = 'Clean Energy Hub';
             break;
           case 'zone':
             this.kind = 'zone';
-            this.title = 'Zone';
+            this.title = breadcrumb.label = 'Zone';
             break;
           case 'equipment':
             this.kind = `equipment/${id}`;
-            this.title = 'Equipment';
+            this.title = breadcrumb.label = 'Equipment';
             // TODO category ID?
-            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => this.title = data.name);
+            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => {
+              this.title = breadcrumb.label = data.name;
+            });
             break;
           default:
-            this.title = '(invalid)';
+            this.title = breadcrumb.label = '(invalid)';
             return EMPTY;
         }
         return this.schemaService.getSchema(this.kind);

@@ -2,7 +2,6 @@
   <div class="col-lg-3 h-100 overflow-auto master" style="margin-bottom: 20px;" routerLinkActive="master-active"
     [routerLinkActiveOptions]="{exact: true}">
     <a class="d-none" routerLink="."></a>
-    <ng-content select="[breadcrumb]"></ng-content>
     <ng-content select="[list]"></ng-content>
   </div>
   <div class="col-lg-9 h-100 overflow-auto detail" [class.detail-active]="outlet.isActivated">

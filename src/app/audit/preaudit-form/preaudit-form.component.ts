@@ -1,14 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
-import {AuditService} from '../../shared/services/audit.service';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {Observable, switchMap, tap} from 'rxjs';
 import {ToastService} from '@mean-stream/ngbx';
-import {SchemaService} from '../../shared/services/schema.service';
+import {switchMap, tap} from 'rxjs';
+
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-preaudit-form',
@@ -16,7 +19,7 @@ import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard
   styleUrl: './preaudit-form.component.scss',
   standalone: false,
 })
-export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
+export class PreauditFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
@@ -29,6 +32,7 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
     private auditService: AuditService,
     private schemaService: SchemaService,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
@@ -37,14 +41,21 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
   }
 
   ngOnInit() {
-    this.schemaService.getSchema('preAudit').subscribe(res => this.typeSchema = res.data);
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Pre-Audit', class: icons.audit, routerLink: '.', relativeTo: this.route,
+    });
 
     this.route.params.pipe(
       tap(({aid}) => this.auditId = +aid),
-      switchMap(({aid}) => this.auditService.getPreAuditData(+aid)),
-    ).subscribe(res => {
-      this.formData = res.data ?? {data: {}};
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => {
+      this.formData = data.pre_audit_form;
+      breadcrumb.label = data.auditName;
     });
+
+    this.schemaService.getSchema('preAudit').subscribe(res => this.typeSchema = res.data);
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage({
@@ -52,6 +63,11 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
         auditId: aid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   save() {

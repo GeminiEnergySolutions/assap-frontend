@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {BreadcrumbService} from '../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -25,6 +26,7 @@ export class NavBarComponent {
     protected offcanvas: NgbOffcanvas,
     private router: Router,
     private themeService: ThemeService,
+    protected breadcrumbService: BreadcrumbService,
   ) {
   }
 
