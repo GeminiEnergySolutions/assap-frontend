@@ -9,27 +9,17 @@
       [routerLink]="['types', item.id]"
       [percentageQuery]="{progressType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
     >
-      <app-option-dropdown options style="z-index: 900">
-        @if (item.type.name === 'HVAC') {
-          <h5 class="dropdown-header">
-            HVAC Specific
-          </h5>
-          <a ngbDropdownItem class="bi-link-45deg" [routerLink]="['types', item.id, 'connect']">
-            Connect Zone
-          </a>
+      <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+        <app-equipment-options-dropdown [equipment]="item">
+          <button ngbDropdownItem class="bi-copy" (click)="duplicate(item)">
+            Duplicate
+          </button>
           <div class="dropdown-divider"></div>
-        }
-        <button ngbDropdownItem class="bi-pencil-square" (click)="rename(item)">
-          Rename
-        </button>
-        <button ngbDropdownItem class="bi-copy" (click)="duplicate(item)">
-          Duplicate
-        </button>
-        <div class="dropdown-divider"></div>
-        <button ngbDropdownItem class="bi-trash text-danger" (click)="delete(item)">
-          Delete
-        </button>
-      </app-option-dropdown>
+          <button ngbDropdownItem class="bi-trash text-danger" (click)="delete(item)">
+            Delete
+          </button>
+        </app-equipment-options-dropdown>
+      </div>
     </app-feature-card>
   }
 </div>

@@ -23,7 +23,7 @@ import {GrantsComponent} from './grants/grants.component';
 import {ModalModule} from '@mean-stream/ngbx';
 import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
-import {OptionsDropdownComponent} from './options-dropdown/options-dropdown.component';
+import {AuditOptionsDropdownComponent} from './audit-options-dropdown/audit-options-dropdown.component';
 import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal.component';
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
 
@@ -55,7 +55,7 @@ import {EquipmentOverviewComponent} from './equipment-overview/equipment-overvie
     CleanEnergyHubComponent,
     GrantsComponent,
     PreauditFormComponent,
-    OptionsDropdownComponent,
+    AuditOptionsDropdownComponent,
     CreateAuditModalComponent,
     EquipmentOverviewComponent,
   ],

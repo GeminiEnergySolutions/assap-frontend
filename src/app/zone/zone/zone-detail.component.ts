@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {EquipmentCategory} from '../../shared/model/equipment.interface';
+
 import {Audit} from '../../shared/model/audit.interface';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
@@ -28,7 +29,6 @@ export class ZoneDetailComponent implements OnInit {
     private auditService: AuditService,
     private photoService: PhotoService,
     private equipmentService: EquipmentService,
-    private zoneService: AuditZoneService,
     public route: ActivatedRoute,
     private toastService: ToastService,
   ) {
@@ -58,23 +58,6 @@ export class ZoneDetailComponent implements OnInit {
         zoneId: zid,
       })),
     ).subscribe(res => this.progress = res);
-  }
-
-  rename() {
-    if (!this.zone) {
-      return;
-    }
-    const name = prompt('Rename Zone', this.zone.zoneName);
-    if (!name) {
-      return;
-    }
-    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
-      ...this.zone,
-      zoneName: name,
-    }).subscribe(() => {
-      this.zone!.zoneName = name;
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
-    });
   }
 
   uploadPhoto(file: File) {
