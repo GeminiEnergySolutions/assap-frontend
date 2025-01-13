@@ -41,7 +41,7 @@ export class GrantsComponent implements OnInit, SaveableChangesComponent, OnDest
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
     this.breadcrumbService.pushBreadcrumb({
       label: 'Grants', class: icons.grants, routerLink: '.', relativeTo: this.route,

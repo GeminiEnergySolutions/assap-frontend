@@ -80,7 +80,11 @@
               routerLinkActive="link-body-emphasis text-decoration-none"
               [routerLinkActiveOptions]="{exact: true}"
             >
-              {{ breadcrumb.label }}
+              @if (breadcrumb.label) {
+                {{ breadcrumb.label }}
+              } @else {
+                <span class="rounded placeholder placeholder-glow">Loading...</span>
+              }
             </a>
           </li>
         }

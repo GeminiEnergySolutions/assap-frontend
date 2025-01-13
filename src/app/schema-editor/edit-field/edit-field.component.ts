@@ -234,9 +234,9 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const sectionBreadcrumb: Breadcrumb = {label: '<Section>', class: icons.schemaSection, relativeTo: this.route};
+    const sectionBreadcrumb: Breadcrumb = {label: '', class: icons.schemaSection, relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(sectionBreadcrumb);
-    const fieldBreadcrumb: Breadcrumb = {label: '<Field>', class: icons.schemaField, routerLink: '.', relativeTo: this.route};
+    const fieldBreadcrumb: Breadcrumb = {label: '', class: icons.schemaField, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(fieldBreadcrumb);
 
     this.route.params.pipe(

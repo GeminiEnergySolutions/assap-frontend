@@ -38,7 +38,7 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Zone>', class: icons.zone, routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

@@ -41,7 +41,7 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent, 
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
     this.breadcrumbService.pushBreadcrumb({
       label: 'Pre-Audit', class: icons.audit, routerLink: '.', relativeTo: this.route,

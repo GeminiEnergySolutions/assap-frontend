@@ -31,9 +31,9 @@ export class EquipmentMasterDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const auditBreadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};
-    const zoneBreadcrumb = {label: '<Zone>', class: icons.zone, routerLink: '../..', relativeTo: this.route};
-    const equipmentBreadcrumb = {label: '<Equipment>', routerLink: '.', relativeTo: this.route};
+    const auditBreadcrumb = {label: '', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};
+    const zoneBreadcrumb = {label: '', class: icons.zone, routerLink: '../..', relativeTo: this.route};
+    const equipmentBreadcrumb = {label: '', routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Audits', routerLink: '../../../../..'},
       auditBreadcrumb,

@@ -23,7 +23,7 @@ export class ZoneMasterDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const auditBreadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    const auditBreadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Audits', routerLink: '../..', relativeTo: this.route},
       auditBreadcrumb,

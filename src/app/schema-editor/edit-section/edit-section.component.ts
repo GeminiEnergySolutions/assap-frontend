@@ -40,7 +40,7 @@ export class EditSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Section>', class: icons.schemaSection, routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.schemaSection, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

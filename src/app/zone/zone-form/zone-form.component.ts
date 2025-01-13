@@ -45,7 +45,7 @@ export class ZoneFormComponent implements OnInit, SaveableChangesComponent, OnDe
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Zone>', class: icons.zone, routerLink: '..', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
     this.breadcrumbService.pushBreadcrumb({
       label: 'Zone Details', class: icons.zoneDetails, routerLink: '.', relativeTo: this.route,

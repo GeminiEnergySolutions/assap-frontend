@@ -46,7 +46,7 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChan
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Equipment>', class: icons.equipment, routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.equipment, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(

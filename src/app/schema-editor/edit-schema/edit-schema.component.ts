@@ -35,7 +35,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Schema>', class: icons.schema, routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.schema, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Schema Editor', routerLink: '../..', relativeTo: this.route},
       breadcrumb,

@@ -48,7 +48,7 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
   }
 
   ngOnInit() {
-    const breadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
     this.breadcrumbService.pushBreadcrumb({
       label: 'Clean Energy Hub', class: icons.ceh, routerLink: '.', relativeTo: this.route,
