@@ -1,12 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
-import {EquipmentService} from '../../shared/services/equipment.service';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {SchemaContextService} from '../schema-context.service';
-import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+import {SchemaContextService} from '../schema-context.service';
 
 @Component({
   selector: 'app-edit-schema',
@@ -19,7 +23,7 @@ import {FormComponent} from '../../shared/form/form/form.component';
     FormComponent,
   ],
 })
-export class EditSchemaComponent implements OnInit {
+export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   kind: SchemaKind = 'preAudit';
   title = '';
   schemaSections: SchemaSection[] = [];
@@ -29,37 +33,50 @@ export class EditSchemaComponent implements OnInit {
     private schemaService: SchemaService,
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
+  isSaved(): boolean {
+    return this.schemaSections.every(section => !section._dirty);
+  }
+
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.schema, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.setBreadcrumbs([
+      {label: 'Schema Editor', routerLink: '../..', relativeTo: this.route},
+      breadcrumb,
+    ]);
+
     this.route.params.pipe(
       switchMap(({kind, id}) => {
         switch (kind) {
           case 'preaudit':
             this.kind = 'preAudit';
-            this.title = 'Preaudit';
+            this.title = breadcrumb.label = 'Preaudit';
             break;
           case 'grants':
             this.kind = 'grants';
-            this.title = 'Grants';
+            this.title = breadcrumb.label = 'Grants';
             break;
           case 'ceh':
             this.kind = 'ceh';
-            this.title = 'Clean Energy Hub';
+            this.title = breadcrumb.label = 'Clean Energy Hub';
             break;
           case 'zone':
             this.kind = 'zone';
-            this.title = 'Zone';
+            this.title = breadcrumb.label = 'Zone';
             break;
           case 'equipment':
             this.kind = `equipment/${id}`;
-            this.title = 'Equipment';
-            // TODO category ID?
-            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => this.title = data.name);
+            this.title = breadcrumb.label = 'Equipment';
+            // Category ID does not seem to matter, we just pass 0
+            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => {
+              this.title = breadcrumb.label = data.name;
+            });
             break;
           default:
-            this.title = '(invalid)';
+            this.title = breadcrumb.label = '(invalid)';
             return EMPTY;
         }
         return this.schemaService.getSchema(this.kind);

@@ -129,7 +129,7 @@ export class PhotosComponent implements OnInit {
   }
 
   deletePhoto(id: number) {
-    this.photoService.deletePhoto(id).subscribe(() => {
+    this.photoService.deletePhoto(+this.route.snapshot.params.aid, id).subscribe(() => {
       this.photos = this.photos.filter(photo => photo.id !== id);
       this.totalCount--;
     });

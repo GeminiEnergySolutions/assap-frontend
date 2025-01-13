@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
-import {AuditService} from '../../shared/services/audit.service';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {switchMap, tap} from 'rxjs';
 import {ToastService} from '@mean-stream/ngbx';
-import {SchemaService} from '../../shared/services/schema.service';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {switchMap, tap} from 'rxjs';
+
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-preaudit-form',
@@ -24,7 +28,9 @@ import {FormComponent} from '../../shared/form/form/form.component';
     FormComponent,
   ],
 })
-export class PreauditFormComponent implements OnInit {
+export class PreauditFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
@@ -35,25 +41,42 @@ export class PreauditFormComponent implements OnInit {
     private auditService: AuditService,
     private schemaService: SchemaService,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
-  ngOnInit() {
-    this.schemaService.getSchema('preAudit').subscribe(res => this.typeSchema = res.data);
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
+  }
 
-    this.route.params.pipe(
-      tap(({aid}) => this.auditId = +aid),
-      switchMap(({aid}) => this.auditService.getPreAuditData(+aid)),
-    ).subscribe(res => {
-      this.formData = res.data ?? {data: {}};
+  ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Pre-Audit', class: icons.audit, routerLink: '.', relativeTo: this.route,
     });
 
     this.route.params.pipe(
+      tap(({aid}) => this.auditId = +aid),
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => {
+      this.formData = data.pre_audit_form;
+      breadcrumb.label = data.auditName;
+    });
+
+    this.schemaService.getSchema('preAudit').subscribe(res => this.typeSchema = res.data);
+
+    this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage({
-        percentageType: 'preAudit',
+        progressType: 'preAudit',
         auditId: aid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   save() {
@@ -78,11 +101,11 @@ export class PreauditFormComponent implements OnInit {
       return;
     }
     this.auditService.getPercentage({
-      percentageType: 'complete',
+      progressType: 'complete',
       auditId: this.auditId,
     }).subscribe(res => this.auditService.currentProgress = res);
     this.auditService.getPercentage({
-      percentageType: 'preAudit',
+      progressType: 'preAudit',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }

@@ -4,24 +4,20 @@
     <div class="bi-dice-4 px-3">
       Zone
     </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
-          Rename
-        </button>
-      </div>
-    </div>
+    <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
   </div>
   <div class="p-3">
     <h1>
-      {{ zone?.zoneName | titlecase }}
+      @if (zone) {
+        {{ zone.zoneName | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
     </h1>
     <div class="d-flex align-items-center">
       <div class="me-3 flex-grow-1">
         @if (progress) {
-          <app-progress-bar label="Zone" [progress]="progress"></app-progress-bar>
+          <app-progress-bar [progress]="progress"></app-progress-bar>
         }
       </div>
       <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
@@ -36,14 +32,14 @@
     title="Zone Details"
     [subtitle]="buildingTotalArea ? 'Not Required (Building Total Area in Pre Audit is enabled)' : undefined"
     routerLink="details"
-    [percentageQuery]="buildingTotalArea ? undefined : {percentageType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
+    [percentageQuery]="buildingTotalArea ? undefined : {progressType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
   ></app-feature-card>
   <hr/>
-  @for (equipment of equipments; track equipment) {
+  @for (equipment of equipments; track equipment.id) {
     <app-feature-card
       [title]="equipment.equipmentName | titlecase"
       [routerLink]="['equipments', equipment.id]"
-      [percentageQuery]="{percentageType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
+      [percentageQuery]="{progressType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
     ></app-feature-card>
   }
   <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>

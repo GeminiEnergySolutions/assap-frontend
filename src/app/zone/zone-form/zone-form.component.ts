@@ -1,17 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {SchemaSection} from '../../shared/model/schema.interface';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
-import {Observable, switchMap, tap} from 'rxjs';
-import {ZoneData} from '../../shared/model/zone.interface';
-import {SchemaService} from '../../shared/services/schema.service';
-import {Response} from '../../shared/model/response.interface';
-import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, switchMap, tap} from 'rxjs';
+
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {Response} from '../../shared/model/response.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {ZoneData} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-zone-form',
@@ -26,7 +30,9 @@ import {FormComponent} from '../../shared/form/form/form.component';
     FormComponent,
   ],
 })
-export class ZoneFormComponent implements OnInit {
+export class ZoneFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   zoneId?: number;
   progress?: PercentageCompletion;
@@ -39,10 +45,27 @@ export class ZoneFormComponent implements OnInit {
     private zoneService: AuditZoneService,
     private schemaService: SchemaService,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
+  }
+
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Zone Details', class: icons.zoneDetails, routerLink: '.', relativeTo: this.route,
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid}) => this.zoneService.getSingleZone(aid, zid)),
+    ).subscribe(({data}) => {
+      breadcrumb.label = data.zoneName;
+    });
+
     this.schemaService.getSchema('zone').subscribe(schema => this.typeSchema = schema.data);
 
     this.route.params.pipe(
@@ -60,6 +83,11 @@ export class ZoneFormComponent implements OnInit {
       };
       this.getPercentage();
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   save() {
@@ -85,7 +113,7 @@ export class ZoneFormComponent implements OnInit {
 
   private getPercentage() {
     this.zoneId && this.auditService.getPercentage({
-      percentageType: 'zoneDetails',
+      progressType: 'zoneDetails',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.zoneId,
     }).subscribe(res => this.progress = res);

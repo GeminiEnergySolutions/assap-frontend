@@ -8,15 +8,15 @@ import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
-  | { percentageType: 'complete', auditId: number }
-  | { percentageType: 'preAudit', auditId: number }
-  | { percentageType: 'ceh', auditId: number }
-  | { percentageType: 'grants', auditId: number }
-  | { percentageType: 'equipment', auditId: number, zoneId: number, equipmentId: number }
-  | { percentageType: 'equipmentForm', auditId: number, zoneId: number, subTypeId: number }
-  | { percentageType: 'zone', auditId: number }
-  | { percentageType: 'zone', auditId: number, zoneId: number }
-  | { percentageType: 'zoneDetails', auditId: number, zoneId: number }
+  | { progressType: 'complete', auditId: number }
+  | { progressType: 'preAudit', auditId: number }
+  | { progressType: 'ceh', auditId: number }
+  | { progressType: 'grants', auditId: number }
+  | { progressType: 'equipment', auditId: number, zoneId: number, equipmentId: number }
+  | { progressType: 'equipmentForm', auditId: number, zoneId: number, subTypeId: number }
+  | { progressType: 'zone', auditId: number }
+  | { progressType: 'zone', auditId: number, zoneId: number }
+  | { progressType: 'zoneDetails', auditId: number, zoneId: number }
 
 
 @Injectable({
@@ -57,7 +57,7 @@ export class AuditService {
   }
 
   getAuditDetails(id: number): Observable<Response<AuditDetails>> {
-    return this.http.get<Response<AuditDetails>>(`${environment.url}api/auditDetail/${id}`);
+    return this.http.get<Response<AuditDetails>>(`${environment.url}api/audit/${id}/auditDetail`);
   }
 
   getGrantsData(auditId: number): Observable<Response<PreAuditData>> {

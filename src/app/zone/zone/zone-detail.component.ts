@@ -1,15 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {TitleCasePipe} from '@angular/common';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap} from 'rxjs';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {EquipmentCategory} from '../../shared/model/equipment.interface';
-import {Audit} from '../../shared/model/audit.interface';
-import {Zone} from '../../shared/model/zone.interface';
-import {PhotoService} from '../../shared/services/photo.service';
 import {
   NgbDropdown,
   NgbDropdownButtonItem,
@@ -17,10 +9,21 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
-import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {switchMap, tap} from 'rxjs';
+
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
-import {TitleCasePipe} from '@angular/common';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {icons} from '../../shared/icons';
+import {Audit} from '../../shared/model/audit.interface';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-zone-detail',
@@ -39,7 +42,7 @@ import {TitleCasePipe} from '@angular/common';
     TitleCasePipe,
   ],
 })
-export class ZoneDetailComponent implements OnInit {
+export class ZoneDetailComponent implements OnInit, OnDestroy {
   audit?: Audit;
   zone?: Zone;
   equipments: EquipmentCategory[] = [];
@@ -50,13 +53,16 @@ export class ZoneDetailComponent implements OnInit {
     private auditService: AuditService,
     private photoService: PhotoService,
     private equipmentService: EquipmentService,
-    private zoneService: AuditZoneService,
     public route: ActivatedRoute,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
     ).subscribe(({data}) => {
@@ -64,9 +70,14 @@ export class ZoneDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
+      tap(() => {
+        this.zone = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({aid, zid}) => this.auditZoneService.getSingleZone(aid, zid)),
-    ).subscribe(res => {
-      this.zone = res.data;
+    ).subscribe(({data}) => {
+      this.zone = data;
+      breadcrumb.label = data.zoneName;
     });
 
     this.equipmentService.getEquipmentCategories().subscribe(res => {
@@ -75,28 +86,15 @@ export class ZoneDetailComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({aid, zid}) => this.auditService.getPercentage({
-        percentageType: 'zone',
+        progressType: 'zone',
         auditId: aid,
         zoneId: zid,
       })),
     ).subscribe(res => this.progress = res);
   }
 
-  rename() {
-    if (!this.zone) {
-      return;
-    }
-    const name = prompt('Rename Zone', this.zone.zoneName);
-    if (!name) {
-      return;
-    }
-    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
-      ...this.zone,
-      zoneName: name,
-    }).subscribe(() => {
-      this.zone!.zoneName = name;
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
-    });
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   uploadPhoto(file: File) {

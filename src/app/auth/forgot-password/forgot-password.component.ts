@@ -29,11 +29,12 @@ export class ForgotPasswordComponent {
     this.submitting = true;
     this.authService.forgotPassword({
       email: this.email,
-    }).subscribe(() => {
-      this.submitting = false;
-      this.toastService.success('Reset Password', 'A new password was sent to your email. Please check your inbox.');
-    }, () => {
-      this.submitting = false;
+    }).subscribe({
+      next: () => {
+        this.submitting = false;
+        this.toastService.success('Reset Password', 'A new password was sent to your email. Please check your inbox.');
+      },
+      error: () => this.submitting = false,
     });
   }
 }

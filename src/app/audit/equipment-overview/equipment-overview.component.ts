@@ -1,11 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {AuditService} from '../../shared/services/audit.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {switchMap} from 'rxjs';
-import {AuditDetails} from '../../shared/model/audit.interface';
-import {AuditZoneService} from '../../shared/services/audit-zone.service';
-import {Zone} from '../../shared/model/zone.interface';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {switchMap} from 'rxjs';
+
+import {icons} from '../../shared/icons';
+import {AuditDetails} from '../../shared/model/audit.interface';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-equipment-overview',
@@ -19,7 +22,7 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-b
     NgbTooltip,
   ],
 })
-export class EquipmentOverviewComponent implements OnInit {
+export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   details?: AuditDetails;
   zones: Zone[] = [];
   zonesById: Partial<Record<number, Zone>> = {};
@@ -37,10 +40,23 @@ export class EquipmentOverviewComponent implements OnInit {
     private auditService: AuditService,
     private zoneService: AuditZoneService,
     private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit() {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Overview', class: 'bi-binoculars', routerLink: '.', relativeTo: this.route,
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
+    ).subscribe(({data}) => {
+      breadcrumb.label = data.auditName;
+    });
+
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getAuditDetails(aid)),
     ).subscribe(({data}) => {
@@ -56,5 +72,10 @@ export class EquipmentOverviewComponent implements OnInit {
       this.zones = data;
       this.zonesById = Object.fromEntries(data.map((zone: Zone) => [zone.zoneId, zone]));
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 }

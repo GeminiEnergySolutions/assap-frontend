@@ -1,5 +1,5 @@
 <div ngbAccordion [closeOthers]="true">
-  @for (schema of typeSchema; track schema) {
+  @for (schema of typeSchema; track schema.id) {
     <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
@@ -58,7 +58,7 @@
               </button>
             }
             <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
-              @for (element of schema.schema; track element) {
+              @for (element of schema.schema; track element.key) {
                 <div
                   class="mb-3 position-relative col-{{element.gridSize ?? 12}}"
                   cdkDrag

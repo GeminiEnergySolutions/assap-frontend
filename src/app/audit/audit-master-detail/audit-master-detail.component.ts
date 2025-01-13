@@ -1,10 +1,6 @@
+import {KeyValuePipe, TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {AuthService} from 'src/app/shared/services/auth.service';
-import {Audit} from '../../shared/model/audit.interface';
-import {EMPTY, switchMap} from 'rxjs';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {
   NgbAccordionBody,
   NgbAccordionButton,
@@ -13,8 +9,12 @@ import {
   NgbAccordionHeader,
   NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
-import {OptionsDropdownComponent} from '../options-dropdown/options-dropdown.component';
-import {KeyValuePipe, TitleCasePipe} from '@angular/common';
+import {EMPTY, switchMap} from 'rxjs';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {AuthService} from 'src/app/shared/services/auth.service';
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {Audit} from '../../shared/model/audit.interface';
+import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-audit-master-detail',
@@ -30,7 +30,6 @@ import {KeyValuePipe, TitleCasePipe} from '@angular/common';
     NgbAccordionCollapse,
     NgbAccordionBody,
     RouterLinkActive,
-    OptionsDropdownComponent,
     TitleCasePipe,
     KeyValuePipe,
   ],
@@ -42,11 +41,16 @@ export class AuditMasterDetailComponent implements OnInit {
     private auditService: AuditService,
     public authService: AuthService,
     private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
     private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      {label: 'Audits', routerLink: '.', relativeTo: this.route},
+    ]);
+
     if (this.authService.currentLoginUser?.role?.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe(res => {
         this.groupAudits(res.data);

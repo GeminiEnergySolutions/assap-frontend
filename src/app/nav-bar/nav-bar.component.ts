@@ -1,6 +1,6 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {AuthService} from '../shared/services/auth.service';
 import {ThemeService} from '@mean-stream/ngbx';
 import {
   NgbDropdown,
@@ -10,7 +10,9 @@ import {
   NgbDropdownToggle,
   NgbOffcanvas,
 } from '@ng-bootstrap/ng-bootstrap';
-import {TitleCasePipe} from '@angular/common';
+
+import {AuthService} from '../shared/services/auth.service';
+import {BreadcrumbService} from '../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -42,6 +44,7 @@ export class NavBarComponent {
     protected offcanvas: NgbOffcanvas,
     private router: Router,
     private themeService: ThemeService,
+    protected breadcrumbService: BreadcrumbService,
   ) {
   }
 

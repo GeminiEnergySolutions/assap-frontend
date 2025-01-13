@@ -1,25 +1,24 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Audit} from '../../shared/model/audit.interface';
-import {AuditService} from '../../shared/services/audit.service';
+import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {AuthService} from '../../shared/services/auth.service';
 import {
   NgbDropdown,
   NgbDropdownButtonItem,
   NgbDropdownItem,
   NgbDropdownMenu,
   NgbDropdownToggle,
-  NgbModal,
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
-import {AddDataCollectorModalComponent} from '../add-data-collector-modal/add-data-collector-modal.component';
+
 import {environment} from '../../../environments/environment';
-import {RouterLink} from '@angular/router';
+import {Audit} from '../../shared/model/audit.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-audit-options-dropdown',
-  templateUrl: './options-dropdown.component.html',
-  styleUrl: './options-dropdown.component.scss',
+  templateUrl: './audit-options-dropdown.component.html',
+  styleUrl: './audit-options-dropdown.component.scss',
   imports: [
     NgbDropdown,
     NgbDropdownToggle,
@@ -30,7 +29,7 @@ import {RouterLink} from '@angular/router';
     RouterLink,
   ],
 })
-export class OptionsDropdownComponent {
+export class AuditOptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;
 
   @Output() deleted = new EventEmitter<Audit>();
@@ -42,7 +41,6 @@ export class OptionsDropdownComponent {
     private auditService: AuditService,
     private toastService: ToastService,
     protected authService: AuthService,
-    private modalService: NgbModal,
   ) {
   }
 
@@ -82,10 +80,5 @@ export class OptionsDropdownComponent {
       this.deleted.emit(this.audit);
       this.toastService.success('Delete Audit', 'Successfully deleted audit.');
     });
-  }
-
-  openAddDataCollectorModal() {
-    const modalRef = this.modalService.open(AddDataCollectorModalComponent, {size: 'lg'});
-    modalRef.componentInstance.audit = this.audit;
   }
 }

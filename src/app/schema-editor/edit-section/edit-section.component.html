@@ -149,7 +149,7 @@
       </tr>
       </thead>
       <tbody>
-        @for (field of (editSpec?.mappingInputs ?? {}) | keyvalue; track field) {
+        @for (field of (editSpec?.mappingInputs ?? {}) | keyvalue; track field.key) {
           <tr>
             <td class="font-monospace">
               {{ field.value }}

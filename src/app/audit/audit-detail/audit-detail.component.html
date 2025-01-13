@@ -8,12 +8,16 @@
   </div>
   <div class="p-3">
     <h1>
-      {{ audit?.auditName | titlecase }}
+      @if (audit) {
+        {{ audit.auditName | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
     </h1>
     <div class="d-flex align-items-center">
       <div class="me-3 flex-grow-1">
         @if (auditService.currentProgress) {
-          <app-progress-bar label="Audit" [progress]="auditService.currentProgress"></app-progress-bar>
+          <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
         }
       </div>
       <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
@@ -26,15 +30,15 @@
   <app-feature-card
     title="Pre-Audit"
     routerLink="preaudit"
-    [percentageQuery]="{percentageType: 'preAudit', auditId: route.snapshot.params.aid}"
+    [percentageQuery]="{progressType: 'preAudit', auditId: route.snapshot.params.aid}"
   ></app-feature-card>
   @if (audit?.grantStatus) {
-    <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{percentageType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>
+    <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{progressType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>
   }
   @if (audit?.cehStatus) {
-    <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub" [percentageQuery]="{percentageType: 'ceh', auditId: route.snapshot.params.aid}"></app-feature-card>
+    <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub" [percentageQuery]="{progressType: 'ceh', auditId: route.snapshot.params.aid}"></app-feature-card>
   }
-  <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{percentageType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
+  <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{progressType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
   <app-feature-card title="Overview" routerLink="overview"></app-feature-card>
   <router-outlet></router-outlet>
 </div>

@@ -1,14 +1,15 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {EMPTY, switchMap} from 'rxjs';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {EMPTY, switchMap} from 'rxjs';
+
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {OptionDropdownComponent} from '../../shared/components/option-dropdown/option-dropdown.component';
-import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
-import {TitleCasePipe} from '@angular/common';
+import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
 
 @Component({
   selector: 'app-equipment-list',
@@ -70,25 +71,11 @@ export class EquipmentListComponent implements OnInit {
 
   private getEquipmentPercentage(category: EquipmentCategory) {
     this.auditService.getPercentage({
-      percentageType: 'equipment',
+      progressType: 'equipment',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.route.snapshot.params.zid,
       equipmentId: category.id,
     }).subscribe(res => this.auditService.currentProgress = res);
-  }
-
-  rename(item: Equipment) {
-    const kind = item.type?.name;
-    const name = prompt(`Rename ${kind}`, item.name);
-    if (!name) {
-      return;
-    }
-
-    this.equipmentService.updateEquipment({...item, name}).subscribe(({data}) => {
-      const index = this.equipments.indexOf(item);
-      this.equipments[index] = data;
-      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
-    });
   }
 
   delete(item: Equipment) {

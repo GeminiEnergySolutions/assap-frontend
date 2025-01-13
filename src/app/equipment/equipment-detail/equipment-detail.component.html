@@ -2,31 +2,21 @@
   <div class="d-flex align-items-center justify-content-between">
     <a class="btn btn-link bi-chevron-left" routerLink="../.."></a>
     <div class="bi-device-ssd px-3">
-      {{ equipment?.type?.name }}
+      @if (equipment) {
+        {{ equipment.type.name | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
     </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-        <!-- TODO: Duplicated in type-list.component.html -->
-        @if (equipment?.type?.name === 'HVAC') {
-          <h5 class="dropdown-header">
-            HVAC Specific
-          </h5>
-          <a ngbDropdownItem class="bi-link-45deg" routerLink="connect">
-            Connect Zone
-          </a>
-          <div class="dropdown-divider"></div>
-        }
-        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
-          Rename
-        </button>
-      </div>
-    </div>
+    <app-equipment-options-dropdown [equipment]="equipment"></app-equipment-options-dropdown>
   </div>
   <div class="p-3">
     <h1>
-      {{ equipment?.name | titlecase }}
+      @if (equipment) {
+        {{ equipment.name | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
     </h1>
     <div class="d-flex align-items-center">
       <div class="me-3 flex-grow-1">
@@ -43,6 +33,7 @@
 <div class="container">
   @if (typeSchema && formData) {
     <app-form
+      #form
       [typeSchema]="typeSchema"
       [formData]="formData"
       [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"

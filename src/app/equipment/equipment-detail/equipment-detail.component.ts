@@ -1,14 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {TitleCasePipe} from '@angular/common';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {map, switchMap, tap} from 'rxjs';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
-import {SchemaService} from '../../shared/services/schema.service';
-import {PhotoService} from '../../shared/services/photo.service';
 import {
   NgbDropdown,
   NgbDropdownButtonItem,
@@ -16,11 +9,21 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
+import {map, switchMap, tap} from 'rxjs';
+
+import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
-import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
-import {TitleCasePipe} from '@angular/common';
-
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {icons} from '../../shared/icons';
+import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
+import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {PhotoService} from '../../shared/services/photo.service';
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-equipment-detail',
@@ -40,7 +43,9 @@ import {TitleCasePipe} from '@angular/common';
     TitleCasePipe,
   ],
 })
-export class EquipmentDetailComponent implements OnInit {
+export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   equipmentId?: number;
   equipment?: Equipment;
@@ -55,12 +60,28 @@ export class EquipmentDetailComponent implements OnInit {
     private schemaService: SchemaService,
     private route: ActivatedRoute,
     private toastService: ToastService,
+    private breadcrumbService: BreadcrumbService,
   ) { }
 
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
+  }
+
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.equipment, routerLink: '.', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+
     this.route.params.pipe(
+      tap(() => {
+        this.equipment = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({zid, eid, tid}) => this.equipmentService.getEquipment(+zid, +eid, +tid)),
-      map(({data}) => this.equipment = data),
+      map(({data}) => {
+        breadcrumb.label = data.name;
+        this.equipment = data;
+        return data;
+      }),
       switchMap(equipment => this.schemaService.getSchema(`equipment/${equipment.type?.id ?? equipment.typeId}`)),
     ).subscribe(({data}) => {
       this.typeSchema = data;
@@ -78,12 +99,16 @@ export class EquipmentDetailComponent implements OnInit {
 
     this.route.params.pipe(
       switchMap(({zid, tid}) => this.auditService.getPercentage({
-        percentageType: 'equipmentForm',
+        progressType: 'equipmentForm',
         auditId: this.auditId!,
         zoneId: zid,
         subTypeId: tid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   uploadPhoto(file: File) {
@@ -98,7 +123,7 @@ export class EquipmentDetailComponent implements OnInit {
       typeId: this.equipment.typeId,
       subTypeId: this.equipment.id,
     }, file).subscribe(() => {
-      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
+      this.toastService.success('Upload Equipment Photo', `Successfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }
 
@@ -125,28 +150,10 @@ export class EquipmentDetailComponent implements OnInit {
 
   private getPercentage() {
     this.equipmentId && this.auditService.getPercentage({
-      percentageType: 'equipmentForm',
+      progressType: 'equipmentForm',
       auditId: this.auditId!,
       zoneId: this.route.snapshot.params.zid,
       subTypeId: this.equipmentId,
     }).subscribe(res => this.progress = res);
-  }
-
-  rename() {
-    const equipment = this.equipment;
-    if (!equipment) {
-      return;
-    }
-
-    const kind = equipment.type?.name;
-    const name = prompt(`Rename ${kind}`, equipment.name);
-    if (!name) {
-      return;
-    }
-
-    this.equipmentService.updateEquipment({...equipment, name}).subscribe(({data}) => {
-      equipment.name = data.name;
-      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
-    });
   }
 }

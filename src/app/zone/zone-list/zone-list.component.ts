@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {switchMap} from 'rxjs';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {Zone} from '../../shared/model/zone.interface';
 import {ToastService} from '@mean-stream/ngbx';
-import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
-import {OptionDropdownComponent} from '../../shared/components/option-dropdown/option-dropdown.component';
 import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {switchMap} from 'rxjs';
+
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
 
 @Component({
   selector: 'app-zone-list',
@@ -15,7 +15,6 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
   imports: [
     FeatureCardComponent,
     RouterLink,
-    OptionDropdownComponent,
     NgbDropdownButtonItem,
     NgbDropdownItem,
   ],
@@ -51,21 +50,6 @@ export class ZoneListComponent implements OnInit {
     }).subscribe(({data}) => {
       this.zones.push(data);
       this.toastService.success('Create Zone', 'Successfully created new zone.');
-    });
-  }
-
-  rename(zone: Zone) {
-    const name = prompt('Rename Zone ', zone.zoneName);
-    if (!name) {
-      return;
-    }
-    this.zoneService.updateAuditZone(zone.auditId, zone.zoneId, {
-      ...zone, zoneName: name,
-    }).subscribe(({data}) => {
-      const index = this.zones.indexOf(zone);
-      this.zones[index] = data;
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });
   }
 

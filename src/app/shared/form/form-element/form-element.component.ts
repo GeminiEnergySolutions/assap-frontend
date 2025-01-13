@@ -33,7 +33,9 @@ export class FormElementComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+    if (changes.formId || changes.schema || changes.element) {
+      this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+    }
   }
 
   ngOnInit() {

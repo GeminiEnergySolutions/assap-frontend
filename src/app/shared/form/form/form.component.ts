@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ToastService} from '@mean-stream/ngbx';
-import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
-import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {AsyncPipe} from '@angular/common';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
 import {
   NgbAccordionBody,
   NgbAccordionButton,
@@ -12,11 +12,13 @@ import {
   NgbAccordionItem,
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
-import {RouterLink} from '@angular/router';
+
 import {ProgressBarComponent} from '../../components/progress-bar/progress-bar.component';
-import {FormElementComponent} from '../form-element/form-element.component';
-import {AsyncPipe} from '@angular/common';
+import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
+import {PercentageCompletion} from '../../model/percentage-completion.interface';
+import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {EvalPipe} from '../../pipe/eval.pipe';
+import {FormElementComponent} from '../form-element/form-element.component';
 
 @Component({
   selector: 'app-form',
@@ -40,7 +42,7 @@ import {EvalPipe} from '../../pipe/eval.pipe';
     EvalPipe,
   ],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input({required: true}) typeSchema!: SchemaSection[];
   @Input({required: true}) formData!: { id?: string | number; data: Partial<Record<string, SchemaValue>> };
   /** for offline storage */
@@ -130,7 +132,7 @@ export class FormComponent implements OnInit {
     this.dirtyChange.emit(this.dirty);
   }
 
-  canDeactivate(): boolean {
+  isSaved(): boolean {
     return !this.dirty;
   }
 
@@ -164,9 +166,11 @@ export class FormComponent implements OnInit {
     return {totalFields, completedFields, percentage};
   }
 
-  dropSection(event: CdkDragDrop<SchemaSection[]>) {
-    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
-  }
+  /* TODO drag to reorder
+    dropSection(event: CdkDragDrop<SchemaSection[]>) {
+      moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+    }
+   */
 
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
     moveItemInArray(section.schema, event.previousIndex, event.currentIndex);
