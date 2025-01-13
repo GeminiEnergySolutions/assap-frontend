@@ -30,7 +30,7 @@
     <div class="col">
       <span>Equipment</span>
       <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipmentAll($event)" class="form-select">
-        @for (item of equipmentList; track item) {
+        @for (item of equipmentList; track item.id) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
       </select>
@@ -40,7 +40,7 @@
     <div class="col">
       <span>Zone</span>
       <select [(ngModel)]="query.zoneId" (ngModelChange)="changeZone($event)" class="form-select">
-        @for (item of zoneList; track item) {
+        @for (item of zoneList; track item.zoneId) {
           <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
         }
       </select>
@@ -50,7 +50,7 @@
     <div class="col">
       <span>Equipment</span>
       <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipment($event)" class="form-select">
-        @for (item of equipmentList; track item) {
+        @for (item of equipmentList; track item.id) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
       </select>
@@ -60,7 +60,7 @@
     <div class="col">
       <span>Type</span>
       <select [(ngModel)]="query.typeId" (ngModelChange)="changeSubType($event)" class="form-select">
-        @for (item of subTypeList; track item) {
+        @for (item of subTypeList; track item.id) {
           <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
       </select>
@@ -68,7 +68,7 @@
   }
 </div>
 <div class="row g-0">
-  @for (item of photos; track item) {
+  @for (item of photos; track item.id) {
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box">
       @let text = item.equipmentId
         ? (item.audit?.auditName + ' / ' + item.zone?.zoneName + ' / ' + item.equipment?.equipmentName + ' / ' + item.type?.name + ' / ' + item.subType?.name | uppercase)

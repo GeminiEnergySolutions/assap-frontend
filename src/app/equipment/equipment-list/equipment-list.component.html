@@ -2,7 +2,7 @@
   Add {{ category?.equipmentName }}
 </a>
 <div class="list-group rounded-0">
-  @for (item of equipments; track item) {
+  @for (item of equipments; track item.id) {
     <app-feature-card
       [title]="item.name | titlecase"
       [subtitle]="item.type.name"

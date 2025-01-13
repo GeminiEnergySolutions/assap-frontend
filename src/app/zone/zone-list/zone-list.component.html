@@ -1,7 +1,7 @@
 <button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="create()">
   Add Zone
 </button>
-@for (zone of zones; track zone) {
+@for (zone of zones; track zone.zoneId) {
   <app-feature-card
     [title]="zone.zoneName"
     [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"

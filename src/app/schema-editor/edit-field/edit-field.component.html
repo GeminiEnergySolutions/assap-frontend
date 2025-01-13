@@ -90,7 +90,7 @@
     </button>
   </h2>
   <div class="list-group mb-3" cdkDropList (cdkDropListDropped)="dropSubfield($event)">
-    @for (subField of field.inputList; track subField) {
+    @for (subField of field.inputList; track subField.key) {
       <div class="list-group-item" cdkDrag>
         <div class="row g-2 align-items-center">
           <div class="col-auto">

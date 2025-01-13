@@ -5,7 +5,7 @@
   </ng-container>
   <ng-container modal-body>
     <ul class="list-unstyled">
-      @for (item of dataCollectors; track item) {
+      @for (item of dataCollectors; track item.id) {
         <li>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="data-collector-{{ item.id }}" [(ngModel)]="selected[item.id]"/>

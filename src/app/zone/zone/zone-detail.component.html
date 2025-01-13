@@ -35,7 +35,7 @@
     [percentageQuery]="buildingTotalArea ? undefined : {progressType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
   ></app-feature-card>
   <hr/>
-  @for (equipment of equipments; track equipment) {
+  @for (equipment of equipments; track equipment.id) {
     <app-feature-card
       [title]="equipment.equipmentName | titlecase"
       [routerLink]="['equipments', equipment.id]"
