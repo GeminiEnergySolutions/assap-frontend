@@ -1,0 +1,19 @@
+<div ngbDropdown class="d-inline-block">
+  <button type="button" class="btn btn-link bi-three-dots" id="dropdown-equipment" ngbDropdownToggle>
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdown-equipment">
+    @if (equipment?.type?.name === 'HVAC') {
+      <h5 class="dropdown-header">
+        HVAC Specific
+      </h5>
+      <a ngbDropdownItem class="bi-link-45deg" routerLink="connect">
+        Connect Zone
+      </a>
+      <div class="dropdown-divider"></div>
+    }
+    <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+      Rename
+    </button>
+    <ng-content></ng-content>
+  </div>
+</div>

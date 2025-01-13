@@ -2,16 +2,16 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
+
+import {FormComponent} from '../../shared/form/form/form.component';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
-import {Equipment, EquipmentFormData} from '../../shared/model/equipment.interface';
-import {SchemaService} from '../../shared/services/schema.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
-import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
-import {FormComponent} from '../../shared/form/form/form.component';
-
+import {SchemaService} from '../../shared/services/schema.service';
 
 @Component({
   selector: 'app-equipment-detail',
@@ -115,23 +115,5 @@ export class EquipmentDetailComponent implements OnInit, SaveableChangesComponen
       zoneId: this.route.snapshot.params.zid,
       subTypeId: this.equipmentId,
     }).subscribe(res => this.progress = res);
-  }
-
-  rename() {
-    const equipment = this.equipment;
-    if (!equipment) {
-      return;
-    }
-
-    const kind = equipment.type?.name;
-    const name = prompt(`Rename ${kind}`, equipment.name);
-    if (!name) {
-      return;
-    }
-
-    this.equipmentService.updateEquipment({...equipment, name}).subscribe(({data}) => {
-      equipment.name = data.name;
-      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
-    });
   }
 }
