@@ -1,40 +1,42 @@
-<div ngbDropdown class="d-inline-block">
+<div ngbDropdown #dropdown="ngbDropdown" class="d-inline-block">
   <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-    @let isGuest = audit?.user?.role?.role === 'guest';
-    <div [ngbTooltip]="isGuest ? 'You must be logged in as a Data Collector to download the report' : null">
-      <a
-        ngbDropdownItem
-        class="bi-file-earmark-richtext"
-        [disabled]="isGuest"
-        [href]="isGuest ? null : serverUrl + 'api/reports/energyAudit/' + audit?.auditId + '?auth_token=' + authToken"
-        download
-        target="_blank"
-      >
-        Download Energy Audit Report
-      </a>
-    </div>
-    <div class="dropdown-divider"></div>
-    <button ngbDropdownItem [class]="audit?.grantStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('grantStatus', !audit?.grantStatus)">
-      {{ audit?.grantStatus ? 'Hide' : 'Show' }} Grants section
-    </button>
-    <button ngbDropdownItem [class]="audit?.cehStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('cehStatus', !audit?.cehStatus)">
-      {{ audit?.cehStatus ? 'Hide' : 'Show' }} Clean Energy Hub section
-    </button>
-    <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
-      Rename
-    </button>
-    @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
-      <a ngbDropdownItem class="bi-person-plus" [routerLink]="['/audits', audit?.auditId, 'data-collectors']">
-        Add DataCollector
-      </a>
-    }
-    @if (authService.currentLoginUser?.role?.role !== 'dataCollector' || (audit?.user?.role?.role !== 'admin' && audit?.user?.role?.role !== 'superAdmin')) {
+    @if (dropdown.isOpen()) {
+      @let isGuest = audit?.user?.role?.role === 'guest';
+      <div [ngbTooltip]="isGuest ? 'You must be logged in as a Data Collector to download the report' : null">
+        <a
+          ngbDropdownItem
+          class="bi-file-earmark-richtext"
+          [disabled]="isGuest"
+          [href]="isGuest ? null : serverUrl + 'api/reports/energyAudit/' + audit?.auditId + '?auth_token=' + authToken"
+          download
+          target="_blank"
+        >
+          Download Energy Audit Report
+        </a>
+      </div>
       <div class="dropdown-divider"></div>
-      <button ngbDropdownItem class="text-danger bi-trash" (click)="delete()">
-        Delete
+      <button ngbDropdownItem [class]="audit?.grantStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('grantStatus', !audit?.grantStatus)">
+        {{ audit?.grantStatus ? 'Hide' : 'Show' }} Grants section
       </button>
+      <button ngbDropdownItem [class]="audit?.cehStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('cehStatus', !audit?.cehStatus)">
+        {{ audit?.cehStatus ? 'Hide' : 'Show' }} Clean Energy Hub section
+      </button>
+      <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
+        Rename
+      </button>
+      @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
+        <a ngbDropdownItem class="bi-person-plus" [routerLink]="['/audits', audit?.auditId, 'data-collectors']">
+          Add DataCollector
+        </a>
+      }
+      @if (authService.currentLoginUser?.role?.role !== 'dataCollector' || (audit?.user?.role?.role !== 'admin' && audit?.user?.role?.role !== 'superAdmin')) {
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem class="text-danger bi-trash" (click)="delete()">
+          Delete
+        </button>
+      }
     }
   </div>
 </div>
