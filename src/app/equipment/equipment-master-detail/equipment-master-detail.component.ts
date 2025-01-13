@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {EquipmentCategory} from '../../shared/model/equipment.interface';
-import {Audit} from '../../shared/model/audit.interface';
-import {Zone} from '../../shared/model/zone.interface';
-import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
+
 import {icons} from '../../shared/icons';
+import {Audit} from '../../shared/model/audit.interface';
+import {EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
 
 @Component({
   selector: 'app-equipment-master-detail',
@@ -31,9 +32,9 @@ export class EquipmentMasterDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const auditBreadcrumb = {label: '', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};
-    const zoneBreadcrumb = {label: '', class: icons.zone, routerLink: '../..', relativeTo: this.route};
-    const equipmentBreadcrumb = {label: '', routerLink: '.', relativeTo: this.route};
+    const auditBreadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};
+    const zoneBreadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '../..', relativeTo: this.route};
+    const equipmentBreadcrumb: Breadcrumb = {label: '', routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
       {label: 'Audits', routerLink: '../../../../..'},
       auditBreadcrumb,
