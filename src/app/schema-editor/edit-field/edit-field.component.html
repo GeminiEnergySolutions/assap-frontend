@@ -8,7 +8,7 @@
   <h2>
     Basic Information
   </h2>
-  <app-form [typeSchema]="metaSchema" [formData]="{data: field}" (saved)="save()" [dirty]="!!section?._dirty" (dirtyChange)="setDirty($event)"></app-form>
+  <app-form [typeSchema]="metaSchema" [formData]="{data: $any(field)}" (saved)="save()" [dirty]="!!section?._dirty" (dirtyChange)="setDirty($event)"></app-form>
   <h2 class="d-flex align-items-center">
     Validation
     <i class="small bi-info-circle ms-2" ngbTooltip="About Validation" [ngbPopover]="popup" popoverTitle="About Validation"></i>

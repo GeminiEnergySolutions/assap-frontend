@@ -1,12 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {ActivatedRoute} from '@angular/router';
 import {AuditService} from '../../shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap, tap} from 'rxjs';
-import {ZoneData, ZoneDataResponse} from '../../shared/model/zone.interface';
+import {ZoneData} from '../../shared/model/zone.interface';
 import {SchemaService} from '../../shared/services/schema.service';
+import {Response} from '../../shared/model/response.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
+import {FormComponent} from '../../shared/form/form/form.component';
 
 @Component({
   selector: 'app-zone-form',
@@ -14,7 +18,9 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrl: './zone-form.component.scss',
   standalone: false,
 })
-export class ZoneFormComponent implements OnInit {
+export class ZoneFormComponent implements OnInit, SaveableChangesComponent {
+  @ViewChild('form') form?: FormComponent;
+
   auditId?: number;
   zoneId?: number;
   progress?: PercentageCompletion;
@@ -24,9 +30,14 @@ export class ZoneFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
+    private zoneService: AuditZoneService,
     private schemaService: SchemaService,
     private toastService: ToastService,
   ) {
+  }
+
+  isSaved(): boolean {
+    return !this.form || this.form.isSaved();
   }
 
   ngOnInit() {
@@ -37,7 +48,7 @@ export class ZoneFormComponent implements OnInit {
         this.auditId = +aid;
         this.zoneId = +zid;
       }),
-      switchMap(({zid}) => this.auditService.getZoneData(+zid)),
+      switchMap(({zid}) => this.zoneService.getZoneData(+zid)),
     ).subscribe(res => {
       this.formData = res.data.data ? res.data : {
         id: 0, // NB: if branch below that checks for this.formData.id will consider this as falsy
@@ -53,11 +64,11 @@ export class ZoneFormComponent implements OnInit {
     if (!this.formData || !this.auditId || !this.zoneId) {
       return;
     }
-    let request$: Observable<ZoneDataResponse>;
+    let request$: Observable<Response<ZoneData>>;
     if (this.formData.id) {
-      request$ = this.auditService.updateZoneData(this.zoneId, this.formData);
+      request$ = this.zoneService.updateZoneData(this.zoneId, this.formData);
     } else {
-      request$ = this.auditService.createZoneData(this.zoneId, {
+      request$ = this.zoneService.createZoneData(this.zoneId, {
         auditId: this.auditId,
         zoneId: this.zoneId,
         data: this.formData.data,
@@ -72,7 +83,7 @@ export class ZoneFormComponent implements OnInit {
 
   private getPercentage() {
     this.zoneId && this.auditService.getPercentage({
-      percentageType: 'zoneDetails',
+      progressType: 'zoneDetails',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.zoneId,
     }).subscribe(res => this.progress = res);

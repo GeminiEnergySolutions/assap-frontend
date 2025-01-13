@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {DataCollector} from '../../shared/model/data-collector.interface';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {ToastService} from '@mean-stream/ngbx';
 import {Audit} from '../../shared/model/audit.interface';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
+import {User} from '../../shared/model/user.interface';
+import {DataCollectorService} from '../../shared/services/data-collector.service';
 
 @Component({
   selector: 'app-add-data-collector-modal',
@@ -14,11 +15,12 @@ import {switchMap} from 'rxjs';
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;
-  dataCollectors: DataCollector[] = [];
+  dataCollectors: User[] = [];
   selected: Partial<Record<number, boolean>> = {};
 
   constructor(
     private auditService: AuditService,
+    private dataCollectorService: DataCollectorService,
     private toastService: ToastService,
     private route: ActivatedRoute,
   ) {
@@ -30,9 +32,9 @@ export class AddDataCollectorModalComponent implements OnInit {
     ).subscribe(({data}) => this.audit = data);
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.dataCollectors(aid)),
-    ).subscribe((res: DataCollector[]) => {
-      this.dataCollectors = res;
+      switchMap(({aid}) => this.dataCollectorService.getUnassignedDataCollectors(aid)),
+    ).subscribe(({data}) => {
+      this.dataCollectors = data;
       this.selected = {};
     });
   }
@@ -47,7 +49,7 @@ export class AddDataCollectorModalComponent implements OnInit {
     if (!assigned.length) {
       return;
     }
-    this.auditService.assignAudits(assigned).subscribe(() => {
+    this.dataCollectorService.assignDataCollectors(assigned).subscribe(() => {
       this.toastService.success('Success', `Audit Assignment successful`);
     });
   }

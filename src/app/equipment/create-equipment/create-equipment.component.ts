@@ -53,12 +53,12 @@ export class CreateEquipmentComponent implements OnInit {
       typeId: type.id,
       equipmentId: this.types[0].equipmentId,
       name: this.name,
-    }).subscribe(result => {
+    }).subscribe(({data}) => {
       this.toastService.success('Create Equipment', 'Equipment created successfully');
       this.router.navigate(['..'], {
         relativeTo: this.route,
         queryParams: {
-          new: result.id,
+          new: data.id,
         },
       });
     });

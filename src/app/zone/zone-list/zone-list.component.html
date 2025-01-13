@@ -5,7 +5,7 @@
   <app-feature-card
     [title]="zone.zoneName"
     [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"
-    [percentageQuery]="{percentageType: 'zone', zoneId: zone.zoneId}"
+    [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
   >
     <app-option-dropdown options style="z-index: 900">
       <button ngbDropdownItem class="bi-pencil-square" (click)="rename(zone)">

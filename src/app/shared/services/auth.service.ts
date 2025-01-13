@@ -3,47 +3,58 @@ import {Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {User} from '../model/user.interface';
+import {Response} from '../model/response.interface';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
-  rootUrl = environment.url + 'authApi/v1/';
   currentLoginUser?: User;
 
-  constructor(private http: HttpClient,
-  ) { }
+  constructor(
+    private http: HttpClient,
+  ) {
+  }
 
   getAuthToken() {
     return localStorage.getItem('accessToken');
   }
 
-  allstates(): Observable<any> {
-    return this.http.get(`${this.rootUrl}all-states/`);
-  }
-
   getUser(): Observable<User> {
-    return this.http.get<{ data: User }>(`${this.rootUrl}user/`).pipe(map(r => r.data));
+    return this.http.get<Response<User>>(`${environment.url}authApi/v1/user`).pipe(map(r => r.data));
   }
 
-  signUp(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}register/`, data);
+  signUp(data: {
+    userName: string; // TODO still required?
+    email: string;
+    password: string;
+    password_confirm: string;
+    role: string;
+  }): Observable<Response> { // TODO what is data?
+    return this.http.post<Response>(`${environment.url}authApi/v1/user`, data);
   }
 
-  login(data: { email: string; password: string }): Observable<{ token: string; user: User }> {
-    return this.http.post<{ token: string; user: User }>(`${this.rootUrl}login/`, data);
+  login(data: {
+    email: string;
+    password: string;
+  }): Observable<Response<{ token: string; user: User }>> {
+    return this.http.post<Response<{ token: string; user: User }>>(`${environment.url}authApi/v1/login`, data);
   }
 
-  logout(): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.rootUrl}logout/`, null);
+  logout(): Observable<Response> {
+    return this.http.post<Response>(`${environment.url}authApi/v1/logout`, null);
   }
 
-  forgotPassword(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}forgot-password/`, data);
+  forgotPassword(data: {
+    email: string;
+  }): Observable<Response> {
+    return this.http.post<Response>(`${environment.url}authApi/v1/forgotPassword`, data);
   }
 
-  changePassword(data: any): Observable<any> {
-    return this.http.post(`${this.rootUrl}change-password/`, data);
+  changePassword(data: {
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+  }): Observable<Response> {
+    return this.http.post<Response>(`${environment.url}authApi/v1/changePassword`, data);
   }
 }

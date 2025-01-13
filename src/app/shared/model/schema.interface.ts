@@ -1,8 +1,3 @@
-export interface SchemaResponse {
-  message: string;
-  data: SchemaSection[];
-}
-
 export interface SchemaSection {
   id: number;
   name: string;
@@ -61,7 +56,7 @@ export interface SchemaElement {
   inputList?: SchemaSubElement[];
 }
 
-export type SchemaValue = string | number | boolean;
+export type SchemaValue = string | number | boolean | Date;
 
 export interface SchemaRequirement {
   level?: 'warning' | 'error';

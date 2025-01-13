@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {SchemaElement, SchemaRequirement, SchemaSection} from '../../model/schema.interface';
+import {SchemaElement, SchemaRequirement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {ExpressionService} from '../../services/expression.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class FormElementComponent implements OnInit, OnChanges {
   @Input() element!: SchemaElement;
   @Input() schema!: SchemaSection;
   @Input() formId!: string;
-  @Input() formData!: { data: any };
+  @Input() formData!: { data: Partial<Record<string, SchemaValue>> };
 
   @Output() dirty = new EventEmitter();
 
@@ -26,7 +26,9 @@ export class FormElementComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+    if (changes.formId || changes.schema || changes.element) {
+      this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+    }
   }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class FormElementComponent implements OnInit, OnChanges {
   }
 
   setDirty() {
-    globalThis?.localStorage.setItem(this.id, this.formData.data[this.element.key]);
+    globalThis?.localStorage.setItem(this.id, String(this.formData.data[this.element.key]));
     this.validate();
     this.dirty.emit();
   }
@@ -66,7 +68,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     }
     const keyValue = this.formData.data[element.key];
     for (const subElement of element.inputList) {
-      if (Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+      if (Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
         if (subElement.defaultValue !== undefined) {
           this.formData.data[subElement.key] = subElement.defaultValue;
         } else {

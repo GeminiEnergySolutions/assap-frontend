@@ -1,3 +1,5 @@
+import {SchemaValue} from './schema.interface';
+
 export interface Zone {
   zoneId: number;
   zoneName: string;
@@ -5,21 +7,25 @@ export interface Zone {
   auditId: number;
 }
 
-export interface ZoneDataResponse {
-  message: string;
-  data: ZoneData;
-}
+export type CreateZoneDto = Pick<Zone, 'zoneName' | 'auditId'>;
+export type UpdateZoneDto = CreateZoneDto;
 
 export interface ZoneData {
   id: number;
   auditId: number;
   zoneId: number;
-  data: Record<string, string | number | boolean>;
+  data: Record<string, SchemaValue>;
 }
 
 export type CreateZoneData = Omit<ZoneData, 'id'>;
 
-export interface ConnectedZone extends Zone{
-  auditName: string;
+export interface ZoneWithHvacConnected extends Zone {
   isConnected: boolean;
+}
+
+export interface HvacConnectedZone {
+  id: number;
+  subTypeId: number;
+  zoneId: number;
+  zone?: Zone;
 }

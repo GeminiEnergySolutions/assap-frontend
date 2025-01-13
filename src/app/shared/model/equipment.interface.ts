@@ -32,3 +32,14 @@ export interface EquipmentCategory {
   equipmentName: string;
   deleteStatus: boolean;
 }
+
+export interface EquipmentFormData {
+  id: number;
+  auditId: number;
+  zoneId: number;
+  equipmentId: number;
+  typeId: number;
+  subTypeId: number;
+  data: Record<string, string | number | boolean>;
+}
+export type CreateEquipmentFormData = Omit<EquipmentFormData, 'id'>;

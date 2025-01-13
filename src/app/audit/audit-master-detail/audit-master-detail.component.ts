@@ -25,7 +25,7 @@ export class AuditMasterDetailComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.currentLoginUser?.role?.role === 'dataCollector') {
       this.auditService.getAllDataCollectorAudit().subscribe(res => {
-        this.groupAudits(res);
+        this.groupAudits(res.data);
       });
     } else {
       this.auditService.getAllAudit().subscribe(res => {

@@ -16,13 +16,14 @@
   </div>
   @if (progress) {
     <div class="p-3">
-      <app-progress-bar label="Zone" [progress]="progress"></app-progress-bar>
+      <app-progress-bar [progress]="progress"></app-progress-bar>
     </div>
   }
 </div>
 <div class="container">
   @if (typeSchema && formData) {
     <app-form
+      #form
       [typeSchema]="typeSchema"
       [formData]="formData"
       [formId]="'audits/' + auditId + '/zones/' + zoneId"

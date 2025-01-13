@@ -10,7 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   standalone: false,
 })
 export class LoginComponent {
-  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<any>;
+  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<{}>;
 
   loggingIn = false;
   email = '';
@@ -28,16 +28,19 @@ export class LoginComponent {
     this.authService.login({
       email: this.email,
       password: this.password,
-    }).subscribe(res => {
-      this.loggingIn = false;
-      localStorage.setItem('accessToken', res.token);
-      this.authService.currentLoginUser = res.user;
-      this.router.navigate(['audits']);
-    }, err => {
-      if (err.status === 400 && err.error.message === 'Authorized still in pending') {
-        this.modalService.open(this.pendingModal);
-      }
-      this.loggingIn = false;
+    }).subscribe({
+      next: ({data}) => {
+        this.loggingIn = false;
+        localStorage.setItem('accessToken', data.token);
+        this.authService.currentLoginUser = data.user;
+        this.router.navigate(['audits']);
+      },
+      error: err => {
+        if (err.status === 400 && err.error.message === 'Authorized still in pending') {
+          this.modalService.open(this.pendingModal);
+        }
+        this.loggingIn = false;
+      },
     });
   }
 }

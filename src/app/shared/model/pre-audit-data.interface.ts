@@ -1,12 +1,9 @@
-export interface PreAuditDataResponse {
-  message: string;
-  data: PreAuditData;
-}
+import {SchemaValue} from './schema.interface';
 
 export interface PreAuditData {
   id: number;
   auditId: number;
-  data: Record<string, string | number | boolean>;
+  data: Record<string, SchemaValue>;
 }
 
 export type CreatePreAuditData = Omit<PreAuditData, 'id'>;

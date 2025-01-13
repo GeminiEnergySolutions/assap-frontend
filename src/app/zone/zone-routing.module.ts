@@ -4,13 +4,14 @@ import {ZoneMasterDetailComponent} from './zone-master-detail/zone-master-detail
 import {ZoneFormComponent} from './zone-form/zone-form.component';
 import {PhotosComponent} from '../audit/photos/photos.component';
 import {ZoneDetailComponent} from './zone/zone-detail.component';
+import {UnsavedChangesGuard} from '../shared/guard/unsaved-changes.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ZoneMasterDetailComponent,
     children: [
-      {path: ':zid/details', component: ZoneFormComponent},
+      {path: ':zid/details', component: ZoneFormComponent, canDeactivate: [UnsavedChangesGuard]},
       {path: ':zid/photos', component: PhotosComponent},
       {path: ':zid', component: ZoneDetailComponent},
     ],

@@ -5,6 +5,7 @@ import {CreateEquipmentComponent} from './create-equipment/create-equipment.comp
 import {EquipmentDetailComponent} from './equipment-detail/equipment-detail.component';
 import {ConnectZoneComponent} from './connect-zone/connect-zone.component';
 import {PhotosComponent} from '../audit/photos/photos.component';
+import {UnsavedChangesGuard} from '../shared/guard/unsaved-changes.guard';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       {
         path: 'types/:tid',
         component: EquipmentDetailComponent,
+        canDeactivate: [UnsavedChangesGuard],
         children: [
           {path: 'connect', component: ConnectZoneComponent},
         ],

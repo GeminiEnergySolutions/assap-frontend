@@ -6,12 +6,11 @@ import {SelectSchemaComponent} from './select-schema/select-schema.component';
 import {EditSchemaComponent} from './edit-schema/edit-schema.component';
 import {FormsModule as FormModule} from '../shared/form/form.module';
 import {
-  NgbAccordionBody,
-  NgbAccordionButton,
-  NgbAccordionCollapse,
-  NgbAccordionDirective,
-  NgbAccordionHeader,
-  NgbAccordionItem, NgbOffcanvas, NgbOffcanvasModule, NgbPopover, NgbTooltip, NgbTypeahead,
+  NgbAccordionModule,
+  NgbOffcanvasModule,
+  NgbPopover,
+  NgbTooltip,
+  NgbTypeahead,
 } from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from '../shared/shared.module';
 import {EditSectionComponent} from './edit-section/edit-section.component';
@@ -31,12 +30,7 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
     CommonModule,
     SchemaEditorRoutingModule,
     FormModule,
-    NgbAccordionBody,
-    NgbAccordionButton,
-    NgbAccordionCollapse,
-    NgbAccordionDirective,
-    NgbAccordionHeader,
-    NgbAccordionItem,
+    NgbAccordionModule,
     NgbOffcanvasModule,
     SharedModule,
     FormsModule,

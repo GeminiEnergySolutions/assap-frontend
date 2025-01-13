@@ -2,12 +2,18 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {CreateEquipmentDto, Equipment, EquipmentCategory, EquipmentType} from '../model/equipment.interface';
-import {ConnectedZone} from '../model/zone.interface';
+import {
+  CreateEquipmentDto,
+  CreateEquipmentFormData,
+  Equipment,
+  EquipmentCategory,
+  EquipmentFormData,
+  EquipmentType,
+} from '../model/equipment.interface';
+import {HvacConnectedZone, ZoneWithHvacConnected} from '../model/zone.interface';
+import {Response} from '../model/response.interface';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class EquipmentService {
 
   constructor(
@@ -15,60 +21,69 @@ export class EquipmentService {
   ) {
   }
 
-  getEquipmentCategory(id: number): Observable<{ data: EquipmentCategory }> {
-    return this.http.get<{ data: EquipmentCategory }>(`${environment.url}api/equipment?equipmentId=${id}`);
-  }
-  getEquipmentCategories(): Observable<{ data: EquipmentCategory[] }> {
-    return this.http.get<{ data: EquipmentCategory[] }>(`${environment.url}api/equipment`);
+  getEquipmentCategory(id: number): Observable<Response<EquipmentCategory>> {
+    return this.http.get<Response<EquipmentCategory>>(`${environment.url}api/audit/equipment/${id}`);
   }
 
-  getEquipmentType(id: number): Observable<{ data: EquipmentType }> {
-    return this.http.get<{ data: EquipmentType }>(`${environment.url}api/equipmentType?equipmentTypeId=${id}`);
-  }
-  getEquipmentTypes(categoryId: number): Observable<{ data: EquipmentType[] }> {
-    return this.http.get<{ data: EquipmentType[] }>(`${environment.url}api/equipmentTypesByEquipmentId?equipmentId=${categoryId}`);
+  getEquipmentCategories(): Observable<Response<EquipmentCategory[]>> {
+    return this.http.get<Response<EquipmentCategory[]>>(`${environment.url}api/audit/equipment`);
   }
 
-  getEquipment(id: number): Observable<Equipment> {
-    return this.http.get<Equipment>(`${environment.url}api/equipmentSubType/${id}`);
+  getEquipmentType(categoryId: number, id: number): Observable<Response<EquipmentType>> {
+    return this.http.get<Response<EquipmentType>>(`${environment.url}api/equipment/${categoryId}/type/${id}`);
   }
-  getEquipments(zoneId: number, id: number): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${environment.url}api/equipmentSubType?zoneId=${zoneId}&equipmentId=${id}`);
+
+  getEquipmentTypes(categoryId: number): Observable<Response<EquipmentType[]>> {
+    return this.http.get<Response<EquipmentType[]>>(`${environment.url}api/equipment/${categoryId}/type`);
   }
-  createEquipment(data: CreateEquipmentDto): Observable<Equipment> {
-    return this.http.post<Equipment>(`${environment.url}api/equipmentSubType`, data);
+
+  getEquipment(zoneId: number, categoryId: number, id: number): Observable<Response<Equipment>> {
+    return this.http.get<Response<Equipment>>(`${environment.url}api/zone/${zoneId}/equipment/${categoryId}/subType/${id}`);
   }
-  updateEquipment(data: Equipment): Observable<Equipment> {
-    return this.http.put<Equipment>(`${environment.url}api/equipmentSubType`, data);
+
+  getEquipments(zoneId: number, categoryId: number): Observable<Response<Equipment[]>> {
+    return this.http.get<Response<Equipment[]>>(`${environment.url}api/zone/${zoneId}/equipment/${categoryId}/subType`);
   }
-  deleteEquipment(id: number): Observable<{ message: string; }> {
-    return this.http.delete<{ message: string; }>(`${environment.url}api/equipmentSubType/${id}`);
+
+  createEquipment(data: CreateEquipmentDto): Observable<Response<Equipment>> {
+    return this.http.post<Response<Equipment>>(`${environment.url}api/zone/${data.zoneId}/equipment/${data.equipmentId}/subType`, data);
   }
-  duplicateEquipment(zoneId: number, id: number): Observable<Equipment> {
-    return this.http.post<Equipment>(`${environment.url}api/equipmentDuplicate`, {
+
+  updateEquipment(data: Equipment): Observable<Response<Equipment>> {
+    return this.http.put<Response<Equipment>>(`${environment.url}api/zone/${data.zoneId}/equipment/${data.equipmentId}/subType/${data.id}`, data);
+  }
+
+  deleteEquipment(zoneId: number, categoryId: number, id: number): Observable<Response> {
+    return this.http.delete<Response>(`${environment.url}api/zone/${zoneId}/equipment/${categoryId}/subType/${id}`);
+  }
+
+  duplicateEquipment(zoneId: number, id: number): Observable<Response<Equipment>> {
+    return this.http.post<Response<Equipment>>(`${environment.url}api/equipment/form/duplicate`, {
       zoneId,
       subTypeId: id,
     });
   }
 
-  getEquipmentFormData(id: number): Observable<any> {
-    return this.http.get(`${environment.url}api/equipmentForm?subTypeId=${id}`);
+  getEquipmentFormData(equipmentId: number): Observable<Response<EquipmentFormData>> {
+    return this.http.get<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${equipmentId}`);
   }
-  createEquipmentFormData(equipmentFormData: any): Observable<any> {
-    return this.http.post(`${environment.url}api/equipmentForm`, equipmentFormData);
+
+  createEquipmentFormData(data: CreateEquipmentFormData): Observable<Response<EquipmentFormData>> {
+    return this.http.post<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${data.subTypeId}`, data);
   }
-  updateEquipmentFormData(equipmentFormData: any): Observable<any> {
-    return this.http.put(`${environment.url}api/equipmentForm`, equipmentFormData);
+
+  updateEquipmentFormData(data: EquipmentFormData): Observable<Response<EquipmentFormData>> {
+    return this.http.put<Response<EquipmentFormData>>(`${environment.url}api/formData/equipment/subType/${data.subTypeId}`, data);
   }
 
   // HVACs
 
-  getConnectedZones(auditId: number, zoneId: number): Observable<{ data: ConnectedZone[] }> {
-    return this.http.get<{ data: ConnectedZone[] }>(`${environment.url}api/hvacConnectZone?auditId=${auditId}&zoneId=${zoneId}`);
+  getConnectedZones(auditId: number, zoneId: number): Observable<Response<ZoneWithHvacConnected[]>> {
+    return this.http.get<Response<ZoneWithHvacConnected[]>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}/equipment/hvacConnectZone`);
   }
 
-  setConnectedZones(equipmentId: number, zoneIds: number[]) {
-    return this.http.post(`${environment.url}api/hvacConnectZone`, {
+  setConnectedZones(auditId: number, zoneId: number, equipmentId: number, zoneIds: number[]): Observable<Response<HvacConnectedZone[]>> {
+    return this.http.post<Response<HvacConnectedZone[]>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}/equipment/hvacConnectZone`, {
       subTypeId: equipmentId,
       zoneIds,
     });

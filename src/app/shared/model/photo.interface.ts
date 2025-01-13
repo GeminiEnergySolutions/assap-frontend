@@ -5,13 +5,32 @@ import {Equipment, EquipmentCategory, EquipmentType} from './equipment.interface
 export interface Photo {
   id: number;
   photo: string;
-  auditName: Audit;
+  timestamp: string;
+  auditId: number;
+  audit?: Audit;
   zoneId?: number;
-  zoneName?: Zone;
+  zone?: Zone;
   equipmentId?: number;
-  equipmentName?: EquipmentCategory;
+  equipment?: EquipmentCategory;
   typeId?: number;
-  typeName?: EquipmentType;
+  type?: EquipmentType;
   subTypeId?: number;
-  subTypeName?: Equipment;
+  subType?: Equipment;
+}
+
+export interface PhotoQuery {
+  auditId: number;
+  pageNo: number;
+  size: number;
+  zoneId?: number;
+  equipmentId?: number;
+  typeId?: number;
+}
+
+export interface PhotoInfo {
+  auditId: number;
+  zoneId: number;
+  equipmentId?: number;
+  typeId?: number;
+  subTypeId?: number;
 }

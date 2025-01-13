@@ -5,6 +5,7 @@ import {EquipmentService} from '../../shared/services/equipment.service';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {SchemaContextService} from '../schema-context.service';
 import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-edit-schema',
@@ -13,7 +14,7 @@ import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
   providers: [SchemaContextService],
   standalone: false,
 })
-export class EditSchemaComponent implements OnInit {
+export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   kind: SchemaKind = 'preAudit';
   title = '';
   schemaSections: SchemaSection[] = [];
@@ -24,6 +25,10 @@ export class EditSchemaComponent implements OnInit {
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
   ) {
+  }
+
+  isSaved(): boolean {
+    return this.schemaSections.every(section => !section._dirty);
   }
 
   ngOnInit() {
@@ -49,7 +54,8 @@ export class EditSchemaComponent implements OnInit {
           case 'equipment':
             this.kind = `equipment/${id}`;
             this.title = 'Equipment';
-            this.equipmentService.getEquipmentType(id).subscribe(({data}) => this.title = data.name);
+            // TODO category ID?
+            this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => this.title = data.name);
             break;
           default:
             this.title = '(invalid)';

@@ -9,6 +9,7 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Audit} from '../../shared/model/audit.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-zone-detail',
@@ -25,6 +26,7 @@ export class ZoneDetailComponent implements OnInit {
   constructor(
     private auditZoneService: AuditZoneService,
     private auditService: AuditService,
+    private photoService: PhotoService,
     private equipmentService: EquipmentService,
     private zoneService: AuditZoneService,
     public route: ActivatedRoute,
@@ -40,7 +42,7 @@ export class ZoneDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({zid}) => this.auditZoneService.getSingleZone(zid)),
+      switchMap(({aid, zid}) => this.auditZoneService.getSingleZone(aid, zid)),
     ).subscribe(res => {
       this.zone = res.data;
     });
@@ -50,8 +52,9 @@ export class ZoneDetailComponent implements OnInit {
     });
 
     this.route.params.pipe(
-      switchMap(({zid}) => this.auditService.getPercentage({
-        percentageType: 'zone',
+      switchMap(({aid, zid}) => this.auditService.getPercentage({
+        progressType: 'zone',
+        auditId: aid,
         zoneId: zid,
       })),
     ).subscribe(res => this.progress = res);
@@ -65,19 +68,24 @@ export class ZoneDetailComponent implements OnInit {
     if (!name) {
       return;
     }
-    this.zoneService.updateAuditZone({...this.zone, zoneName: name}, this.zone.zoneId).subscribe(() => {
+    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
+      ...this.zone,
+      zoneName: name,
+    }).subscribe(() => {
       this.zone!.zoneName = name;
       this.toastService.success('Rename Zone', 'Successfully renamed zone.');
     });
   }
 
   uploadPhoto(file: File) {
-    const {aid, zid} = this.route.snapshot.params;
-    const formData = new FormData();
-    formData.append('auditId', aid);
-    formData.append('zoneId', zid);
-    formData.append('photo', file, file.name);
-    this.auditService.uploadPhoto(aid, formData).subscribe(() => {
+    if (!this.zone) {
+      return;
+    }
+
+    this.photoService.uploadPhoto({
+      auditId: this.zone.auditId,
+      zoneId: this.zone.zoneId,
+    }, file).subscribe(() => {
       this.toastService.success('Upload Zone Photo', `Sucessfully uploaded photo for Zone '${this.zone?.zoneName}'.`);
     });
   }

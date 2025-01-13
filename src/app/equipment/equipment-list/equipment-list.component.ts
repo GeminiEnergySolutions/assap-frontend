@@ -13,8 +13,8 @@ import {ToastService} from '@mean-stream/ngbx';
   standalone: false,
 })
 export class EquipmentListComponent implements OnInit {
-  equipment?: EquipmentCategory;
-  subtypes: Equipment[] = [];
+  category?: EquipmentCategory;
+  equipments: Equipment[] = [];
 
   constructor(
     private auditService: AuditService,
@@ -29,67 +29,76 @@ export class EquipmentListComponent implements OnInit {
     this.route.params.pipe(
       switchMap(({eid}) => this.equipmentService.getEquipmentCategory(eid)),
     ).subscribe(res => {
-      this.equipment = res.data;
-      this.getEquipmentPercentage(this.equipment);
+      this.category = res.data;
+      this.getEquipmentPercentage(this.category);
     });
 
     this.route.params.pipe(
       switchMap(({zid, eid}) => this.equipmentService.getEquipments(zid, eid)),
-    ).subscribe(res => {
-      this.subtypes = res;
+    ).subscribe(({data}) => {
+      this.equipments = data;
     });
 
     this.route.queryParams.pipe(
-      switchMap(({new: newId}) => newId ? this.equipmentService.getEquipment(newId) : EMPTY),
-    ).subscribe(newEquipment => {
-      const index = this.subtypes.findIndex(e => e.id === newEquipment.id);
+      switchMap(({new: newId}) => {
+        if (!newId) {
+          return EMPTY;
+        }
+        return this.equipmentService.getEquipment(+this.route.snapshot.params.zid, +this.route.snapshot.params.eid, newId);
+      }),
+    ).subscribe(({data}) => {
+      const index = this.equipments.findIndex(e => e.id === data.id);
       if (index >= 0) {
-        this.subtypes[index] = newEquipment;
+        this.equipments[index] = data;
       } else {
-        this.subtypes.push(newEquipment);
+        this.equipments.push(data);
       }
       this.router.navigate(['.'], {relativeTo: this.route, queryParams: {new: null}});
     });
   }
 
-  private getEquipmentPercentage(equipment: any) {
-    this.auditService.equipmentHeadingValue = equipment.equipmentName;
+  private getEquipmentPercentage(category: EquipmentCategory) {
     this.auditService.getPercentage({
-      percentageType: 'equipment',
+      progressType: 'equipment',
+      auditId: this.route.snapshot.params.aid,
       zoneId: this.route.snapshot.params.zid,
-      equipmentId: equipment.id,
+      equipmentId: category.id,
     }).subscribe(res => this.auditService.currentProgress = res);
   }
 
-  rename(item: any) {
-    const kind = item.typeChild?.name ?? item.type?.name;
+  rename(item: Equipment) {
+    const kind = item.type?.name;
     const name = prompt(`Rename ${kind}`, item.name);
     if (!name) {
       return;
     }
 
-    this.equipmentService.updateEquipment({...item, name}).subscribe(res => {
-      const index = this.subtypes.indexOf(item);
-      this.subtypes[index] = res;
+    this.equipmentService.updateEquipment({...item, name}).subscribe(({data}) => {
+      const index = this.equipments.indexOf(item);
+      this.equipments[index] = data;
       this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
     });
   }
 
-  delete(item: any) {
+  delete(item: Equipment) {
     if (!confirm(`Are you sure you want to delete '${item.name}'?`)) {
       return;
     }
 
-    this.equipmentService.deleteEquipment(item.id).subscribe(() => {
-      let index = this.subtypes.indexOf(item);
-      this.subtypes.splice(index, 1);
-      this.getEquipmentPercentage(this.equipment);
+    const kind = item.type?.name;
+    this.equipmentService.deleteEquipment(item.zoneId, item.equipmentId, item.id).subscribe(() => {
+      let index = this.equipments.indexOf(item);
+      this.equipments.splice(index, 1);
+      this.toastService.warn('Delete Equipment', `Successfully deleted ${kind}`);
+      this.getEquipmentPercentage(this.category!);
     });
   }
 
   duplicate(item: Equipment) {
-    this.equipmentService.duplicateEquipment(item.zoneId, item.id).subscribe(response => {
-      this.subtypes.push(response);
+    const kind = item.type?.name;
+    this.equipmentService.duplicateEquipment(item.zoneId, item.id).subscribe(({data}) => {
+      this.equipments.push(data);
+      this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
     });
   }
 }

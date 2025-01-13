@@ -29,7 +29,7 @@
   @if (photoType === 'All') {
     <div class="col">
       <span>Equipment</span>
-      <select [(ngModel)]="equipment" (change)="changeEquipmentAll()" class="form-select">
+      <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipmentAll($event)" class="form-select">
         @for (item of equipmentList; track item) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
@@ -39,27 +39,27 @@
   @if (photoType === 'Zone') {
     <div class="col">
       <span>Zone</span>
-      <select [(ngModel)]="zone" (change)="changeZone()" class="form-select">
+      <select [(ngModel)]="query.zoneId" (ngModelChange)="changeZone($event)" class="form-select">
         @for (item of zoneList; track item) {
           <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
         }
       </select>
     </div>
   }
-  @if (zone) {
+  @if (query.zoneId) {
     <div class="col">
       <span>Equipment</span>
-      <select [(ngModel)]="equipment" (change)="changeEquipment()" class="form-select">
+      <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipment($event)" class="form-select">
         @for (item of equipmentList; track item) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
       </select>
     </div>
   }
-  @if (zone && equipment) {
+  @if (query.zoneId && query.equipmentId) {
     <div class="col">
       <span>Type</span>
-      <select [(ngModel)]="subType" (change)="changeSubType()" class="form-select">
+      <select [(ngModel)]="query.typeId" (ngModelChange)="changeSubType($event)" class="form-select">
         @for (item of subTypeList; track item) {
           <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
@@ -70,17 +70,14 @@
 <div class="row g-0">
   @for (item of photos; track item) {
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 image-box">
-      <img [src]="item.photo" class="img-fluid">
+      @let text = item.equipmentId
+        ? (item.audit?.auditName + ' / ' + item.zone?.zoneName + ' / ' + item.equipment?.equipmentName + ' / ' + item.type?.name + ' / ' + item.subType?.name | uppercase)
+        : item.zoneId
+          ? (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
+          : (item.audit?.auditName | uppercase);
+      <img [src]="item.photo" class="img-fluid" [alt]="text">
       <div class="overlay">
-        {{
-          item.equipmentId ?
-            (item.auditName.auditName + ' / ' + item.zoneName?.zoneName + ' / ' + item.equipmentName?.equipmentName + ' / ' + item.typeName?.name + ' / ' + item.subTypeName?.name | uppercase)
-            :
-            item.zoneId ?
-              (item.auditName.auditName + ' / ' + item.zoneName?.zoneName | uppercase)
-              :
-              (item.auditName.auditName | uppercase)
-        }}
+        {{ text }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
       </div>
     </div>
@@ -89,21 +86,21 @@
 <div class="row align-items-center">
   <ngb-pagination
     class="col-auto"
-    [(page)]="page" (pageChange)="getPhotos()"
-    [pageSize]="size"
+    [(page)]="query.pageNo" (pageChange)="updateQuery({pageNo: $event})"
+    [pageSize]="query.size"
     [collectionSize]="totalCount"
   />
   <label class="col-auto" for="page-size">
     Per Page:
   </label>
   <div class="col-auto">
-    <select class="form-select" id="page-size" [(ngModel)]="size" (ngModelChange)="getPhotos()">
+    <select class="form-select" id="page-size" [(ngModel)]="query.size" (ngModelChange)="updateQuery({size: $event})">
       <option value="10">10</option>
       <option value="20">20</option>
       <option value="50">50</option>
     </select>
   </div>
   <div class="col-auto text-muted">
-    Showing {{ ((page - 1) * size) + 1 }} to {{ ((page - 1) * size) + photos.length }} of {{ totalCount }} entries
+    Showing {{ ((query.pageNo - 1) * query.size) + 1 }} to {{ ((query.pageNo - 1) * query.size) + photos.length }} of {{ totalCount }} entries
   </div>
 </div>

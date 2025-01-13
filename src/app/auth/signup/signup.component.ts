@@ -42,12 +42,13 @@ export class SignupComponent implements OnInit {
       password: this.signupForm.get('password')?.value,
       password_confirm: this.signupForm.get('ConfirmPassword')?.value,
       role: this.selectedUserType,
-    }).subscribe(() => {
-      this.submitting = false;
-      this.toastService.success('Success', 'Registration successful!');
-      this.router.navigate(['auth/login']);
-    }, () => {
-      this.submitting = false;
+    }).subscribe({
+      next: () => {
+        this.submitting = false;
+        this.toastService.success('Success', 'Registration successful!');
+        this.router.navigate(['auth/login']);
+      },
+      error: () => this.submitting = false,
     });
   }
 }

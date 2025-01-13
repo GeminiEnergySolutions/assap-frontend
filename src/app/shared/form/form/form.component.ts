@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
-import {CopySpec, SchemaElement, SchemaSection} from '../../model/schema.interface';
+import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 
 @Component({
   selector: 'app-form',
@@ -10,9 +11,9 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   styleUrls: ['./form.component.scss'],
   standalone: false,
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input({required: true}) typeSchema!: SchemaSection[];
-  @Input({required: true}) formData!: { id?: string | number; data: any };
+  @Input({required: true}) formData!: { id?: string | number; data: Partial<Record<string, SchemaValue>> };
   /** for offline storage */
   @Input() formId: string = '';
   @Input() editable = false;
@@ -52,13 +53,13 @@ export class FormComponent implements OnInit {
 
     for (const subElement of element.inputList ?? []) {
       const keyValue = this.formData.data[element.key];
-      if (Array.isArray(subElement.dependentKeyValue) ? subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+      if (Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
         this.init(section, subElement);
       }
     }
   }
 
-  coerce(element: SchemaElement, value: string) {
+  coerce(element: SchemaElement, value: string): SchemaValue {
     switch (element.type) {
       case 'date':
         return new Date(value);
@@ -100,7 +101,7 @@ export class FormComponent implements OnInit {
     this.dirtyChange.emit(this.dirty);
   }
 
-  canDeactivate(): boolean {
+  isSaved(): boolean {
     return !this.dirty;
   }
 
@@ -134,9 +135,11 @@ export class FormComponent implements OnInit {
     return {totalFields, completedFields, percentage};
   }
 
-  dropSection(event: CdkDragDrop<SchemaSection[]>) {
-    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
-  }
+  /* TODO drag to reorder
+    dropSection(event: CdkDragDrop<SchemaSection[]>) {
+      moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+    }
+   */
 
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
     moveItemInArray(section.schema, event.previousIndex, event.currentIndex);
