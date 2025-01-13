@@ -63,7 +63,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
           case 'equipment':
             this.kind = `equipment/${id}`;
             this.title = breadcrumb.label = 'Equipment';
-            // TODO category ID?
+            // Category ID does not seem to matter, we just pass 0
             this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => {
               this.title = breadcrumb.label = data.name;
             });

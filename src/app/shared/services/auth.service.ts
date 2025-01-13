@@ -24,12 +24,12 @@ export class AuthService {
   }
 
   signUp(data: {
-    userName: string; // TODO still required?
+    userName: string;
     email: string;
     password: string;
     password_confirm: string;
     role: string;
-  }): Observable<Response> { // TODO what is data?
+  }): Observable<Response> {
     return this.http.post<Response>(`${environment.url}authApi/v1/user`, data);
   }
 
