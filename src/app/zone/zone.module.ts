@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {ZoneOptionsDropdownComponent} from './zone-options-dropdown/zone-options-dropdown.component';
 
 import {ZoneRoutingModule} from './zone-routing.module';
 import {ZoneListComponent} from './zone-list/zone-list.component';
@@ -18,12 +19,13 @@ import {FormsModule} from '../shared/form/form.module';
     ZoneDetailComponent,
     ZoneFormComponent,
   ],
-  imports: [
-    CommonModule,
-    ZoneRoutingModule,
-    SharedModule,
-    NgbDropdownModule,
-    FormsModule,
-  ],
+    imports: [
+        CommonModule,
+        ZoneRoutingModule,
+        SharedModule,
+        NgbDropdownModule,
+        FormsModule,
+        ZoneOptionsDropdownComponent,
+    ],
 })
 export class ZoneModule { }

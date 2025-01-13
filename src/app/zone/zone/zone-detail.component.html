@@ -4,15 +4,7 @@
     <div class="bi-dice-4 px-3">
       Zone
     </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdown-audit">
-        <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
-          Rename
-        </button>
-      </div>
-    </div>
+    <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
   </div>
   <div class="p-3">
     <h1>
