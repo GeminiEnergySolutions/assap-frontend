@@ -101,7 +101,7 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChan
       typeId: this.equipment.typeId,
       subTypeId: this.equipment.id,
     }, file).subscribe(() => {
-      this.toastService.success('Upload Equipment Photo', `Sucessfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
+      this.toastService.success('Upload Equipment Photo', `Successfully uploaded photo for ${this.equipment?.type?.name} '${this.equipment?.name}'.`);
     });
   }
 
