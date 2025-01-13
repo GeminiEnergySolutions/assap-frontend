@@ -59,7 +59,7 @@ export class EquipmentListComponent implements OnInit {
 
   private getEquipmentPercentage(category: EquipmentCategory) {
     this.auditService.getPercentage({
-      percentageType: 'equipment',
+      progressType: 'equipment',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.route.snapshot.params.zid,
       equipmentId: category.id,

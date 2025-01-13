@@ -35,7 +35,7 @@ export class AuditDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage({
-        percentageType: 'complete',
+        progressType: 'complete',
         auditId: aid,
       })),
     ).subscribe(res => this.auditService.currentProgress = res);

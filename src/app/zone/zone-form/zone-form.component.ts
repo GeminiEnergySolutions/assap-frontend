@@ -83,7 +83,7 @@ export class ZoneFormComponent implements OnInit, SaveableChangesComponent {
 
   private getPercentage() {
     this.zoneId && this.auditService.getPercentage({
-      percentageType: 'zoneDetails',
+      progressType: 'zoneDetails',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.zoneId,
     }).subscribe(res => this.progress = res);

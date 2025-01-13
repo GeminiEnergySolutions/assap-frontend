@@ -48,7 +48,7 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
 
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getPercentage({
-        percentageType: 'preAudit',
+        progressType: 'preAudit',
         auditId: aid,
       })),
     ).subscribe(res => this.progress = res);
@@ -76,11 +76,11 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent {
       return;
     }
     this.auditService.getPercentage({
-      percentageType: 'complete',
+      progressType: 'complete',
       auditId: this.auditId,
     }).subscribe(res => this.auditService.currentProgress = res);
     this.auditService.getPercentage({
-      percentageType: 'preAudit',
+      progressType: 'preAudit',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }

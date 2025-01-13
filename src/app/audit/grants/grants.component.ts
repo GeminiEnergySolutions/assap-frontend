@@ -67,7 +67,7 @@ export class GrantsComponent implements OnInit, SaveableChangesComponent {
 
   getPercentage() {
     this.auditId && this.auditService.getPercentage({
-      percentageType: 'grants',
+      progressType: 'grants',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }

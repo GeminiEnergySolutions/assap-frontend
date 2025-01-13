@@ -75,7 +75,7 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
 
   private getPercentage() {
     this.auditId && this.auditService.getPercentage({
-      percentageType: 'ceh',
+      progressType: 'ceh',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }
