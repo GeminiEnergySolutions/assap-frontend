@@ -7,11 +7,11 @@ import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-audit-options-dropdown',
-  templateUrl: './options-dropdown.component.html',
-  styleUrl: './options-dropdown.component.scss',
+  templateUrl: './audit-options-dropdown.component.html',
+  styleUrl: './audit-options-dropdown.component.scss',
   standalone: false,
 })
-export class OptionsDropdownComponent {
+export class AuditOptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;
 
   @Output() deleted = new EventEmitter<Audit>();
