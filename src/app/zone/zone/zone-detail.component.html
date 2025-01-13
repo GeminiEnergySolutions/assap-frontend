@@ -16,7 +16,11 @@
   </div>
   <div class="p-3">
     <h1>
-      {{ zone?.zoneName | titlecase }}
+      @if (zone) {
+        {{ zone.zoneName | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
     </h1>
     <div class="d-flex align-items-center">
       <div class="me-3 flex-grow-1">

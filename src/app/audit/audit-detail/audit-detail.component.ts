@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs';
+import {switchMap, tap} from 'rxjs';
 import {AuditService} from '../../shared/services/audit.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -23,10 +23,14 @@ export class AuditDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const breadcrumb: Breadcrumb = {label: '<Audit>', class: icons.audit, routerLink: '.', relativeTo: this.route};
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(
+      tap(() => {
+        this.audit = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
     ).subscribe(({data}) => {
       this.audit = data;

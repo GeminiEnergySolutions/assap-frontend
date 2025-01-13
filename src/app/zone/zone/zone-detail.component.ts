@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {switchMap} from 'rxjs';
+import {switchMap, tap} from 'rxjs';
 import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
 import {AuditService} from 'src/app/shared/services/audit.service';
 import {EquipmentService} from 'src/app/shared/services/equipment.service';
@@ -48,6 +48,10 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
     });
 
     this.route.params.pipe(
+      tap(() => {
+        this.zone = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({aid, zid}) => this.auditZoneService.getSingleZone(aid, zid)),
     ).subscribe(({data}) => {
       this.zone = data;

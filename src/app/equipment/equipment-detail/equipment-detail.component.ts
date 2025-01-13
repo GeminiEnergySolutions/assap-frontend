@@ -50,6 +50,10 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChan
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
 
     this.route.params.pipe(
+      tap(() => {
+        this.equipment = undefined;
+        breadcrumb.label = '';
+      }),
       switchMap(({zid, eid, tid}) => this.equipmentService.getEquipment(+zid, +eid, +tid)),
       map(({data}) => {
         breadcrumb.label = data.name;
