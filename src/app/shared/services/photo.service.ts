@@ -21,7 +21,7 @@ export class PhotoService {
   }
 
   deletePhoto(auditId: number, id: number): Observable<Response> {
-    return this.http.delete<Response>(`${environment.url}api/audit/${auditId}/photos`, {params: {id}});
+    return this.http.delete<Response>(`${environment.url}api/audit/${auditId}/photos/${id}`);
   }
 
   uploadPhoto(info: PhotoInfo, file: File): Observable<object> {
