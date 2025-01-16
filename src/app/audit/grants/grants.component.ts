@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
 
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {icons} from '../../shared/icons';
@@ -17,7 +19,14 @@ import {SchemaService} from '../../shared/services/schema.service';
   selector: 'app-grants',
   templateUrl: './grants.component.html',
   styleUrls: ['./grants.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    ProgressBarComponent,
+    FormComponent,
+  ],
 })
 export class GrantsComponent implements OnInit, SaveableChangesComponent, OnDestroy {
   @ViewChild('form') form?: FormComponent;

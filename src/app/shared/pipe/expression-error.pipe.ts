@@ -3,7 +3,6 @@ import {ExpressionService} from '../services/expression.service';
 
 @Pipe({
   name: 'expressionError',
-  standalone: false,
 })
 export class ExpressionErrorPipe implements PipeTransform {
   constructor(private expressionService: ExpressionService) {

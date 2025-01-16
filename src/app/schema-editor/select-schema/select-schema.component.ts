@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {EquipmentService} from '../../shared/services/equipment.service';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+
 import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
-import {ActivatedRoute} from '@angular/router';
+import {EquipmentService} from '../../shared/services/equipment.service';
 
 @Component({
   selector: 'app-select-schema',
   templateUrl: './select-schema.component.html',
   styleUrl: './select-schema.component.scss',
-  standalone: false,
+  imports: [RouterLink],
 })
 export class SelectSchemaComponent implements OnInit {
   categories: EquipmentCategory[] = [];

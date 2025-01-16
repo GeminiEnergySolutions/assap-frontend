@@ -1,16 +1,41 @@
+import {KeyValuePipe, TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {AuthService} from 'src/app/shared/services/auth.service';
-import {Audit} from '../../shared/model/audit.interface';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {
+  NgbAccordionBody,
+  NgbAccordionButton,
+  NgbAccordionCollapse,
+  NgbAccordionDirective,
+  NgbAccordionHeader,
+  NgbAccordionItem,
+} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+
+import {AuditService} from '../../shared/services/audit.service';
+import {AuthService} from '../../shared/services/auth.service';
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {Audit} from '../../shared/model/audit.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-options-dropdown.component';
 
 @Component({
   selector: 'app-audit-master-detail',
   templateUrl: './audit-master-detail.component.html',
   styleUrls: ['./audit-master-detail.component.scss'],
-  standalone: false,
+  imports: [
+    MasterDetailComponent,
+    RouterLink,
+    NgbAccordionDirective,
+    NgbAccordionItem,
+    NgbAccordionHeader,
+    NgbAccordionButton,
+    NgbAccordionCollapse,
+    NgbAccordionBody,
+    RouterLinkActive,
+    TitleCasePipe,
+    KeyValuePipe,
+    AuditOptionsDropdownComponent,
+  ],
 })
 export class AuditMasterDetailComponent implements OnInit {
   audits: Record<string, Audit[]> = {};

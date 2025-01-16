@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
 
 import {icons} from '../../shared/icons';
@@ -13,7 +14,13 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
   selector: 'app-equipment-overview',
   templateUrl: './equipment-overview.component.html',
   styleUrl: './equipment-overview.component.scss',
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTooltip,
+  ],
 })
 export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   details?: AuditDetails;

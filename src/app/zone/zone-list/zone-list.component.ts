@@ -1,16 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
 
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
 
 @Component({
   selector: 'app-zone-list',
   templateUrl: './zone-list.component.html',
   styleUrls: ['./zone-list.component.scss'],
-  standalone: false,
+  imports: [
+    FeatureCardComponent,
+    RouterLink,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    ZoneOptionsDropdownComponent,
+  ],
 })
 export class ZoneListComponent implements OnInit {
 

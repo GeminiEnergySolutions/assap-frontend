@@ -1,20 +1,27 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {EMPTY, switchMap} from 'rxjs';
-import {EquipmentService} from '../../shared/services/equipment.service';
-import {SchemaSection} from '../../shared/model/schema.interface';
-import {SchemaContextService} from '../schema-context.service';
-import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
-import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {icons} from '../../shared/icons';
+import {SchemaSection} from '../../shared/model/schema.interface';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {SchemaKind, SchemaService} from '../../shared/services/schema.service';
+import {SchemaContextService} from '../schema-context.service';
 
 @Component({
   selector: 'app-edit-schema',
   templateUrl: './edit-schema.component.html',
   styleUrl: './edit-schema.component.scss',
   providers: [SchemaContextService],
-  standalone: false,
+  imports: [
+    MasterDetailComponent,
+    RouterLink,
+    FormComponent,
+  ],
 })
 export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   kind: SchemaKind = 'preAudit';

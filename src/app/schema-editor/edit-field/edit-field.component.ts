@@ -1,17 +1,30 @@
+import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
-import {ActivatedRoute} from '@angular/router';
-import {SchemaContextService} from '../schema-context.service';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatestWith} from 'rxjs';
-import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+
+import {FormComponent} from '../../shared/form/form/form.component';
 import {icons} from '../../shared/icons';
+import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {SchemaContextService} from '../schema-context.service';
 
 @Component({
   selector: 'app-edit-field',
   templateUrl: './edit-field.component.html',
   styleUrl: './edit-field.component.scss',
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgbTooltip,
+    NgbPopover,
+    FormsModule,
+    CdkDropList,
+    CdkDrag,
+    RouterLink,
+    CdkDragHandle,
+  ],
 })
 export class EditFieldComponent implements OnInit, OnDestroy {
   section?: SchemaSection;

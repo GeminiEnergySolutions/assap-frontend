@@ -1,16 +1,28 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {switchMap, tap} from 'rxjs';
-import {AuditService} from '../../shared/services/audit.service';
-import {Audit} from '../../shared/model/audit.interface';
-import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {icons} from '../../shared/icons';
+import {Audit} from '../../shared/model/audit.interface';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-options-dropdown.component';
 
 @Component({
   selector: 'app-audit-detail',
   templateUrl: './audit-detail.component.html',
   styleUrls: ['./audit-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    ProgressBarComponent,
+    FeatureCardComponent,
+    RouterOutlet,
+    TitleCasePipe,
+    AuditOptionsDropdownComponent,
+  ],
 })
 export class AuditDetailComponent implements OnInit, OnDestroy {
   audit?: Audit;

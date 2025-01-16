@@ -4,7 +4,6 @@ import {Component} from '@angular/core';
   selector: 'app-brand-header',
   templateUrl: './brand-header.component.html',
   styleUrl: './brand-header.component.scss',
-  standalone: false,
 })
 export class BrandHeaderComponent {
 

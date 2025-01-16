@@ -1,7 +1,9 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {switchMap} from 'rxjs';
 
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {icons} from '../../shared/icons';
 import {Audit} from '../../shared/model/audit.interface';
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
@@ -10,12 +12,18 @@ import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
+import {EquipmentListComponent} from '../equipment-list/equipment-list.component';
 
 @Component({
   selector: 'app-equipment-master-detail',
   templateUrl: './equipment-master-detail.component.html',
   styleUrls: ['./equipment-master-detail.component.scss'],
-  standalone: false,
+  imports: [
+    MasterDetailComponent,
+    RouterLink,
+    EquipmentListComponent,
+    TitleCasePipe,
+  ],
 })
 export class EquipmentMasterDetailComponent implements OnInit {
   audit?: Audit;

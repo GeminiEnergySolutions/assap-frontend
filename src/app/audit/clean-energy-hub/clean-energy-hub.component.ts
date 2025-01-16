@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {icons} from '../../shared/icons';
@@ -19,7 +21,15 @@ import {SchemaService} from '../../shared/services/schema.service';
   selector: 'app-clean-energy-hub',
   templateUrl: './clean-energy-hub.component.html',
   styleUrls: ['./clean-energy-hub.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    ProgressBarComponent,
+    FormComponent,
+  ],
 })
 export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy {
   @ViewChild('form') form?: FormComponent;

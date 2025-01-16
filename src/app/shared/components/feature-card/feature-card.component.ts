@@ -2,12 +2,17 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AuditService, PercentageQuery} from '../../services/audit.service';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {BehaviorSubject, of, switchMap} from 'rxjs';
+import {ProgressBarComponent} from '../progress-bar/progress-bar.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-feature-card',
   templateUrl: './feature-card.component.html',
   styleUrl: './feature-card.component.scss',
-  standalone: false,
+  imports: [
+    ProgressBarComponent,
+    RouterLink,
+  ],
 })
 export class FeatureCardComponent implements OnInit {
   @Input({required: true}) title!: string;

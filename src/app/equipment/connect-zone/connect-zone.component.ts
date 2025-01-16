@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {EquipmentService} from '../../shared/services/equipment.service';
-import {ToastService} from '@mean-stream/ngbx';
+import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {ZoneWithHvacConnected} from '../../shared/model/zone.interface';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-connect-zone',
   templateUrl: './connect-zone.component.html',
   styleUrl: './connect-zone.component.scss',
-  standalone: false,
+  imports: [ModalModule, FormsModule],
 })
 export class ConnectZoneComponent implements OnInit {
   connectedZones: ZoneWithHvacConnected[] = [];

@@ -1,8 +1,11 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
 
+import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {icons} from '../../shared/icons';
@@ -14,12 +17,21 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
 import {SchemaService} from '../../shared/services/schema.service';
+import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/equipment-options-dropdown.component';
 
 @Component({
   selector: 'app-equipment-detail',
   templateUrl: './equipment-detail.component.html',
   styleUrls: ['./equipment-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    ProgressBarComponent,
+    FormComponent,
+    PhotoCaptureComponent,
+    RouterOutlet,
+    TitleCasePipe,
+    EquipmentOptionsDropdownComponent,
+  ],
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;

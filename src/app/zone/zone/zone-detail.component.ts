@@ -1,23 +1,36 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
+
+import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
+import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
+import {icons} from '../../shared/icons';
 import {Audit} from '../../shared/model/audit.interface';
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
-import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
-import {icons} from '../../shared/icons';
+import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
 
 @Component({
   selector: 'app-zone-detail',
   templateUrl: './zone-detail.component.html',
   styleUrls: ['./zone-detail.component.scss'],
-  standalone: false,
+  imports: [
+    RouterLink,
+    ProgressBarComponent,
+    FeatureCardComponent,
+    PhotoCaptureComponent,
+    TitleCasePipe,
+    ZoneOptionsDropdownComponent,
+  ],
 })
 export class ZoneDetailComponent implements OnInit, OnDestroy {
   audit?: Audit;

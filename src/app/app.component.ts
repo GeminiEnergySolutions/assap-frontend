@@ -1,11 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {SwUpdate} from '@angular/service-worker';
+import {NavBarComponent} from './nav-bar/nav-bar.component';
+import {RouterOutlet} from '@angular/router';
+import {ToastModule} from '@mean-stream/ngbx';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  imports: [
+    NavBarComponent,
+    RouterOutlet,
+    ToastModule,
+  ],
 })
 export class AppComponent implements OnInit {
   constructor(

@@ -1,15 +1,33 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
+import {
+  NgbDropdown,
+  NgbDropdownButtonItem,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
+
+import {environment} from '../../../environments/environment';
 import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
-import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from '../../shared/services/auth.service';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-audit-options-dropdown',
   templateUrl: './audit-options-dropdown.component.html',
   styleUrl: './audit-options-dropdown.component.scss',
-  standalone: false,
+  imports: [
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTooltip,
+    NgbDropdownItem,
+    NgbDropdownButtonItem,
+    RouterLink,
+  ],
 })
 export class AuditOptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;

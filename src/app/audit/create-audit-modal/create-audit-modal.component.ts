@@ -3,12 +3,19 @@ import {AuditService} from '../../shared/services/audit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {State} from '../../shared/model/state.interface';
 import {StateService} from '../../shared/services/state.service';
+import {ModalModule} from '@mean-stream/ngbx';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-create-audit-modal',
   templateUrl: './create-audit-modal.component.html',
   styleUrl: './create-audit-modal.component.scss',
-  standalone: false,
+  imports: [
+    ModalModule,
+    NgbTooltip,
+    FormsModule,
+  ],
 })
 export class CreateAuditModalComponent implements OnInit {
   name = '';
