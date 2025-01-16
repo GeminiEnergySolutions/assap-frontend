@@ -5,7 +5,7 @@ import {EquipmentService} from 'src/app/shared/services/equipment.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
-import {map, of, switchMap} from 'rxjs';
+import {map, of, switchMap, withLatestFrom} from 'rxjs';
 import {PhotoService} from '../../shared/services/photo.service';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
@@ -27,8 +27,6 @@ import {UpperCasePipe} from '@angular/common';
   ],
 })
 export class PhotosComponent implements OnInit {
-
-  photoType = 'All';
   zoneList: Zone[] = [];
   equipmentList: EquipmentCategory[] = [];
   subTypeList: Equipment[] = [];
@@ -44,7 +42,7 @@ export class PhotosComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    protected route: ActivatedRoute,
     private photoService: PhotoService,
     private auditZoneService: AuditZoneService,
     private equipmentService: EquipmentService,
@@ -53,7 +51,15 @@ export class PhotosComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.pipe(
-      map(query => Object.assign(this.query, query, {auditId: +this.route.snapshot.params.aid})),
+      withLatestFrom(this.route.params),
+      map(([query, path]) => Object.assign(this.query, {
+        auditId: +path.aid || undefined,
+        zoneId: +path.zid || +query.zoneId || undefined,
+        equipmentId: +query.equipmentId || undefined,
+        typeId: +query.typeId || undefined,
+        pageNo: +query.pageNo || 1,
+        size: +query.size || 10,
+      })),
       switchMap(query => this.photoService.getPhotos(query)),
     ).subscribe(({data}) => {
       this.photos = data.photos;
@@ -79,41 +85,22 @@ export class PhotosComponent implements OnInit {
 
   updateQuery(update: Partial<PhotoQuery>) {
     Object.assign(this.query, update);
+    const queryParams = Object.fromEntries(Object.entries(this.query).filter(([_, v]) => v !== undefined && v !== null && v !== ''));
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.query,
+      queryParams,
       queryParamsHandling: 'replace',
     });
   }
 
-  changeEquipmentAll(equipmentId: number) {
-    this.updateQuery({
-      pageNo: 1,
-      zoneId: undefined,
-      equipmentId,
-      typeId: undefined,
-    });
-  }
-
-  changePhotoType() {
-    this.updateQuery({
-      pageNo: 1,
-      zoneId: undefined,
-      equipmentId: undefined,
-      typeId: undefined,
-    });
-  }
-
-  changeZone(zoneId: number) {
+  changeZone(zoneId: number | undefined) {
     this.updateQuery({
       pageNo: 1,
       zoneId,
-      equipmentId: undefined,
-      typeId: undefined,
     });
   }
 
-  changeEquipment(equipmentId: number) {
+  changeEquipment(equipmentId: number | undefined) {
     this.updateQuery({
       pageNo: 1,
       equipmentId,

@@ -16,30 +16,11 @@
   </div>
 </div>
 <div class="row">
-  <div class="col">
-    <div class="form-group">
-      <span>Photo Type</span>
-      <select [(ngModel)]="photoType" (change)="changePhotoType()" class="form-select">
-        <option value="All">All</option>
-        <option value="Audit">Audit</option>
-        <option value="Zone">Zone</option>
-      </select>
-    </div>
-  </div>
-  @if (photoType === 'All') {
-    <div class="col">
-      <span>Equipment</span>
-      <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipmentAll($event)" class="form-select">
-        @for (item of equipmentList; track item.id) {
-          <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
-        }
-      </select>
-    </div>
-  }
-  @if (photoType === 'Zone') {
+  @if (!route.snapshot.params.zid) {
     <div class="col">
       <span>Zone</span>
       <select [(ngModel)]="query.zoneId" (ngModelChange)="changeZone($event)" class="form-select">
+        <option value="">All</option>
         @for (item of zoneList; track item.zoneId) {
           <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
         }
@@ -50,6 +31,8 @@
     <div class="col">
       <span>Equipment</span>
       <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipment($event)" class="form-select">
+        <option value="">All</option>
+        <option [value]="0">None (Zone only)</option>
         @for (item of equipmentList; track item.id) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
@@ -60,6 +43,7 @@
     <div class="col">
       <span>Type</span>
       <select [(ngModel)]="query.typeId" (ngModelChange)="changeSubType($event)" class="form-select">
+        <option value="">All</option>
         @for (item of subTypeList; track item.id) {
           <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
