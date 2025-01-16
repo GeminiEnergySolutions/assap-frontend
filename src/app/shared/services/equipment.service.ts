@@ -22,11 +22,11 @@ export class EquipmentService {
   }
 
   getEquipmentCategory(id: number): Observable<Response<EquipmentCategory>> {
-    return this.http.get<Response<EquipmentCategory>>(`${environment.url}api/audit/equipment/${id}`);
+    return this.http.get<Response<EquipmentCategory>>(`${environment.url}api/equipment/${id}`);
   }
 
   getEquipmentCategories(): Observable<Response<EquipmentCategory[]>> {
-    return this.http.get<Response<EquipmentCategory[]>>(`${environment.url}api/audit/equipment`);
+    return this.http.get<Response<EquipmentCategory[]>>(`${environment.url}api/equipment`);
   }
 
   getEquipmentType(categoryId: number, id: number): Observable<Response<EquipmentType>> {
