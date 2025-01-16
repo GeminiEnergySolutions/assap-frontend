@@ -7,6 +7,7 @@ import {switchMap} from 'rxjs';
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
 
 @Component({
   selector: 'app-zone-list',
@@ -17,6 +18,7 @@ import {AuditZoneService} from '../../shared/services/audit-zone.service';
     RouterLink,
     NgbDropdownButtonItem,
     NgbDropdownItem,
+    ZoneOptionsDropdownComponent,
   ],
 })
 export class ZoneListComponent implements OnInit {

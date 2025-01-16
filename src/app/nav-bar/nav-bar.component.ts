@@ -1,4 +1,4 @@
-import {TitleCasePipe} from '@angular/common';
+import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ThemeService} from '@mean-stream/ngbx';
@@ -27,6 +27,7 @@ import {BreadcrumbService} from '../shared/services/breadcrumb.service';
     NgbDropdownButtonItem,
     NgbDropdownItem,
     TitleCasePipe,
+    AsyncPipe,
   ],
 })
 export class NavBarComponent {

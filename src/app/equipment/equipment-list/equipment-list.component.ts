@@ -6,10 +6,10 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
-import {OptionDropdownComponent} from '../../shared/components/option-dropdown/option-dropdown.component';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
+import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/equipment-options-dropdown.component';
 
 @Component({
   selector: 'app-equipment-list',
@@ -18,10 +18,10 @@ import {EquipmentService} from '../../shared/services/equipment.service';
   imports: [
     RouterLink,
     FeatureCardComponent,
-    OptionDropdownComponent,
     NgbDropdownItem,
     NgbDropdownButtonItem,
     TitleCasePipe,
+    EquipmentOptionsDropdownComponent,
   ],
 })
 export class EquipmentListComponent implements OnInit {

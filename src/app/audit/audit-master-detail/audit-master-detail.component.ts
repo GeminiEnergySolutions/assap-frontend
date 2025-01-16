@@ -10,11 +10,13 @@ import {
   NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {AuthService} from 'src/app/shared/services/auth.service';
+
+import {AuditService} from '../../shared/services/audit.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {Audit} from '../../shared/model/audit.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-options-dropdown.component';
 
 @Component({
   selector: 'app-audit-master-detail',
@@ -32,6 +34,7 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
     RouterLinkActive,
     TitleCasePipe,
     KeyValuePipe,
+    AuditOptionsDropdownComponent,
   ],
 })
 export class AuditMasterDetailComponent implements OnInit {

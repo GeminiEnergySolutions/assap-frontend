@@ -2,13 +2,6 @@ import {TitleCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {
-  NgbDropdown,
-  NgbDropdownButtonItem,
-  NgbDropdownItem,
-  NgbDropdownMenu,
-  NgbDropdownToggle,
-} from '@ng-bootstrap/ng-bootstrap';
 import {map, switchMap, tap} from 'rxjs';
 
 import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
@@ -24,6 +17,7 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
 import {SchemaService} from '../../shared/services/schema.service';
+import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/equipment-options-dropdown.component';
 
 @Component({
   selector: 'app-equipment-detail',
@@ -31,16 +25,12 @@ import {SchemaService} from '../../shared/services/schema.service';
   styleUrls: ['./equipment-detail.component.scss'],
   imports: [
     RouterLink,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownItem,
-    NgbDropdownButtonItem,
     ProgressBarComponent,
     FormComponent,
     PhotoCaptureComponent,
     RouterOutlet,
     TitleCasePipe,
+    EquipmentOptionsDropdownComponent,
   ],
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {

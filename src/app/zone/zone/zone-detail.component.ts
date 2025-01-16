@@ -2,13 +2,6 @@ import {TitleCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {
-  NgbDropdown,
-  NgbDropdownButtonItem,
-  NgbDropdownItem,
-  NgbDropdownMenu,
-  NgbDropdownToggle,
-} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
@@ -24,6 +17,7 @@ import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {PhotoService} from '../../shared/services/photo.service';
+import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
 
 @Component({
   selector: 'app-zone-detail',
@@ -31,15 +25,11 @@ import {PhotoService} from '../../shared/services/photo.service';
   styleUrls: ['./zone-detail.component.scss'],
   imports: [
     RouterLink,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownButtonItem,
-    NgbDropdownItem,
     ProgressBarComponent,
     FeatureCardComponent,
     PhotoCaptureComponent,
     TitleCasePipe,
+    ZoneOptionsDropdownComponent,
   ],
 })
 export class ZoneDetailComponent implements OnInit, OnDestroy {
