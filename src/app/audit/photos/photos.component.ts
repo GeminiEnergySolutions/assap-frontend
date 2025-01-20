@@ -1,8 +1,15 @@
-import {UpperCasePipe} from '@angular/common';
+import {DatePipe, UpperCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbPagination,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import {map, of, switchMap, withLatestFrom} from 'rxjs';
 
 import {icons} from '../../shared/icons';
@@ -28,6 +35,7 @@ import {PhotoService} from '../../shared/services/photo.service';
     NgbTooltip,
     NgbPagination,
     UpperCasePipe,
+    DatePipe,
   ],
 })
 export class PhotosComponent implements OnInit, OnDestroy {
@@ -43,6 +51,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   totalCount = 0;
 
   photos: Photo[] = [];
+  modalPhoto?: Photo;
 
   constructor(
     private router: Router,
@@ -52,6 +61,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
     private auditZoneService: AuditZoneService,
     private equipmentService: EquipmentService,
     private breadcrumbService: BreadcrumbService,
+    protected ngbModal: NgbModal,
   ) {
   }
 

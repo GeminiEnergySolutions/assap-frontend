@@ -62,7 +62,7 @@
         : item.zoneId
           ? (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
           : (item.audit?.auditName | uppercase);
-      <img [src]="item.photo" class="img-fluid" [alt]="text">
+      <img [src]="item.photo" class="img-fluid" [alt]="text" (click)="modalPhoto = item; ngbModal.open(enlarge, {size: 'xl'})">
       <div class="overlay">
         {{ text }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
@@ -91,3 +91,17 @@
     Showing {{ ((query.pageNo - 1) * query.size) + 1 }} to {{ ((query.pageNo - 1) * query.size) + photos.length }} of {{ totalCount }} entries
   </div>
 </div>
+<ng-template #enlarge let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ modalPhoto?.timestamp | date:'medium' }}
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('X')"></button>
+  </div>
+  <div class="modal-body">
+    <img [src]="modalPhoto?.photo" [alt]="modalPhoto?.photo" class="w-100">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Close')">Close</button>
+  </div>
+</ng-template>
