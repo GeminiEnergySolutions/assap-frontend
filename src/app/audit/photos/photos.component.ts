@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
-import {Zone} from '../../shared/model/zone.interface';
-import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
-import {map, of, switchMap, withLatestFrom} from 'rxjs';
-import {PhotoService} from '../../shared/services/photo.service';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
 import {UpperCasePipe} from '@angular/common';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {map, of, switchMap, withLatestFrom} from 'rxjs';
+
+import {icons} from '../../shared/icons';
+import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-photos',
@@ -26,7 +30,7 @@ import {UpperCasePipe} from '@angular/common';
     UpperCasePipe,
   ],
 })
-export class PhotosComponent implements OnInit {
+export class PhotosComponent implements OnInit, OnDestroy {
   zoneList: Zone[] = [];
   equipmentList: EquipmentCategory[] = [];
   subTypeList: Equipment[] = [];
@@ -44,12 +48,43 @@ export class PhotosComponent implements OnInit {
     private router: Router,
     protected route: ActivatedRoute,
     private photoService: PhotoService,
+    private auditService: AuditService,
     private auditZoneService: AuditZoneService,
     private equipmentService: EquipmentService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit() {
+    const prevBreadcrumb: Breadcrumb = {label: '', routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(prevBreadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Photos', class: icons.photo, routerLink: '.', relativeTo: this.route,
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid, eid, tid}) => {
+        if (tid) {
+          return this.equipmentService.getEquipment(+zid, +eid, +tid);
+        } else if (zid) {
+          return this.auditZoneService.getSingleZone(+aid, +zid);
+        } else {
+          return this.auditService.getSingleAudit(+aid);
+        }
+      }),
+    ).subscribe(({data}) => {
+      if ('name' in data) {
+        prevBreadcrumb.label = data.name;
+        prevBreadcrumb.class = icons.equipment;
+      } else if ('zoneName' in data) {
+        prevBreadcrumb.label = data.zoneName;
+        prevBreadcrumb.class = icons.zone;
+      } else if ('auditName' in data) {
+        prevBreadcrumb.label = data.auditName;
+        prevBreadcrumb.class = icons.audit;
+      }
+    });
+
     this.route.queryParams.pipe(
       withLatestFrom(this.route.params),
       map(([query, path]) => Object.assign(this.query, {
@@ -81,6 +116,11 @@ export class PhotosComponent implements OnInit {
     this.equipmentService.getEquipmentCategories().subscribe(res => {
       this.equipmentList = res.data;
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   updateQuery(update: Partial<PhotoQuery>) {
