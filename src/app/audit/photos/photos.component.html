@@ -21,6 +21,7 @@
       <span>Zone</span>
       <select [(ngModel)]="query.zoneId" (ngModelChange)="changeZone($event)" class="form-select">
         <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
         @for (item of zoneList; track item.zoneId) {
           <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
         }
@@ -32,6 +33,7 @@
       <span>Equipment</span>
       <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipment($event)" class="form-select">
         <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
         <option [value]="0">None (Zone only)</option>
         @for (item of equipmentList; track item.id) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
@@ -44,6 +46,7 @@
       <span>Type</span>
       <select [(ngModel)]="query.typeId" (ngModelChange)="changeSubType($event)" class="form-select">
         <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
         @for (item of subTypeList; track item.id) {
           <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
