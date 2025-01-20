@@ -166,6 +166,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   deletePhoto(id: number) {
+    if (!confirm('Are you sure you want to delete this photo? This action cannot be undone.')) {
+      return;
+    }
+
     this.photoService.deletePhoto(+this.route.snapshot.params.aid, id).subscribe(() => {
       this.photos = this.photos.filter(photo => photo.id !== id);
       this.totalCount--;
