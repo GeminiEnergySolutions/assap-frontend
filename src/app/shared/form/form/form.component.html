@@ -23,25 +23,10 @@
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
-            @let collapsed = accordion.collapsed;
-            <!-- TODO Drag to reorder.
-            <div
-              class="btn btn-sm btn-secondary bi-grip-vertical me-2"
-              ngbTooltip="Drag to Reorder"
-              [class.disabled]="!collapsed"
-              cdkDragHandle
-              [cdkDragHandleDisabled]="!collapsed"
-            ></div>
-            Also need
-              cdkDrag
-            on the ngbAccordionItem div and
-              cdkDropList [cdkDropListDisabled]="!editable" (cdkDropListDropped)="dropSection($event)"
-            on the ngbAccordion div.
-            -->
             <button
               class="btn btn-sm btn-danger bi-trash me-2"
               ngbTooltip="Remove Section"
-              [disabled]="!collapsed"
+              [disabled]="!accordion.collapsed"
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {

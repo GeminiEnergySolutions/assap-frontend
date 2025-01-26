@@ -166,12 +166,6 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
     return {totalFields, completedFields, percentage};
   }
 
-  /* TODO drag to reorder
-    dropSection(event: CdkDragDrop<SchemaSection[]>) {
-      moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
-    }
-   */
-
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
     moveItemInArray(section.schema, event.previousIndex, event.currentIndex);
     section._dirty = true;

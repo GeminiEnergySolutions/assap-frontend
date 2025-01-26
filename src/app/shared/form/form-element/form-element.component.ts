@@ -65,9 +65,6 @@ export class FormElementComponent implements OnInit, OnChanges {
     });
   }
 
-  // TODO Autofill Dates:
-  //   this.formData.data[element.key] = !this.formData.data[element.key] && element.isDateNow ? new Date().toISOString() : this.formData.data[element.key];
-
   changeDropDown(element: SchemaElement) {
     this.setDirty();
     if (!element.inputList?.length) {
