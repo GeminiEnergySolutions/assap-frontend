@@ -114,18 +114,12 @@ importers:
       '@types/jasmine':
         specifier: ~3.6.11
         version: 3.6.11
-      '@types/jasminewd2':
-        specifier: ~2.0.13
-        version: 2.0.13
       '@types/jexl':
         specifier: ^2.3.4
         version: 2.3.4
       '@types/node':
         specifier: ^20.17.16
         version: 20.17.16
-      '@types/uuid':
-        specifier: ^9.0.8
-        version: 9.0.8
       '@types/validator':
         specifier: ^13.12.2
         version: 13.12.2
@@ -165,9 +159,6 @@ importers:
       typescript:
         specifier: ~5.5.4
         version: 5.5.4
-      undici-types:
-        specifier: ^6.21.0
-        version: 6.21.0
 
 packages:
 
@@ -1786,9 +1777,6 @@ packages:
   '@types/jasmine@3.6.11':
     resolution: {integrity: sha512-S6pvzQDvMZHrkBz2Mcn/8Du7cpr76PlRJBAoHnSDNbulULsH5dp0Gns+WRyNX5LHejz/ljxK4/vIHK/caHt6SQ==}
 
-  '@types/jasminewd2@2.0.13':
-    resolution: {integrity: sha512-aJ3wj8tXMpBrzQ5ghIaqMisD8C3FIrcO6sDKHqFbuqAsI7yOxj0fA7MrRCPLZHIVUjERIwsMmGn/vB0UQ9u0Hg==}
-
   '@types/jexl@2.3.4':
     resolution: {integrity: sha512-3BU5DbkPvwqOeW8kZcB9Bvn5bspTFY3Lo0yBS6ephuI8kVSpCjzbGtRPbWnvdbr67tMvXDxiJRcL3fwbz/6+PQ==}
 
@@ -1824,9 +1812,6 @@ packages:
 
   '@types/sockjs@0.3.36':
     resolution: {integrity: sha512-MK9V6NzAS1+Ud7JV9lJLFqW85VbC9dq3LmwZCuBe4wBDgKC0Kj/jd8Xl+nSviU+Qc3+m7umHHyHg//2KSa0a0Q==}
-
-  '@types/uuid@9.0.8':
-    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
@@ -4402,9 +4387,6 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
     engines: {node: '>=4'}
@@ -6493,10 +6475,6 @@ snapshots:
 
   '@types/jasmine@3.6.11': {}
 
-  '@types/jasminewd2@2.0.13':
-    dependencies:
-      '@types/jasmine': 3.6.11
-
   '@types/jexl@2.3.4': {}
 
   '@types/json-schema@7.0.15': {}
@@ -6535,8 +6513,6 @@ snapshots:
   '@types/sockjs@0.3.36':
     dependencies:
       '@types/node': 20.17.16
-
-  '@types/uuid@9.0.8': {}
 
   '@types/validator@13.12.2': {}
 
@@ -9342,8 +9318,6 @@ snapshots:
   ua-parser-js@0.7.40: {}
 
   undici-types@6.19.8: {}
-
-  undici-types@6.21.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
