@@ -16,30 +16,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="col">
-    <div class="form-group">
-      <span>Photo Type</span>
-      <select [(ngModel)]="photoType" (change)="changePhotoType()" class="form-select">
-        <option value="All">All</option>
-        <option value="Audit">Audit</option>
-        <option value="Zone">Zone</option>
-      </select>
-    </div>
-  </div>
-  @if (photoType === 'All') {
-    <div class="col">
-      <span>Equipment</span>
-      <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipmentAll($event)" class="form-select">
-        @for (item of equipmentList; track item.id) {
-          <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
-        }
-      </select>
-    </div>
-  }
-  @if (photoType === 'Zone') {
+  @if (!route.snapshot.params.zid) {
     <div class="col">
       <span>Zone</span>
       <select [(ngModel)]="query.zoneId" (ngModelChange)="changeZone($event)" class="form-select">
+        <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
         @for (item of zoneList; track item.zoneId) {
           <option [value]="item.zoneId">{{ item.zoneName | uppercase }}</option>
         }
@@ -50,6 +32,9 @@
     <div class="col">
       <span>Equipment</span>
       <select [(ngModel)]="query.equipmentId" (ngModelChange)="changeEquipment($event)" class="form-select">
+        <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
+        <option [value]="0">None (Zone only)</option>
         @for (item of equipmentList; track item.id) {
           <option [value]="item.id">{{ item.equipmentName | uppercase }}</option>
         }
@@ -60,6 +45,8 @@
     <div class="col">
       <span>Type</span>
       <select [(ngModel)]="query.typeId" (ngModelChange)="changeSubType($event)" class="form-select">
+        <option value="">All</option>
+        <option [value]="undefined" disabled hidden>All</option>
         @for (item of subTypeList; track item.id) {
           <option [value]="item.id">{{ (item.name | uppercase) + ' - ' + (item.type.name | uppercase) }}</option>
         }
@@ -75,7 +62,7 @@
         : item.zoneId
           ? (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
           : (item.audit?.auditName | uppercase);
-      <img [src]="item.photo" class="img-fluid" [alt]="text">
+      <img [src]="item.photo" class="img-fluid" [alt]="text" (click)="modalPhoto = item; ngbModal.open(enlarge, {size: 'xl'})">
       <div class="overlay">
         {{ text }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
@@ -104,3 +91,17 @@
     Showing {{ ((query.pageNo - 1) * query.size) + 1 }} to {{ ((query.pageNo - 1) * query.size) + photos.length }} of {{ totalCount }} entries
   </div>
 </div>
+<ng-template #enlarge let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ modalPhoto?.timestamp | date:'medium' }}
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('X')"></button>
+  </div>
+  <div class="modal-body">
+    <img [src]="modalPhoto?.photo" [alt]="modalPhoto?.photo" class="w-100">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Close')">Close</button>
+  </div>
+</ng-template>

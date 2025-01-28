@@ -9,6 +9,10 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.includes('s3.amazonaws.com') || req.url.includes('localhost:9000')) {
+      // Don't add Authorization header for S3/Minio uploads
+      return next.handle(req);
+    }
 
     const token = localStorage.getItem('accessToken');
     let headers = req.headers;

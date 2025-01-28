@@ -1,15 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {AuditZoneService} from 'src/app/shared/services/audit-zone.service';
-import {EquipmentService} from 'src/app/shared/services/equipment.service';
-import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
-import {Zone} from '../../shared/model/zone.interface';
-import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
-import {map, of, switchMap} from 'rxjs';
-import {PhotoService} from '../../shared/services/photo.service';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {DatePipe, UpperCasePipe} from '@angular/common';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {UpperCasePipe} from '@angular/common';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbPagination,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
+import {map, of, switchMap, withLatestFrom} from 'rxjs';
+
+import {icons} from '../../shared/icons';
+import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Photo, PhotoQuery} from '../../shared/model/photo.interface';
+import {Zone} from '../../shared/model/zone.interface';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
+import {AuditService} from '../../shared/services/audit.service';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {EquipmentService} from '../../shared/services/equipment.service';
+import {PhotoService} from '../../shared/services/photo.service';
 
 @Component({
   selector: 'app-photos',
@@ -24,11 +35,10 @@ import {UpperCasePipe} from '@angular/common';
     NgbTooltip,
     NgbPagination,
     UpperCasePipe,
+    DatePipe,
   ],
 })
-export class PhotosComponent implements OnInit {
-
-  photoType = 'All';
+export class PhotosComponent implements OnInit, OnDestroy {
   zoneList: Zone[] = [];
   equipmentList: EquipmentCategory[] = [];
   subTypeList: Equipment[] = [];
@@ -41,19 +51,60 @@ export class PhotosComponent implements OnInit {
   totalCount = 0;
 
   photos: Photo[] = [];
+  modalPhoto?: Photo;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    protected route: ActivatedRoute,
     private photoService: PhotoService,
+    private auditService: AuditService,
     private auditZoneService: AuditZoneService,
     private equipmentService: EquipmentService,
+    private breadcrumbService: BreadcrumbService,
+    protected ngbModal: NgbModal,
   ) {
   }
 
   ngOnInit() {
+    const prevBreadcrumb: Breadcrumb = {label: '', routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(prevBreadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Photos', class: icons.photo, routerLink: '.', relativeTo: this.route,
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid, zid, eid, tid}) => {
+        if (tid) {
+          return this.equipmentService.getEquipment(+zid, +eid, +tid);
+        } else if (zid) {
+          return this.auditZoneService.getSingleZone(+aid, +zid);
+        } else {
+          return this.auditService.getSingleAudit(+aid);
+        }
+      }),
+    ).subscribe(({data}) => {
+      if ('name' in data) {
+        prevBreadcrumb.label = data.name;
+        prevBreadcrumb.class = icons.equipment;
+      } else if ('zoneName' in data) {
+        prevBreadcrumb.label = data.zoneName;
+        prevBreadcrumb.class = icons.zone;
+      } else if ('auditName' in data) {
+        prevBreadcrumb.label = data.auditName;
+        prevBreadcrumb.class = icons.audit;
+      }
+    });
+
     this.route.queryParams.pipe(
-      map(query => Object.assign(this.query, query, {auditId: +this.route.snapshot.params.aid})),
+      withLatestFrom(this.route.params),
+      map(([query, path]) => Object.assign(this.query, {
+        auditId: +path.aid || undefined,
+        zoneId: +path.zid || +query.zoneId || undefined,
+        equipmentId: +query.equipmentId || undefined,
+        typeId: +query.typeId || undefined,
+        pageNo: +query.pageNo || 1,
+        size: +query.size || 10,
+      })),
       switchMap(query => this.photoService.getPhotos(query)),
     ).subscribe(({data}) => {
       this.photos = data.photos;
@@ -77,43 +128,29 @@ export class PhotosComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
+  }
+
   updateQuery(update: Partial<PhotoQuery>) {
     Object.assign(this.query, update);
+    const queryParams = Object.fromEntries(Object.entries(this.query).filter(([_, v]) => v !== undefined && v !== null && v !== ''));
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: this.query,
+      queryParams,
       queryParamsHandling: 'replace',
     });
   }
 
-  changeEquipmentAll(equipmentId: number) {
-    this.updateQuery({
-      pageNo: 1,
-      zoneId: undefined,
-      equipmentId,
-      typeId: undefined,
-    });
-  }
-
-  changePhotoType() {
-    this.updateQuery({
-      pageNo: 1,
-      zoneId: undefined,
-      equipmentId: undefined,
-      typeId: undefined,
-    });
-  }
-
-  changeZone(zoneId: number) {
+  changeZone(zoneId: number | undefined) {
     this.updateQuery({
       pageNo: 1,
       zoneId,
-      equipmentId: undefined,
-      typeId: undefined,
     });
   }
 
-  changeEquipment(equipmentId: number) {
+  changeEquipment(equipmentId: number | undefined) {
     this.updateQuery({
       pageNo: 1,
       equipmentId,
@@ -129,6 +166,10 @@ export class PhotosComponent implements OnInit {
   }
 
   deletePhoto(id: number) {
+    if (!confirm('Are you sure you want to delete this photo? This action cannot be undone.')) {
+      return;
+    }
+
     this.photoService.deletePhoto(+this.route.snapshot.params.aid, id).subscribe(() => {
       this.photos = this.photos.filter(photo => photo.id !== id);
       this.totalCount--;
