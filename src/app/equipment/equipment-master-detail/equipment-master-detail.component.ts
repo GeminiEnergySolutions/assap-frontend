@@ -44,9 +44,9 @@ export class EquipmentMasterDetailComponent implements OnInit {
     const zoneBreadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '../..', relativeTo: this.route};
     const equipmentBreadcrumb: Breadcrumb = {label: '', routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.setBreadcrumbs([
-      {label: 'Audits', routerLink: '../../../../..'},
+      {label: 'Audits', routerLink: '../../../../..', relativeTo: this.route},
       auditBreadcrumb,
-      {label: 'Zones', routerLink: '../../..'},
+      {label: 'Zones', routerLink: '../../..', relativeTo: this.route},
       zoneBreadcrumb,
       equipmentBreadcrumb,
     ]);
