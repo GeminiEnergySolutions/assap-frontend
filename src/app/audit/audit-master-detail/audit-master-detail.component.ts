@@ -10,6 +10,7 @@ import {
   NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 
 import {AuditService} from '../../shared/services/audit.service';
 import {AuthService} from '../../shared/services/auth.service';
@@ -35,6 +36,7 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
     TitleCasePipe,
     KeyValuePipe,
     AuditOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class AuditMasterDetailComponent implements OnInit {

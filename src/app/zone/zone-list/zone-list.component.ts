@@ -5,6 +5,7 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
 import {switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
@@ -19,6 +20,7 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     NgbDropdownButtonItem,
     NgbDropdownItem,
     ZoneOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class ZoneListComponent implements OnInit {

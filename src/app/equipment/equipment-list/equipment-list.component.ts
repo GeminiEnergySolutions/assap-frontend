@@ -6,6 +6,7 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
@@ -22,6 +23,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     NgbDropdownButtonItem,
     TitleCasePipe,
     EquipmentOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class EquipmentListComponent implements OnInit {
