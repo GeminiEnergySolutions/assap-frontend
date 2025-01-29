@@ -1,7 +1,7 @@
 <div class="h-100 d-flex flex-column">
   <app-nav-bar></app-nav-bar>
   <div class="flex-grow-1 overflow-auto">
-    <router-outlet ></router-outlet>
+    <router-outlet (activate)="activate($event)"></router-outlet>
   </div>
 </div>
 <ngbx-toast-list top="4rem"></ngbx-toast-list>
