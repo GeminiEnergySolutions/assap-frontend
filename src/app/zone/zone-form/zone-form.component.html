@@ -27,5 +27,7 @@
       [formId]="'audits/' + auditId + '/zones/' + zoneId"
       (saved)="save()"
     ></app-form>
+  } @else {
+    <app-list-placeholder></app-list-placeholder>
   }
 </div>

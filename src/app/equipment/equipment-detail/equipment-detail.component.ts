@@ -4,6 +4,7 @@ import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
 
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
@@ -31,6 +32,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     RouterOutlet,
     TitleCasePipe,
     EquipmentOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
