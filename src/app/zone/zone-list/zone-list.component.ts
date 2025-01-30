@@ -5,6 +5,7 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
 import {switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
@@ -19,11 +20,12 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     NgbDropdownButtonItem,
     NgbDropdownItem,
     ZoneOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class ZoneListComponent implements OnInit {
 
-  zones: Zone[] = [];
+  zones?: Zone[];
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +52,7 @@ export class ZoneListComponent implements OnInit {
       auditId: this.route.snapshot.params.aid,
       zoneName: name,
     }).subscribe(({data}) => {
-      this.zones.push(data);
+      this.zones!.push(data);
       this.toastService.success('Create Zone', 'Successfully created new zone.');
     });
   }
@@ -60,8 +62,8 @@ export class ZoneListComponent implements OnInit {
       return;
     }
     this.zoneService.deleteAuditZone(zone.auditId, zone.zoneId).subscribe(() => {
-      const index = this.zones.findIndex(a => a.zoneId === zone.zoneId);
-      this.zones.splice(index, 1);
+      const index = this.zones!.findIndex(a => a.zoneId === zone.zoneId);
+      this.zones!.splice(index, 1);
       this.toastService.warn('Delete Zone', 'Successfully deleted zone.');
     });
   }
@@ -72,7 +74,7 @@ export class ZoneListComponent implements OnInit {
       return;
     }
     this.zoneService.duplicateAuditZone(zone.zoneId, +count).subscribe(response => {
-      this.zones.push(...response.data);
+      this.zones!.push(...response.data);
       this.toastService.success('Duplicate Zone', 'Successfully duplicated zone.');
     });
   }

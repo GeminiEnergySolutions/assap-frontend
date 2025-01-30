@@ -1,7 +1,7 @@
 <a routerLink="new" class="btn btn-outline-secondary bi-plus mb-3 w-100">
   Add {{ category?.equipmentName }}
 </a>
-<div class="list-group rounded-0">
+@if (equipments) {
   @for (item of equipments; track item.id) {
     <app-feature-card
       [title]="item.name | titlecase"
@@ -21,5 +21,11 @@
         </app-equipment-options-dropdown>
       </div>
     </app-feature-card>
+  } @empty {
+    <div class="text-center">
+      No {{ category?.equipmentName }} yet.
+    </div>
   }
-</div>
+} @else {
+  <app-list-placeholder></app-list-placeholder>
+}

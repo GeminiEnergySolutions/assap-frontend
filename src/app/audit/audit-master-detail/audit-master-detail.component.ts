@@ -10,6 +10,7 @@ import {
   NgbAccordionItem,
 } from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 
 import {AuditService} from '../../shared/services/audit.service';
 import {AuthService} from '../../shared/services/auth.service';
@@ -35,10 +36,11 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
     TitleCasePipe,
     KeyValuePipe,
     AuditOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class AuditMasterDetailComponent implements OnInit {
-  audits: Record<string, Audit[]> = {};
+  audits?: Record<string, Audit[]>;
 
   constructor(
     private auditService: AuditService,
@@ -84,10 +86,14 @@ export class AuditMasterDetailComponent implements OnInit {
   }
 
   private addAudit(audit: Audit) {
-    (this.audits[audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
+    (this.audits![audit.pre_audit_form?.data?.client_state?.toString() || ''] ??= []).push(audit);
   }
 
   delete(state: string, audit: Audit) {
+    if (!this.audits) {
+      return;
+    }
+
     let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
     this.audits[state].splice(index, 1);
     if (!this.audits[state].length) {

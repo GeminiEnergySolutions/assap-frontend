@@ -16,9 +16,7 @@
     </h1>
     <div class="d-flex align-items-center">
       <div class="me-3 flex-grow-1">
-        @if (auditService.currentProgress) {
-          <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
-        }
+        <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
       </div>
       <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
         Images

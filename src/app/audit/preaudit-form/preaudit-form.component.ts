@@ -3,6 +3,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
@@ -26,6 +27,7 @@ import {SchemaService} from '../../shared/services/schema.service';
     NgbDropdownMenu,
     ProgressBarComponent,
     FormComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class PreauditFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {

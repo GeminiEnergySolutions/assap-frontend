@@ -3,42 +3,46 @@
     <a class="btn btn-outline-secondary w-100 bi-plus mb-3" routerLink="new">
       Add Audit
     </a>
-    <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
-      @for (section of audits | keyvalue; track section.key) {
-        <div ngbAccordionItem>
-          <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>
-              {{ section.key || '(No State)' }}
-            </button>
-          </h2>
-          <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-              <ng-template>
-                <div class="list-group rounded-0">
-                  @for (audit of section.value; track audit.auditId) {
-                    <a class="list-group-item list-group-item-action d-flex align-items-center"
-                       [routerLink]="[audit.auditId]" routerLinkActive="active">
-                      <div class="flex-grow-1">
-                        {{ audit.auditName | titlecase }}
-                        @if (authService.currentLoginUser?.role?.role === 'superAdmin' && audit.user?.role?.role !== 'superAdmin') {
-                          ({{ audit.user?.userName | titlecase }})
-                        }
-                      </div>
-                      <div class="ms-3" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
-                        <app-audit-options-dropdown
-                          [audit]="audit"
-                          (deleted)="delete(section.key, audit)"
-                        ></app-audit-options-dropdown>
-                      </div>
-                    </a>
-                  }
-                </div>
-              </ng-template>
+    @if (audits) {
+      <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
+        @for (section of audits | keyvalue; track section.key) {
+          <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>
+                {{ section.key || '(No State)' }}
+              </button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <div class="list-group rounded-0">
+                    @for (audit of section.value; track audit.auditId) {
+                      <a class="list-group-item list-group-item-action d-flex align-items-center"
+                         [routerLink]="[audit.auditId]" routerLinkActive="active">
+                        <div class="flex-grow-1">
+                          {{ audit.auditName | titlecase }}
+                          @if (authService.currentLoginUser?.role?.role === 'superAdmin' && audit.user?.role?.role !== 'superAdmin') {
+                            ({{ audit.user?.userName | titlecase }})
+                          }
+                        </div>
+                        <div class="ms-3" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+                          <app-audit-options-dropdown
+                            [audit]="audit"
+                            (deleted)="delete(section.key, audit)"
+                          ></app-audit-options-dropdown>
+                        </div>
+                      </a>
+                    }
+                  </div>
+                </ng-template>
+              </div>
             </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    } @else {
+      <app-list-placeholder></app-list-placeholder>
+    }
   </div>
   <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
     <h1>

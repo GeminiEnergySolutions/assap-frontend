@@ -1,24 +1,32 @@
 <button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="create()">
   Add Zone
 </button>
-@for (zone of zones; track zone.zoneId) {
-  <app-feature-card
-    [title]="zone.zoneName"
-    [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"
-    [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
-  >
-    <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
-      <app-zone-options-dropdown [zone]="zone">
-        <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
-          Duplicate
-        </button>
-        <ng-container>
-          <div class="dropdown-divider"></div>
-          <button ngbDropdownItem class="text-danger bi-trash" (click)="delete(zone)">
-            Delete
+@if (zones) {
+  @for (zone of zones; track zone.zoneId) {
+    <app-feature-card
+      [title]="zone.zoneName"
+      [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"
+      [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
+    >
+      <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+        <app-zone-options-dropdown [zone]="zone">
+          <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
+            Duplicate
           </button>
-        </ng-container>
-      </app-zone-options-dropdown>
+          <ng-container>
+            <div class="dropdown-divider"></div>
+            <button ngbDropdownItem class="text-danger bi-trash" (click)="delete(zone)">
+              Delete
+            </button>
+          </ng-container>
+        </app-zone-options-dropdown>
+      </div>
+    </app-feature-card>
+  } @empty {
+    <div class="text-center">
+      No zones yet.
     </div>
-  </app-feature-card>
+  }
+} @else {
+  <app-list-placeholder></app-list-placeholder>
 }

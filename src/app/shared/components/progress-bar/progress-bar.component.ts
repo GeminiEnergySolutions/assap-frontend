@@ -7,6 +7,15 @@ import {PercentageCompletion} from '../../model/percentage-completion.interface'
   styleUrl: './progress-bar.component.scss',
 })
 export class ProgressBarComponent {
+  /**
+   * The progress to show.
+   * If undefined, the progress bar will be at 0%.
+   */
   @Input({required: true}) progress?: PercentageCompletion;
+
+  /**
+   * Whether to show the status as a label or not.
+   * If false, only progress bar.
+   */
   @Input() status = true;
 }

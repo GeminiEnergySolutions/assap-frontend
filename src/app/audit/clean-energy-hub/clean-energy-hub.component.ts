@@ -5,6 +5,7 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '
 import {switchMap, tap} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
@@ -29,6 +30,7 @@ import {SchemaService} from '../../shared/services/schema.service';
     NgbDropdownItem,
     ProgressBarComponent,
     FormComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy {

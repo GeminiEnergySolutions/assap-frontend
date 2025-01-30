@@ -6,6 +6,7 @@ import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
+import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
@@ -22,11 +23,12 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     NgbDropdownButtonItem,
     TitleCasePipe,
     EquipmentOptionsDropdownComponent,
+    ListPlaceholderComponent,
   ],
 })
 export class EquipmentListComponent implements OnInit {
   category?: EquipmentCategory;
-  equipments: Equipment[] = [];
+  equipments?: Equipment[];
 
   constructor(
     private auditService: AuditService,
@@ -59,6 +61,10 @@ export class EquipmentListComponent implements OnInit {
         return this.equipmentService.getEquipment(+this.route.snapshot.params.zid, +this.route.snapshot.params.eid, newId);
       }),
     ).subscribe(({data}) => {
+      if (!this.equipments) {
+        return;
+      }
+
       const index = this.equipments.findIndex(e => e.id === data.id);
       if (index >= 0) {
         this.equipments[index] = data;
@@ -85,8 +91,8 @@ export class EquipmentListComponent implements OnInit {
 
     const kind = item.type?.name;
     this.equipmentService.deleteEquipment(item.zoneId, item.equipmentId, item.id).subscribe(() => {
-      let index = this.equipments.indexOf(item);
-      this.equipments.splice(index, 1);
+      const index = this.equipments!.indexOf(item);
+      this.equipments!.splice(index, 1);
       this.toastService.warn('Delete Equipment', `Successfully deleted ${kind}`);
       this.getEquipmentPercentage(this.category!);
     });
@@ -95,7 +101,7 @@ export class EquipmentListComponent implements OnInit {
   duplicate(item: Equipment) {
     const kind = item.type?.name;
     this.equipmentService.duplicateEquipment(item.zoneId, item.id).subscribe(({data}) => {
-      this.equipments.push(data);
+      this.equipments!.push(data);
       this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
     });
   }
