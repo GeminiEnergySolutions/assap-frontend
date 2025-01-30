@@ -34,5 +34,7 @@
       [formId]="'audits/' + auditId + '/cleanenergyhub'"
       (saved)="save()"
     ></app-form>
+  } @else {
+    <app-list-placeholder></app-list-placeholder>
   }
 </div>
