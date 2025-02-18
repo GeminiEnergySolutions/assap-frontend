@@ -36,4 +36,21 @@ export class SelectSchemaComponent implements OnInit {
       }
     });
   }
+
+  addSubType(category: EquipmentCategory) {
+    const name = prompt('Enter the name of the new type');
+    if (!name) {
+      return;
+    }
+
+    this.equipmentService.createEquipmentType(category.id, {
+      id: 0,
+      equipmentId: category.id,
+      equipment: category,
+      name,
+      deleteStatus: false,
+    }).subscribe(({data}) => {
+      this.equipmentTypes[category.id]?.push(data);
+    });
+  }
 }

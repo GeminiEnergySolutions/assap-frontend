@@ -37,6 +37,10 @@ export class EquipmentService {
     return this.http.get<Response<EquipmentType[]>>(`${environment.url}api/equipment/${categoryId}/type`);
   }
 
+  createEquipmentType(categoryId: number, data: EquipmentType): Observable<Response<EquipmentType>> {
+    return this.http.post<Response<EquipmentType>>(`${environment.url}api/equipment/${categoryId}/type`, data);
+  }
+
   getEquipment(zoneId: number, categoryId: number, id: number): Observable<Response<Equipment>> {
     return this.http.get<Response<Equipment>>(`${environment.url}api/zone/${zoneId}/equipment/${categoryId}/subType/${id}`);
   }

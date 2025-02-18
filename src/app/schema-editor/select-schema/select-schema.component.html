@@ -42,6 +42,9 @@
           <h5>
             {{ category.equipmentName }}
           </h5>
+          <button class="btn btn-link btn-sm text-secondary bi-plus-lg" (click)="$event.preventDefault(); $event.stopImmediatePropagation(); addSubType(category)">
+            Add Subtype
+          </button>
         </a>
       } @else {
         <div class="list-group-item">
@@ -61,6 +64,9 @@
                 </li>
               }
             </ul>
+            <button class="btn btn-link btn-sm text-secondary bi-plus-lg" (click)="addSubType(category)">
+              Add Subtype
+            </button>
           </details>
         </div>
       }
