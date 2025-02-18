@@ -92,6 +92,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   addSection() {
     this.schemaService.createSchemaSection(this.kind, {
       id: 0,
+      typeId: this.route.snapshot.params.id,
       name: 'New Section',
       schema: [],
     }).subscribe(({data}) => {
