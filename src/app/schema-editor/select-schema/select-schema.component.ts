@@ -44,11 +44,8 @@ export class SelectSchemaComponent implements OnInit {
     }
 
     this.equipmentService.createEquipmentType(category.id, {
-      id: 0,
       equipmentId: category.id,
-      equipment: category,
       name,
-      deleteStatus: false,
     }).subscribe(({data}) => {
       this.equipmentTypes[category.id]?.push(data);
     });

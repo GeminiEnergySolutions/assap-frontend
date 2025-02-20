@@ -3,6 +3,9 @@
     <h4>
       <a class="bi-chevron-left" routerLink="../.."></a>
       Edit Schema: {{ title }}
+      @if (equipmentType) {
+        <button class="btn btn-link bi-pencil" ngbTooltip="Rename" (click)="renameSubType()"></button>
+      }
     </h4>
     <h5>
       Preview

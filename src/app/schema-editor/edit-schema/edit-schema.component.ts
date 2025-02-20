@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {icons} from '../../shared/icons';
+import {EquipmentType} from '../../shared/model/equipment.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
@@ -21,15 +23,17 @@ import {SchemaContextService} from '../schema-context.service';
     MasterDetailComponent,
     RouterLink,
     FormComponent,
+    NgbTooltip,
   ],
 })
 export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   kind: SchemaKind = 'preAudit';
   title = '';
   schemaSections: SchemaSection[] = [];
+  equipmentType?: EquipmentType;
 
   constructor(
-    private route: ActivatedRoute,
+    protected route: ActivatedRoute,
     private schemaService: SchemaService,
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
@@ -72,6 +76,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
             this.title = breadcrumb.label = 'Equipment';
             // Category ID does not seem to matter, we just pass 0
             this.equipmentService.getEquipmentType(0, id).subscribe(({data}) => {
+              this.equipmentType = data;
               this.title = breadcrumb.label = data.name;
             });
             break;
@@ -107,6 +112,21 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
 
     this.schemaService.deleteSchemaSection(this.kind, section.id).subscribe(() => {
       this.schemaSections.splice(this.schemaSections.indexOf(section), 1);
+    });
+  }
+
+  renameSubType() {
+    const newName = prompt('Enter a new name for this equipment type:', this.title);
+    if (!newName) {
+      return;
+    }
+
+    this.equipmentService.updateEquipmentType(0, {
+      id: this.equipmentType!.id,
+      equipmentId: this.equipmentType!.equipmentId,
+      name: newName,
+    }).subscribe(() => {
+      this.title = newName;
     });
   }
 }
