@@ -186,4 +186,11 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
     section.schema.splice($index, 1);
     section._dirty = true;
   }
+
+  copySection(schema: SchemaSection) {
+    const string = JSON.stringify({...schema, id: undefined, _dirty: undefined});
+    navigator.clipboard.writeText(string).then(() => {
+      this.toastService.success('Copied', `Section ${schema.name} copied to clipboard`);
+    });
+  }
 }

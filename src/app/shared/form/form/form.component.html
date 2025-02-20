@@ -17,6 +17,11 @@
             @if (schema._dirty) {
               <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
             }
+            <button
+              class="btn btn-sm btn-secondary bi-clipboard me-2"
+              ngbTooltip="Copy Section"
+              (click)="copySection(schema); $event.stopPropagation()"
+            ></button>
             <a
               class="btn btn-sm btn-primary bi-pencil me-2"
               ngbTooltip="Edit Section"

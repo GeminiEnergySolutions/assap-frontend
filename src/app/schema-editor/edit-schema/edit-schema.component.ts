@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 
@@ -38,6 +39,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
     private equipmentService: EquipmentService,
     private schemaContext: SchemaContextService,
     private breadcrumbService: BreadcrumbService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -102,6 +104,26 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
       schema: [],
     }).subscribe(({data}) => {
       this.schemaSections.push(data);
+    });
+  }
+
+  pasteSection() {
+    navigator.clipboard.readText().then(text => {
+      const section = JSON.parse(text);
+      if (!section.name || !section.schema) {
+        throw new Error('Invalid Section');
+      }
+      delete section.id;
+      section.typeId = +this.route.snapshot.params.id;
+      if (this.schemaSections.some(s => s.name === section.name)) {
+        section.name += ' (copy)';
+      }
+      this.schemaService.createSchemaSection(this.kind, section).subscribe(({data}) => {
+        this.schemaSections.push(data);
+        this.toastService.success('Pasted Section', `Successfully pasted section ${data.name}`);
+      });
+    }).catch(error => {
+      this.toastService.error('Failed to Paste Section', 'Clipboard is empty or does not contain a valid section', error);
     });
   }
 
