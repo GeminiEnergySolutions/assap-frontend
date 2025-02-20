@@ -57,7 +57,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
         switch (kind) {
           case 'preaudit':
             this.kind = 'preAudit';
-            this.title = breadcrumb.label = 'Preaudit';
+            this.title = breadcrumb.label = 'Pre-Audit';
             break;
           case 'grants':
             this.kind = 'grants';
