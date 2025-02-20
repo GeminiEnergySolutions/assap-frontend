@@ -60,6 +60,11 @@
                   }
                   @if (editable) {
                     <div class="position-absolute top-0 end-0">
+                      <button
+                        class="btn btn-sm btn-secondary bi-clipboard me-2"
+                        ngbTooltip="Copy Field"
+                        (click)="copyField(element); $event.stopPropagation()"
+                      ></button>
                       <a
                         class="btn btn-sm btn-primary bi-pencil me-2"
                         ngbTooltip="Edit Field"
@@ -81,9 +86,10 @@
               }
             </div>
             @if (editable) {
-              <button class="btn btn-success bi-plus-lg" (click)="addFormElement(schema)">
+              <button class="btn btn-success bi-plus-lg me-2" (click)="addFormElement(schema)">
                 Add Field
               </button>
+              <button class="btn btn-secondary bi-clipboard-plus me-2" ngbTooltip="Paste Field" (click)="pasteField(schema)"></button>
             }
           </ng-template>
         </div>

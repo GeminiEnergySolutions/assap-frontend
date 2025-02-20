@@ -193,4 +193,25 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
       this.toastService.success('Copied', `Section ${schema.name} copied to clipboard`);
     });
   }
+
+  copyField(element: SchemaElement) {
+    const string = JSON.stringify(element);
+    navigator.clipboard.writeText(string).then(() => {
+      this.toastService.success('Copied', `Field ${element.key} copied to clipboard`);
+    });
+  }
+
+  pasteField(section: SchemaSection) {
+    navigator.clipboard.readText().then(text => {
+      const element = JSON.parse(text);
+      if (!element.key || !element.dataType || !element.type || !element.title) {
+        throw new Error('Invalid Section');
+      }
+      section.schema.push(element);
+      section._dirty = true;
+      this.toastService.success('Pasted Section', `Successfully pasted section ${element.name}`);
+    }).catch(error => {
+      this.toastService.error('Failed to Paste Section', 'Clipboard is empty or does not contain a valid section', error);
+    });
+  }
 }
