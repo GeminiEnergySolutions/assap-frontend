@@ -88,6 +88,7 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addSubfield()">
       Add Subfield
     </button>
+    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteSubfield()" ngbTooltip="Paste Subfield"></button>
   </h2>
   <div class="list-group mb-3" cdkDropList (cdkDropListDropped)="dropSubfield($event)">
     @for (subField of field.inputList; track subField.key) {
@@ -122,9 +123,10 @@
             <input class="form-control" placeholder="Title" [(ngModel)]="subField.title" [ngbTooltip]="'The title of this subfield'"/>
           </div>
           <div class="col-auto">
-            <a class="btn btn-primary bi-pencil me-2" ngbTooltip="Edit Subfield" [routerLink]="['..', subField.key]"></a>
-            <div class="btn btn-secondary bi-grip-vertical me-2" cdkDragHandle ngbTooltip="Drag to Reorder"></div>
-            <button class="btn btn-danger bi-trash" ngbTooltip="Remove Subfield" (click)="removeSubfield($index)"></button>
+            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" ngbTooltip="Copy Subfield" (click)="copySubfield(subField)"></button>
+            <a class="btn m-0 p-0 btn-link bi-pencil me-2" ngbTooltip="Edit Subfield" [routerLink]="['..', subField.key]"></a>
+            <div class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2" cdkDragHandle ngbTooltip="Drag to Reorder"></div>
+            <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Subfield" (click)="removeSubfield($index)"></button>
           </div>
         </div>
       </div>
