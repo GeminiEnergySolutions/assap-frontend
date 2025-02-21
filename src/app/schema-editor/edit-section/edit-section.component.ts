@@ -7,7 +7,7 @@ import {NgbOffcanvas, NgbPopover, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 
 import {icons} from '../../shared/icons';
-import {CopySpec, DisabledSchema, SchemaSection} from '../../shared/model/schema.interface';
+import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {ExpressionErrorPipe} from '../../shared/pipe/expression-error.pipe';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {CopyPasteService} from '../../shared/services/copy-paste.service';

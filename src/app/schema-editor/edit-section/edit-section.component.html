@@ -61,7 +61,7 @@
             <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="setDirty()"/>
           </div>
           <div class="col-auto">
-            <button class="btn btn-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>
+            <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="editSpec = undefined; offcanvas.dismiss()"></button>
   </div>
   <div class="offcanvas-body pt-0">
-    <table class="table">
+    <table class="table align-middle">
       <thead class="sticky-top">
       <tr>
         <th>Source</th>
@@ -130,17 +130,17 @@
         <th>Target</th>
         <th></th>
       </tr>
-      <tr>
+      <tr class="align-middle">
         <td class="p-0 font-monospace">
           <input type="text" class="form-control" placeholder="Source Field" [(ngModel)]="newSource" [ngbTypeahead]="search">
         </td>
-        <td class="text-center align-middle">
+        <td class="text-center">
           <i class="bi-arrow-right"></i>
         </td>
         <td class="p-0 font-monospace">
           <input type="text" class="form-control" placeholder="Target Field" [(ngModel)]="newTarget" [ngbTypeahead]="search">
         </td>
-        <td class="p-0">
+        <td>
           <button
             class="btn btn-sm btn-success bi-plus-lg"
             ngbTooltip="Add Mapping"
@@ -156,15 +156,15 @@
             <td class="font-monospace">
               {{ field.value }}
             </td>
-            <td class="text-center align-middle">
+            <td class="text-center">
               <i class="bi-arrow-right"></i>
             </td>
             <td class="font-monospace">
               {{ field.key }}
             </td>
-            <td class="p-0">
+            <td class="text-center">
               <button
-                class="btn btn-sm btn-danger bi-trash"
+                class="btn m-0 p-0 btn-link text-danger bi-trash"
                 ngbTooltip="Remove Mapping"
                 (click)="deleteMapping(field.key)"
               ></button>
