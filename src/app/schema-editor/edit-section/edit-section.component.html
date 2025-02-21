@@ -76,6 +76,7 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCopySpec()">
       Add Copy Button
     </button>
+    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteCopySpec()" ngbTooltip="Paste Copy Button"></button>
   </h2>
   <div class="list-group mb-3">
     @for (copySpec of section.copySchema; track copySpec) {
@@ -98,7 +99,8 @@
             })">
               Edit Field Mapping
             </button>
-            <button class="btn btn-danger bi-trash" (click)="deleteCopySpec($index)" ngbTooltip="Remove"></button>
+            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" (click)="copyCopySpec(copySpec)" ngbTooltip="Copy"></button>
+            <button class="btn m-0 p-0 btn-link text-danger bi-trash" (click)="deleteCopySpec($index)" ngbTooltip="Remove"></button>
           </div>
         </div>
       </div>
