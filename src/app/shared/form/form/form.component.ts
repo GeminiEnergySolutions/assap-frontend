@@ -18,6 +18,7 @@ import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {EvalPipe} from '../../pipe/eval.pipe';
+import {CopyPasteService} from '../../services/copy-paste.service';
 import {FormElementComponent} from '../form-element/form-element.component';
 
 @Component({
@@ -56,6 +57,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
 
   constructor(
     private toastService: ToastService,
+    private copyPasteService: CopyPasteService,
   ) {
   }
 
@@ -188,30 +190,35 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   }
 
   copySection(schema: SchemaSection) {
-    const string = JSON.stringify({...schema, id: undefined, _dirty: undefined});
-    navigator.clipboard.writeText(string).then(() => {
+    this.copyPasteService.copy(schema, [
+      'id',
+      '_dirty',
+    ]).subscribe(() => {
       this.toastService.success('Copied', `Section ${schema.name} copied to clipboard`);
     });
   }
 
   copyField(element: SchemaElement) {
-    const string = JSON.stringify(element);
-    navigator.clipboard.writeText(string).then(() => {
+    this.copyPasteService.copy(element).subscribe(() => {
       this.toastService.success('Copied', `Field ${element.key} copied to clipboard`);
     });
   }
 
   pasteField(section: SchemaSection) {
-    navigator.clipboard.readText().then(text => {
-      const element = JSON.parse(text);
-      if (!element.key || !element.dataType || !element.type || !element.title) {
-        throw new Error('Invalid Section');
-      }
-      section.schema.push(element);
-      section._dirty = true;
-      this.toastService.success('Pasted Section', `Successfully pasted section ${element.name}`);
-    }).catch(error => {
-      this.toastService.error('Failed to Paste Section', 'Clipboard is empty or does not contain a valid section', error);
+    this.copyPasteService.paste<SchemaElement>([
+      'key',
+      'dataType',
+      'type',
+      'title',
+    ]).subscribe({
+      next: element => {
+        section.schema.push(element);
+        section._dirty = true;
+        this.toastService.success('Pasted Field', `Successfully pasted field ${element.key}`);
+      },
+      error: error => {
+        this.toastService.error('Failed to Paste Field', 'Clipboard is empty or does not contain a valid field', error);
+      },
     });
   }
 }
