@@ -17,7 +17,7 @@
       class="form-select"
       [id]="id"
       [(ngModel)]="formData.data[element.key]"
-      (change)="changeDropDown(element)"
+      (change)="setDirty()"
       [attr.aria-describedby]="id + '-help'"
       [disabled]="!!element.disabled"
     >
@@ -117,13 +117,8 @@
     }
   </ul>
 }
-@if (element.inputList?.length) {
-  @let keyValue = formData.data[element.key];
-  @for (element1 of element.inputList; track element1 // cannot track key because it might be duplicated) {
-    @if (!element1.dependentKeyValue && keyValue || (isArray(element1.dependentKeyValue) ? keyValue && element1.dependentKeyValue.includes(keyValue) : element1.dependentKeyValue === keyValue)) {
-      <div class="ms-3 mt-3">
-        <app-form-element [element]="element1" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="setDirty()"></app-form-element>
-      </div>
-    }
-  }
+@for (child of childElements; track child // cannot track key because it might be duplicated) {
+  <div class="ms-3 mt-3">
+    <app-form-element [element]="child" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="dirty.emit()"></app-form-element>
+  </div>
 }

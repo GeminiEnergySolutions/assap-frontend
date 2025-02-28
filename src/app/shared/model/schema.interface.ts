@@ -68,3 +68,9 @@ export interface SchemaRequirement {
 export interface SchemaSubElement extends SchemaElement {
   dependentKeyValue: SchemaValue | SchemaValue[];
 }
+
+export module SchemaSubElement {
+  export function matchesDependentKeyValue(subElement: SchemaSubElement, keyValue: SchemaValue | undefined) {
+    return Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue;
+  }
+}

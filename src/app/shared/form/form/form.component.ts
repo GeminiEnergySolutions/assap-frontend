@@ -16,7 +16,7 @@ import {
 import {ProgressBarComponent} from '../../components/progress-bar/progress-bar.component';
 import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
-import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
+import {CopySpec, SchemaElement, SchemaSection, SchemaSubElement, SchemaValue} from '../../model/schema.interface';
 import {EvalPipe} from '../../pipe/eval.pipe';
 import {CopyPasteService} from '../../services/copy-paste.service';
 import {FormElementComponent} from '../form-element/form-element.component';
@@ -55,6 +55,8 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input() dirty = false;
   @Output() dirtyChange = new EventEmitter<boolean>();
 
+  progressPerSection: Partial<Record<number, PercentageCompletion>> = {};
+
   constructor(
     private toastService: ToastService,
     private copyPasteService: CopyPasteService,
@@ -66,6 +68,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
       for (const element of section.schema) {
         this.init(section, element);
       }
+      this.updateProgress(section);
     }
   }
 
@@ -157,15 +160,35 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
     }
   }
 
+  updateProgress(schema: SchemaSection) {
+    this.progressPerSection[schema.id] = this.getProgress(schema);
+  }
+
   getProgress(schema: SchemaSection): PercentageCompletion {
-    let requireElements = schema.schema.filter(e => e.required);
-    const totalFields = requireElements.length;
-    const completedFields = requireElements.filter(e => {
-      const data = this.formData?.data[e.key];
-      return data !== undefined && data !== null && data !== '';
-    }).length;
+    let totalFields = 0;
+    let completedFields = 0;
+    for (const requiredElement of this.requiredFormElements(schema.schema)) {
+      totalFields++;
+      const data = this.formData?.data[requiredElement.key];
+      if (data !== undefined && data !== null && data !== '') {
+        completedFields++;
+      }
+    }
     const percentage = (completedFields / totalFields) * 100;
     return {totalFields, completedFields, percentage};
+  }
+
+  private *requiredFormElements(elements: Iterable<SchemaElement>): Generator<SchemaElement> {
+    for (const element of elements) {
+      if (element.required) {
+        yield element;
+      }
+      for (const subElement of element.inputList ?? []) {
+        if (SchemaSubElement.matchesDependentKeyValue(subElement, this.formData.data[element.key])) {
+          yield* this.requiredFormElements([subElement]);
+        }
+      }
+    }
   }
 
   dropField(section: SchemaSection, event: CdkDragDrop<SchemaElement[]>) {
