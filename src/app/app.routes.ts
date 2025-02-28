@@ -21,6 +21,10 @@ export const routes: Routes = [
     loadChildren: () => import('./auth/auth.routes').then((m) => m.routes),
   },
   {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.routes').then((m) => m.routes),
+  },
+  {
     path: 'schema-editor',
     loadChildren: () => import('./schema-editor/schema-editor.routes').then((m) => m.routes),
     canActivate: [AuthGuard],
