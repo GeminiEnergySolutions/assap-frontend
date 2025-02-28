@@ -70,7 +70,7 @@
     <button class="navbar-toggler" type="button" (click)="offcanvas.open(content)">
       &#9776;
     </button>
-    <nav aria-label="breadcrumb" class="align-self-center">
+    <nav aria-label="breadcrumb" class="align-self-center d-none d-md-block">
       <ol class="breadcrumb">
         @for (breadcrumb of breadcrumbService.breadcrumbs$ | async; track breadcrumb) {
           <li class="breadcrumb-item" [class.active]="$last" [attr.aria-current]="$last ? 'page' : null">
