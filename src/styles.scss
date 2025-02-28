@@ -79,6 +79,13 @@ ul.pagination, ol.breadcrumb {
   margin-bottom: 0;
 }
 
+// Hide slash before breadcrumb item if the previous item is hidden
+@media (max-width: 576px) {
+  .breadcrumb-item.d-none.d-sm-block + .breadcrumb-item::before {
+    display: none;
+  }
+}
+
 .bg-blur {
   background-color: rgba(127, 127, 127, 0.25);
   backdrop-filter: blur(10px);
