@@ -3,14 +3,20 @@
     <h4>
       <a class="bi-chevron-left" routerLink="../.."></a>
       Edit Schema: {{ title }}
+      @if (equipmentType) {
+        <button class="btn btn-link bi-pencil" ngbTooltip="Rename" (click)="renameSubType()"></button>
+      }
     </h4>
     <h5>
       Preview
     </h5>
     <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true" (deleted)="deleteSection($event)"></app-form>
-    <button class="btn btn-success bi-plus-lg mt-3" (click)="addSection()">
-      Add Section
-    </button>
+    <div class="mt-3">
+      <button class="btn btn-success bi-plus-lg me-2" (click)="addSection()">
+        Add Section
+      </button>
+      <button class="btn btn-secondary bi-clipboard-plus me-2" ngbTooltip="Paste Section" (click)="pasteSection()"></button>
+    </div>
   </div>
   <div default class="h-100 d-flex justify-content-center align-items-center flex-column">
     <h2>

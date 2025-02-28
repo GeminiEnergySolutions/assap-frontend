@@ -4,11 +4,11 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {
   CreateEquipmentDto,
-  CreateEquipmentFormData,
+  CreateEquipmentFormData, CreateEquipmentTypeDto,
   Equipment,
   EquipmentCategory,
   EquipmentFormData,
-  EquipmentType,
+  EquipmentType, UpdateEquipmentTypeDto,
 } from '../model/equipment.interface';
 import {HvacConnectedZone, ZoneWithHvacConnected} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
@@ -35,6 +35,18 @@ export class EquipmentService {
 
   getEquipmentTypes(categoryId: number): Observable<Response<EquipmentType[]>> {
     return this.http.get<Response<EquipmentType[]>>(`${environment.url}api/equipment/${categoryId}/type`);
+  }
+
+  createEquipmentType(categoryId: number, data: CreateEquipmentTypeDto): Observable<Response<EquipmentType>> {
+    return this.http.post<Response<EquipmentType>>(`${environment.url}api/equipment/${categoryId}/type`, data);
+  }
+
+  updateEquipmentType(categoryId: number, data: UpdateEquipmentTypeDto): Observable<Response<EquipmentType>> {
+    return this.http.put<Response<EquipmentType>>(`${environment.url}api/equipment/${categoryId}/type/${data.id}`, data);
+  }
+
+  deleteEquipmentType(categoryId: number, id: number): Observable<Response> {
+    return this.http.delete<Response>(`${environment.url}api/equipment/${categoryId}/type/${id}`);
   }
 
   getEquipment(zoneId: number, categoryId: number, id: number): Observable<Response<Equipment>> {

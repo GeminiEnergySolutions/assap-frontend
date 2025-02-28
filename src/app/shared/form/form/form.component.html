@@ -7,6 +7,9 @@
         <button ngbAccordionButton [disabled]="!editable && disabled">
           <div class="flex-grow-1">
             {{ schema.name }}
+            @if (editable && schema._dirty) {
+              <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
+            }
           </div>
           @if (disabled) {
             <div class="text-muted me-3">
@@ -14,17 +17,19 @@
             </div>
           }
           @if (editable) {
-            @if (schema._dirty) {
-              <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
-            }
+            <button
+              class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2"
+              ngbTooltip="Copy Section"
+              (click)="copySection(schema); $event.stopPropagation()"
+            ></button>
             <a
-              class="btn btn-sm btn-primary bi-pencil me-2"
+              class="btn m-0 p-0 btn-link bi-pencil me-2"
               ngbTooltip="Edit Section"
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
             <button
-              class="btn btn-sm btn-danger bi-trash me-2"
+              class="btn m-0 p-0 btn-link text-danger bi-trash me-2"
               ngbTooltip="Remove Section"
               [disabled]="!accordion.collapsed"
               (click)="deleted.next(schema); $event.stopPropagation()"
@@ -54,19 +59,24 @@
                                       (dirty)="setDirty()"></app-form-element>
                   }
                   @if (editable) {
-                    <div class="position-absolute top-0 end-0">
+                    <div class="position-absolute top-0 end-0 rounded border bg-blur">
+                      <button
+                        class="btn m-0 p-1 btn-link text-secondary bi-clipboard"
+                        ngbTooltip="Copy Field"
+                        (click)="copyField(element); $event.stopPropagation()"
+                      ></button>
                       <a
-                        class="btn btn-sm btn-primary bi-pencil me-2"
+                        class="btn m-0 p-1 btn-link bi-pencil"
                         ngbTooltip="Edit Field"
                         [routerLink]="['field', element.key]"
                       ></a>
                       <div
-                        class="btn btn-sm btn-secondary bi-grip-vertical me-2"
+                        class="btn m-0 p-1 btn-link text-secondary bi-grip-vertical"
                         ngbTooltip="Drag to Reorder"
                         cdkDragHandle
                       ></div>
                       <button
-                        class="btn btn-sm btn-danger bi-trash me-2"
+                        class="btn m-0 p-1 btn-link text-danger bi-trash"
                         ngbTooltip="Remove Field"
                         (click)="removeFormElement(schema, $index)"
                       ></button>
@@ -76,9 +86,10 @@
               }
             </div>
             @if (editable) {
-              <button class="btn btn-success bi-plus-lg" (click)="addFormElement(schema)">
+              <button class="btn btn-success bi-plus-lg me-2" (click)="addFormElement(schema)">
                 Add Field
               </button>
+              <button class="btn btn-secondary bi-clipboard-plus me-2" ngbTooltip="Paste Field" (click)="pasteField(schema)"></button>
             }
           </ng-template>
         </div>

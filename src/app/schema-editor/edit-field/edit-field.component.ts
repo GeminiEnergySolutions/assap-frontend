@@ -2,6 +2,7 @@ import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from 
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatestWith} from 'rxjs';
 
@@ -9,6 +10,7 @@ import {FormComponent} from '../../shared/form/form/form.component';
 import {icons} from '../../shared/icons';
 import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {CopyPasteService} from '../../shared/services/copy-paste.service';
 import {SchemaContextService} from '../schema-context.service';
 
 @Component({
@@ -243,6 +245,8 @@ export class EditFieldComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private schemaContext: SchemaContextService,
     private breadcrumbService: BreadcrumbService,
+    private copyPasteService: CopyPasteService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -330,5 +334,27 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   dropSubfield(event: CdkDragDrop<SchemaSubElement[]>) {
     this.field.inputList && moveItemInArray(this.field.inputList, event.previousIndex, event.currentIndex);
     this.setDirty();
+  }
+
+  copySubfield(subfield: SchemaSubElement) {
+    this.copyPasteService.copy(subfield).subscribe(() => {
+      this.toastService.success('Copied to Clipboard', 'Field copied to clipboard');
+    });
+  }
+
+  pasteSubfield() {
+    this.copyPasteService.paste<SchemaSubElement>([
+      'key',
+      'dataType',
+      'type',
+      'title',
+    ]).subscribe({
+      next: subfield => {
+        (this.field.inputList ??= []).push(subfield);
+        this.setDirty();
+        this.toastService.success('Pasted', `Successfully pasted field ${subfield.key}`);
+      },
+      error: error => this.toastService.error('Failed to Paste', 'Clipboard is empty or does not contain a valid field', error),
+    });
   }
 }

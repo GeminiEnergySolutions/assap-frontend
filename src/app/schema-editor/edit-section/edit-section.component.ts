@@ -2,6 +2,7 @@ import {KeyValuePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
 import {NgbOffcanvas, NgbPopover, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 
@@ -9,6 +10,7 @@ import {icons} from '../../shared/icons';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
 import {ExpressionErrorPipe} from '../../shared/pipe/expression-error.pipe';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+import {CopyPasteService} from '../../shared/services/copy-paste.service';
 import {SchemaContextService} from '../schema-context.service';
 
 @Component({
@@ -47,6 +49,8 @@ export class EditSectionComponent implements OnInit, OnDestroy {
     private schemaContext: SchemaContextService,
     private breadcrumbService: BreadcrumbService,
     protected ngbOffcanvas: NgbOffcanvas,
+    private copyPasteService: CopyPasteService,
+    private toastService: ToastService,
   ) {
   }
 
@@ -93,6 +97,26 @@ export class EditSectionComponent implements OnInit, OnDestroy {
   deleteCopySpec($index: number) {
     this.section.copySchema?.splice($index, 1);
     this.setDirty();
+  }
+
+  copyCopySpec(spec: CopySpec) {
+    this.copyPasteService.copy(spec).subscribe(() => {
+      this.toastService.success('Copied to Clipboard', 'Button and mappings copied to clipboard');
+    });
+  }
+
+  pasteCopySpec() {
+    this.copyPasteService.paste<CopySpec>([
+      'buttonLabel',
+      'mappingInputs',
+    ]).subscribe({
+      next: spec => {
+        this.section.copySchema?.push(spec);
+        this.setDirty();
+        this.toastService.success('Pasted Copy Spec', 'Successfully pasted button and mappings');
+      },
+      error: error => this.toastService.error('Failed to Paste Copy Spec', 'Clipboard is empty or does not contain a valid copy spec', error),
+    });
   }
 
   addMapping(source: string, target: string) {

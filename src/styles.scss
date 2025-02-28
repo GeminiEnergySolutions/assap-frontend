@@ -79,6 +79,11 @@ ul.pagination, ol.breadcrumb {
   margin-bottom: 0;
 }
 
+.bg-blur {
+  background-color: rgba(127, 127, 127, 0.25);
+  backdrop-filter: blur(10px);
+}
+
 .icon-conserve::before {
   display: inline-block;
   font-style: normal;

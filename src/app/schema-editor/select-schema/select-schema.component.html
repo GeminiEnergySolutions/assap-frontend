@@ -8,7 +8,7 @@
   <div class="list-group mb-3">
     <a class="list-group-item list-group-item-action" routerLink="preaudit/0">
       <h5 class="bi-file-earmark-text">
-        Pre Audit
+        Pre-Audit
       </h5>
       Basic information about the audit.
     </a>
@@ -42,6 +42,9 @@
           <h5>
             {{ category.equipmentName }}
           </h5>
+          <button class="btn btn-sm btn-outline-secondary bi-plus-lg" (click)="$event.preventDefault(); $event.stopImmediatePropagation(); addSubType(category)">
+            Add Subtype
+          </button>
         </a>
       } @else {
         <div class="list-group-item">
@@ -55,12 +58,15 @@
             <ul>
               @for (equipmentType of equipments; track equipmentType.id) {
                 <li>
-                  <a [routerLink]="['equipment', equipmentType.id]">
-                    {{ equipmentType.name }}
-                  </a>
+                  <a [routerLink]="['equipment', equipmentType.id]">{{ equipmentType.name }}</a>
+                  <button class="btn m-0 p-0 btn-link text-secondary bi-copy ms-2" ngbTooltip="Duplicate Subtype" (click)="duplicateSubType(equipmentType)"></button>
+                  <button class="btn m-0 p-0 btn-link text-danger bi-trash ms-2" ngbTooltip="Delete Subtype" (click)="deleteSubType(equipmentType)"></button>
                 </li>
               }
             </ul>
+            <button class="btn btn-outline-secondary btn-sm bi-plus-lg" (click)="addSubType(category)">
+              Add Subtype
+            </button>
           </details>
         </div>
       }

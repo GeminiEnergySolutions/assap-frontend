@@ -18,6 +18,7 @@ import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CopySpec, SchemaElement, SchemaSection, SchemaValue} from '../../model/schema.interface';
 import {EvalPipe} from '../../pipe/eval.pipe';
+import {CopyPasteService} from '../../services/copy-paste.service';
 import {FormElementComponent} from '../form-element/form-element.component';
 
 @Component({
@@ -56,6 +57,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
 
   constructor(
     private toastService: ToastService,
+    private copyPasteService: CopyPasteService,
   ) {
   }
 
@@ -185,5 +187,38 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   removeFormElement(section: SchemaSection, $index: number) {
     section.schema.splice($index, 1);
     section._dirty = true;
+  }
+
+  copySection(schema: SchemaSection) {
+    this.copyPasteService.copy(schema, [
+      'id',
+      '_dirty',
+    ]).subscribe(() => {
+      this.toastService.success('Copied', `Section ${schema.name} copied to clipboard`);
+    });
+  }
+
+  copyField(element: SchemaElement) {
+    this.copyPasteService.copy(element).subscribe(() => {
+      this.toastService.success('Copied', `Field ${element.key} copied to clipboard`);
+    });
+  }
+
+  pasteField(section: SchemaSection) {
+    this.copyPasteService.paste<SchemaElement>([
+      'key',
+      'dataType',
+      'type',
+      'title',
+    ]).subscribe({
+      next: element => {
+        section.schema.push(element);
+        section._dirty = true;
+        this.toastService.success('Pasted Field', `Successfully pasted field ${element.key}`);
+      },
+      error: error => {
+        this.toastService.error('Failed to Paste Field', 'Clipboard is empty or does not contain a valid field', error);
+      },
+    });
   }
 }

@@ -23,6 +23,8 @@ export interface EquipmentType {
   equipmentId: number;
   equipment: EquipmentCategory;
 }
+export type CreateEquipmentTypeDto = Pick<EquipmentType, 'name' | 'equipmentId'>;
+export type UpdateEquipmentTypeDto = Pick<EquipmentType, 'id' | 'name' | 'equipmentId'>;
 
 /**
  * A category of equipment, e.g. "Refrigeration" or "Lighting".

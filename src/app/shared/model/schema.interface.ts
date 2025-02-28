@@ -1,5 +1,6 @@
 export interface SchemaSection {
   id: number;
+  typeId?: number;
   name: string;
   schema: SchemaElement[];
   copySchema?: CopySpec[];
