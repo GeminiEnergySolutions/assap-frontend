@@ -21,24 +21,6 @@
         </a>
       }
       <div class="flex-grow-1"></div>
-      <div ngbDropdown class="d-inline-block">
-        <button class="nav-link bi-moon-stars" ngbDropdownToggle>
-          Theme
-        </button>
-        <div ngbDropdownMenu aria-labelledby="accountDropdown" class="dropdown-menu-end">
-          <h6 class="dropdown-header">Theme</h6>
-          @for (theme of themes; track theme) {
-            <button
-              ngbDropdownItem
-              class="dropdown-item-check {{ theme.value === selectedTheme ? theme.selectedIcon : theme.icon }}"
-              [disabled]="theme.value === selectedTheme"
-              (click)="selectTheme(theme.value)"
-            >
-              {{ theme.name }}
-            </button>
-          }
-        </div>
-      </div>
       @if (authService.currentLoginUser) {
         <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/settings">
           Settings
