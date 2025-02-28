@@ -60,6 +60,7 @@
                 <li>
                   <a [routerLink]="['equipment', equipmentType.id]">{{ equipmentType.name }}</a>
                   <button class="btn m-0 p-0 btn-link text-secondary bi-copy ms-2" ngbTooltip="Duplicate Subtype" (click)="duplicateSubType(equipmentType)"></button>
+                  <button class="btn m-0 p-0 btn-link text-danger bi-trash ms-2" ngbTooltip="Delete Subtype" (click)="deleteSubType(equipmentType)"></button>
                 </li>
               }
             </ul>

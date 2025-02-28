@@ -84,4 +84,15 @@ export class SelectSchemaComponent implements OnInit {
       );
     });
   }
+
+  deleteSubType(subType: EquipmentType) {
+    if (!confirm('Are you sure you want to delete this subtype? This action cannot be undone.')) {
+      return;
+    }
+
+    this.equipmentService.deleteEquipmentType(subType.equipmentId, subType.id).subscribe(() => {
+      this.equipmentTypes[subType.equipmentId]!.splice(this.equipmentTypes[subType.equipmentId]!.indexOf(subType), 1);
+      this.toastService.warn('Deleted Subtype', `Successfully deleted subtype ${subType.name}`);
+    })
+  }
 }
