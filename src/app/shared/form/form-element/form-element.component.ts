@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {
   SchemaElement,
   SchemaRequirement,
@@ -7,8 +9,6 @@ import {
   SchemaValue,
 } from '../../model/schema.interface';
 import {ExpressionService} from '../../services/expression.service';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
 import {FormChoicesPipe} from '../form-choices.pipe';
 
 @Component({
@@ -79,7 +79,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     }
     const keyValue = this.formData.data[this.element.key];
     for (const subElement of this.element.inputList) {
-      if (this.matchesDependentKeyValue(subElement, keyValue)) {
+      if (SchemaSubElement.matchesDependentKeyValue(subElement, keyValue)) {
         this.childElements.push(subElement);
         if (subElement.defaultValue !== undefined) {
           this.formData.data[subElement.key] = subElement.defaultValue;
@@ -88,9 +88,5 @@ export class FormElementComponent implements OnInit, OnChanges {
         }
       }
     }
-  }
-
-  private matchesDependentKeyValue(subElement: SchemaSubElement, keyValue: SchemaValue | undefined) {
-    return Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue;
   }
 }
