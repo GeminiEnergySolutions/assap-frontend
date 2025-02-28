@@ -35,7 +35,7 @@
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {
-            <app-progress-bar class="w-25" [status]="false" [progress]="getProgress(schema)"></app-progress-bar>
+            <app-progress-bar class="w-25" [status]="false" [progress]="progressPerSection[schema.id]"></app-progress-bar>
           }
         </button>
       </h2>
@@ -55,8 +55,13 @@
                   (cdkDragDropped)="dropField(schema, $event)"
                 >
                   @if (formData) {
-                    <app-form-element [element]="element" [schema]="schema" [formId]="formId" [formData]="formData"
-                                      (dirty)="setDirty()"></app-form-element>
+                    <app-form-element
+                      [element]="element"
+                      [schema]="schema"
+                      [formId]="formId"
+                      [formData]="formData"
+                      (dirty)="setDirty(); updateProgress(schema)"
+                    ></app-form-element>
                   }
                   @if (editable) {
                     <div class="position-absolute top-0 end-0 rounded border bg-blur">

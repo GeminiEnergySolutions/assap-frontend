@@ -55,6 +55,8 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input() dirty = false;
   @Output() dirtyChange = new EventEmitter<boolean>();
 
+  progressPerSection: Partial<Record<number, PercentageCompletion>> = {};
+
   constructor(
     private toastService: ToastService,
     private copyPasteService: CopyPasteService,
@@ -66,6 +68,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
       for (const element of section.schema) {
         this.init(section, element);
       }
+      this.updateProgress(section);
     }
   }
 
@@ -155,6 +158,10 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
       this.toastService.success(copy.buttonLabel, `Successfully copied ${changed} inputs`);
       this.setDirty();
     }
+  }
+
+  updateProgress(schema: SchemaSection) {
+    this.progressPerSection[schema.id] = this.getProgress(schema);
   }
 
   getProgress(schema: SchemaSection): PercentageCompletion {
