@@ -1,5 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {SchemaElement, SchemaRequirement, SchemaSection, SchemaValue} from '../../model/schema.interface';
+import {
+  SchemaElement,
+  SchemaRequirement,
+  SchemaSection,
+  SchemaSubElement,
+  SchemaValue,
+} from '../../model/schema.interface';
 import {ExpressionService} from '../../services/expression.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
@@ -27,6 +33,8 @@ export class FormElementComponent implements OnInit, OnChanges {
 
   validationMessages: SchemaRequirement[] = [];
 
+  childElements: SchemaSubElement[] = [];
+
   constructor(
     private expressionService: ExpressionService,
   ) {
@@ -39,19 +47,18 @@ export class FormElementComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (this.formData.data[this.element.key]) {
-      return;
-    }
     this.validate();
+    this.determineChildElements();
   }
 
   setDirty() {
     globalThis?.localStorage.setItem(this.id, String(this.formData.data[this.element.key]));
     this.validate();
+    this.determineChildElements();
     this.dirty.emit();
   }
 
-  validate() {
+  private validate() {
     this.validationMessages = [];
     if (!this.element.validations) {
       return;
@@ -65,14 +72,15 @@ export class FormElementComponent implements OnInit, OnChanges {
     });
   }
 
-  changeDropDown(element: SchemaElement) {
-    this.setDirty();
-    if (!element.inputList?.length) {
+  private determineChildElements() {
+    this.childElements = [];
+    if (!this.element.inputList?.length) {
       return;
     }
-    const keyValue = this.formData.data[element.key];
-    for (const subElement of element.inputList) {
-      if (Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+    const keyValue = this.formData.data[this.element.key];
+    for (const subElement of this.element.inputList) {
+      if (this.matchesDependentKeyValue(subElement, keyValue)) {
+        this.childElements.push(subElement);
         if (subElement.defaultValue !== undefined) {
           this.formData.data[subElement.key] = subElement.defaultValue;
         } else {
@@ -82,5 +90,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     }
   }
 
-  protected readonly isArray = Array.isArray;
+  private matchesDependentKeyValue(subElement: SchemaSubElement, keyValue: SchemaValue | undefined) {
+    return Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue;
+  }
 }
