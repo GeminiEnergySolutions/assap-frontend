@@ -58,9 +58,8 @@
             <ul>
               @for (equipmentType of equipments; track equipmentType.id) {
                 <li>
-                  <a [routerLink]="['equipment', equipmentType.id]">
-                    {{ equipmentType.name }}
-                  </a>
+                  <a [routerLink]="['equipment', equipmentType.id]">{{ equipmentType.name }}</a>
+                  <button class="btn m-0 p-0 btn-link text-secondary bi-copy ms-2" ngbTooltip="Duplicate Subtype" (click)="duplicateSubType(equipmentType)"></button>
                 </li>
               }
             </ul>
