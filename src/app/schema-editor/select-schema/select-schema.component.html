@@ -42,7 +42,7 @@
           <h5>
             {{ category.equipmentName }}
           </h5>
-          <button class="btn btn-link btn-sm text-secondary bi-plus-lg" (click)="$event.preventDefault(); $event.stopImmediatePropagation(); addSubType(category)">
+          <button class="btn btn-sm btn-outline-secondary bi-plus-lg" (click)="$event.preventDefault(); $event.stopImmediatePropagation(); addSubType(category)">
             Add Subtype
           </button>
         </a>
@@ -64,7 +64,7 @@
                 </li>
               }
             </ul>
-            <button class="btn btn-link btn-sm text-secondary bi-plus-lg" (click)="addSubType(category)">
+            <button class="btn btn-outline-secondary btn-sm bi-plus-lg" (click)="addSubType(category)">
               Add Subtype
             </button>
           </details>
