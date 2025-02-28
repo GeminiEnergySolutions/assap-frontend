@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +8,7 @@ import {switchMap} from 'rxjs';
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Zone} from '../../shared/model/zone.interface';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-options-dropdown.component';
 
@@ -21,11 +23,13 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     NgbDropdownItem,
     ZoneOptionsDropdownComponent,
     ListPlaceholderComponent,
+    FormsModule,
+    SearchPipe,
   ],
 })
 export class ZoneListComponent implements OnInit {
-
   zones?: Zone[];
+  search = '';
 
   constructor(
     private route: ActivatedRoute,
