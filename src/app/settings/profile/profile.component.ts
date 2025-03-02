@@ -7,11 +7,11 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
   imports: [FormsModule, ReactiveFormsModule],
 })
-export class ChangePasswordComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   public changePasswordForm !: FormGroup
 

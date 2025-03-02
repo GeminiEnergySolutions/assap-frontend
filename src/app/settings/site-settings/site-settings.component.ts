@@ -6,10 +6,10 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 @Component({
   selector: 'app-site',
   imports: [],
-  templateUrl: './site.component.html',
-  styleUrl: './site.component.scss'
+  templateUrl: './site-settings.component.html',
+  styleUrl: './site-settings.component.scss'
 })
-export class SiteComponent implements OnInit, OnDestroy {
+export class SiteSettingsComponent implements OnInit, OnDestroy {
 
   selectedTheme = this.themeService.theme;
 
