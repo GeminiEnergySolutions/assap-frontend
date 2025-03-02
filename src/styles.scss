@@ -86,6 +86,11 @@ ul.pagination, ol.breadcrumb {
   }
 }
 
+// Fix breadcrumb divider color on dark background
+.bg-dark .breadcrumb {
+  --bs-breadcrumb-divider-color: var(--bs-secondary);
+}
+
 .bg-blur {
   background-color: rgba(127, 127, 127, 0.25);
   backdrop-filter: blur(10px);

@@ -63,9 +63,10 @@
             [class.d-sm-block]="!$last"
           >
             <a
+              class="link-light"
               [class]="breadcrumb.class"
               [routerLink]="breadcrumb.routerLink" [relativeTo]="breadcrumb.relativeTo"
-              routerLinkActive="link-body-emphasis text-decoration-none"
+              routerLinkActive="text-decoration-none"
               [routerLinkActiveOptions]="{exact: true}"
             >
               @if (breadcrumb.label) {
