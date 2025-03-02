@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {SwUpdate} from '@angular/service-worker';
-import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {RouterOutlet} from '@angular/router';
-import {ToastModule} from '@mean-stream/ngbx';
+import {SwUpdate} from '@angular/service-worker';
+import {ThemeService, ToastModule} from '@mean-stream/ngbx';
+
+import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {BreadcrumbService} from './shared/services/breadcrumb.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   constructor(
     private updates: SwUpdate,
     private breadcrumbService: BreadcrumbService,
+    private themeService: ThemeService,
   ) {
   }
 
