@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
+import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-site',
@@ -7,7 +9,7 @@ import {Theme, ThemeService} from '@mean-stream/ngbx';
   templateUrl: './site.component.html',
   styleUrl: './site.component.scss'
 })
-export class SiteComponent {
+export class SiteComponent implements OnInit, OnDestroy {
 
   selectedTheme = this.themeService.theme;
 
@@ -19,7 +21,22 @@ export class SiteComponent {
 
   constructor(
     private themeService: ThemeService,
+    private breadcrumbService: BreadcrumbService,
+    private route: ActivatedRoute,
   ) {
+  }
+
+  ngOnInit() {
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Site Settings',
+      class: 'bi-toggles',
+      routerLink: '.',
+      relativeTo: this.route,
+    });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   selectTheme(value: Theme) {
