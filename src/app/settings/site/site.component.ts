@@ -12,9 +12,9 @@ export class SiteComponent {
   selectedTheme = this.themeService.theme;
 
   readonly themes = [
-    {name: 'Sync with OS', value: 'auto', icon: 'bi-circle-half', selectedIcon: 'bi-check-circle-fill'},
-    {name: 'Light', value: 'light', icon: 'bi-sun', selectedIcon: 'bi-sun-fill'},
-    {name: 'Dark', value: 'dark', icon: 'bi-moon-stars', selectedIcon: 'bi-moon-stars-fill'},
+    {name: 'System', value: 'auto', icon: 'bi-circle-half'},
+    {name: 'Light', value: 'light', icon: 'bi-sun'},
+    {name: 'Dark', value: 'dark', icon: 'bi-moon-stars'},
   ];
 
   constructor(
