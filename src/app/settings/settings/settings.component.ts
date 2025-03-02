@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {BreadcrumbService} from 'src/app/shared/services/breadcrumb.service';
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 
@@ -8,6 +8,7 @@ import {MasterDetailComponent} from '../../shared/components/master-detail/maste
   imports: [
     RouterLink,
     MasterDetailComponent,
+    RouterLinkActive,
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
