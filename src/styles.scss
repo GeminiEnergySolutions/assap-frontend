@@ -80,7 +80,7 @@ ul.pagination, ol.breadcrumb {
 }
 
 // Hide slash before breadcrumb item if the previous item is hidden
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .breadcrumb-item.d-none.d-sm-block + .breadcrumb-item::before {
     display: none;
   }

@@ -1,7 +1,7 @@
 import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {AuthService} from '../shared/services/auth.service';
 import {BreadcrumbService} from '../shared/services/breadcrumb.service';
@@ -15,6 +15,7 @@ import {BreadcrumbService} from '../shared/services/breadcrumb.service';
     RouterLink,
     TitleCasePipe,
     AsyncPipe,
+    NgbTooltip,
   ],
 })
 export class NavBarComponent {

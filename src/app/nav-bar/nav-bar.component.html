@@ -49,12 +49,27 @@
 </ng-template>
 <nav class="navbar navbar-collapse navbar-dark bg-dark">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" (click)="offcanvas.open(content)">
+    @let breadcrumbs = breadcrumbService.breadcrumbs$ | async;
+    <button
+      class="navbar-toggler"
+      type="button"
+      [class.d-none]="breadcrumbs && breadcrumbs.length > 1"
+      [class.d-sm-block]="breadcrumbs && breadcrumbs.length > 1"
+      (click)="offcanvas.open(content)"
+    >
       &#9776;
     </button>
+    @if (breadcrumbs && breadcrumbs.length > 1) {
+      @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
+      <a
+        class="btn btn-link bi-chevron-left d-block d-sm-none"
+        [routerLink]="prevBreadcrumb.routerLink" [relativeTo]="prevBreadcrumb.relativeTo"
+        [ngbTooltip]="prevBreadcrumb.label"
+      ></a>
+    }
     <nav aria-label="breadcrumb" class="align-self-center">
       <ol class="breadcrumb">
-        @for (breadcrumb of breadcrumbService.breadcrumbs$ | async; track breadcrumb) {
+        @for (breadcrumb of breadcrumbs; track breadcrumb) {
           <li
             class="breadcrumb-item"
             [class.active]="$last"
