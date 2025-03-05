@@ -1,27 +1,21 @@
-<div class="bg-dark text-light mb-3">
-  <div class="d-flex align-items-center justify-content-between">
-    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
-    <div class="bi-dice-4 px-3">
-      Zone
-    </div>
+<div class="bg-dark text-light mb-3 p-3">
+  <div class="float-end">
     <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
   </div>
-  <div class="p-3">
-    <h1>
-      @if (zone) {
-        {{ zone.zoneName | titlecase }}
-      } @else {
-        <span class="rounded placeholder placeholder-glow">Loading...</span>
-      }
-    </h1>
-    <div class="d-flex align-items-center">
-      <div class="me-3 flex-grow-1">
-        <app-progress-bar [progress]="progress"></app-progress-bar>
-      </div>
-      <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
-        Images
-      </a>
+  <h1>
+    @if (zone) {
+      {{ zone.zoneName | titlecase }}
+    } @else {
+      <span class="rounded placeholder placeholder-glow">Loading...</span>
+    }
+  </h1>
+  <div class="d-flex align-items-center">
+    <div class="me-3 flex-grow-1">
+      <app-progress-bar [progress]="progress"></app-progress-bar>
     </div>
+    <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
+      Images
+    </a>
   </div>
 </div>
 <div class="container">
