@@ -51,14 +51,11 @@
   <div class="container-fluid">
     @let breadcrumbs = breadcrumbService.breadcrumbs$ | async;
     <button
-      class="navbar-toggler"
-      type="button"
+      class="btn btn-link bi-list"
       [class.d-none]="breadcrumbs && breadcrumbs.length > 1"
       [class.d-sm-block]="breadcrumbs && breadcrumbs.length > 1"
       (click)="offcanvas.open(content)"
-    >
-      &#9776;
-    </button>
+    ></button>
     @if (breadcrumbs && breadcrumbs.length > 1) {
       @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
       <a
