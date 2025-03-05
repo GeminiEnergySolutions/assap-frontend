@@ -1,7 +1,7 @@
+<ng-template #options>
+  <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
+</ng-template>
 <div class="bg-dark text-light mb-3 p-3">
-  <div class="float-end">
-    <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
-  </div>
   <h1>
     @if (zone) {
       {{ zone.zoneName | titlecase }}

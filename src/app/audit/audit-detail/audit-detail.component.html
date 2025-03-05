@@ -1,7 +1,7 @@
+<ng-template #options>
+  <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
+</ng-template>
 <div class="bg-dark text-light mb-3 p-3">
-  <div class="float-end">
-    <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
-  </div>
   <h1>
     @if (audit) {
       {{ audit.auditName | titlecase }}

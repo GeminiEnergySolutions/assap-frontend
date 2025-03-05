@@ -91,8 +91,10 @@
         }
       </ol>
     </nav>
-    <div>
-      <!-- Placeholder -->
-    </div>
+    @if (breadcrumbService.options) {
+      <ng-container [ngTemplateOutlet]="breadcrumbService.options"></ng-container>
+    } @else {
+      <button class="btn btn-link bi-three-dots" disabled></button>
+    }
   </div>
 </nav>
