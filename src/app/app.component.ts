@@ -20,8 +20,9 @@ export class AppComponent implements OnInit {
   constructor(
     private updates: SwUpdate,
     private breadcrumbService: BreadcrumbService,
-    private themeService: ThemeService,
+    themeService: ThemeService,
   ) {
+    themeService.theme; // must be injected, otherwise theme will not be applied
   }
 
   async ngOnInit() {
