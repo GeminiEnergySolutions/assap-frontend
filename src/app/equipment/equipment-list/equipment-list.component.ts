@@ -1,7 +1,7 @@
 import {TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
@@ -28,6 +28,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     ListPlaceholderComponent,
     FormsModule,
     SearchPipe,
+    RouterLinkActive,
   ],
 })
 export class EquipmentListComponent implements OnInit {

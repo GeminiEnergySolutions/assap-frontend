@@ -12,6 +12,7 @@
     <app-feature-card
       [title]="zone.zoneName"
       [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"
+      routerLinkActive="active"
       [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
     >
       <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">

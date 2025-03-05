@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
@@ -25,6 +25,7 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     ListPlaceholderComponent,
     FormsModule,
     SearchPipe,
+    RouterLinkActive,
   ],
 })
 export class ZoneListComponent implements OnInit {

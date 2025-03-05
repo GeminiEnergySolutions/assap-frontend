@@ -91,6 +91,12 @@ ul.pagination, ol.breadcrumb {
   --bs-breadcrumb-divider-color: var(--bs-secondary);
 }
 
+// Highlight active feature-cards
+.active > .card {
+  color: var(--bs-light);
+  background-color: var(--bs-primary);
+}
+
 .bg-blur {
   background-color: rgba(127, 127, 127, 0.25);
   backdrop-filter: blur(10px);

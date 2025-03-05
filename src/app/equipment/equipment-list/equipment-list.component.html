@@ -13,6 +13,7 @@
       [title]="item.name | titlecase"
       [subtitle]="item.type.name"
       [routerLink]="['types', item.id]"
+      routerLinkActive="active"
       [percentageQuery]="{progressType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
     >
       <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
