@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {map, switchMap, tap} from 'rxjs';
@@ -35,8 +35,9 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     ListPlaceholderComponent,
   ],
 })
-export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChangesComponent {
+export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewInit, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;
+  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
 
   auditId?: number;
   equipmentId?: number;
@@ -99,8 +100,13 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, SaveableChan
     ).subscribe(res => this.progress = res);
   }
 
+  ngAfterViewInit() {
+    this.breadcrumbService.options = this.options;
+  }
+
   ngOnDestroy() {
     this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.options = undefined;
   }
 
   uploadPhoto(file: File) {

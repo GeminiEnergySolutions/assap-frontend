@@ -1,22 +1,32 @@
 <app-master-detail>
   <div list>
+    <input
+      type="search"
+      class="form-control mb-3"
+      placeholder="Search all audits"
+      [(ngModel)]="search"
+    />
     <a class="btn btn-outline-secondary w-100 bi-plus mb-3" routerLink="new">
       Add Audit
     </a>
     @if (audits) {
       <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
         @for (section of audits | keyvalue; track section.key) {
-          <div ngbAccordionItem>
+          @let audits = section.value | search:search:['auditName'];
+          <div ngbAccordionItem [disabled]="!audits.length">
             <h2 ngbAccordionHeader>
-              <button ngbAccordionButton>
-                {{ section.key || '(No State)' }}
+              <button ngbAccordionButton [class.text-secondary]="!audits.length">
+                <div class="flex-grow-1">
+                  {{ section.key || '(No State)' }}
+                </div>
+                <span class="text-muted mx-2">{{ audits.length }}</span>
               </button>
             </h2>
             <div ngbAccordionCollapse>
               <div ngbAccordionBody>
                 <ng-template>
                   <div class="list-group rounded-0">
-                    @for (audit of section.value; track audit.auditId) {
+                    @for (audit of audits; track audit.auditId) {
                       <a class="list-group-item list-group-item-action d-flex align-items-center"
                          [routerLink]="[audit.auditId]" routerLinkActive="active">
                         <div class="flex-grow-1">

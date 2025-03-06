@@ -79,6 +79,24 @@ ul.pagination, ol.breadcrumb {
   margin-bottom: 0;
 }
 
+// Hide slash before breadcrumb item if the previous item is hidden
+@media (max-width: 575px) {
+  .breadcrumb-item.d-none.d-sm-block + .breadcrumb-item::before {
+    display: none;
+  }
+}
+
+// Fix breadcrumb divider color on dark background
+.bg-dark .breadcrumb {
+  --bs-breadcrumb-divider-color: var(--bs-secondary);
+}
+
+// Highlight active feature-cards
+.active > .card {
+  color: var(--bs-light);
+  background-color: var(--bs-primary);
+}
+
 .bg-blur {
   background-color: rgba(127, 127, 127, 0.25);
   backdrop-filter: blur(10px);

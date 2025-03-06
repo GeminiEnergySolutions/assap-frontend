@@ -1,12 +1,19 @@
+<input
+  type="search"
+  class="form-control mb-3"
+  [placeholder]="'Search ' + (equipments?.length ?? 0) + ' ' + category?.equipmentName"
+  [(ngModel)]="search"
+/>
 <a routerLink="new" class="btn btn-outline-secondary bi-plus mb-3 w-100">
   Add {{ category?.equipmentName }}
 </a>
 @if (equipments) {
-  @for (item of equipments; track item.id) {
+  @for (item of equipments | search:search:['name']; track item.id) {
     <app-feature-card
       [title]="item.name | titlecase"
       [subtitle]="item.type.name"
       [routerLink]="['types', item.id]"
+      routerLinkActive="active"
       [percentageQuery]="{progressType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
     >
       <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">

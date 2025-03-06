@@ -1,22 +1,8 @@
-<div class="bg-dark text-light mb-3">
-  <div class="d-flex align-items-center justify-content-between">
-    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
-    <div class="bi-patch-check px-3">
-      Grants
-    </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-link bi-three-dots" id="dropdown-grants" ngbDropdownToggle>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdown-grants">
-        <div class="dropdown-item-text">
-          No actions available.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="p-3">
-    <app-progress-bar [progress]="progress"></app-progress-bar>
-  </div>
+<div class="bg-dark text-light mb-3 p-3">
+  <h1>
+    Grants
+  </h1>
+  <app-progress-bar [progress]="progress"></app-progress-bar>
 </div>
 <div class="container">
   @if (typeSchema && formData) {

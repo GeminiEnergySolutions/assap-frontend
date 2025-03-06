@@ -23,10 +23,10 @@
   }
 }
 <div class="d-flex align-items-center">
-  <div class="progress flex-grow-1 bg-secondary" style="height: 0.25rem">
+  <div class="progress flex-grow-1 bg-body-secondary" style="height: 0.25rem">
     <div class="progress-bar" role="progressbar" [style.width.%]="progress?.percentage"></div>
   </div>
-  <div class="ms-2 text-muted small" [style.width]="'5rem'">
+  <div class="ms-2 text-secondary small" [style.width]="'5rem'">
     {{ progress?.completedFields }} / {{ progress?.totalFields }}
   </div>
 </div>

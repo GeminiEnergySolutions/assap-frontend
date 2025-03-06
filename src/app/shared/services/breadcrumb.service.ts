@@ -1,12 +1,14 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
+import {Injectable, TemplateRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class BreadcrumbService {
   private breadcrumbs = new BehaviorSubject<Breadcrumb[]>([]);
 
   readonly breadcrumbs$: Observable<Breadcrumb[]> = this.breadcrumbs.asObservable();
+
+  options?: TemplateRef<any>;
 
   constructor() {}
 

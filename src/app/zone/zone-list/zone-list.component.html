@@ -1,11 +1,18 @@
+<input
+  type="search"
+  class="form-control mb-3"
+  [placeholder]="'Search ' + (zones?.length ?? 0) + ' zones'"
+  [(ngModel)]="search"
+/>
 <button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="create()">
   Add Zone
 </button>
 @if (zones) {
-  @for (zone of zones; track zone.zoneId) {
+  @for (zone of zones | search:search:['zoneName']; track zone.zoneId) {
     <app-feature-card
       [title]="zone.zoneName"
       [routerLink]="['/audits', zone.auditId, 'zones', zone.zoneId]"
+      routerLinkActive="active"
       [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
     >
       <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">

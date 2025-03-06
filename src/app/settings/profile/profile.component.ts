@@ -1,31 +1,47 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
-import {AuthService} from '../../shared/services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {AuthService} from '../../shared/services/auth.service';
+import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
   imports: [FormsModule, ReactiveFormsModule],
 })
-export class ChangePasswordComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   public changePasswordForm !: FormGroup
 
-  constructor(private formBuilder:FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService,
-  ) { }
+    private breadcrumbService: BreadcrumbService,
+  ) {
+  }
 
   ngOnInit(): void {
+    this.breadcrumbService.pushBreadcrumb({
+      label: 'Profile',
+      class: 'bi-person',
+      routerLink: '.',
+      relativeTo: this.route,
+    })
+
     this.changePasswordForm = this.formBuilder.group({
       oldPassword: [''],
       newPassword:[''],
       confirmNewPassword:['']
     })
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
   }
 
   onSubmit(){

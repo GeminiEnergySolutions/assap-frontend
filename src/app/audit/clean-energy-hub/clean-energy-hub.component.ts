@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
@@ -23,7 +23,6 @@ import {SchemaService} from '../../shared/services/schema.service';
   templateUrl: './clean-energy-hub.component.html',
   styleUrls: ['./clean-energy-hub.component.scss'],
   imports: [
-    RouterLink,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -33,8 +32,9 @@ import {SchemaService} from '../../shared/services/schema.service';
     ListPlaceholderComponent,
   ],
 })
-export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy, AfterViewInit {
   @ViewChild('form') form?: FormComponent;
+  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
 
   auditId?: number;
   progress?: PercentageCompletion;
@@ -84,9 +84,14 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
     this.getPercentage();
   }
 
+  ngAfterViewInit() {
+    this.breadcrumbService.options = this.options;
+  }
+
   ngOnDestroy() {
     this.breadcrumbService.popBreadcrumb();
     this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.options = undefined;
   }
 
   save() {

@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {switchMap, tap} from 'rxjs';
 
@@ -24,7 +24,9 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
     AuditOptionsDropdownComponent,
   ],
 })
-export class AuditDetailComponent implements OnInit, OnDestroy {
+export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+
   audit?: Audit;
 
   constructor(
@@ -57,7 +59,12 @@ export class AuditDetailComponent implements OnInit, OnDestroy {
     ).subscribe(res => this.auditService.currentProgress = res);
   }
 
+  ngAfterViewInit() {
+    this.breadcrumbService.options = this.options;
+  }
+
   ngOnDestroy() {
     this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.options = undefined;
   }
 }

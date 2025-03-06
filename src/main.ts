@@ -1,16 +1,15 @@
-import {enableProdMode} from '@angular/core';
-
-
-import {environment} from './environments/environment';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
-import {AuthInterceptor} from './app/shared/interceptor/auth.interceptor';
-import {ErrorInterceptor} from './app/shared/interceptor/error.interceptor';
+import {enableProdMode} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import {routes} from './app/app.routes';
-import {provideServiceWorker} from '@angular/service-worker';
-import {AppComponent} from './app/app.component';
 import {provideRouter, withRouterConfig} from '@angular/router';
+import {provideServiceWorker} from '@angular/service-worker';
+
+import {AppComponent} from './app/app.component';
+import {routes} from './app/app.routes';
+import {AuthInterceptor} from './app/shared/interceptor/auth.interceptor';
+import {ErrorInterceptor} from './app/shared/interceptor/error.interceptor';
+import {environment} from './environments/environment';
 
 if (environment.production) {
   enableProdMode();

@@ -21,27 +21,9 @@
         </a>
       }
       <div class="flex-grow-1"></div>
-      <div ngbDropdown class="d-inline-block">
-        <button class="nav-link bi-moon-stars" ngbDropdownToggle>
-          Theme
-        </button>
-        <div ngbDropdownMenu aria-labelledby="accountDropdown" class="dropdown-menu-end">
-          <h6 class="dropdown-header">Theme</h6>
-          @for (theme of themes; track theme) {
-            <button
-              ngbDropdownItem
-              class="dropdown-item-check {{ theme.value === selectedTheme ? theme.selectedIcon : theme.icon }}"
-              [disabled]="theme.value === selectedTheme"
-              (click)="selectTheme(theme.value)"
-            >
-              {{ theme.name }}
-            </button>
-          }
-        </div>
-      </div>
       @if (authService.currentLoginUser) {
-        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/auth/change-password">
-          Change Password
+        <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/settings">
+          Settings
         </a>
         <button class="nav-link nav-item text-start text-danger bi-box-arrow-right" routerLinkActive="active" (click)="logout()">
           Log Out
@@ -65,19 +47,38 @@
     </ul>
   </div>
 </ng-template>
-<nav class="navbar navbar-collapse navbar-dark bg-dark">
+<nav class="navbar navbar-collapse navbar-dark bg-dark text-light link-light">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" (click)="offcanvas.open(content)">
-      &#9776;
-    </button>
+    @let breadcrumbs = breadcrumbService.breadcrumbs$ | async;
+    <button
+      class="btn btn-link bi-list"
+      [class.d-none]="breadcrumbs && breadcrumbs.length > 1"
+      [class.d-sm-block]="breadcrumbs && breadcrumbs.length > 1"
+      (click)="offcanvas.open(content)"
+    ></button>
+    @if (breadcrumbs && breadcrumbs.length > 1) {
+      @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
+      <a
+        class="btn btn-link bi-chevron-left d-block d-sm-none"
+        [routerLink]="prevBreadcrumb.routerLink" [relativeTo]="prevBreadcrumb.relativeTo"
+        [ngbTooltip]="prevBreadcrumb.label"
+      ></a>
+    }
     <nav aria-label="breadcrumb" class="align-self-center">
       <ol class="breadcrumb">
-        @for (breadcrumb of breadcrumbService.breadcrumbs$ | async; track breadcrumb) {
-          <li class="breadcrumb-item" [class.active]="$last" [attr.aria-current]="$last ? 'page' : null">
+        @for (breadcrumb of breadcrumbs; track breadcrumb) {
+          <li
+            class="breadcrumb-item"
+            [class.active]="$last"
+            [attr.aria-current]="$last ? 'page' : null"
+            [class.d-none]="!$last"
+            [class.d-sm-block]="!$last"
+          >
             <a
+              class="link-light"
               [class]="breadcrumb.class"
               [routerLink]="breadcrumb.routerLink" [relativeTo]="breadcrumb.relativeTo"
-              routerLinkActive="link-body-emphasis text-decoration-none"
+              routerLinkActive="text-decoration-none"
               [routerLinkActiveOptions]="{exact: true}"
             >
               @if (breadcrumb.label) {
@@ -90,8 +91,10 @@
         }
       </ol>
     </nav>
-    <div>
-      <!-- Placeholder -->
-    </div>
+    @if (breadcrumbService.options) {
+      <ng-container [ngTemplateOutlet]="breadcrumbService.options"></ng-container>
+    } @else {
+      <button class="btn btn-link bi-three-dots" disabled></button>
+    }
   </div>
 </nav>

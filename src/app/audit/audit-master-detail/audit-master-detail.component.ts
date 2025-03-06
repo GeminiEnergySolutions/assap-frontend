@@ -1,5 +1,6 @@
 import {KeyValuePipe, TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {
   NgbAccordionBody,
@@ -11,6 +12,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 
 import {AuditService} from '../../shared/services/audit.service';
 import {AuthService} from '../../shared/services/auth.service';
@@ -37,10 +39,13 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
     KeyValuePipe,
     AuditOptionsDropdownComponent,
     ListPlaceholderComponent,
+    FormsModule,
+    SearchPipe,
   ],
 })
 export class AuditMasterDetailComponent implements OnInit {
   audits?: Record<string, Audit[]>;
+  search = '';
 
   constructor(
     private auditService: AuditService,

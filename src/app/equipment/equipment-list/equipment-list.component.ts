@@ -1,6 +1,7 @@
 import {TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
@@ -8,6 +9,7 @@ import {EMPTY, switchMap} from 'rxjs';
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditService} from '../../shared/services/audit.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/equipment-options-dropdown.component';
@@ -24,11 +26,15 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     TitleCasePipe,
     EquipmentOptionsDropdownComponent,
     ListPlaceholderComponent,
+    FormsModule,
+    SearchPipe,
+    RouterLinkActive,
   ],
 })
 export class EquipmentListComponent implements OnInit {
   category?: EquipmentCategory;
   equipments?: Equipment[];
+  search = '';
 
   constructor(
     private auditService: AuditService,

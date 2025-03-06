@@ -1,27 +1,21 @@
-<div class="bg-dark text-light mb-3">
-  <div class="d-flex align-items-center justify-content-between">
-    <a class="btn btn-link bi-chevron-left" routerLink=".."></a>
-    <div class="bi-file-earmark-text px-3">
-      Audit
+<ng-template #options>
+  <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
+</ng-template>
+<div class="bg-dark text-light mb-3 p-3">
+  <h1>
+    @if (audit) {
+      {{ audit.auditName | titlecase }}
+    } @else {
+      <span class="rounded placeholder placeholder-glow">Loading...</span>
+    }
+  </h1>
+  <div class="d-flex align-items-center">
+    <div class="me-3 flex-grow-1">
+      <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
     </div>
-    <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
-  </div>
-  <div class="p-3">
-    <h1>
-      @if (audit) {
-        {{ audit.auditName | titlecase }}
-      } @else {
-        <span class="rounded placeholder placeholder-glow">Loading...</span>
-      }
-    </h1>
-    <div class="d-flex align-items-center">
-      <div class="me-3 flex-grow-1">
-        <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
-      </div>
-      <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
-        Images
-      </a>
-    </div>
+    <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
+      Images
+    </a>
   </div>
 </div>
 <div class="container">

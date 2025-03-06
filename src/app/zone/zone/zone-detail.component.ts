@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
@@ -32,7 +32,9 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     ZoneOptionsDropdownComponent,
   ],
 })
-export class ZoneDetailComponent implements OnInit, OnDestroy {
+export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+
   audit?: Audit;
   zone?: Zone;
   equipments: EquipmentCategory[] = [];
@@ -83,8 +85,13 @@ export class ZoneDetailComponent implements OnInit, OnDestroy {
     ).subscribe(res => this.progress = res);
   }
 
+  ngAfterViewInit() {
+    this.breadcrumbService.options = this.options;
+  }
+
   ngOnDestroy() {
     this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.options = undefined;
   }
 
   uploadPhoto(file: File) {
