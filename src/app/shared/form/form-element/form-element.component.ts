@@ -73,19 +73,26 @@ export class FormElementComponent implements OnInit, OnChanges {
   }
 
   private determineChildElements() {
+    const oldKeys = this.childElements.map(e => e.key);
     this.childElements = [];
     if (!this.element.inputList?.length) {
       return;
     }
+
+    // Determine which child elements should be visible
     const keyValue = this.formData.data[this.element.key];
     for (const subElement of this.element.inputList) {
       if (SchemaSubElement.matchesDependentKeyValue(subElement, keyValue)) {
         this.childElements.push(subElement);
-        if (subElement.defaultValue !== undefined) {
-          this.formData.data[subElement.key] = subElement.defaultValue;
-        } else {
-          delete this.formData.data[subElement.key];
-        }
+        this.formData.data[subElement.key] ??= subElement.defaultValue;
+      }
+    }
+
+    // Erase data for all fields that became hidden (and did not share a key with a field that is now visible)
+    const newKeys = new Set(this.childElements.map(e => e.key));
+    for (const key of oldKeys) {
+      if (!newKeys.has(key)) {
+        delete this.formData.data[key];
       }
     }
   }

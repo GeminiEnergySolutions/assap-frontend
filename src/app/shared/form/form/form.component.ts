@@ -89,7 +89,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
 
     for (const subElement of element.inputList ?? []) {
       const keyValue = this.formData.data[element.key];
-      if (Array.isArray(subElement.dependentKeyValue) ? keyValue && subElement.dependentKeyValue.includes(keyValue) : subElement.dependentKeyValue === keyValue) {
+      if (SchemaSubElement.matchesDependentKeyValue(subElement, keyValue)) {
         this.init(section, subElement);
       }
     }
