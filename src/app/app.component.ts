@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     themeService: ThemeService,
   ) {
-    themeService.theme; // must be injected, otherwise theme will not be applied
+    String(themeService.theme); // must be injected, otherwise theme will not be applied
   }
 
   async ngOnInit() {

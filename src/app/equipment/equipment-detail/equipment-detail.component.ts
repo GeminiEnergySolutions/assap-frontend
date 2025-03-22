@@ -147,7 +147,10 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   private getPercentage() {
-    this.equipmentId && this.auditService.getPercentage({
+    if (!this.equipmentId) {
+      return;
+    }
+    this.auditService.getPercentage({
       progressType: 'equipmentForm',
       auditId: this.auditId!,
       zoneId: this.route.snapshot.params.zid,

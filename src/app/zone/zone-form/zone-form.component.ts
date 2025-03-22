@@ -109,7 +109,10 @@ export class ZoneFormComponent implements OnInit, SaveableChangesComponent, OnDe
   }
 
   private getPercentage() {
-    this.zoneId && this.auditService.getPercentage({
+    if (!this.zoneId) {
+      return;
+    }
+    this.auditService.getPercentage({
       progressType: 'zoneDetails',
       auditId: this.route.snapshot.params.aid,
       zoneId: this.zoneId,
