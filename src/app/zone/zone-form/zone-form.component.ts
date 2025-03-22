@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {Observable, switchMap, tap} from 'rxjs';
 
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
@@ -23,10 +22,6 @@ import {SchemaService} from '../../shared/services/schema.service';
   templateUrl: './zone-form.component.html',
   styleUrl: './zone-form.component.scss',
   imports: [
-    RouterLink,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
     ProgressBarComponent,
     FormComponent,
     ListPlaceholderComponent,

@@ -1,15 +1,8 @@
 import {DatePipe, UpperCasePipe} from '@angular/common';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {
-  NgbDropdown,
-  NgbDropdownMenu,
-  NgbDropdownToggle,
-  NgbModal,
-  NgbPagination,
-  NgbTooltip,
-} from '@ng-bootstrap/ng-bootstrap';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {map, of, switchMap, withLatestFrom} from 'rxjs';
 
 import {icons} from '../../shared/icons';
@@ -27,10 +20,6 @@ import {PhotoService} from '../../shared/services/photo.service';
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
   imports: [
-    RouterLink,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
     FormsModule,
     NgbTooltip,
     NgbPagination,
