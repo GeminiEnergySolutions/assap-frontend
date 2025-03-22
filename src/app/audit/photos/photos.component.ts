@@ -135,7 +135,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   updateQuery(update: Partial<PhotoQuery>) {
     Object.assign(this.query, update);
-    const queryParams = Object.fromEntries(Object.entries(this.query).filter(([_, v]) => v !== undefined && v !== null && v !== ''));
+    const queryParams = Object.fromEntries(Object.entries(this.query).filter(([, v]) => v !== undefined && v !== null && v !== ''));
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,

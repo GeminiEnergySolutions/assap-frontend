@@ -12,7 +12,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(tap({
       error: (err) => this.handleError(err),
     }));
@@ -22,7 +22,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     if (typeof err.error === 'string') {
       try {
         err.error = JSON.parse(err.error);
-      } catch (e) {
+      } catch {
+        // ignore
       }
     }
     const message = err.error.message ? err.error.message : err.error.email && err.error.email.length ? err.error.email[0] : err.statusText;

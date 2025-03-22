@@ -34,7 +34,7 @@ import {SchemaService} from '../../shared/services/schema.service';
 })
 export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy, AfterViewInit {
   @ViewChild('form') form?: FormComponent;
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   auditId?: number;
   progress?: PercentageCompletion;

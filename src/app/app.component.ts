@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  activate($event: any) {
+  activate() {
     this.breadcrumbService.setBreadcrumbs([]);
   }
 }

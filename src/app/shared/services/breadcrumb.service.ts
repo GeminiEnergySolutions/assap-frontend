@@ -8,9 +8,7 @@ export class BreadcrumbService {
 
   readonly breadcrumbs$: Observable<Breadcrumb[]> = this.breadcrumbs.asObservable();
 
-  options?: TemplateRef<any>;
-
-  constructor() {}
+  options?: TemplateRef<unknown>;
 
   setBreadcrumbs(breadcrumbs: Breadcrumb[]): void {
     this.breadcrumbs.next(breadcrumbs);
@@ -37,6 +35,6 @@ export interface Breadcrumb {
   label: string;
   // CSS class or icon
   class?: string;
-  routerLink?: string | any[];
+  routerLink?: string | unknown[];
   relativeTo?: ActivatedRoute;
 }

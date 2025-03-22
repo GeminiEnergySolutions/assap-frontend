@@ -37,7 +37,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewInit, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   auditId?: number;
   equipmentId?: number;
