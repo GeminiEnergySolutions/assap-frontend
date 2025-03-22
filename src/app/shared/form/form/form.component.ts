@@ -104,6 +104,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
     }
     switch (element.dataType) {
       case 'number':
+      case 'integer':
         return +value;
       case 'date':
         return new Date(value);
