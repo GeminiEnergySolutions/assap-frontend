@@ -52,15 +52,23 @@
             When
           </div>
           <div class="col">
-            <label class="visually-hidden">Condition</label>
-            <input class="form-control font-monospace" [(ngModel)]="validation['if']" ngbTooltip="The condition that must be met for the validation to be triggered."/>
+            <input
+              class="form-control font-monospace"
+              [(ngModel)]="validation['if']"
+              aria-label="Condition"
+              ngbTooltip="The condition that must be met for the validation to be triggered."
+            />
           </div>
           <div class="col-auto">
             then display
           </div>
           <div class="col-auto">
-            <label class="visually-hidden">Severity</label>
-            <select class="form-select" ngbTooltip="The severity of the validation" [(ngModel)]="validation.level">
+            <select
+              class="form-select"
+              [(ngModel)]="validation.level"
+              aria-label="Severity"
+              ngbTooltip="The severity of the validation"
+            >
               <option value="error">Error</option>
               <option value="warning">Warning</option>
             </select>
@@ -69,8 +77,12 @@
             with message
           </div>
           <div class="col">
-            <label class="visually-hidden">Message</label>
-            <input class="form-control" [(ngModel)]="validation.message" ngbTooltip="The message to display if the validation is triggered."/>
+            <input
+              class="form-control"
+              [(ngModel)]="validation.message"
+              aria-label="Message"
+              ngbTooltip="The message to display if the validation is triggered."
+            />
           </div>
           <div class="col-auto">
             <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Validation" (click)="removeValidation($index)"></button>
@@ -98,29 +110,50 @@
             When <span class="font-monospace text-info">{{ field.key }}</span> equals
           </div>
           <div class="col">
-            <label class="visually-hidden">Dependent Value</label>
             @if (field.dataType === 'bool') {
-              <select class="form-select" [(ngModel)]="subField.dependentKeyValue" ngbTooltip="The value of '{{ field.key }}' that triggers this subfield">
+              <select
+                class="form-select"
+                [(ngModel)]="subField.dependentKeyValue"
+                aria-label="Dependent Value"
+                ngbTooltip="The value of '{{ field.key }}' that triggers this subfield"
+              >
                 <option [value]="true">True</option>
                 <option [value]="false">False</option>
               </select>
             } @else {
-              <input class="form-control font-monospace" [placeholder]="field.dataType" [type]="field.dataType" [(ngModel)]="subField.dependentKeyValue" ngbTooltip="The value of '{{ field.key }}' that triggers this subfield"/>
+              <input
+                class="form-control font-monospace"
+                [placeholder]="field.dataType"
+                [type]="field.dataType"
+                [(ngModel)]="subField.dependentKeyValue"
+                aria-label="Dependent Value"
+                ngbTooltip="The value of '{{ field.key }}' that triggers this subfield"
+              />
             }
           </div>
           <div class="col-auto">
             show field with key
           </div>
           <div class="col">
-            <label class="visually-hidden">Key</label>
-            <input class="form-control font-monospace" placeholder="Key" [(ngModel)]="subField.key" [ngbTooltip]="'The key of this subfield'"/>
+            <input
+              class="form-control font-monospace"
+              placeholder="Key"
+              [(ngModel)]="subField.key"
+              aria-label="Key"
+              ngbTooltip="The key of this subfield"
+            />
           </div>
           <div class="col-auto">
             titled
           </div>
           <div class="col">
-            <label class="visually-hidden">Title</label>
-            <input class="form-control" placeholder="Title" [(ngModel)]="subField.title" [ngbTooltip]="'The title of this subfield'"/>
+            <input
+              class="form-control"
+              placeholder="Title"
+              [(ngModel)]="subField.title"
+              aria-label="Title"
+              ngbTooltip="The title of this subfield"
+            />
           </div>
           <div class="col-auto">
             <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" ngbTooltip="Copy Subfield" (click)="copySubfield(subField)"></button>
