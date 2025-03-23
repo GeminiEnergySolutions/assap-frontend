@@ -15,8 +15,8 @@
       routerLinkActive="active"
       [percentageQuery]="{progressType: 'zone', auditId: zone.auditId, zoneId: zone.zoneId}"
     >
-      <div options style="z-index: 900" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
-        <app-zone-options-dropdown [zone]="zone">
+      <div options style="z-index: 900">
+        <app-zone-options-dropdown [zone]="zone" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
           <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
             Duplicate
           </button>

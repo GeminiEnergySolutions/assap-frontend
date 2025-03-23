@@ -45,7 +45,14 @@
         : item.zoneId
           ? (item.audit?.auditName + ' / ' + item.zone?.zoneName | uppercase)
           : (item.audit?.auditName | uppercase);
-      <img [src]="item.photo" class="img-fluid" [alt]="text" (click)="modalPhoto = item; ngbModal.open(enlarge, {size: 'xl'})">
+      <img
+        class="img-fluid"
+        [src]="item.photo"
+        [alt]="text"
+        tabindex="0"
+        (keyup.enter)="modalPhoto = item; ngbModal.open(enlarge, {size: 'xl'})"
+        (click)="modalPhoto = item; ngbModal.open(enlarge, {size: 'xl'})"
+      >
       <div class="overlay">
         {{ text }}
         <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
