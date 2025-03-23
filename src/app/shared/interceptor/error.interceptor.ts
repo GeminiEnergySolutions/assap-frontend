@@ -18,6 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(err: any) {
     if (typeof err.error === 'string') {
       try {
