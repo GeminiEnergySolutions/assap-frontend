@@ -33,7 +33,7 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
   ],
 })
 export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   audit?: Audit;
   zone?: Zone;

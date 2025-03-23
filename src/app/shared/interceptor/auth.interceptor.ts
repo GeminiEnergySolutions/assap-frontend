@@ -4,11 +4,7 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-  ) {
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.url.includes('s3.amazonaws.com') || req.url.includes('localhost:9000')) {
       // Don't add Authorization header for S3/Minio uploads
       return next.handle(req);

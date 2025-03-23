@@ -34,7 +34,7 @@ import {SchemaService} from '../../shared/services/schema.service';
 })
 export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy, AfterViewInit {
   @ViewChild('form') form?: FormComponent;
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   auditId?: number;
   progress?: PercentageCompletion;
@@ -112,7 +112,10 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
   }
 
   private getPercentage() {
-    this.auditId && this.auditService.getPercentage({
+    if (!this.auditId) {
+      return;
+    }
+    this.auditService.getPercentage({
       progressType: 'ceh',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);

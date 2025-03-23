@@ -4,7 +4,7 @@ import {Pipe, PipeTransform} from '@angular/core';
  name: 'search',
 })
 export class SearchPipe implements PipeTransform {
-  transform<T extends object>(value: T[], search: string, fields?: (keyof T)[]): any {
+  transform<T extends object>(value: T[], search: string, fields?: (keyof T)[]): T[] {
     if (!search) {
       return value;
     }

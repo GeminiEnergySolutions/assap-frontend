@@ -37,7 +37,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewInit, SaveableChangesComponent {
   @ViewChild('form') form?: FormComponent;
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   auditId?: number;
   equipmentId?: number;
@@ -147,7 +147,10 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   private getPercentage() {
-    this.equipmentId && this.auditService.getPercentage({
+    if (!this.equipmentId) {
+      return;
+    }
+    this.auditService.getPercentage({
       progressType: 'equipmentForm',
       auditId: this.auditId!,
       zoneId: this.route.snapshot.params.zid,

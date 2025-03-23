@@ -35,8 +35,9 @@
                             ({{ audit.user?.userName | titlecase }})
                           }
                         </div>
-                        <div class="ms-3" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+                        <div class="ms-3">
                           <app-audit-options-dropdown
+                            (click)="$event.stopImmediatePropagation(); $event.preventDefault()"
                             [audit]="audit"
                             (deleted)="delete(section.key, audit)"
                           ></app-audit-options-dropdown>

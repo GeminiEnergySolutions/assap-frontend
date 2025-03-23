@@ -45,8 +45,14 @@
             When
           </div>
           <div class="col">
-            <label class="visually-hidden">Condition</label>
-            <input class="form-control font-monospace" [class.is-invalid]="conditionProblem" [(ngModel)]="condition['if']" ngbTooltip="The condition that must be met for the section to be disabled." (change)="setDirty()"/>
+            <input
+              class="form-control font-monospace"
+              [class.is-invalid]="conditionProblem"
+              [(ngModel)]="condition['if']"
+              (change)="setDirty()"
+              aria-label="Condition"
+              ngbTooltip="The condition that must be met for the section to be disabled."
+            />
             @if (conditionProblem) {
               <div class="invalid-feedback">
                 {{ conditionProblem }}
@@ -57,8 +63,13 @@
             then disable this section and display
           </div>
           <div class="col">
-            <label class="visually-hidden">Message</label>
-            <input class="form-control" [(ngModel)]="condition.message" ngbTooltip="The message to display if the condition is triggered." (change)="setDirty()"/>
+            <input
+              class="form-control"
+              [(ngModel)]="condition.message"
+              (change)="setDirty()"
+              aria-label="Message"
+              ngbTooltip="The message to display if the condition is triggered."
+            />
           </div>
           <div class="col-auto">
             <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>

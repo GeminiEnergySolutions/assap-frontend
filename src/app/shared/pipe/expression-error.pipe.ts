@@ -12,7 +12,9 @@ export class ExpressionErrorPipe implements PipeTransform {
     try {
       this.expressionService.evalSync(expression, context);
       return null;
-    } catch (e: any) {
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (e: any) {
       return e.message;
     }
   }

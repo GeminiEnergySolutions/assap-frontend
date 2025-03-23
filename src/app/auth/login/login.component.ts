@@ -16,7 +16,7 @@ import {FormsModule} from '@angular/forms';
   ],
 })
 export class LoginComponent {
-  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<{}>;
+  @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<unknown>;
 
   loggingIn = false;
   email = '';

@@ -3,8 +3,8 @@
     New {{ types[0].equipment.equipmentName }}
   </ng-container>
   <ng-container modal-body>
-    <div class="mb-3">
-      <label class="form-label">
+    <fieldset class="mb-3" id="type">
+      <label class="form-label" for="type">
         Type
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
@@ -16,7 +16,7 @@
           </label>
         </div>
       }
-    </div>
+    </fieldset>
     <div class="mb-3">
       <label class="form-label" for="name">
         Name
