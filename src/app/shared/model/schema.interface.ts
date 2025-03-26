@@ -27,7 +27,7 @@ export interface CopySpec {
 export interface SchemaElement {
   // Required properties
   key: string;
-  dataType: 'text' | 'number' | 'date' | 'bool';
+  dataType: 'text' | 'number' | 'integer' | 'date' | 'bool';
   type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date' | 'radio';
   title: string;
   hint: 'rq' | string;

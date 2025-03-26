@@ -91,8 +91,10 @@
     }
   }
   @default {
+    @let type = element.dataType === 'integer' ? 'number' : element.dataType;
     <input
-      [type]="element.dataType"
+      [type]="type"
+      [step]="element.dataType === 'integer' ? 1 : null"
       class="form-control"
       [id]="id"
       [(ngModel)]="formData.data[element.key]"

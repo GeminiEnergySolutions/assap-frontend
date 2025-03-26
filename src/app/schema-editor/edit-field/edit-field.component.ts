@@ -85,7 +85,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
           type: 'select',
           hint: 'The type of data this field represents',
           title: 'Data Type',
-          values: ['text', 'number', 'date', 'bool'],
+          values: ['text', 'number', 'integer', 'date', 'bool'],
           required: true,
           inputList: [
             // --------------- Text ---------------
@@ -114,7 +114,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
                   dataType: 'text',
                   type: 'textBox',
                   title: 'Values',
-                  hint: 'The comma-separated options for a select field.',
+                  hint: 'The comma-separated options for a select or radio field.',
                 },
               ],
             },
@@ -128,7 +128,15 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               hint: 'The default number value for this field',
             },
             {
-              dependentKeyValue: 'number',
+              dependentKeyValue: 'integer',
+              key: 'defaultValue',
+              dataType: 'integer',
+              type: 'textBox',
+              title: 'Default Integer Value',
+              hint: 'The default integer value for this field',
+            },
+            {
+              dependentKeyValue: ['number', 'integer'],
               key: 'type',
               dataType: 'text',
               type: 'select',
@@ -141,10 +149,10 @@ export class EditFieldComponent implements OnInit, OnDestroy {
                 {
                   dependentKeyValue: ['select', 'radio'],
                   key: 'values',
-                  dataType: 'number',
-                  type: 'textArea',
+                  dataType: 'text',
+                  type: 'textBox',
                   title: 'Values',
-                  hint: 'The available options. Put each option on a new line.',
+                  hint: 'The comma-separated options for a select or radio field.',
                 },
               ],
             },
@@ -230,7 +238,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
         },
         {
           key: 'gridSize',
-          dataType: 'number',
+          dataType: 'integer',
           type: 'select',
           title: 'Grid Size',
           defaultValue: 12,

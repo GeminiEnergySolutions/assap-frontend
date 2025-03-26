@@ -121,11 +121,12 @@
                 <option [value]="false">False</option>
               </select>
             } @else {
+              @let type = field.dataType === 'integer' ? 'number' : field.dataType;
               <input
                 class="form-control font-monospace"
-                [placeholder]="field.dataType"
-                [type]="field.dataType"
+                [type]="type"
                 [(ngModel)]="subField.dependentKeyValue"
+                [placeholder]="field.dataType"
                 aria-label="Dependent Value"
                 ngbTooltip="The value of '{{ field.key }}' that triggers this subfield"
               />
