@@ -99,7 +99,7 @@ export class AuditMasterDetailComponent implements OnInit {
       return;
     }
 
-    let index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
+    const index = this.audits[state].findIndex(a => a.auditId === audit.auditId);
     this.audits[state].splice(index, 1);
     if (!this.audits[state].length) {
       delete this.audits[state];

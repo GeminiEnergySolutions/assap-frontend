@@ -301,7 +301,9 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.section && this.schemaContext.save(this.section).subscribe();
+    if (this.section) {
+      this.schemaContext.save(this.section).subscribe();
+    }
   }
 
   setDirty(dirty = true) {
@@ -340,7 +342,9 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   }
 
   dropSubfield(event: CdkDragDrop<SchemaSubElement[]>) {
-    this.field.inputList && moveItemInArray(this.field.inputList, event.previousIndex, event.currentIndex);
+    if (this.field.inputList) {
+      moveItemInArray(this.field.inputList, event.previousIndex, event.currentIndex);
+    }
     this.setDirty();
   }
 

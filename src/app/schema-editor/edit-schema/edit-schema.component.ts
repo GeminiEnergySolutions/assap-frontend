@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap, tap} from 'rxjs';
@@ -23,7 +23,6 @@ import {SchemaContextService} from '../schema-context.service';
   providers: [SchemaContextService],
   imports: [
     MasterDetailComponent,
-    RouterLink,
     FormComponent,
     NgbTooltip,
   ],

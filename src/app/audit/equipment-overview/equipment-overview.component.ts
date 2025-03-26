@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
 
 import {icons} from '../../shared/icons';
@@ -16,9 +16,6 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
   styleUrl: './equipment-overview.component.scss',
   imports: [
     RouterLink,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
     NgbTooltip,
   ],
 })

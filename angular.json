@@ -42,6 +42,11 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["import"]
+              }
+            },
             "scripts": [],
             "serviceWorker": "ngsw-config.json",
             "browser": "src/main.ts"

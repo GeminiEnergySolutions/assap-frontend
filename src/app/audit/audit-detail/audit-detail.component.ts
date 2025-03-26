@@ -25,7 +25,7 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
   ],
 })
 export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('options', {static: true}) options!: TemplateRef<any>;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   audit?: Audit;
 

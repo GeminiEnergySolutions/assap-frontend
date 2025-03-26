@@ -17,7 +17,10 @@ export class PhotoService {
     count_total_photos: number;
   }>> {
     const params: Record<string, string | number> = Object.fromEntries(Object.entries(query).filter(([, value]) => value !== undefined));
-    return this.http.get<any>(`${environment.url}api/audit/${query.auditId}/photos`, {params});
+    return this.http.get<Response<{
+      photos: Photo[];
+      count_total_photos: number;
+    }>>(`${environment.url}api/audit/${query.auditId}/photos`, {params});
   }
 
   deletePhoto(auditId: number, id: number): Observable<Response> {

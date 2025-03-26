@@ -17,7 +17,7 @@ import {RouterLink} from '@angular/router';
 export class FeatureCardComponent implements OnInit {
   @Input({required: true}) title!: string;
   @Input() subtitle?: string;
-  @Input({required: true}) routerLink!: any[] | string;
+  @Input({required: true}) routerLink!: string | unknown[];
 
   readonly percentageQuery$ = new BehaviorSubject<PercentageQuery | undefined>(undefined);
 

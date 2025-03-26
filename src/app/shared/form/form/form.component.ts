@@ -47,7 +47,7 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   @Input({required: true}) typeSchema!: SchemaSection[];
   @Input({required: true}) formData!: { id?: string | number; data: Partial<Record<string, SchemaValue>> };
   /** for offline storage */
-  @Input() formId: string = '';
+  @Input() formId = '';
   @Input() editable = false;
   @Output() saved = new EventEmitter<void>();
   @Output() deleted = new EventEmitter<SchemaSection>();
