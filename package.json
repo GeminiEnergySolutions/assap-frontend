@@ -60,5 +60,13 @@
   },
   "resolutions": {
     "webpack-dev-middleware": "^6.1.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "lmdb",
+      "msgpackr-extract"
+    ]
   }
 }
