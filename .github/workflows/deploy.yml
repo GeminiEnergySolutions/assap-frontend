@@ -28,7 +28,7 @@ jobs:
         run: pnpm run build
 
       - name: Set deploy path
-        run: echo "DEPLOY_PATH=$(if [[ '${{ github.ref }}' == 'refs/heads/main' ]]; then echo ${{ secrets.PROD_DEPLOY_PATH }}; else echo ${{ secrets.DEV_DEPLOY_PATH }}; fi)" >> $GITHUB_ENV
+        run: echo "DEPLOY_PATH=$(if [[ '${{ github.ref }}' == 'refs/heads/main' ]]; then echo '${{ secrets.PROD_DEPLOY_PATH }}'; else echo '${{ secrets.DEV_DEPLOY_PATH }}'; fi)" >> $GITHUB_ENV
 
       - name: Clean target directory on server
         uses: appleboy/ssh-action@v1.0.0
@@ -37,12 +37,15 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            if [ -d "${{ env.DEPLOY_PATH }}" ]; then
+            DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
+            echo "Target path: $DEPLOY_PATH"
+
+            if [ -d "$DEPLOY_PATH" ]; then
               echo "Cleaning existing deploy path..."
-              rm -rf "${{ env.DEPLOY_PATH }}"/*
+              rm -rf "$DEPLOY_PATH"/*
             else
               echo "Directory does not exist. Creating it..."
-              mkdir -p ${{ env.DEPLOY_PATH }}
+              mkdir -p "$DEPLOY_PATH"
             fi
 
       - name: Copy files to server
