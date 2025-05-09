@@ -37,9 +37,6 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
-            echo "Target path: ${{ env.DEPLOY_PATH }}"
-
             if [ -d ${{ env.DEPLOY_PATH }} ]; then
               echo "Cleaning existing deploy path..."
               rm -rf ${{ env.DEPLOY_PATH }}/*
@@ -54,7 +51,7 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "dist/conserve/browser/*"
+          source: "dist/conserve/browser/"
           target: "${{ env.DEPLOY_PATH }}"
 
       - name: SSH restart services
