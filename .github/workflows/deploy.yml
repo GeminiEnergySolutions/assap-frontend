@@ -37,7 +37,11 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            rm -rf ${{ secrets.DEPLOY_PATH }}*
+            if [ -d "${{ secrets.DEPLOY_PATH }}" ]; then
+              rm -rf "${{ secrets.DEPLOY_PATH }}"/*
+            else
+              mkdir ${{ secrets.DEPLOY_PATH }}
+            fi
 
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
