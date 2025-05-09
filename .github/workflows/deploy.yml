@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
-            echo "Target path: $DEPLOY_PATH"
+            echo "Targeted path: $DEPLOY_PATH"
 
             if [ -d "$DEPLOY_PATH" ]; then
               echo "Cleaning existing deploy path..."
