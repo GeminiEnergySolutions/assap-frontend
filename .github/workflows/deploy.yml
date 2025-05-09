@@ -45,19 +45,19 @@ jobs:
               mkdir -p ${{ env.DEPLOY_PATH }}
             fi
 
-      - name: Prepare upload directory
-        run: |
-          mkdir -p upload
-          cp -r dist/conserve/browser/* upload/
+      # - name: Prepare upload directory
+      #   run: |
+      #     mkdir -p upload
+      #     cp -r dist/conserve/browser/* upload/
 
-      - name: Copy files to server
-        uses: appleboy/scp-action@v0.1.7
+      - name: Copy build files using rsync
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "upload/*"
-          target: "${{ env.DEPLOY_PATH }}"
+          script: |
+            rsync -avz --delete ~/dist/conserve/browser/ ${{ env.DEPLOY_PATH }}/
 
       - name: SSH restart services
         uses: appleboy/ssh-action@v1.0.0
