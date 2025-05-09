@@ -17,11 +17,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Build Angular app
-        run: npm run build --prod
+        run: pnpm run build --prod
 
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
