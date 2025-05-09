@@ -38,9 +38,11 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             if [ -d "${{ secrets.DEPLOY_PATH }}" ]; then
+              echo "Cleaning existing deploy path..."
               rm -rf "${{ secrets.DEPLOY_PATH }}"/*
             else
-              mkdir ${{ secrets.DEPLOY_PATH }}
+              echo "Directory does not exist. Creating it..."
+              mkdir -p ${{ secrets.DEPLOY_PATH }}
             fi
 
       - name: Copy files to server
