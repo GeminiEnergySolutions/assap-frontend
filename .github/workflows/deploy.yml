@@ -46,7 +46,7 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           source: "dist/conserve/browser/*"
-          target: ${{ secrets.DEPLOY_PATH }}
+          target: "${{ secrets.DEPLOY_PATH }}"
 
       - name: SSH restart services
         uses: appleboy/ssh-action@v1.0.0
