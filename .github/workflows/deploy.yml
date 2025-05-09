@@ -3,6 +3,7 @@ name: Deploy Angular
 on:
   push:
     branches:
+      - main
       - development
 
 jobs:
@@ -26,16 +27,28 @@ jobs:
       - name: Build Angular app
         run: pnpm run build
 
+      - name: Set deploy path
+        run: echo "DEPLOY_PATH=$(if [[ '${{ github.ref }}' == 'refs/heads/main' ]]; then echo ${{ secrets.PROD_DEPLOY_PATH }}; else echo ${{ secrets.DEV_DEPLOY_PATH }}; fi)" >> $GITHUB_ENV
+
+      - name: Clean target directory on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            rm -rf ${{ secrets.DEPLOY_PATH }}*
+
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "dist/conserve/browser/"
-          target: "~/test_angular"
+          source: "dist/conserve/browser/*"
+          target: ${{ secrets.DEPLOY_PATH }}
 
-      - name: SSH restart services (optional)
+      - name: SSH restart services
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST_IP }}
