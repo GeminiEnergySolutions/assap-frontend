@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             if [ -d ${{ env.DEPLOY_PATH }} ]; then
-              echo "Cleaning existing deploy path...."
+              echo "Cleaning existing deploy path..."
               rm -rf ${{ env.DEPLOY_PATH }}/test_angular/*
             else
               echo "Directory does not exist. Creating it..."
@@ -66,11 +66,11 @@ jobs:
           source: "test_angular/*"
           target: "${{ env.DEPLOY_PATH }}"
 
-      - name: SSH restart services
+      - name: Restart Services
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            sudo systemctl restart nginx
+            sudo systemctl restart ${{ secrets.SERVICE_NAME }}
