@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             if [ -d ${{ env.DEPLOY_PATH }} ]; then
-              echo "Cleaning existing deploy path..."
+              echo "Cleaning existing deploy path...."
               rm -rf ${{ env.DEPLOY_PATH }}/test_angular/*
             else
               echo "Directory does not exist. Creating it..."
