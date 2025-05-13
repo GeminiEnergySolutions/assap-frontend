@@ -46,16 +46,16 @@ jobs:
           script: |
             if [ -d ${{ env.DEPLOY_PATH }} ]; then
               echo "Cleaning existing deploy path..."
-              rm -rf ${{ env.DEPLOY_PATH }}/test_angular/*
+              rm -rf ${{ env.DEPLOY_PATH }}/frontend/*
             else
               echo "Directory does not exist. Creating it..."
-              mkdir -p ${{ env.DEPLOY_PATH }}/test_angular
+              mkdir -p ${{ env.DEPLOY_PATH }}/frontend
             fi
 
       - name: Prepare upload directory
         run: |
-          mkdir -p test_angular
-          cp -r dist/conserve/browser/* test_angular/
+          mkdir -p frontend
+          cp -r dist/conserve/browser/* frontend/
 
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
@@ -63,7 +63,7 @@ jobs:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "test_angular/*"
+          source: "frontend/*"
           target: "${{ env.DEPLOY_PATH }}"
 
       - name: Restart Services
