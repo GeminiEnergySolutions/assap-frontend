@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {NgbDropdownButtonItem, NgbDropdownItem, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownButtonItem, NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
@@ -31,7 +31,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     FormsModule,
     SearchPipe,
     RouterLinkActive,
-
+    NgbTooltip,
   ],
 })
 export class EquipmentListComponent implements OnInit {
@@ -125,8 +125,15 @@ export class EquipmentListComponent implements OnInit {
   duplicate(item: Equipment, zoneId = item.zoneId, name?: string) {
     const kind = item.type?.name;
     this.equipmentService.duplicateEquipment(item.id, zoneId, name).subscribe(({data}) => {
-      this.equipments!.push(data);
-      this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
+      const toast = this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
+      if (zoneId === item.zoneId) {
+        this.equipments!.push(data);
+      } else {
+        toast.actions = [{
+          name: 'Show',
+          link: [`/audits/${item.auditId}/zones/${zoneId}/equipments/${item.equipmentId}/types/${data.id}`],
+        }];
+      }
     });
   }
 }
