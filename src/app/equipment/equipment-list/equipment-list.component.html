@@ -21,6 +21,9 @@
           <button ngbDropdownItem class="bi-copy" (click)="duplicate(item)">
             Duplicate
           </button>
+          <button ngbDropdownItem class="bi-copy" (click)="toDuplicate = item; loadZones(); modal.open(duplicateModal)">
+            Duplicate to...
+          </button>
           <div class="dropdown-divider"></div>
           <button ngbDropdownItem class="bi-trash text-danger" (click)="delete(item)">
             Delete
@@ -36,3 +39,32 @@
 } @else {
   <app-list-placeholder></app-list-placeholder>
 }
+
+<ng-template #duplicateModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Duplicate</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="new-name" class="form-label">
+        New Name
+      </label>
+      <input type="text" id="new-name" class="form-control" #newName [placeholder]="toDuplicate?.name">
+    </div>
+    <div class="mb-3">
+      <label for="zone" class="form-label">
+        Zone
+      </label>
+      <select class="form-select" id="zone" #zoneSelect>
+        @for (zone of zones; track zone.zoneId) {
+          <option [value]="zone.zoneId">{{ zone.zoneName }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="duplicate(toDuplicate!, +zoneSelect.value, newName.value); modal.close()">Duplicate</button>
+  </div>
+</ng-template>

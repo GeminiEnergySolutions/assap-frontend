@@ -3,13 +3,15 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {NgbDropdownButtonItem, NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownButtonItem, NgbDropdownItem, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
+import {Zone} from '../../shared/model/zone.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
+import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {AuditService} from '../../shared/services/audit.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/equipment-options-dropdown.component';
@@ -29,19 +31,25 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     FormsModule,
     SearchPipe,
     RouterLinkActive,
+
   ],
 })
 export class EquipmentListComponent implements OnInit {
   category?: EquipmentCategory;
   equipments?: Equipment[];
+  zones?: Zone[];
   search = '';
+
+  toDuplicate?: Equipment;
 
   constructor(
     private auditService: AuditService,
+    private zoneService: AuditZoneService,
     protected equipmentService: EquipmentService,
     private toastService: ToastService,
     public route: ActivatedRoute,
     private router: Router,
+    protected modal: NgbModal,
   ) {
   }
 
@@ -81,6 +89,16 @@ export class EquipmentListComponent implements OnInit {
     });
   }
 
+  loadZones() {
+    if (this.zones) {
+      return;
+    }
+    this.zones = [];
+    this.zoneService.getAllAuditZone(this.route.snapshot.params.aid).subscribe(res => {
+      this.zones = res.data;
+    });
+  }
+
   private getEquipmentPercentage(category: EquipmentCategory) {
     this.auditService.getPercentage({
       progressType: 'equipment',
@@ -104,9 +122,9 @@ export class EquipmentListComponent implements OnInit {
     });
   }
 
-  duplicate(item: Equipment) {
+  duplicate(item: Equipment, zoneId = item.zoneId, name?: string) {
     const kind = item.type?.name;
-    this.equipmentService.duplicateEquipment(item.zoneId, item.id).subscribe(({data}) => {
+    this.equipmentService.duplicateEquipment(item.id, zoneId, name).subscribe(({data}) => {
       this.equipments!.push(data);
       this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
     });
