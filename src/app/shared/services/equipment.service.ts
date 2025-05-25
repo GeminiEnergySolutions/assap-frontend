@@ -69,10 +69,11 @@ export class EquipmentService {
     return this.http.delete<Response>(`${environment.url}api/zone/${zoneId}/equipment/${categoryId}/subType/${id}`);
   }
 
-  duplicateEquipment(zoneId: number, id: number): Observable<Response<Equipment>> {
-    return this.http.post<Response<Equipment>>(`${environment.url}api/equipment/form/duplicate`, {
+  duplicateEquipment(id: number, zoneId: number, name?: string): Observable<Response<Equipment>> {
+    return this.http.post<Response<Equipment>>(`${environment.url}api/formData/equipment/subType/${id}/duplicate`, {
       zoneId,
       subTypeId: id,
+      name,
     });
   }
 
