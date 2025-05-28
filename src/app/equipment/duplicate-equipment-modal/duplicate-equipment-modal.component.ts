@@ -6,6 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
 import {Equipment} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
 import {EquipmentService} from '../../shared/services/equipment.service';
 
@@ -18,6 +19,7 @@ import {EquipmentService} from '../../shared/services/equipment.service';
     NgbTooltip,
     ReactiveFormsModule,
     FormsModule,
+    SearchPipe,
   ],
 })
 export class DuplicateEquipmentModalComponent implements OnInit {
@@ -25,6 +27,7 @@ export class DuplicateEquipmentModalComponent implements OnInit {
 
   toDuplicate?: Equipment;
   newName = '';
+  zoneSearch = '';
   selectedZones = new Set<number>;
 
   constructor(

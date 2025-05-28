@@ -18,8 +18,9 @@
         Zones
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
+      <input type="search" class="form-control mb-3" [(ngModel)]="zoneSearch" placeholder="Search zones..." />
       <div class="p-3 rounded border" style="max-height: 300px; overflow-y: auto;">
-        @for (zone of zones; track zone.zoneId) {
+        @for (zone of zones | search:zoneSearch:['zoneName']; track zone.zoneId) {
           <div class="form-check">
             <input
               class="form-check-input"
