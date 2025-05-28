@@ -6,6 +6,7 @@
     <p>
       Select the zones you want to connect to this HVAC unit.
     </p>
+    <!-- TODO add search field -->
     @for (zone of connectedZones; track zone.zoneId) {
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="zone-{{ zone.zoneId }}" [(ngModel)]="selection[zone.zoneId]">
