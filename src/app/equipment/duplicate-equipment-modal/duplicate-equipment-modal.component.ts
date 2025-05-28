@@ -25,7 +25,7 @@ export class DuplicateEquipmentModalComponent implements OnInit {
 
   toDuplicate?: Equipment;
   newName = '';
-  zone?: Zone;
+  selectedZones = new Set<number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,15 +56,15 @@ export class DuplicateEquipmentModalComponent implements OnInit {
     }
 
     const kind = item.type?.name;
-    const zoneId = this.zone?.zoneId ?? item.zoneId;
-    this.equipmentService.duplicateEquipment(item.id, zoneId, this.newName).subscribe(({data}) => {
-      const toast = this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
-      if (zoneId === item.zoneId) {
+    for (const zoneId of this.selectedZones) {
+      this.equipmentService.duplicateEquipment(item.id, zoneId, this.newName).subscribe(({data}) => {
+        const zone = this.zones.find(z => z.zoneId === zoneId);
+        const toast = this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind} to zone ${zone?.zoneName ?? ''}`);
         toast.actions = [{
           name: 'Show',
           link: [`/audits/${item.auditId}/zones/${zoneId}/equipments/${item.equipmentId}/types/${data.id}`],
         }];
-      }
-    });
+      });
+    }
   }
 }

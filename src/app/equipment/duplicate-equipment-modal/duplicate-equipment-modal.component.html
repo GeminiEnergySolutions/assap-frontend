@@ -1,6 +1,6 @@
 <ngbx-modal [back]="['..']" #modal>
   <ng-container modal-title>
-    Duplicate
+    Duplicate {{ toDuplicate?.type?.name }}
   </ng-container>
   <ng-container modal-body>
     <div class="mb-3">
@@ -15,21 +15,34 @@
     </div>
     <div class="mb-3">
       <label for="zone" class="form-label">
-        Zone
+        Zones
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <select class="form-select" id="zone" [(ngModel)]="zone">
+      <div class="p-3 rounded border" style="max-height: 300px; overflow-y: auto;">
         @for (zone of zones; track zone.zoneId) {
-          <option [value]="zone.zoneId">{{ zone.zoneName }}</option>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="check-{{ zone.zoneId }}"
+              [ngModel]="selectedZones.has(zone.zoneId)"
+              (ngModelChange)="$event ? selectedZones.add(zone.zoneId) : selectedZones.delete(zone.zoneId)"
+            />
+            <label class="form-check-label" for="check-{{ zone.zoneId }}">
+              {{ zone.zoneName }}
+            </label>
+          </div>
         }
-      </select>
+      </div>
       <div class="form-text">
-        Select the zone where the equipment will be duplicated.
+        Select all the zones where the equipment will be duplicated.
       </div>
     </div>
   </ng-container>
   <ng-container modal-footer>
     <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="duplicate(); modal.close()">Duplicate</button>
+    <button type="button" class="btn btn-primary" (click)="duplicate(); modal.close()" [disabled]="!selectedZones.size">
+      Duplicate {{ selectedZones.size }}x
+    </button>
   </ng-container>
 </ngbx-modal>
