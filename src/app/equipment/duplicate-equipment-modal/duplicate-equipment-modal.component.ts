@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
@@ -29,6 +29,7 @@ export class DuplicateEquipmentModalComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private equipmentService: EquipmentService,
     private zoneService: AuditZoneService,
     private toastService: ToastService,
@@ -64,6 +65,10 @@ export class DuplicateEquipmentModalComponent implements OnInit {
           name: 'Show',
           link: [`/audits/${item.auditId}/zones/${zoneId}/equipments/${item.equipmentId}/types/${data.id}`],
         }];
+
+        if (zoneId === item.zoneId) {
+          this.router.navigate(['..'], {relativeTo: this.route, queryParams: {new: data.id}});
+        }
       });
     }
   }
