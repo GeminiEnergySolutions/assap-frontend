@@ -1,5 +1,9 @@
 <ng-template #options>
-  <app-equipment-options-dropdown [equipment]="equipment"></app-equipment-options-dropdown>
+  <app-equipment-options-dropdown [equipment]="equipment">
+    <a ngbDropdownItem class="bi-copy" routerLink="duplicate">
+      Duplicate to...
+    </a>
+  </app-equipment-options-dropdown>
 </ng-template>
 <div class="bg-dark text-light mb-3 p-3">
   <h1>

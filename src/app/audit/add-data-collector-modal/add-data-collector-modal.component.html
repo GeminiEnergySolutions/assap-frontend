@@ -4,6 +4,7 @@
     <span class="text-muted">{{ audit?.auditName | titlecase }}</span>
   </ng-container>
   <ng-container modal-body>
+    <!-- TODO add search field -->
     <ul class="list-unstyled">
       @for (item of dataCollectors; track item.id) {
         <li>

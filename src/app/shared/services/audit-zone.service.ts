@@ -30,9 +30,8 @@ export class AuditZoneService {
     return this.http.put<Response<Zone>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}`, data);
   }
 
-  duplicateAuditZone(zoneId: number, count: number): Observable<Response<Zone[]>> {
-    return this.http.post<Response<Zone[]>>(`${environment.url}api/zone/duplicate`, {
-      zoneId,
+  duplicateAuditZone(auditId: number, zoneId: number, count: number): Observable<Response<Zone[]>> {
+    return this.http.post<Response<Zone[]>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}/duplicate`, {
       countDuplicate: count,
     });
   }
