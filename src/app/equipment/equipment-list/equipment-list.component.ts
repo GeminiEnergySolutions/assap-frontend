@@ -122,18 +122,11 @@ export class EquipmentListComponent implements OnInit {
     });
   }
 
-  duplicate(item: Equipment, zoneId = item.zoneId, name?: string) {
+  duplicate(item: Equipment) {
     const kind = item.type?.name;
-    this.equipmentService.duplicateEquipment(item.id, zoneId, name).subscribe(({data}) => {
-      const toast = this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
-      if (zoneId === item.zoneId) {
-        this.equipments!.push(data);
-      } else {
-        toast.actions = [{
-          name: 'Show',
-          link: [`/audits/${item.auditId}/zones/${zoneId}/equipments/${item.equipmentId}/types/${data.id}`],
-        }];
-      }
+    this.equipmentService.duplicateEquipment(item.id, item.zoneId).subscribe(({data}) => {
+      this.toastService.success('Duplicate Equipment', `Successfully duplicated ${kind}`);
+      this.equipments!.push(data);
     });
   }
 }

@@ -1,0 +1,35 @@
+<ngbx-modal [back]="['..']" #modal>
+  <ng-container modal-title>
+    Duplicate
+  </ng-container>
+  <ng-container modal-body>
+    <div class="mb-3">
+      <label for="new-name" class="form-label">
+        New Name
+      </label>
+      <input type="text" id="new-name" class="form-control" [placeholder]="toDuplicate?.name" [(ngModel)]="newName" />
+      <div class="form-text">
+        Enter a new name for the duplicated equipment.
+        If left empty, the original name will be used.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="zone" class="form-label">
+        Zone
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      <select class="form-select" id="zone" [(ngModel)]="zone">
+        @for (zone of zones; track zone.zoneId) {
+          <option [value]="zone.zoneId">{{ zone.zoneName }}</option>
+        }
+      </select>
+      <div class="form-text">
+        Select the zone where the equipment will be duplicated.
+      </div>
+    </div>
+  </ng-container>
+  <ng-container modal-footer>
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="duplicate(); modal.close()">Duplicate</button>
+  </ng-container>
+</ngbx-modal>

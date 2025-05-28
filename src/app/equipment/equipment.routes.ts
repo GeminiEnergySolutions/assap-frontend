@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {DuplicateEquipmentModalComponent} from './duplicate-equipment-modal/duplicate-equipment-modal.component';
 import {EquipmentMasterDetailComponent} from './equipment-master-detail/equipment-master-detail.component';
 import {CreateEquipmentComponent} from './create-equipment/create-equipment.component';
 import {EquipmentDetailComponent} from './equipment-detail/equipment-detail.component';
@@ -21,6 +22,7 @@ export const routes: Routes = [
         canDeactivate: [UnsavedChangesGuard],
         children: [
           {path: 'connect', component: ConnectZoneComponent},
+          {path: 'duplicate', component: DuplicateEquipmentModalComponent},
         ],
       },
     ],
