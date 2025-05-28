@@ -2,6 +2,7 @@ import {TitleCasePipe} from '@angular/common';
 import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {map, switchMap, tap} from 'rxjs';
 
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
@@ -33,6 +34,7 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     TitleCasePipe,
     EquipmentOptionsDropdownComponent,
     ListPlaceholderComponent,
+    NgbDropdownItem,
   ],
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewInit, SaveableChangesComponent {
