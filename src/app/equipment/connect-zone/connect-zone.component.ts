@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {EquipmentService} from '../../shared/services/equipment.service';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {ActivatedRoute} from '@angular/router';
@@ -10,11 +12,12 @@ import {FormsModule} from '@angular/forms';
   selector: 'app-connect-zone',
   templateUrl: './connect-zone.component.html',
   styleUrl: './connect-zone.component.scss',
-  imports: [ModalModule, FormsModule],
+  imports: [ModalModule, FormsModule, NgbTooltip, SearchPipe],
 })
 export class ConnectZoneComponent implements OnInit {
   connectedZones: ZoneWithHvacConnected[] = [];
   selection: Record<number, boolean> = {};
+  search = '';
 
   constructor(
     private route: ActivatedRoute,
