@@ -5,6 +5,7 @@ import {Audit} from '../../shared/model/audit.interface';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs';
 import {User} from '../../shared/model/user.interface';
+import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {DataCollectorService} from '../../shared/services/data-collector.service';
 import {FormsModule} from '@angular/forms';
 import {TitleCasePipe} from '@angular/common';
@@ -17,12 +18,14 @@ import {TitleCasePipe} from '@angular/common';
     ModalModule,
     FormsModule,
     TitleCasePipe,
+    SearchPipe,
   ],
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;
   dataCollectors: User[] = [];
   selected: Partial<Record<number, boolean>> = {};
+  search = '';
 
   constructor(
     private auditService: AuditService,
