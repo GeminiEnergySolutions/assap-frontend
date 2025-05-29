@@ -27,6 +27,7 @@ import {EquipmentService} from '../../shared/services/equipment.service';
 })
 export class EquipmentOptionsDropdownComponent {
   @Input({required: true}) equipment?: Equipment;
+  @Input() routeWithId = false;
 
   @Output() deleted = new EventEmitter<void>();
 

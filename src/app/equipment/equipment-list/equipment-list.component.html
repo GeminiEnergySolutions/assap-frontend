@@ -17,7 +17,10 @@
       [percentageQuery]="{progressType: 'equipmentForm', auditId: item.auditId, zoneId: item.zoneId, subTypeId: item.id}"
     >
       <div options style="z-index: 900">
-        <app-equipment-options-dropdown [equipment]="item" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
+        <app-equipment-options-dropdown
+          [equipment]="item" (click)="$event.stopImmediatePropagation(); $event.preventDefault()"
+          [routeWithId]="true"
+        >
           <button ngbDropdownItem class="bi-copy" (click)="duplicate(item)">
             Duplicate
           </button>

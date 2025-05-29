@@ -6,7 +6,7 @@
       <h5 class="dropdown-header">
         HVAC Specific
       </h5>
-      <a ngbDropdownItem class="bi-link-45deg" routerLink="connect">
+      <a ngbDropdownItem class="bi-link-45deg" [routerLink]="routeWithId ? ['types', equipment?.id, 'connect'] : ['connect']">
         Connect Zone
       </a>
       <div class="dropdown-divider"></div>
