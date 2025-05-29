@@ -10,7 +10,13 @@
     <div class="p-3 rounded border" style="max-height: 300px; overflow-y: auto;">
       @for (zone of connectedZones | search:search:['zoneName']; track zone.zoneId) {
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="zone-{{ zone.zoneId }}" [(ngModel)]="selection[zone.zoneId]">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="zone-{{ zone.zoneId }}"
+            [ngModel]="selection.has(zone.zoneId)"
+            (ngModelChange)="$event ? selection.add(zone.zoneId) : selection.delete(zone.zoneId)"
+          />
           <label class="form-check-label" for="zone-{{ zone.zoneId }}">
             {{ zone.zoneName }}
             <span class="text-muted">
