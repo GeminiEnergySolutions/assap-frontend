@@ -4,9 +4,14 @@
     <span class="text-muted">{{ audit?.auditName | titlecase }}</span>
   </ng-container>
   <ng-container modal-body>
-    <!-- TODO add search field -->
+    <input
+      type="search"
+      class="form-control mb-3 sticky-top"
+      placeholder="Search..."
+      [(ngModel)]="search"
+    />
     <ul class="list-unstyled">
-      @for (item of dataCollectors; track item.id) {
+      @for (item of dataCollectors | search:search:['userName','email']; track item.id) {
         <li>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="data-collector-{{ item.id }}" [(ngModel)]="selected[item.id]"/>

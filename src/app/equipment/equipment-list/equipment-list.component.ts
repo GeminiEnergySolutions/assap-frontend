@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
-import {NgbDropdownButtonItem, NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownButtonItem, NgbDropdownItem, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
@@ -31,7 +31,6 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
     FormsModule,
     SearchPipe,
     RouterLinkActive,
-    NgbTooltip,
   ],
 })
 export class EquipmentListComponent implements OnInit {
@@ -39,8 +38,6 @@ export class EquipmentListComponent implements OnInit {
   equipments?: Equipment[];
   zones?: Zone[];
   search = '';
-
-  toDuplicate?: Equipment;
 
   constructor(
     private auditService: AuditService,
