@@ -1,12 +1,22 @@
+<input
+  type="search"
+  class="form-control mb-3"
+  placeholder="Search form fields"
+  [(ngModel)]="search"
+/>
 <div ngbAccordion [closeOthers]="true">
   @for (schema of typeSchema; track schema.id) {
+    @let elements = schema.schema | search:search:['key', 'title'];
     <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
-        <button ngbAccordionButton [disabled]="!editable && disabled">
+        <button ngbAccordionButton [disabled]="!editable && disabled" [class.text-secondary]="!elements.length">
           <div class="flex-grow-1">
             {{ schema.name }}
+            @if (search && elements.length) {
+              <span class="text-muted me-2">({{ elements.length }})</span>
+            }
             @if (editable && schema._dirty) {
               <span class="text-warning me-2" ngbTooltip="Modified. Don't forget to save.">*</span>
             }
@@ -48,7 +58,7 @@
               </button>
             }
             <div class="row" cdkDropList [cdkDropListDisabled]="!editable">
-              @for (element of schema.schema; track element.key) {
+              @for (element of elements; track element.key) {
                 <div
                   class="mb-3 position-relative col-{{element.gridSize ?? 12}}"
                   cdkDrag
@@ -87,6 +97,14 @@
                       ></button>
                     </div>
                   }
+                </div>
+              }
+              @if (search && elements.length < schema.schema.length) {
+                <div class="text-center text-muted fst-italic">
+                  {{ schema.schema.length - elements.length }} hidden fields
+                  <a routerLink="." (click)="search = ''">
+                    Clear Search
+                  </a>
                 </div>
               }
             </div>

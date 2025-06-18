@@ -1,6 +1,7 @@
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {
@@ -18,6 +19,7 @@ import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
 import {PercentageCompletion} from '../../model/percentage-completion.interface';
 import {CopySpec, SchemaElement, SchemaSection, SchemaSubElement, SchemaValue} from '../../model/schema.interface';
 import {EvalPipe} from '../../pipe/eval.pipe';
+import {SearchPipe} from '../../pipe/search.pipe';
 import {CopyPasteService} from '../../services/copy-paste.service';
 import {FormElementComponent} from '../form-element/form-element.component';
 
@@ -41,6 +43,8 @@ import {FormElementComponent} from '../form-element/form-element.component';
     CdkDragHandle,
     AsyncPipe,
     EvalPipe,
+    FormsModule,
+    SearchPipe,
   ],
 })
 export class FormComponent implements OnInit, SaveableChangesComponent {
@@ -54,6 +58,8 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
 
   @Input() dirty = false;
   @Output() dirtyChange = new EventEmitter<boolean>();
+
+  search = '';
 
   progressPerSection: Partial<Record<number, PercentageCompletion>> = {};
 
