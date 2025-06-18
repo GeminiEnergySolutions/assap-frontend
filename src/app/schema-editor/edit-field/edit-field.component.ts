@@ -161,8 +161,8 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               key: 'unit',
               dataType: 'text',
               type: 'textBox',
-              title: 'Physical Unit',
-              hint: 'The physical unit of the input field',
+              title: 'Physical Unit or Currency',
+              hint: 'The physical unit or currency of the input field',
               required: false,
             },
             // --------------- Date ---------------
