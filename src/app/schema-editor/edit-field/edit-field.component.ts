@@ -156,6 +156,15 @@ export class EditFieldComponent implements OnInit, OnDestroy {
                 },
               ],
             },
+            {
+              dependentKeyValue: ['number', 'integer'],
+              key: 'unit',
+              dataType: 'text',
+              type: 'textBox',
+              title: 'Physical Unit',
+              hint: 'The physical unit of the input field',
+              required: false,
+            },
             // --------------- Date ---------------
             {
               dependentKeyValue: 'date',
