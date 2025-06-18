@@ -8,6 +8,7 @@ import {
   SchemaSubElement,
   SchemaValue,
 } from '../../model/schema.interface';
+import {IsCurrencyPipe} from '../../pipe/is-currency.pipe';
 import {ExpressionService} from '../../services/expression.service';
 import {FormChoicesPipe} from '../form-choices.pipe';
 
@@ -19,6 +20,7 @@ import {FormChoicesPipe} from '../form-choices.pipe';
     NgbTooltip,
     FormsModule,
     FormChoicesPipe,
+    IsCurrencyPipe,
   ],
 })
 export class FormElementComponent implements OnInit, OnChanges {
