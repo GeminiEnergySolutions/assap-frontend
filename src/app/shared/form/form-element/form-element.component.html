@@ -92,17 +92,25 @@
   }
   @default {
     @let type = element.dataType === 'integer' ? 'number' : element.dataType;
-    <input
-      [type]="type"
-      [step]="element.dataType === 'integer' ? 1 : null"
-      class="form-control"
-      [id]="id"
-      [(ngModel)]="formData.data[element.key]"
-      (change)="setDirty()"
-      [attr.aria-describedby]="id + '-help'"
-      [disabled]="!!element.disabled"
-      [placeholder]="element.defaultValue ?? ''"
-    >
+    <div class="input-group">
+      @if (element.unit && (element.unit | isCurrency)) {
+        <span class="input-group-text">{{ element.unit }}</span>
+      }
+      <input
+        [type]="type"
+        [step]="element.dataType === 'integer' ? 1 : null"
+        class="form-control"
+        [id]="id"
+        [(ngModel)]="formData.data[element.key]"
+        (change)="setDirty()"
+        [attr.aria-describedby]="id + '-help'"
+        [disabled]="!!element.disabled"
+        [placeholder]="element.defaultValue ?? ''"
+      >
+      @if (element.unit && !(element.unit | isCurrency)) {
+        <span class="input-group-text">{{ element.unit }}</span>
+      }
+    </div>
   }
 }
 @if (element.type !== 'checkbox' && element.hint) {

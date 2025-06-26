@@ -78,7 +78,7 @@ export class ZoneListComponent implements OnInit {
     if (!count || isNaN(+count)) {
       return;
     }
-    this.zoneService.duplicateAuditZone(zone.zoneId, +count).subscribe(response => {
+    this.zoneService.duplicateAuditZone(zone.auditId, zone.zoneId, +count).subscribe(response => {
       this.zones!.push(...response.data);
       this.toastService.success('Duplicate Zone', 'Successfully duplicated zone.');
     });
