@@ -50,6 +50,22 @@ export class ZoneListComponent implements OnInit, OnDestroy {
       name => this.create(name),
     );
 
+    this.promptModalService.setOptions('zone-list-duplicate', {
+      title: 'Duplicate Zone',
+      text: 'Please select how many duplicates should be created, or leave blank to create one.',
+      submitLabel: 'Duplicate',
+      schema: [{
+        key: 'count',
+        dataType: 'integer',
+        type: 'textBox',
+        title: 'Number of Duplicates',
+        hint: '',
+        required: true,
+        defaultValue: 1,
+      }],
+      callback: ({zoneId, count}) => this.duplicate(zoneId as number, count as number || 1),
+    })
+
     this.route.params.pipe(
       switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),
     ).subscribe(({data}) => {
@@ -86,12 +102,14 @@ export class ZoneListComponent implements OnInit, OnDestroy {
     });
   }
 
-  duplicate(zone: Zone) {
-    const count = prompt('How many duplicates?', '1');
-    if (!count || isNaN(+count)) {
-      return;
-    }
-    this.zoneService.duplicateAuditZone(zone.auditId, zone.zoneId, +count).subscribe(response => {
+  duplicatePrompt(zone: Zone) {
+    this.promptModalService.prompt('zone-list-duplicate', {
+      zoneId: zone.zoneId,
+    });
+  }
+
+  duplicate(zoneId: number, count: number) {
+    this.zoneService.duplicateAuditZone(+this.route.snapshot.params.aid, zoneId, count).subscribe(response => {
       this.zones!.push(...response.data);
       this.toastService.success('Duplicate Zone', 'Successfully duplicated zone.');
     });

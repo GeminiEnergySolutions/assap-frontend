@@ -53,12 +53,12 @@ export class PromptModalService {
     return this.options.get(id);
   }
 
-  prompt(id: string) {
+  prompt(id: string, extra?: Record<string, unknown>) {
     this.router.navigate([
       {outlets: {modal: 'prompt'}},
     ], {
       relativeTo: this.route,
-      state: {id},
+      state: {id, extra},
     });
   }
 }

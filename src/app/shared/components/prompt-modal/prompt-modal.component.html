@@ -3,10 +3,12 @@
     {{ options?.title }}
   </ng-container>
   <ng-container modal-body>
-    {{ options?.text }}
-    @if (options?.dangerText; as dangerText) {
-      <span class="text-danger">{{ dangerText }}</span>
-    }
+    <p>
+      {{ options?.text }}
+      @if (options?.dangerText; as dangerText) {
+        <span class="text-danger">{{ dangerText }}</span>
+      }
+    </p>
     @for (element of options?.schema; track element.key) {
       <app-form-element
         [element]="element"

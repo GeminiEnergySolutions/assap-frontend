@@ -17,7 +17,7 @@
     >
       <div options style="z-index: 900">
         <app-zone-options-dropdown [zone]="zone" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
-          <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
+          <button ngbDropdownItem class="bi-copy" (click)="duplicatePrompt(zone)">
             Duplicate
           </button>
           <ng-container>

@@ -45,6 +45,7 @@ export class PromptModalComponent implements OnInit {
       return;
     }
 
+    Object.assign(this.formData.data, state?.extra);
     this.options = this.promptModalService.getOptions(this.id);
   }
 
