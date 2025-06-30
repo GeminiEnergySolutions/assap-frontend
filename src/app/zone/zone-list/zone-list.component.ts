@@ -52,6 +52,7 @@ export class ZoneListComponent implements OnInit, OnDestroy {
 
     this.promptModalService.setOptions('zone-list-duplicate', {
       title: 'Duplicate Zone',
+      titleContextKey: 'zoneName',
       text: 'Please select how many duplicates should be created, or leave blank to create one.',
       submitLabel: 'Duplicate',
       schema: [{
@@ -68,6 +69,7 @@ export class ZoneListComponent implements OnInit, OnDestroy {
 
     this.promptModalService.setOptionsConfirmDanger('zone-list-delete', {
       title: 'Delete Zone',
+      titleContextKey: 'zoneName',
       text: 'Are you sure you want to delete this zone?',
       dangerText: 'This action cannot be undone!',
       submitLabel: 'Yes, Delete',
@@ -103,7 +105,10 @@ export class ZoneListComponent implements OnInit, OnDestroy {
   }
 
   deleteConfirm(zone: Zone) {
-    this.promptModalService.prompt('zone-list-delete', {zoneId: zone.zoneId});
+    this.promptModalService.prompt('zone-list-delete', {
+      zoneId: zone.zoneId,
+      zoneName: zone.zoneName,
+    });
   }
 
   delete(zoneId: number) {
@@ -117,6 +122,7 @@ export class ZoneListComponent implements OnInit, OnDestroy {
   duplicatePrompt(zone: Zone) {
     this.promptModalService.prompt('zone-list-duplicate', {
       zoneId: zone.zoneId,
+      zoneName: zone.zoneName,
     });
   }
 

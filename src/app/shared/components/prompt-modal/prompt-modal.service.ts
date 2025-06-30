@@ -4,12 +4,20 @@ import {SchemaElement, SchemaValue} from '../../model/schema.interface';
 
 export interface PromptModalOptions {
   title: string;
+  /** A key of form or extra data to display (the value) next to the title */
+  titleContextKey?: string;
   text?: string;
+  /** Extra text displayed in red */
   dangerText?: string;
   schema: SchemaElement[];
   submitLabel: string;
+  /**
+   * Customize the class of the submit button.
+   * @default btn-primary
+   */
   submitClass?: string;
   cancelLabel?: string;
+  /** Will be invoked on submit with the form and extra data */
   callback: PromptCallback;
 }
 

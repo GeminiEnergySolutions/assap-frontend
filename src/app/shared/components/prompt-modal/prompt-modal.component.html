@@ -1,6 +1,11 @@
 <ngbx-modal #modal [back]="[{outlets: {modal: null}}]" [backOptions]="{relativeTo: route.parent}">
   <ng-container modal-title>
     {{ options?.title }}
+    @if (options?.titleContextKey; as titleContextKey) {
+      <span class="text-muted">
+        {{ formData.data[titleContextKey] }}
+      </span>
+    }
   </ng-container>
   <ng-container modal-body>
     <p>
