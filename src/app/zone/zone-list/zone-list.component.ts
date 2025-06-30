@@ -64,7 +64,18 @@ export class ZoneListComponent implements OnInit, OnDestroy {
         defaultValue: 1,
       }],
       callback: ({zoneId, count}) => this.duplicate(zoneId as number, count as number || 1),
-    })
+    });
+
+    this.promptModalService.setOptionsConfirmDanger('zone-list-delete', {
+      title: 'Delete Zone',
+      text: 'Are you sure you want to delete this zone?',
+      dangerText: 'This action cannot be undone!',
+      submitLabel: 'Yes, Delete',
+      cancelLabel: 'No, Cancel',
+      callback: ({zoneId}) => this.delete(zoneId as number),
+    }, {
+      type: 'checkbox',
+    });
 
     this.route.params.pipe(
       switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),
@@ -91,12 +102,13 @@ export class ZoneListComponent implements OnInit, OnDestroy {
     });
   }
 
-  delete(zone: Zone) {
-    if (!confirm(`Are you sure you want to delete '${zone.zoneName}'?`)) {
-      return;
-    }
-    this.zoneService.deleteAuditZone(zone.auditId, zone.zoneId).subscribe(() => {
-      const index = this.zones!.findIndex(a => a.zoneId === zone.zoneId);
+  deleteConfirm(zone: Zone) {
+    this.promptModalService.prompt('zone-list-delete', {zoneId: zone.zoneId});
+  }
+
+  delete(zoneId: number) {
+    this.zoneService.deleteAuditZone(+this.route.snapshot.params.aid, zoneId).subscribe(() => {
+      const index = this.zones!.findIndex(a => a.zoneId === zoneId);
       this.zones!.splice(index, 1);
       this.toastService.warn('Delete Zone', 'Successfully deleted zone.');
     });

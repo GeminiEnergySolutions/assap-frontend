@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Jexl} from 'jexl';
 import Expression from 'jexl/Expression';
+import {RequirementFunction} from '../model/schema.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,12 @@ export class ExpressionService {
     return this.compile(expression).evalSync(context);
   }
 
-  eval(expression: string, context?: Record<string, unknown>): Promise<unknown> {
-    return this.compile(expression).eval(context);
+  async eval(expression: string | RequirementFunction, context?: Record<string, unknown>): Promise<unknown> {
+    if (typeof expression === 'string') {
+      return this.compile(expression).eval(context);
+    } else {
+      return expression(context ?? {});
+    }
   }
 
   private compile(expression: string): Expression {
