@@ -1,0 +1,22 @@
+<ngbx-modal #modal [back]="[{outlets: {modal: null}}]" [backOptions]="{relativeTo: route.parent}">
+  <ng-container modal-title>
+    {{ options?.title }}
+  </ng-container>
+  <ng-container modal-body>
+    {{ options?.text }}
+    @if (options?.dangerText; as dangerText) {
+      <span class="text-danger">{{ dangerText }}</span>
+    }
+    @for (element of options?.schema; track element.key) {
+      <app-form-element
+        [element]="element"
+        [formId]="id!"
+        [formData]="formData"
+      ></app-form-element>
+    }
+  </ng-container>
+  <ng-container modal-footer>
+    <button class="btn btn-secondary" (click)="modal.close()">{{ options?.cancelLabel || 'Cancel' }}</button>
+    <button class="btn {{ options?.submitClass || 'btn-primary' }}" [disabled]="formElements?.some(hasValidationErrors) ?? false" (click)="submit(modal)">{{ options?.submitLabel }}</button>
+  </ng-container>
+</ngbx-modal>

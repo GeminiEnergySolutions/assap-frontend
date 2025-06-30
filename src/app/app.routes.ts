@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {PromptModalComponent} from './shared/components/prompt-modal/prompt-modal.component';
 import {AuthGuard} from './shared/guard/auth.guard';
 
 export const routes: Routes = [
@@ -28,6 +29,11 @@ export const routes: Routes = [
     path: 'schema-editor',
     loadChildren: () => import('./schema-editor/schema-editor.routes').then((m) => m.routes),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'prompt',
+    outlet: 'modal',
+    component: PromptModalComponent,
   },
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   {path: '**', component: PageNotFoundComponent},

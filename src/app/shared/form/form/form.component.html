@@ -67,8 +67,7 @@
                   @if (formData) {
                     <app-form-element
                       [element]="element"
-                      [schema]="schema"
-                      [formId]="formId"
+                      [formId]="formId + '/s-' + schema.id"
                       [formData]="formData"
                       (dirty)="setDirty(); updateProgress(schema)"
                     ></app-form-element>
