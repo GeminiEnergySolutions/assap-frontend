@@ -29,6 +29,22 @@ export class PromptModalService {
     this.options.set(id, options);
   }
 
+  setOptionsPrompt(id: string, title: string, name: string, submitLabel: string, callback: (value: string) => void) {
+    this.setOptions(id, {
+      title,
+      submitLabel,
+      schema: [{
+        key: 'value',
+        dataType: 'text',
+        type: 'textBox',
+        title: name,
+        hint: '',
+        required: true,
+      }],
+      callback: ({value}) => callback(value as string),
+    });
+  }
+
   clearOptions(id: string) {
     this.options.delete(id);
   }

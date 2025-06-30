@@ -4,7 +4,7 @@
   [placeholder]="'Search ' + (zones?.length ?? 0) + ' zones'"
   [(ngModel)]="search"
 />
-<button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="create()">
+<button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="createPrompt()">
   Add Zone
 </button>
 @if (zones) {

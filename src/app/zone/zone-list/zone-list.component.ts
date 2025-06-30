@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -7,6 +7,7 @@ import {switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Zone} from '../../shared/model/zone.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
@@ -28,7 +29,7 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     RouterLinkActive,
   ],
 })
-export class ZoneListComponent implements OnInit {
+export class ZoneListComponent implements OnInit, OnDestroy {
   zones?: Zone[];
   search = '';
 
@@ -36,10 +37,19 @@ export class ZoneListComponent implements OnInit {
     private route: ActivatedRoute,
     private zoneService: AuditZoneService,
     private toastService: ToastService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
   ngOnInit(): void {
+    this.promptModalService.setOptionsPrompt(
+      'zone-list-create',
+      'Create Zone',
+      'Name',
+      'Create',
+      name => this.create(name),
+    );
+
     this.route.params.pipe(
       switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),
     ).subscribe(({data}) => {
@@ -47,12 +57,15 @@ export class ZoneListComponent implements OnInit {
     });
   }
 
-  create(): void {
-    const name = prompt('New Zone Name');
-    if (!name) {
-      return;
-    }
+  ngOnDestroy() {
+    this.promptModalService.clearOptions('zone-list-create');
+  }
 
+  createPrompt(): void {
+    this.promptModalService.prompt('zone-list-create');
+  }
+
+  create(name: string) {
     this.zoneService.createAuditZone({
       auditId: this.route.snapshot.params.aid,
       zoneName: name,
