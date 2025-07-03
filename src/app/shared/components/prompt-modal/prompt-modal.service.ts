@@ -1,6 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {inject, Injectable, InjectionToken, Injector} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SchemaElement, SchemaValue} from '../../model/schema.interface';
+import {PromptModalComponent} from './prompt-modal.component';
+
+export const PROMPT_MODAL_OPTIONS = new InjectionToken<PromptModalOptions>('PromptModalOptions');
 
 export interface PromptModalOptions {
   title: string;
@@ -21,17 +24,15 @@ export interface PromptModalOptions {
   callback: PromptCallback;
 }
 
-export type PromptCallback = (data: Partial<Record<string, SchemaValue>>) => void;
+export type Data = Partial<Record<string, SchemaValue>>;
+export type PromptCallback = (data: Data) => void;
+
+export const PROMPT_EXTRA_DATA = new InjectionToken<Data>('PromptExtraData');
 
 @Injectable({providedIn: 'root'})
 export class PromptModalService {
   private readonly options = new Map<string, PromptModalOptions>();
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
-  }
+  private readonly ngbModal = inject(NgbModal);
 
   setOptions(id: string, options: PromptModalOptions) {
     this.options.set(id, options);
@@ -108,12 +109,21 @@ export class PromptModalService {
     return this.options.get(id);
   }
 
-  prompt(id: string, extra?: Record<string, unknown>) {
-    this.router.navigate([
-      {outlets: {modal: 'prompt'}},
-    ], {
-      relativeTo: this.route,
-      state: {id, extra},
-    });
+  prompt(id: string, extra: Record<string, unknown> = {}): Promise<Data | string> {
+    return this.ngbModal.open(PromptModalComponent, {
+      role: 'alertdialog',
+      injector: Injector.create({
+        providers: [
+          {
+            provide: PROMPT_MODAL_OPTIONS,
+            useValue: this.getOptions(id),
+          },
+          {
+            provide: PROMPT_EXTRA_DATA,
+            useValue: extra,
+          },
+        ],
+      }),
+    }).result;
   }
 }
