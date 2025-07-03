@@ -7,7 +7,7 @@ import {switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
-import {PromptModalOptions, PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Zone} from '../../shared/model/zone.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
@@ -91,7 +91,7 @@ export class ZoneListComponent implements OnInit {
   }
 
   duplicatePrompt(zone: Zone) {
-    this.promptModalService.prompt<{count: number}>({
+    this.promptModalService.prompt<{ count: number }>({
       title: 'Duplicate Zone',
       titleContextKey: 'zoneName',
       text: 'Please select how many duplicates should be created, or leave blank to create one.',
