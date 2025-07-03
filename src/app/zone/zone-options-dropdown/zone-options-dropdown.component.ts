@@ -7,6 +7,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 
 import {Zone} from '../../shared/model/zone.interface';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
@@ -29,6 +30,7 @@ export class ZoneOptionsDropdownComponent {
   constructor(
     private zoneService: AuditZoneService,
     private toastService: ToastService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -36,16 +38,20 @@ export class ZoneOptionsDropdownComponent {
     if (!this.zone) {
       return;
     }
-    const name = prompt('Rename Zone', this.zone.zoneName);
-    if (!name) {
-      return;
-    }
-    this.zoneService.updateAuditZone(this.zone.auditId, this.zone.zoneId, {
-      ...this.zone,
-      zoneName: name,
-    }).subscribe(() => {
-      this.zone!.zoneName = name;
-      this.toastService.success('Rename Zone', 'Successfully renamed zone.');
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Rename Zone',
+      'Zone Name',
+      'Rename',
+    ), {
+      value: this.zone.zoneName,
+    }).then(({value}) => {
+      this.zoneService.updateAuditZone(this.zone!.auditId, this.zone!.zoneId, {
+        ...this.zone!,
+        zoneName: value,
+      }).subscribe(() => {
+        this.zone!.zoneName = value;
+        this.toastService.success('Rename Zone', 'Successfully renamed zone.');
+      });
     });
   }
 }
