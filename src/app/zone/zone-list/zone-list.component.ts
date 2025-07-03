@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -29,7 +29,7 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
     RouterLinkActive,
   ],
 })
-export class ZoneListComponent implements OnInit, OnDestroy {
+export class ZoneListComponent implements OnInit {
   zones?: Zone[];
   search = '';
 
@@ -42,43 +42,6 @@ export class ZoneListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.promptModalService.setOptionsPrompt(
-      'zone-list-create',
-      'Create Zone',
-      'Name',
-      'Create',
-      name => this.create(name),
-    );
-
-    this.promptModalService.setOptions('zone-list-duplicate', {
-      title: 'Duplicate Zone',
-      titleContextKey: 'zoneName',
-      text: 'Please select how many duplicates should be created, or leave blank to create one.',
-      submitLabel: 'Duplicate',
-      schema: [{
-        key: 'count',
-        dataType: 'integer',
-        type: 'textBox',
-        title: 'Number of Duplicates',
-        hint: '',
-        required: true,
-        defaultValue: 1,
-      }],
-      callback: ({zoneId, count}) => this.duplicate(zoneId as number, count as number || 1),
-    });
-
-    this.promptModalService.setOptionsConfirmDanger('zone-list-delete', {
-      title: 'Delete Zone',
-      titleContextKey: 'zoneName',
-      text: 'Are you sure you want to delete this zone?',
-      dangerText: 'This action cannot be undone!',
-      submitLabel: 'Yes, Delete',
-      cancelLabel: 'No, Cancel',
-      callback: ({zoneId}) => this.delete(zoneId as number),
-    }, {
-      type: 'checkbox',
-    });
-
     this.route.params.pipe(
       switchMap(({aid}) => this.zoneService.getAllAuditZone(aid)),
     ).subscribe(({data}) => {
@@ -86,12 +49,13 @@ export class ZoneListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.promptModalService.clearOptions('zone-list-create');
-  }
-
   createPrompt(): void {
-    this.promptModalService.prompt('zone-list-create');
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Create Zone',
+      'Name',
+      'Create',
+      name => this.create(name),
+    ));
   }
 
   create(name: string) {
@@ -105,7 +69,17 @@ export class ZoneListComponent implements OnInit, OnDestroy {
   }
 
   deleteConfirm(zone: Zone) {
-    this.promptModalService.prompt('zone-list-delete', {
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Zone',
+      titleContextKey: 'zoneName',
+      text: 'Are you sure you want to delete this zone?',
+      dangerText: 'This action cannot be undone!',
+      submitLabel: 'Yes, Delete',
+      cancelLabel: 'No, Cancel',
+      callback: ({zoneId}) => this.delete(zoneId as number),
+    }, {
+      type: 'checkbox',
+    }), {
       zoneId: zone.zoneId,
       zoneName: zone.zoneName,
     });
@@ -120,7 +94,22 @@ export class ZoneListComponent implements OnInit, OnDestroy {
   }
 
   duplicatePrompt(zone: Zone) {
-    this.promptModalService.prompt('zone-list-duplicate', {
+    this.promptModalService.prompt({
+      title: 'Duplicate Zone',
+      titleContextKey: 'zoneName',
+      text: 'Please select how many duplicates should be created, or leave blank to create one.',
+      submitLabel: 'Duplicate',
+      schema: [{
+        key: 'count',
+        dataType: 'integer',
+        type: 'textBox',
+        title: 'Number of Duplicates',
+        hint: '',
+        required: true,
+        defaultValue: 1,
+      }],
+      callback: ({zoneId, count}) => this.duplicate(zoneId as number, count as number || 1),
+    }, {
       zoneId: zone.zoneId,
       zoneName: zone.zoneName,
     });
