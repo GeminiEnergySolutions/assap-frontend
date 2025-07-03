@@ -67,13 +67,13 @@ export class PromptModalService {
         key: 'confirm',
         dataType: 'text',
         type: 'textBox',
-        title: confirm.title ?? `Enter '${confirm}' to confirm`,
+        title: confirm.title ?? `Enter '${confirm.expected}' to confirm`,
         hint: '',
         required: true,
         validations: [{
           if: ({confirm: userConfirm}) => confirm.expected !== userConfirm,
           level: 'error',
-          message: confirm.message ?? `Please enter '${confirm}' to confirm.`,
+          message: confirm.message ?? `Please enter '${confirm.expected}' to confirm.`,
         }],
       }] : confirm?.type === 'checkbox' ? [{
         key: 'confirm',

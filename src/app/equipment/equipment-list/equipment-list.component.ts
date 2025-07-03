@@ -8,6 +8,7 @@ import {EMPTY, switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
 import {Zone} from '../../shared/model/zone.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
@@ -47,6 +48,7 @@ export class EquipmentListComponent implements OnInit {
     public route: ActivatedRoute,
     private router: Router,
     protected modal: NgbModal,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -106,16 +108,21 @@ export class EquipmentListComponent implements OnInit {
   }
 
   delete(item: Equipment) {
-    if (!confirm(`Are you sure you want to delete '${item.name}'?`)) {
-      return;
-    }
-
     const kind = item.type?.name;
-    this.equipmentService.deleteEquipment(item.zoneId, item.equipmentId, item.id).subscribe(() => {
-      const index = this.equipments!.indexOf(item);
-      this.equipments!.splice(index, 1);
-      this.toastService.warn('Delete Equipment', `Successfully deleted ${kind}`);
-      this.getEquipmentPercentage(this.category!);
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: `Delete ${kind}`,
+      text: `Are you sure you want to delete '${item.name}'?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.equipmentService.deleteEquipment(item.zoneId, item.equipmentId, item.id).subscribe(() => {
+        const index = this.equipments!.indexOf(item);
+        this.equipments!.splice(index, 1);
+        this.toastService.warn('Delete Equipment', `Successfully deleted ${kind}`);
+        this.getEquipmentPercentage(this.category!);
+      });
     });
   }
 

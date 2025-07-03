@@ -79,12 +79,22 @@ export class AuditOptionsDropdownComponent {
   }
 
   delete() {
-    if (!this.audit || !confirm(`Are you sure you want to delete '${this.audit.auditName}'?`)) {
+    if (!this.audit) {
       return;
     }
-    this.auditService.deleteAudit(this.audit.auditId).subscribe(() => {
-      this.deleted.emit(this.audit);
-      this.toastService.success('Delete Audit', 'Successfully deleted audit.');
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: `Delete Audit`,
+      text: `Are you sure you want to delete '${this.audit.auditName}'?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'text',
+      expected: this.audit.auditName,
+    })).then(() => {
+      this.auditService.deleteAudit(this.audit!.auditId).subscribe(() => {
+        this.deleted.emit(this.audit);
+        this.toastService.success('Delete Audit', 'Successfully deleted audit.');
+      });
     });
   }
 }
