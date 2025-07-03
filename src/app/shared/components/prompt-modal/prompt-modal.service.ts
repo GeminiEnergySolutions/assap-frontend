@@ -5,7 +5,7 @@ import {PromptModalComponent} from './prompt-modal.component';
 
 export const PROMPT_MODAL_OPTIONS = new InjectionToken<PromptModalOptions>('PromptModalOptions');
 
-export interface PromptModalOptions {
+export interface PromptModalOptions<T = Data> {
   title: string;
   /** A key of form or extra data to display (the value) next to the title */
   titleContextKey?: string;
@@ -20,12 +20,9 @@ export interface PromptModalOptions {
    */
   submitClass?: string;
   cancelLabel?: string;
-  /** Will be invoked on submit with the form and extra data */
-  callback: PromptCallback;
 }
 
 export type Data = Partial<Record<string, SchemaValue>>;
-export type PromptCallback = (data: Data) => void;
 
 export const PROMPT_EXTRA_DATA = new InjectionToken<Data>('PromptExtraData');
 
@@ -33,7 +30,7 @@ export const PROMPT_EXTRA_DATA = new InjectionToken<Data>('PromptExtraData');
 export class PromptModalService {
   private readonly ngbModal = inject(NgbModal);
 
-  simplePrompt(title: string, name: string, submitLabel: string, callback: (value: string, extra?: Data) => void): PromptModalOptions {
+  simplePrompt(title: string, name: string, submitLabel: string): PromptModalOptions<{ value: string }> {
     return {
       title,
       submitLabel,
@@ -45,24 +42,23 @@ export class PromptModalService {
         hint: '',
         required: true,
       }],
-      callback: ({value, ...extra}) => callback(value as string, extra),
     };
   }
 
-  confirmPrompt(title: string, text: string, callback: PromptCallback): PromptModalOptions {
+  confirmPrompt(title: string, text?: string): PromptModalOptions<object> {
     return {
       title,
+      text,
       submitLabel: 'Yes',
       cancelLabel: 'No',
       schema: [],
-      callback,
     };
   }
 
   confirmDanger(
     options: Omit<PromptModalOptions, 'schema'>,
     confirm: {type: 'checkbox', title?: string, message?: string} | {type: 'text', expected: string, title?: string, message?: string} | undefined,
-  ): PromptModalOptions {
+  ): PromptModalOptions<{ confirm: boolean | string }> {
     return {
       submitClass: 'btn-danger',
       cancelLabel: 'No',
@@ -95,7 +91,7 @@ export class PromptModalService {
     };
   }
 
-  prompt(options: PromptModalOptions, extra: Data = {}): Promise<Data | string> {
+  prompt<T, E = object>(options: PromptModalOptions<T>, extra?: E): Promise<T & E> {
     return this.ngbModal.open(PromptModalComponent, {
       role: 'alertdialog',
       injector: Injector.create({

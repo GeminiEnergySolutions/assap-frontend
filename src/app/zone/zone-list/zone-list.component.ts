@@ -7,7 +7,7 @@ import {switchMap} from 'rxjs';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
-import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
+import {PromptModalOptions, PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Zone} from '../../shared/model/zone.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {AuditZoneService} from '../../shared/services/audit-zone.service';
@@ -54,8 +54,7 @@ export class ZoneListComponent implements OnInit {
       'Create Zone',
       'Name',
       'Create',
-      name => this.create(name),
-    ));
+    )).then(({value}) => this.create(value));
   }
 
   create(name: string) {
@@ -76,13 +75,11 @@ export class ZoneListComponent implements OnInit {
       dangerText: 'This action cannot be undone!',
       submitLabel: 'Yes, Delete',
       cancelLabel: 'No, Cancel',
-      callback: ({zoneId}) => this.delete(zoneId as number),
     }, {
       type: 'checkbox',
     }), {
-      zoneId: zone.zoneId,
       zoneName: zone.zoneName,
-    });
+    }).then(() => this.delete(zone.zoneId));
   }
 
   delete(zoneId: number) {
@@ -94,7 +91,7 @@ export class ZoneListComponent implements OnInit {
   }
 
   duplicatePrompt(zone: Zone) {
-    this.promptModalService.prompt({
+    this.promptModalService.prompt<{count: number}>({
       title: 'Duplicate Zone',
       titleContextKey: 'zoneName',
       text: 'Please select how many duplicates should be created, or leave blank to create one.',
@@ -108,11 +105,10 @@ export class ZoneListComponent implements OnInit {
         required: true,
         defaultValue: 1,
       }],
-      callback: ({zoneId, count}) => this.duplicate(zoneId as number, count as number || 1),
     }, {
       zoneId: zone.zoneId,
       zoneName: zone.zoneName,
-    });
+    }).then(({count}) => this.duplicate(zone.zoneId, count));
   }
 
   duplicate(zoneId: number, count: number) {

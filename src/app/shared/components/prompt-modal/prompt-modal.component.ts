@@ -26,7 +26,6 @@ export class PromptModalComponent {
   hasValidationErrors = (formElement: FormElementComponent) => formElement.validationMessages.some(m => m.level === 'error');
 
   submit() {
-    this.options?.callback(this.formData.data);
     this.activeModal.close(this.formData.data);
   }
 }
