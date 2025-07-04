@@ -5,6 +5,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap, tap} from 'rxjs';
 
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {FormComponent} from '../../shared/form/form/form.component';
 import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard';
 import {icons} from '../../shared/icons';
@@ -41,6 +42,7 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
     private breadcrumbService: BreadcrumbService,
     private toastService: ToastService,
     private copyPasteService: CopyPasteService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -98,19 +100,20 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   addSection() {
-    const name = prompt('Enter a name for the new section:');
-    if (!name) {
-      return;
-    }
-
-    this.schemaService.createSchemaSection(this.kind, {
-      id: 0,
-      typeId: this.route.snapshot.params.id,
-      name,
-      schema: [],
-    }).subscribe(({data}) => {
-      this.schemaSections.push(data);
-    });
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Add Section',
+      'New Section Name',
+      'Create',
+    )).then(({value}) => {
+      this.schemaService.createSchemaSection(this.kind, {
+        id: 0,
+        typeId: this.route.snapshot.params.id,
+        name: value,
+        schema: [],
+      }).subscribe(({data}) => {
+        this.schemaSections.push(data);
+      });
+    })
   }
 
   pasteSection() {
@@ -138,27 +141,35 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   deleteSection(section: SchemaSection) {
-    if (!confirm('Are you sure you want to delete this section? This cannot be undone.')) {
-      return;
-    }
-
-    this.schemaService.deleteSchemaSection(this.kind, section.id).subscribe(() => {
-      this.schemaSections.splice(this.schemaSections.indexOf(section), 1);
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Section',
+      text: `Are you sure you want to delete the section "${section.name}"?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.schemaService.deleteSchemaSection(this.kind, section.id).subscribe(() => {
+        this.schemaSections.splice(this.schemaSections.indexOf(section), 1);
+      });
     });
   }
 
   renameSubType() {
-    const newName = prompt('Enter a new name for this equipment type:', this.title);
-    if (!newName) {
-      return;
-    }
-
-    this.equipmentService.updateEquipmentType(0, {
-      id: this.equipmentType!.id,
-      equipmentId: this.equipmentType!.equipmentId,
-      name: newName,
-    }).subscribe(() => {
-      this.title = newName;
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Rename Subtype',
+      'Subtype Name',
+      'Rename',
+    ), {
+      value: this.title,
+    }).then(({value}) => {
+      this.equipmentService.updateEquipmentType(0, {
+        id: this.equipmentType!.id,
+        equipmentId: this.equipmentType!.equipmentId,
+        name: value,
+      }).subscribe(() => {
+        this.title = value;
+      });
     });
   }
 }

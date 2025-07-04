@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ options?.title }}
+    @if (options?.titleContextKey; as titleContextKey) {
+      <span class="text-muted">
+        {{ formData.data[titleContextKey] }}
+      </span>
+    }
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('X')"></button>
+</div>
+<div class="modal-body">
+  <p>
+    {{ options?.text }}
+    @if (options?.dangerText; as dangerText) {
+      <span class="text-danger">{{ dangerText }}</span>
+    }
+  </p>
+  @for (element of options?.schema; track element.key) {
+    <app-form-element
+      [element]="element"
+      [formId]="id!"
+      [formData]="formData"
+    ></app-form-element>
+  }
+</div>
+<div class="modal-footer">
+  <button class="btn btn-secondary" (click)="activeModal.dismiss('Cancel')">{{ options?.cancelLabel || 'Cancel' }}</button>
+  <button class="btn {{ options?.submitClass || 'btn-primary' }}" [disabled]="formElements?.some(hasValidationErrors) ?? false" (click)="submit()">{{ options?.submitLabel }}</button>
+</div>

@@ -60,9 +60,11 @@ export interface SchemaElement {
 
 export type SchemaValue = string | number | boolean | Date;
 
+export type RequirementFunction = (data: Record<string, unknown>) => boolean | Promise<boolean>;
+
 export interface SchemaRequirement {
   level?: 'warning' | 'error';
-  if: string;
+  if: string | RequirementFunction;
   message: string;
 }
 

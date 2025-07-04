@@ -8,6 +8,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 
 import {Equipment} from '../../shared/model/equipment.interface';
 import {EquipmentService} from '../../shared/services/equipment.service';
@@ -34,6 +35,7 @@ export class EquipmentOptionsDropdownComponent {
   constructor(
     private equipmentService: EquipmentService,
     private toastService: ToastService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -44,14 +46,17 @@ export class EquipmentOptionsDropdownComponent {
     }
 
     const kind = equipment.type?.name;
-    const name = prompt(`Rename ${kind}`, equipment.name);
-    if (!name) {
-      return;
-    }
-
-    this.equipmentService.updateEquipment({...equipment, name}).subscribe(({data}) => {
-      equipment.name = data.name;
-      this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      `Rename ${kind}`,
+      `${kind} Name`,
+      'Rename',
+    ), {
+      value: equipment.name,
+    }).then(({value}) => {
+      this.equipmentService.updateEquipment({...equipment, name: value}).subscribe(({data}) => {
+        equipment.name = data.name;
+        this.toastService.success(`Rename ${kind}`, `Successfully renamed ${kind}`);
+      });
     });
   }
 }
