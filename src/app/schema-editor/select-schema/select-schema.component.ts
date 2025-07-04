@@ -3,6 +3,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {concatMap, mergeMap, switchMap, tap, toArray} from 'rxjs';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 
 import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -25,6 +26,7 @@ export class SelectSchemaComponent implements OnInit {
     private route: ActivatedRoute,
     private schemaService: SchemaService,
     private toastService: ToastService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -86,13 +88,18 @@ export class SelectSchemaComponent implements OnInit {
   }
 
   deleteSubType(subType: EquipmentType) {
-    if (!confirm('Are you sure you want to delete this subtype? This action cannot be undone.')) {
-      return;
-    }
-
-    this.equipmentService.deleteEquipmentType(subType.equipmentId, subType.id).subscribe(() => {
-      this.equipmentTypes[subType.equipmentId]!.splice(this.equipmentTypes[subType.equipmentId]!.indexOf(subType), 1);
-      this.toastService.warn('Deleted Subtype', `Successfully deleted subtype ${subType.name}`);
-    })
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Equipment Subtype',
+      text: `Are you sure you want to delete the equipment subtype "${subType.name}"?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.equipmentService.deleteEquipmentType(subType.equipmentId, subType.id).subscribe(() => {
+        this.equipmentTypes[subType.equipmentId]!.splice(this.equipmentTypes[subType.equipmentId]!.indexOf(subType), 1);
+        this.toastService.warn('Deleted Subtype', `Successfully deleted subtype ${subType.name}`);
+      });
+    });
   }
 }
