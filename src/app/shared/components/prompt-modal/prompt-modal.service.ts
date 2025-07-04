@@ -45,13 +45,11 @@ export class PromptModalService {
     };
   }
 
-  confirmPrompt(title: string, text?: string): PromptModalOptions<object> {
+  confirmPrompt(options: Omit<PromptModalOptions, 'schema'>): PromptModalOptions<object> {
     return {
-      title,
-      text,
-      submitLabel: 'Yes',
       cancelLabel: 'No',
       schema: [],
+      ...options,
     };
   }
 
