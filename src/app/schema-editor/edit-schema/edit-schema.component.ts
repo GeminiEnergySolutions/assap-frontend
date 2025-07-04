@@ -100,19 +100,20 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   addSection() {
-    const name = prompt('Enter a name for the new section:');
-    if (!name) {
-      return;
-    }
-
-    this.schemaService.createSchemaSection(this.kind, {
-      id: 0,
-      typeId: this.route.snapshot.params.id,
-      name,
-      schema: [],
-    }).subscribe(({data}) => {
-      this.schemaSections.push(data);
-    });
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Add Section',
+      'New Section Name',
+      'Create',
+    )).then(({value}) => {
+      this.schemaService.createSchemaSection(this.kind, {
+        id: 0,
+        typeId: this.route.snapshot.params.id,
+        name: value,
+        schema: [],
+      }).subscribe(({data}) => {
+        this.schemaSections.push(data);
+      });
+    })
   }
 
   pasteSection() {
@@ -155,17 +156,20 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
   }
 
   renameSubType() {
-    const newName = prompt('Enter a new name for this equipment type:', this.title);
-    if (!newName) {
-      return;
-    }
-
-    this.equipmentService.updateEquipmentType(0, {
-      id: this.equipmentType!.id,
-      equipmentId: this.equipmentType!.equipmentId,
-      name: newName,
-    }).subscribe(() => {
-      this.title = newName;
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Rename Subtype',
+      'Subtype Name',
+      'Rename',
+    ), {
+      value: this.title,
+    }).then(({value}) => {
+      this.equipmentService.updateEquipmentType(0, {
+        id: this.equipmentType!.id,
+        equipmentId: this.equipmentType!.equipmentId,
+        name: value,
+      }).subscribe(() => {
+        this.title = value;
+      });
     });
   }
 }
