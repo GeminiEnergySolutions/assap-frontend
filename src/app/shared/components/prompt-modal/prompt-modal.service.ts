@@ -41,6 +41,11 @@ export class PromptModalService {
         title: name,
         hint: '',
         required: true,
+        validations: [{
+          if: ({value}) => !value,
+          level: 'error',
+          message: 'Please enter a value',
+        }],
       }],
     };
   }
