@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {map, of, switchMap, withLatestFrom} from 'rxjs';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 
 import {icons} from '../../shared/icons';
 import {Equipment, EquipmentCategory} from '../../shared/model/equipment.interface';
@@ -51,6 +52,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
     private equipmentService: EquipmentService,
     private breadcrumbService: BreadcrumbService,
     protected ngbModal: NgbModal,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -155,13 +157,18 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   deletePhoto(id: number) {
-    if (!confirm('Are you sure you want to delete this photo? This action cannot be undone.')) {
-      return;
-    }
-
-    this.photoService.deletePhoto(+this.route.snapshot.params.aid, id).subscribe(() => {
-      this.photos = this.photos.filter(photo => photo.id !== id);
-      this.totalCount--;
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Photo',
+      text: `Are you sure you want to delete this photo?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.photoService.deletePhoto(+this.route.snapshot.params.aid, id).subscribe(() => {
+        this.photos = this.photos.filter(photo => photo.id !== id);
+        this.totalCount--;
+      });
     });
   }
 }

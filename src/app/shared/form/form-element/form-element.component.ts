@@ -1,13 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {
-  SchemaElement,
-  SchemaRequirement,
-  SchemaSection,
-  SchemaSubElement,
-  SchemaValue,
-} from '../../model/schema.interface';
+import {SchemaElement, SchemaRequirement, SchemaSubElement, SchemaValue} from '../../model/schema.interface';
 import {IsCurrencyPipe} from '../../pipe/is-currency.pipe';
 import {ExpressionService} from '../../services/expression.service';
 import {FormChoicesPipe} from '../form-choices.pipe';
@@ -25,7 +19,6 @@ import {FormChoicesPipe} from '../form-choices.pipe';
 })
 export class FormElementComponent implements OnInit, OnChanges {
   @Input() element!: SchemaElement;
-  @Input() schema!: SchemaSection;
   @Input() formId!: string;
   @Input() formData!: { data: Partial<Record<string, SchemaValue>> };
 
@@ -44,7 +37,7 @@ export class FormElementComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.formId || changes.schema || changes.element) {
-      this.id = `${this.formId}/s-${this.schema.id}/${this.element.key}`;
+      this.id = `${this.formId}/${this.element.key}`;
     }
   }
 

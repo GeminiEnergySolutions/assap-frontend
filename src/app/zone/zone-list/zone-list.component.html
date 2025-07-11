@@ -4,7 +4,7 @@
   [placeholder]="'Search ' + (zones?.length ?? 0) + ' zones'"
   [(ngModel)]="search"
 />
-<button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="create()">
+<button class="btn btn-outline-secondary bi-plus w-100 mb-3" (click)="createPrompt()">
   Add Zone
 </button>
 @if (zones) {
@@ -17,12 +17,12 @@
     >
       <div options style="z-index: 900">
         <app-zone-options-dropdown [zone]="zone" (click)="$event.stopImmediatePropagation(); $event.preventDefault()">
-          <button ngbDropdownItem class="bi-copy" (click)="duplicate(zone)">
+          <button ngbDropdownItem class="bi-copy" (click)="duplicatePrompt(zone)">
             Duplicate
           </button>
           <ng-container>
             <div class="dropdown-divider"></div>
-            <button ngbDropdownItem class="text-danger bi-trash" (click)="delete(zone)">
+            <button ngbDropdownItem class="text-danger bi-trash" (click)="deleteConfirm(zone)">
               Delete
             </button>
           </ng-container>

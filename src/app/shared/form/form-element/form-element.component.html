@@ -129,6 +129,6 @@
 }
 @for (child of childElements; track child // cannot track key because it might be duplicated) {
   <div class="ms-3 mt-3">
-    <app-form-element [element]="child" [schema]="schema" [formId]="formId" [formData]="formData" (dirty)="dirty.emit()"></app-form-element>
+    <app-form-element [element]="child" [formId]="formId" [formData]="formData" (dirty)="dirty.emit()"></app-form-element>
   </div>
 }

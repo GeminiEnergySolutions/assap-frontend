@@ -11,6 +11,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 import {environment} from '../../../environments/environment';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {AuthService} from '../../shared/services/auth.service';
@@ -41,6 +42,7 @@ export class AuditOptionsDropdownComponent {
     private auditService: AuditService,
     private toastService: ToastService,
     protected authService: AuthService,
+    private promptModalService: PromptModalService,
   ) {
   }
 
@@ -62,23 +64,37 @@ export class AuditOptionsDropdownComponent {
       return;
     }
 
-    const name = prompt('Rename Audit', this.audit.auditName);
-    if (!name) {
-      return;
-    }
-    this.auditService.updateAudit(this.audit.auditId, {auditName: name}).subscribe(() => {
-      this.audit!.auditName = name;
-      this.toastService.success('Rename Audit', 'Successfully renamed audit.');
-    });
+    this.promptModalService.prompt(this.promptModalService.simplePrompt(
+      'Rename Audit',
+      'Audit Name',
+      'Rename',
+    ), {
+      value: this.audit.auditName,
+    }).then(({value}) => {
+      this.auditService.updateAudit(this.audit!.auditId, {auditName: value}).subscribe(() => {
+        this.audit!.auditName = value;
+        this.toastService.success('Rename Audit', 'Successfully renamed audit.');
+      });
+    })
   }
 
   delete() {
-    if (!this.audit || !confirm(`Are you sure you want to delete '${this.audit.auditName}'?`)) {
+    if (!this.audit) {
       return;
     }
-    this.auditService.deleteAudit(this.audit.auditId).subscribe(() => {
-      this.deleted.emit(this.audit);
-      this.toastService.success('Delete Audit', 'Successfully deleted audit.');
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: `Delete Audit`,
+      text: `Are you sure you want to delete '${this.audit.auditName}'?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'text',
+      expected: this.audit.auditName,
+    })).then(() => {
+      this.auditService.deleteAudit(this.audit!.auditId).subscribe(() => {
+        this.deleted.emit(this.audit);
+        this.toastService.success('Delete Audit', 'Successfully deleted audit.');
+      });
     });
   }
 }
