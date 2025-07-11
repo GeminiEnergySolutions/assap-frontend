@@ -24,18 +24,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Set deploy Path and API URL
+        run: | 
+          "DEPLOY_PATH=$(if [[ '${{ github.ref }}' == 'refs/heads/master' ]]; then echo '${{ secrets.PROD_DEPLOY_PATH }}'; else echo '${{ secrets.DEV_DEPLOY_PATH }}'; fi)" >> $GITHUB_ENV
+          "API_URL=$(if [[ '${{ github.ref }}' == 'refs/heads/master' ]]; then echo '${{ secrets.PROD_API_URL }}'; else echo '${{ secrets.DEV_API_URL }}'; fi)" >> $GITHUB_ENV
+
       - name: Replace API URL in environment
         run: |
           sed -i "s|production: .*|production: true,|g" src/environments/environment.ts
-          sed -i "s|url: .*|url: '${{ secrets.DEV_API_URL }}'|g" src/environments/environment.ts
+          sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.ts
           sed -i "s|production: .*|production: true,|g" src/environments/environment.prod.ts
-          sed -i "s|url: .*|url: '${{ secrets.DEV_API_URL }}'|g" src/environments/environment.prod.ts
+          sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.prod.ts
 
       - name: Build Angular app
         run: pnpm run build
-
-      - name: Set deploy path
-        run: echo "DEPLOY_PATH=$(if [[ '${{ github.ref }}' == 'refs/heads/master' ]]; then echo '${{ secrets.PROD_DEPLOY_PATH }}'; else echo '${{ secrets.DEV_DEPLOY_PATH }}'; fi)" >> $GITHUB_ENV
 
       - name: Clean target directory on server
         uses: appleboy/ssh-action@v1.0.0
