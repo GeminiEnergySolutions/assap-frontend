@@ -1,0 +1,83 @@
+name: Deploy Angular
+
+on:
+  push:
+    branches:
+      - master
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set deploy Path and API URL
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "DEPLOY_PATH=${{ secrets.PROD_DEPLOY_PATH }}" >> $GITHUB_ENV
+            echo "API_URL=${{ secrets.PROD_API_URL }}" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_PATH=${{ secrets.DEV_DEPLOY_PATH }}" >> $GITHUB_ENV
+            echo "API_URL=${{ secrets.DEV_API_URL }}" >> $GITHUB_ENV
+          fi
+
+      - name: Replace API URL in environment
+        run: |
+          sed -i "s|production: .*|production: true,|g" src/environments/environment.ts
+          sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.ts
+          sed -i "s|production: .*|production: true,|g" src/environments/environment.prod.ts
+          sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.prod.ts
+
+      - name: Build Angular app
+        run: pnpm run build
+
+      - name: Clean target directory on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            if [ -d ${{ env.DEPLOY_PATH }} ]; then
+              echo "Cleaning existing deploy path..."
+              rm -rf ${{ env.DEPLOY_PATH }}/frontend/*
+            else
+              echo "Directory does not exist. Creating it..."
+              mkdir -p ${{ env.DEPLOY_PATH }}/frontend
+            fi
+
+      - name: Prepare upload directory
+        run: |
+          mkdir -p frontend
+          cp -r dist/conserve/browser/* frontend/
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "frontend/*"
+          target: "${{ env.DEPLOY_PATH }}"
+
+      - name: Restart Services
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            sudo systemctl restart ${{ secrets.SERVICE_NAME }}
