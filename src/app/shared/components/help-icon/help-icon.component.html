@@ -1,0 +1,25 @@
+<button
+  class="btn m-0 p-0 bi-question-circle"
+  [ngbTooltip]="summary && summaryTemplate"
+  (click)="ngbOffcanvas.open(docsTemplate, {position: 'bottom', panelClass: 'h-auto'})"
+></button>
+<ng-template #summaryTemplate>
+  <div [innerHtml]="summary! | safe:'html'"></div>
+</ng-template>
+<ng-template #docsTemplate let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvas-basic-title">About: {{ title }}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('X')"></button>
+  </div>
+  <div class="offcanvas-body">
+    @if (summary) {
+      <div [innerHtml]="summary | safe:'html'"></div>
+    }
+    @if (summary && docs) {
+      <hr/>
+    }
+    @if (docs) {
+      <div [innerHtml]="docs | safe:'html'"></div>
+    }
+  </div>
+</ng-template>

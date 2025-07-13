@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {HelpIconComponent} from '../../components/help-icon/help-icon.component';
 import {SchemaElement, SchemaRequirement, SchemaSubElement, SchemaValue} from '../../model/schema.interface';
 import {IsCurrencyPipe} from '../../pipe/is-currency.pipe';
 import {SafePipe} from '../../pipe/safe.pipe';
@@ -17,6 +18,7 @@ import {FormChoicesPipe} from '../form-choices.pipe';
     FormChoicesPipe,
     IsCurrencyPipe,
     SafePipe,
+    HelpIconComponent,
   ],
 })
 export class FormElementComponent implements OnInit, OnChanges {

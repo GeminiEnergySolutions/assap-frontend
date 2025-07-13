@@ -10,31 +10,7 @@
       <span class="text-danger" ngbTooltip="Required">*</span>
     }
     @if (element.summary || element.docs) {
-      <button
-        class="btn m-0 p-0 bi-question-circle"
-        [ngbTooltip]="element.summary && summary"
-        (click)="ngbOffcanvas.open(docs, {position: 'bottom', panelClass: 'h-auto'})"
-      ></button>
-      <ng-template #summary>
-        <div [innerHtml]="element.summary! | safe:'html'"></div>
-      </ng-template>
-      <ng-template #docs let-offcanvas>
-        <div class="offcanvas-header">
-          <h4 class="offcanvas-title" id="offcanvas-basic-title">About: {{ element.title }}</h4>
-          <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('X')"></button>
-        </div>
-        <div class="offcanvas-body">
-          @if (element.summary) {
-            <div [innerHtml]="element.summary | safe:'html'"></div>
-          }
-          @if (element.summary && element.docs) {
-            <hr/>
-          }
-          @if (element.docs) {
-            <div [innerHtml]="element.docs | safe:'html'"></div>
-          }
-        </div>
-      </ng-template>
+      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
     }
   </label>
 }
@@ -79,6 +55,9 @@
       >
       <label class="form-check-label" [for]="id">
         {{ element.title }}
+        @if (element.summary || element.docs) {
+          <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+        }
       </label>
       @if (element.hint) {
         <div [id]="id + '-help'" class="form-text">
