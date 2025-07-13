@@ -2,6 +2,8 @@ export interface SchemaSection {
   id: number;
   typeId?: number;
   name: string;
+  summary?: string;
+  docs?: string;
   schema: SchemaElement[];
   copySchema?: CopySpec[];
   conditionalSchema?: ConditionalSchema;
