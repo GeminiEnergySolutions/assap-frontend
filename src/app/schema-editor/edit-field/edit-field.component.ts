@@ -5,6 +5,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatestWith} from 'rxjs';
+import {EditorComponent} from '../../shared/components/editor/editor.component';
 
 import {FormComponent} from '../../shared/form/form/form.component';
 import {icons} from '../../shared/icons';
@@ -26,6 +27,7 @@ import {SchemaContextService} from '../schema-context.service';
     CdkDrag,
     RouterLink,
     CdkDragHandle,
+    EditorComponent,
   ],
 })
 export class EditFieldComponent implements OnInit, OnDestroy {
