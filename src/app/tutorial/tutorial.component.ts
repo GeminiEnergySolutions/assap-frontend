@@ -36,7 +36,7 @@ export class TutorialComponent implements OnInit, AfterViewInit {
 
   steps: Step[] = [
     {
-      selector: '.btn.btn-link.bi-three-dots',
+      selector: '#begin-tutorial',
       title: 'Tutorial',
       description: `
       Welcome to Conserve!
