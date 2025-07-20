@@ -139,11 +139,13 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
       await this.router.navigate(step.route, {relativeTo: this.activatedRoute.parent});
     }
 
+    this.index = index;
     const element = document.querySelector(step.selector) as HTMLElement;
     if (!element) {
       return;
     }
 
+    element.scrollIntoView();
     for (const event of step.listen ?? []) {
       element.addEventListener(event, this.onNext);
     }
@@ -161,7 +163,6 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
       width: element.offsetWidth,
       height: element.offsetHeight,
     };
-    this.index = index;
   }
 
   leave() {
