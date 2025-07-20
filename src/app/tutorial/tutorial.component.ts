@@ -53,6 +53,7 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
       Let's start by creating a new Audit.
       Click the 'Add Audit' button in the top left corner.
       `,
+      skip: 5,
     },
     {
       selector: '#name',
