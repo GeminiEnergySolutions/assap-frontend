@@ -29,6 +29,8 @@ export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   audit?: Audit;
 
+  protected readonly icons = icons;
+
   constructor(
     public auditService: AuditService,
     private breadcrumbService: BreadcrumbService,
@@ -67,6 +69,4 @@ export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.breadcrumbService.popBreadcrumb();
     this.breadcrumbService.options = undefined;
   }
-
-  protected readonly icons = icons;
 }

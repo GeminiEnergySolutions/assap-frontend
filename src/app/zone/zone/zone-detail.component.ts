@@ -40,6 +40,8 @@ export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   equipments: EquipmentCategory[] = [];
   progress?: PercentageCompletion;
 
+  protected readonly icons = icons;
+
   constructor(
     private auditZoneService: AuditZoneService,
     private auditService: AuditService,
