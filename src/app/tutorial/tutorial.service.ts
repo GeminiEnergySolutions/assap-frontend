@@ -55,6 +55,7 @@ const steps: Record<string, Step> = {
     title: 'Enable Feasibility Study',
     listen: ['change'],
     description: `If your audit requires a feasibility study, e.g. for solar or electric vehicle charging, enable this option.`,
+    next: '#create-audit',
   },
   '#create-audit': {
     title: 'Create Audit',
