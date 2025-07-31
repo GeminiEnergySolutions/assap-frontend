@@ -15,6 +15,7 @@ import {RouterLink} from '@angular/router';
   ],
 })
 export class FeatureCardComponent implements OnInit {
+  @Input() icon?: string;
   @Input({required: true}) title!: string;
   @Input() subtitle?: string;
   @Input({required: true}) routerLink!: string | unknown[];

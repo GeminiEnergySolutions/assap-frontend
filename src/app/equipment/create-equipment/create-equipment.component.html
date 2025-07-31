@@ -1,6 +1,6 @@
 <ngbx-modal #modal [back]="['..']">
   <ng-container modal-title>
-    New {{ types[0]?.equipment?.equipmentName }}
+    New {{ types.length ? types[0].equipment.equipmentName : 'Equipment' }}
   </ng-container>
   <ng-container modal-body>
     <fieldset class="mb-3" id="type">

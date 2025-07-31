@@ -29,6 +29,8 @@ export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   audit?: Audit;
 
+  protected readonly icons = icons;
+
   constructor(
     public auditService: AuditService,
     private breadcrumbService: BreadcrumbService,
