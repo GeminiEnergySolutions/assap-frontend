@@ -12,7 +12,7 @@ export interface PromptModalOptions<T = Data> {
   text?: string;
   /** Extra text displayed in red */
   dangerText?: string;
-  schema: SchemaElement[];
+  schema: (SchemaElement & {key: keyof T})[];
   submitLabel: string;
   /**
    * Customize the class of the submit button.

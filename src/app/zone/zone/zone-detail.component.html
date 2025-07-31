@@ -21,6 +21,7 @@
 <div class="container">
   @let buildingTotalArea = audit?.pre_audit_form?.data?.['area_building_total_area'] === 'Yes';
   <app-feature-card
+    [icon]="icons.zoneDetails"
     title="Zone Details"
     [subtitle]="buildingTotalArea ? 'Not Required (Building Total Area in Pre Audit is enabled)' : undefined"
     routerLink="details"

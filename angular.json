@@ -32,7 +32,9 @@
             "optimization": false,
             "namedChunks": true,
             "allowedCommonJsDependencies": [
-              "validator"
+              "validator",
+              "reflect-metadata",
+              "jexl"
             ],
             "assets": [
               "src/favicon.ico",

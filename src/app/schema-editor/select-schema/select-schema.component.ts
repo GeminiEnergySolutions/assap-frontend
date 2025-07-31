@@ -4,6 +4,7 @@ import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {concatMap, mergeMap, switchMap, tap, toArray} from 'rxjs';
 import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
+import {icons} from '../../shared/icons';
 
 import {EquipmentCategory, EquipmentType} from '../../shared/model/equipment.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -19,6 +20,8 @@ import {SchemaService} from '../../shared/services/schema.service';
 export class SelectSchemaComponent implements OnInit {
   categories: EquipmentCategory[] = [];
   equipmentTypes: Partial<Record<number, EquipmentType[]>> = {};
+
+  protected readonly icons = icons;
 
   constructor(
     private equipmentService: EquipmentService,
