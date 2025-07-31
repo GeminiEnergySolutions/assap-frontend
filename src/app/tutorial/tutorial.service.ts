@@ -6,7 +6,6 @@ export class TutorialService {
 
   getStep(selector: string): Observable<Step> {
     const step = steps[selector];
-    console.log(selector, step);
     return step ? of(step) : throwError(() => new NotFoundError(selector));
   }
 }

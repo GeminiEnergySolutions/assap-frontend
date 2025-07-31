@@ -30,6 +30,7 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selector = '';
   step?: Step;
+  nextEnabled = true;
 
   targetPosition = {top: 0, left: 0, width: 0, height: 0};
 
@@ -69,6 +70,8 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
     if (step.route) {
       await this.router.navigate(step.route, {relativeTo: this.activatedRoute.parent});
     }
+
+    this.nextEnabled = !!(step.next && document.querySelector(step.next));
 
     const element = document.querySelector(selector) as HTMLElement;
     if (!element) {

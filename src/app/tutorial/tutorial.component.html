@@ -24,7 +24,7 @@
   </p>
   <div class="btn-toolbar">
     @if (step?.next; as next) {
-      <a class="btn btn-sm btn-primary me-1" [routerLink]="['..', next]">
+      <a class="btn btn-sm btn-primary me-1" [routerLink]="nextEnabled ? ['..', next] : null" [class.disabled]="!nextEnabled">
         Next
       </a>
     } @else {
