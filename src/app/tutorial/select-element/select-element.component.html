@@ -1,1 +1,15 @@
-<p>select-element works!</p>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Select Element</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Select any element on the page to see its tutorial step.
+      Note that some elements may not have a tutorial step associated with them.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+  </div>
+</ng-template>
