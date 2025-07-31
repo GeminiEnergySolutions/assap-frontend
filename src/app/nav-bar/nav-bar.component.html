@@ -21,7 +21,7 @@
         </a>
       }
       <div class="flex-grow-1"></div>
-      <a class="nav-item nav-link bi-question-circle" [routerLink]="['', {outlets: {tutorial: ['select']}}]">
+      <a class="nav-item nav-link bi-question-circle" [routerLink]="['', {outlets: {tutorial: ['select']}}]" (click)="offcanvas.close()">
         Help
       </a>
       @if (authService.currentLoginUser) {
