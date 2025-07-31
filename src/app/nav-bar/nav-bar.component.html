@@ -8,8 +8,8 @@
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column h-100">
       @if (authService.currentLoginUser) {
-        <a class="nav-item nav-link bi-house" routerLinkActive="active" routerLink="/audits">
-          Home
+        <a class="nav-item nav-link bi-journal-check" routerLinkActive="active" routerLink="/audits">
+          Audits
         </a>
       }
       @if (authService.currentLoginUser?.role?.role === 'superAdmin') {

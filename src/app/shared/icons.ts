@@ -1,5 +1,6 @@
 export const icons = {
-  audit: 'bi-file-earmark-text',
+  audit: 'bi-journal-check',
+  preAudit: 'bi-journal-text',
   photo: 'bi-image',
   camera: 'bi-camera',
   grants: 'bi-patch-check',
