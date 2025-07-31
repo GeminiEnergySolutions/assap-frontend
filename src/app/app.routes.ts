@@ -30,7 +30,7 @@ export const routes: Routes = [
     loadChildren: () => import('./schema-editor/schema-editor.routes').then((m) => m.routes),
     canActivate: [AuthGuard],
   },
-  {path: 't/:step', outlet: 'tutorial', component: TutorialComponent},
+  {path: 't/:selector', outlet: 'tutorial', component: TutorialComponent},
   {path: '', pathMatch: 'full', redirectTo: '/auth/login'},
   {path: '**', component: PageNotFoundComponent},
 ];
