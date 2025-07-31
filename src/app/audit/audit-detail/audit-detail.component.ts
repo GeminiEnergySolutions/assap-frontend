@@ -67,4 +67,6 @@ export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.breadcrumbService.popBreadcrumb();
     this.breadcrumbService.options = undefined;
   }
+
+  protected readonly icons = icons;
 }

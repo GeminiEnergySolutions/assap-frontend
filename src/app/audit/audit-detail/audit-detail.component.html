@@ -20,17 +20,36 @@
 </div>
 <div class="container">
   <app-feature-card
+    [icon]="icons.preAudit"
     title="Pre-Audit"
     routerLink="preaudit"
     [percentageQuery]="{progressType: 'preAudit', auditId: route.snapshot.params.aid}"
   ></app-feature-card>
   @if (audit?.grantStatus) {
-    <app-feature-card title="Grants" routerLink="grants" [percentageQuery]="{progressType: 'grants', auditId: route.snapshot.params.aid}"></app-feature-card>
+    <app-feature-card
+      [icon]="icons.grants"
+      title="Grants"
+      routerLink="grants"
+      [percentageQuery]="{progressType: 'grants', auditId: route.snapshot.params.aid}"
+    ></app-feature-card>
   }
   @if (audit?.cehStatus) {
-    <app-feature-card title="Clean Energy Hub" routerLink="cleanenergyhub" [percentageQuery]="{progressType: 'ceh', auditId: route.snapshot.params.aid}"></app-feature-card>
+    <app-feature-card
+      [icon]="icons.ceh"
+      title="Clean Energy Hub"
+      routerLink="cleanenergyhub"
+      [percentageQuery]="{progressType: 'ceh', auditId: route.snapshot.params.aid}"
+    ></app-feature-card>
   }
-  <app-feature-card title="Zones" routerLink="zones" [percentageQuery]="{progressType: 'zone', auditId: route.snapshot.params.aid}"></app-feature-card>
-  <app-feature-card title="Overview" routerLink="overview"></app-feature-card>
+  <app-feature-card
+    [icon]="icons.zone"
+    title="Zones"
+    routerLink="zones"
+    [percentageQuery]="{progressType: 'zone', auditId: route.snapshot.params.aid}"
+  ></app-feature-card>
+  <app-feature-card
+    title="Overview"
+    routerLink="overview"
+  ></app-feature-card>
   <router-outlet></router-outlet>
 </div>
