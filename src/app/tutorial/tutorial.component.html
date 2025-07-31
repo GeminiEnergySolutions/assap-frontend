@@ -14,32 +14,27 @@
 ></div>
 <ng-template #title>
   <div class="d-flex align-items-center">
-    {{ steps[index].title }} ({{ index + 1 }} / {{ steps.length }})
+    {{ step?.title }}
     <a class="btn-close ms-auto" routerLink="../.."></a>
   </div>
 </ng-template>
 <ng-template #body>
   <p>
-    {{ steps[index].description }}
+    {{ step?.description }}
   </p>
   <div class="btn-toolbar">
-    @if (index >= 1) {
-      <a class="btn btn-sm btn-primary me-1" [routerLink]="['..', index - 1]">
-        Previous
-      </a>
-    }
-    @if (index + 1 < steps.length) {
-      <a class="btn btn-sm btn-primary me-1" [routerLink]="['..', index + 1]">
+    @if (step?.next; as next) {
+      <a class="btn btn-sm btn-primary me-1" [routerLink]="['..', next]">
         Next
       </a>
-    } @else if (index + 1 === steps.length) {
+    } @else {
       <a class="btn btn-sm btn-primary me-1" routerLink="../..">
         Finish
       </a>
     }
-    @if (steps[index].skip) {
-      <a class="btn btn-sm btn-secondary me-1" [routerLink]="['..', index + steps[index].skip!]">
-        Skip ({{ steps[index].skip }} Steps)
+    @if (step?.skip; as skip) {
+      <a class="btn btn-sm btn-secondary me-1" [routerLink]="['..', skip]">
+        Skip
       </a>
     }
   </div>

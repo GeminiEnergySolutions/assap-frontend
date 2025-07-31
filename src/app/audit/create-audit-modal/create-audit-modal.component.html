@@ -4,18 +4,18 @@
   </ng-container>
   <ng-container modal-body>
     <div class="mb-3">
-      <label for="name" class="form-label">
+      <label for="audit-name" class="form-label">
         Name
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <input type="text" class="form-control" id="name" [(ngModel)]="name" required>
+      <input type="text" class="form-control" id="audit-name" [(ngModel)]="name" required>
     </div>
     <div class="mb-3">
-      <label for="state" class="form-label">
+      <label for="audit-state" class="form-label">
         State
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <select class="form-select" id="state" [(ngModel)]="stateId">
+      <select class="form-select" id="audit-state" [(ngModel)]="stateId">
         <option [value]="0">Select a state</option>
         @for (state of states; track state.id) {
           <option [value]="state.id">
