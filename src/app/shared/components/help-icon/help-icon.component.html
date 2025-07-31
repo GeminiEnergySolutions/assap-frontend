@@ -2,6 +2,7 @@
   class="btn m-0 p-0 bi-question-circle"
   [ngbTooltip]="summary && summaryTemplate"
   (click)="ngbOffcanvas.open(docsTemplate, {position: 'bottom', panelClass: 'h-auto'})"
+  aria-label="Show help"
 ></button>
 <ng-template #summaryTemplate>
   <div [innerHtml]="summary! | safe:'html'"></div>

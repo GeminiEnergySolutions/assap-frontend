@@ -18,8 +18,6 @@ export class EditorComponent implements OnInit, OnDestroy, ControlValueAccessor 
 
   @ViewChild('editorComponent', {static: true}) editorComponent!: NgxEditorComponent;
 
-  readonly console = console;
-
   ngOnInit() {
     this.editor = new Editor();
   }
