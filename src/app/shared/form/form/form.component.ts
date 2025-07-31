@@ -13,6 +13,7 @@ import {
   NgbAccordionItem,
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
+import {HelpIconComponent} from '../../components/help-icon/help-icon.component';
 
 import {ProgressBarComponent} from '../../components/progress-bar/progress-bar.component';
 import {SaveableChangesComponent} from '../../guard/unsaved-changes.guard';
@@ -45,6 +46,7 @@ import {FormElementComponent} from '../form-element/form-element.component';
     EvalPipe,
     FormsModule,
     SearchPipe,
+    HelpIconComponent,
   ],
 })
 export class FormComponent implements OnInit, SaveableChangesComponent {

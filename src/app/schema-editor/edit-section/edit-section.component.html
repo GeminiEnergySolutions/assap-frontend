@@ -8,6 +8,14 @@
       <input class="form-control" id="name" type="text" [(ngModel)]="section.name" (change)="setDirty()"/>
     </div>
   </div>
+  <h2>Summary</h2>
+  <div class="mb-3">
+    <app-editor [(ngModel)]="section.summary" (ngModelChange)="setDirty()"></app-editor>
+  </div>
+  <h2>Documentation</h2>
+  <div class="mb-3">
+    <app-editor [(ngModel)]="section.docs" (ngModelChange)="setDirty()"></app-editor>
+  </div>
   <h2 class="d-flex align-items-center">
     Conditional Rules
     <i class="small bi-info-circle ms-2" ngbTooltip="About Conditions" [ngbPopover]="popup" popoverTitle="About Conditions"></i>

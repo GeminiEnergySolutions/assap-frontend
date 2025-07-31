@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbOffcanvas, NgbPopover, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
+import {EditorComponent} from '../../shared/components/editor/editor.component';
 
 import {icons} from '../../shared/icons';
 import {CopySpec, SchemaSection} from '../../shared/model/schema.interface';
@@ -24,6 +25,7 @@ import {SchemaContextService} from '../schema-context.service';
     NgbTypeahead,
     KeyValuePipe,
     ExpressionErrorPipe,
+    EditorComponent,
   ],
 })
 export class EditSectionComponent implements OnInit, OnDestroy {
