@@ -1,7 +1,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Select Element</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <a class="btn-close" aria-label="Close" routerLink=".."></a>
   </div>
   <div class="modal-body">
     <p>
@@ -10,6 +10,16 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+    <a class="btn btn-secondary" routerLink="..">Close</a>
   </div>
 </ng-template>
+@for (target of targetAreas; track target) {
+  <a
+    class="position-absolute rounded tutorial-backdrop cursor-pointer"
+    [routerLink]="['..', 't', target.selector]"
+    [style.top.px]="target.top"
+    [style.left.px]="target.left"
+    [style.width.px]="target.width"
+    [style.height.px]="target.height"
+  ></a>
+}

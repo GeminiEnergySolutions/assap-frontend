@@ -118,3 +118,8 @@ ul.pagination, ol.breadcrumb {
 .pointer-events-none {
   pointer-events: none;
 }
+
+.tutorial-backdrop {
+  z-index: 1050;
+  box-shadow: 0 0 1rem 1rem rgba(#007bff, .5);
+}

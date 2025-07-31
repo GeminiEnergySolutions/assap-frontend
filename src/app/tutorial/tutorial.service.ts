@@ -3,6 +3,9 @@ import {NotFoundError, Observable, of, throwError} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TutorialService {
+  getAllSelectors(): Observable<string[]> {
+    return of(Object.keys(steps));
+  }
 
   getStep(selector: string): Observable<Step> {
     const step = steps[selector];
