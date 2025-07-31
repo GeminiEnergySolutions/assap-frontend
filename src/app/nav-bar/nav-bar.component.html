@@ -21,6 +21,9 @@
         </a>
       }
       <div class="flex-grow-1"></div>
+      <a class="nav-item nav-link bi-question-circle" [routerLink]="['', {outlets: {tutorial: ['select']}}]">
+        Help
+      </a>
       @if (authService.currentLoginUser) {
         <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/settings">
           Settings

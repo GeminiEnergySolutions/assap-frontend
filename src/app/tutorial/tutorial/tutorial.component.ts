@@ -3,7 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Step, TutorialService} from './tutorial.service';
+import {Step, TutorialService} from '../tutorial.service';
 
 function findPos(obj: any): [number, number] {
   let top = 0;
