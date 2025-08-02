@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {of, switchMap, tap} from 'rxjs';
 import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
 
@@ -11,6 +11,7 @@ import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
     ReactiveFormsModule,
     RouterLink,
     FormsModule,
+    NgbTooltip,
 
   ],
   templateUrl: './edit-tutorial.component.html',

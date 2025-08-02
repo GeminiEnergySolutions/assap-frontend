@@ -5,16 +5,43 @@
   </div>
   <div class="modal-body">
     <div class="mb-3">
-      <label class="form-label" for="selector">Selector</label>
+      <label class="form-label" for="selector">
+        Selector
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
       <input type="text" readonly class="form-control" id="selector" [ngModel]="selector" />
     </div>
     <div class="mb-3">
-      <label class="form-label" for="title">Title</label>
+      <label class="form-label" for="title">
+        Title
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
       <input type="text" class="form-control" id="title" [(ngModel)]="step.title" />
     </div>
     <div class="mb-3">
-      <label class="form-label" for="description">Description</label>
+      <label class="form-label" for="description">
+        Description
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
       <textarea class="form-control" id="description" rows=4 [(ngModel)]="step.description"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="next">
+        Next
+        <span class="text-danger" ngbTooltip="Required">*</span>
+      </label>
+      <input type="text" class="form-control" id="next" [(ngModel)]="step.next" />
+      <div class="form-text">
+        The selector for the next step in the tutorial.
+      </div>
+    </div>
+    <h5>Advanced Options</h5>
+    <div class="mb-3">
+      <label class="form-label" for="next">Skip</label>
+      <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
+      <div class="form-text">
+        If set, adds a "Skip" button that will jump to the tutorial for the given selector.
+      </div>
     </div>
     <div class="mb-3">
       <label class="form-label" for="triggers">Triggers</label>
@@ -41,20 +68,6 @@
       <input type="text" class="form-control" id="route" [(ngModel)]="step.route" />
       <div class="form-text">
         Optional page to navigate to when the step is activated.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="next">Next</label>
-      <input type="text" class="form-control" id="next" [(ngModel)]="step.next" />
-      <div class="form-text">
-        The selector for the next step in the tutorial.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="next">Skip</label>
-      <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
-      <div class="form-text">
-        If set, adds a "Skip" button that will jump to the tutorial for the given selector.
       </div>
     </div>
   </div>
