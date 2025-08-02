@@ -3,7 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {of, switchMap, tap} from 'rxjs';
-import {Step, TutorialService} from '../tutorial.service';
+import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
 
 @Component({
   selector: 'app-edit-tutorial',
@@ -19,6 +19,8 @@ import {Step, TutorialService} from '../tutorial.service';
 export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 // TODO modal logic mostly copied from select-element.component.ts
   @ViewChild('content', {static: true}) content!: TemplateRef<unknown>;
+
+  protected readonly TRIGGERS = TRIGGERS;
 
   readonly ngbModal = inject(NgbModal);
   readonly route = inject(ActivatedRoute);
@@ -61,5 +63,16 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.tutorialService.saveStep(this.selector, this.step).subscribe();
+  }
+
+  setListen(trigger: Trigger, checked: boolean) {
+    if (checked) {
+      (this.step.listen ??= []).push(trigger);
+    } else if (this.step.listen) {
+      const index = this.step.listen.indexOf(trigger);
+      if (index !== -1) {
+        this.step.listen.splice(index, 1);
+      }
+    }
   }
 }

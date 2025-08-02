@@ -48,10 +48,18 @@ export class TutorialService {
   }
 }
 
+export const TRIGGERS = [
+  'click',
+  'blur',
+  'keyup',
+  'change',
+];
+export type Trigger = typeof TRIGGERS[number];
+
 export interface Step {
   title: string;
   description: string;
-  listen?: ('click' | 'blur' | 'keyup' | 'change')[];
+  listen?: Trigger[];
   route?: string;
   next?: string;
   skip?: string;
