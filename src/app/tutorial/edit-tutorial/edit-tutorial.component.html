@@ -18,18 +18,20 @@
     </div>
     <div class="mb-3">
       <label class="form-label" for="triggers">Triggers</label>
-      @for (trigger of TRIGGERS; track trigger) {
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="trigger-{{trigger}}"
-            [checked]="step.listen?.includes(trigger)"
-            (change)="setListen(trigger, $event.target.checked)"
-          />
-          <label class="form-check-label" for="trigger-{{trigger}}">{{ trigger }}</label>
-        </div>
-      }
+      <div>
+        @for (trigger of TRIGGERS; track trigger) {
+          <div class="form-check form-check-inline">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="trigger-{{trigger}}"
+              [checked]="step.listen?.includes(trigger)"
+              (change)="setListen(trigger, $event.target.checked)"
+            />
+            <label class="form-check-label" for="trigger-{{trigger}}">{{ trigger }}</label>
+          </div>
+        }
+      </div>
       <div class="form-text">
         Which events on the target element should trigger the next step.
       </div>

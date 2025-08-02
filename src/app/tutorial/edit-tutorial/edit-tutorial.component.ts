@@ -46,7 +46,8 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.modalRef = this.ngbModal.open(this.content, {
-      size: 'sm',
+      size: 'md',
+      scrollable: true,
       backdrop: false,
       windowClass: 'pointer-events-none',
       modalDialogClass: 'me-3',
