@@ -68,7 +68,7 @@ export class TutorialComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selector = selector;
     this.step = step;
     if (step.route) {
-      await this.router.navigate(step.route, {relativeTo: this.activatedRoute.parent});
+      await this.router.navigate([step.route], {relativeTo: this.activatedRoute.parent});
     }
 
     this.nextEnabled = !!(step.next && document.querySelector(step.next));

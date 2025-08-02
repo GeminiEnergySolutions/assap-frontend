@@ -52,7 +52,7 @@ export interface Step {
   title: string;
   description: string;
   listen?: ('click' | 'blur' | 'keyup' | 'change')[];
-  route?: any[];
+  route?: string;
   next?: string;
   skip?: string;
 }
