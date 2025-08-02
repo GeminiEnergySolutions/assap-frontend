@@ -1,0 +1,39 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Tutorial</h4>
+    <a class="btn-close" aria-label="Close" routerLink=".."></a>
+  </div>
+  <div class="modal-body">
+    <input
+      type="search"
+      class="form-control mb-3"
+      [(ngModel)]="search"
+      placeholder="Search {{steps.length }} steps"
+    >
+    <div class="list-group">
+      @for (step of steps|search:search:['title']; track step.selector) {
+        <a
+          class="list-group-item list-group-item-action"
+          (mouseenter)="setTarget(step.selector)"
+          (mouseleave)="target = undefined"
+          [ngbTooltip]="target ? null : 'Not in view'"
+          placement="left"
+          container="body"
+        >
+          <span>{{ step.title }}</span>
+        </a>
+      }
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-secondary" routerLink="..">Close</a>
+  </div>
+</ng-template>
+<div
+  class="position-absolute rounded tutorial-backdrop"
+  [class.d-none]="!target"
+  [style.top.px]="target?.top"
+  [style.left.px]="target?.left"
+  [style.width.px]="target?.width"
+  [style.height.px]="target?.height"
+></div>

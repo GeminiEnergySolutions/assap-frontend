@@ -3,7 +3,7 @@ import {NotFoundError, Observable, of, throwError} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TutorialService {
-  getAllSelectors(): Observable<string[]> {
+  private _getAllSelectors(): string[] {
     const set = new Set(Object.keys(steps));
 
     // TODO load from backend
@@ -15,16 +15,29 @@ export class TutorialService {
       }
     }
 
-    return of([...set]);
+    return [...set];
+  }
+
+  getAllSelectors(): Observable<string[]> {
+    return of(this._getAllSelectors());
+  }
+
+  getAllSteps(): Observable<Record<string, Step>> {
+    const stepsMap: Record<string, Step> = {};
+    for (const selector of this._getAllSelectors()) {
+      stepsMap[selector] = this._getStep(selector)!;
+    }
+    return of(stepsMap);
+  }
+
+  private _getStep(selector: string): Step | undefined {
+    // TODO load from backend
+    const stored = localStorage.getItem(`tutorial/${selector}`);
+    return stored ? JSON.parse(stored) : steps[selector];
   }
 
   getStep(selector: string): Observable<Step> {
-    // TODO load from backend
-    const stored = localStorage.get(`tutorial/${selector}`);
-    if (stored) {
-      return of(JSON.parse(stored));
-    }
-    const step = steps[selector];
+    const step = this._getStep(selector);
     return step ? of(step) : throwError(() => new NotFoundError(selector));
   }
 
