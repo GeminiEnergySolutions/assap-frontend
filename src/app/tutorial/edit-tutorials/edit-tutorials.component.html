@@ -14,6 +14,7 @@
       @for (step of steps|search:search:['title']; track step.selector) {
         <a
           class="list-group-item list-group-item-action"
+          [routerLink]="step.selector"
           (mouseenter)="setTarget(step.selector)"
           (mouseleave)="target = undefined"
           [ngbTooltip]="target ? null : 'Not in view'"
