@@ -4,12 +4,34 @@ import {NotFoundError, Observable, of, throwError} from 'rxjs';
 @Injectable({providedIn: 'root'})
 export class TutorialService {
   getAllSelectors(): Observable<string[]> {
-    return of(Object.keys(steps));
+    const set = new Set(Object.keys(steps));
+
+    // TODO load from backend
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)!;
+      if (key.startsWith('tutorial/')) {
+        const selector = key.substring(9);
+        set.add(selector);
+      }
+    }
+
+    return of([...set]);
   }
 
   getStep(selector: string): Observable<Step> {
+    // TODO load from backend
+    const stored = localStorage.get(`tutorial/${selector}`);
+    if (stored) {
+      return of(JSON.parse(stored));
+    }
     const step = steps[selector];
     return step ? of(step) : throwError(() => new NotFoundError(selector));
+  }
+
+  saveStep(selector: string, step: Step): Observable<void> {
+    // TODO save to backend
+    localStorage.setItem(`tutorial/${selector}`, JSON.stringify(step));
+    return of();
   }
 }
 
