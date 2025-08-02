@@ -1,6 +1,6 @@
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Edit Tutorial</h4>
+    <h4 class="modal-title">{{ edit ? 'Edit' : 'New' }} Tutorial</h4>
     <a class="btn-close" aria-label="Close" routerLink="../.."></a>
   </div>
   <div class="modal-body">
@@ -9,7 +9,7 @@
         Selector
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <input type="text" readonly class="form-control" id="selector" [ngModel]="selector" />
+      <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="selector" />
     </div>
     <div class="mb-3">
       <label class="form-label" for="title">
