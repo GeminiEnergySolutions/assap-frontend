@@ -30,9 +30,9 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modalRef?: NgbModalRef;
 
-  selector?: string;
   edit = false;
   step: Step = {
+    selector: '',
     title: '',
     description: '',
   };
@@ -41,7 +41,6 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.pipe(
       tap(({selector}) => {
         if (selector) {
-          this.selector = selector;
           this.edit = true;
         } else {
           this.edit = false;
@@ -69,10 +68,7 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   save() {
-    if (!this.selector) {
-      return;
-    }
-    this.tutorialService.saveStep(this.selector, this.step).subscribe();
+    this.tutorialService.saveStep(this.step).subscribe();
   }
 
   setListen(trigger: Trigger, checked: boolean) {

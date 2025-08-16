@@ -9,7 +9,6 @@
         Selector
         <span class="text-danger" ngbTooltip="Required">*</span>
       </label>
-      <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="selector" />
     </div>
     <div class="mb-3">
       <label class="form-label" for="title">
@@ -70,6 +69,7 @@
         Optional page to navigate to when the step is activated.
       </div>
     </div>
+        <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="step.selector" />
   </div>
   <div class="modal-footer">
     <a class="btn btn-secondary" routerLink="..">Cancel</a>

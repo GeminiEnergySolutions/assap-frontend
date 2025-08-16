@@ -45,8 +45,8 @@ export class TutorialService {
     return this.http.get<Response<Step>>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`).pipe(map(r => r.data));
   }
 
-  saveStep(selector: string, step: Step): Observable<Response> {
-    return this.http.put<Response>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`, step);
+  saveStep(step: Step): Observable<Response> {
+    return this.http.put<Response>(environment.url + `api/tutorial/${encodeURIComponent(step.selector)}`, step);
   }
 
   deleteStep(selector: string): Observable<Response> {
@@ -63,6 +63,7 @@ export const TRIGGERS = [
 export type Trigger = typeof TRIGGERS[number];
 
 export interface Step {
+  selector: string;
   title: string;
   description: string;
   listen?: Trigger[];
@@ -73,6 +74,7 @@ export interface Step {
 
 const steps: Record<string, Step> = {
   '#begin-tutorial': {
+    selector: '#begin-tutorial',
     title: 'Tutorial',
     description: `
       Welcome to Conserve!
@@ -82,6 +84,7 @@ const steps: Record<string, Step> = {
     next: '#add-audit',
   },
   '#add-audit': {
+    selector: '#add-audit',
     title: 'Create an Audit',
     listen: ['click'],
     description: `
@@ -92,41 +95,48 @@ const steps: Record<string, Step> = {
     skip: '#audit-list',
   },
   '#audit-name': {
+    selector: '#audit-name',
     title: 'Enter Audit Name',
     listen: ['change'],
     description: `Enter the name of your Audit in the input field.`,
     next: '#audit-state',
   },
   '#audit-state': {
+    selector: '#audit-state',
     title: 'Select Audit State',
     listen: ['change'],
     description: `Select the state of your Audit from the dropdown menu.`,
     next: '#feasibility-study',
   },
   '#feasibility-study': {
+    selector: '#feasibility-study',
     title: 'Enable Feasibility Study',
     listen: ['change'],
     description: `If your audit requires a feasibility study, e.g. for solar or electric vehicle charging, enable this option.`,
     next: '#create-audit',
   },
   '#create-audit': {
+    selector: '#create-audit',
     title: 'Create Audit',
     listen: ['click'],
     description: `Click this button to create your Audit.`,
     next: '#audit-list',
   },
   '#audit-list': {
+    selector: '#audit-list',
     title: 'Find your Audit',
     description: `You can find your newly created Audit in the list of Audits, under the state you selected.`,
     next: '#audit-search',
   },
   '#audit-search': {
+    selector: '#audit-search',
     title: 'Search for Audits',
     description: `If you lost your Audit, you can search for it using the search bar at the top of the list.`,
     listen: ['change'],
     next: '.navbar',
   },
   '.navbar': {
+    selector: '.navbar',
     title: 'End of Tutorial',
     description: "You're all set and done with the tutorial!",
   },
