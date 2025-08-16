@@ -1,7 +1,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title">{{ edit ? 'Edit' : 'New' }} Tutorial</h4>
-    <a class="btn-close" aria-label="Close" routerLink="../.."></a>
+    <a class="btn-close" aria-label="Close" [class.disabled]="!!pick" routerLink="../.."></a>
   </div>
   <div class="modal-body">
     @if (pick) {
@@ -14,13 +14,18 @@
             <button class="btn btn-primary font-monospace me-2 mb-3" (click)="chooseSelector(option)">
               {{ option }}
             </button>
+          } @empty {
+            <p class="text-muted">No options available.</p>
+            <button class="btn btn-primary" (click)="pickElement(pick)">
+              Pick another element
+            </button>
           }
+          <button class="btn btn-secondary" (click)="cancelPick()">Cancel</button>
         } @else {
           <p>
             Pick an element on the page to use as the <b>{{ pick }}</b>.
           </p>
         }
-        <button class="btn btn-secondary" (click)="cancelPick()">Cancel</button>
       </div>
     } @else {
       <div class="mb-3">

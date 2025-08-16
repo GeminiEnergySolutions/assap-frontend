@@ -73,6 +73,7 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pickElement(pick: 'selector' | 'next' | 'skip') {
     this.pick = pick;
+    this.selectorOptions = undefined;
     document.addEventListener('click', (event: Event) => {
       event.stopImmediatePropagation();
       event.preventDefault();
