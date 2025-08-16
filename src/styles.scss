@@ -132,3 +132,12 @@ ul.pagination, ol.breadcrumb {
   height: 0.75em;
   content: url("/assets/logos/Gemini-Icon.svg");
 }
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.tutorial-backdrop {
+  z-index: 2000;
+  box-shadow: 0 0 1rem 1rem rgba(#007bff, .5);
+}
