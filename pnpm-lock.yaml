@@ -47,6 +47,12 @@ importers:
       '@babel/runtime':
         specifier: ^7.28.2
         version: 7.28.2
+      '@floating-ui/core':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@floating-ui/dom':
+        specifier: ^1.7.3
+        version: 1.7.3
       '@mean-stream/ngbx':
         specifier: ^0.14.0
         version: 0.14.0(98b7db4fd548c98f108a81183d06ffd2)
@@ -74,6 +80,9 @@ importers:
       ngx-editor:
         specifier: 19.0.0-beta.1
         version: 19.0.0-beta.1(c3fc5337783ffe0def3160ce15abd649)
+      prosemirror-view:
+        specifier: ^1.40.1
+        version: 1.40.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
