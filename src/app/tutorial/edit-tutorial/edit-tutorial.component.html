@@ -28,7 +28,12 @@
           Selector
           <span class="text-danger" ngbTooltip="Required">*</span>
         </label>
-        <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="step.selector" />
+        <div class="input-group">
+          <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="step.selector" />
+          @if (!edit) {
+            <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('selector')"></button>
+          }
+        </div>
       </div>
       <div class="mb-3">
         <label class="form-label" for="title">
@@ -60,7 +65,10 @@
       <h5>Advanced Options</h5>
       <div class="mb-3">
         <label class="form-label" for="next">Skip</label>
-        <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
+        <div class="input-group">
+          <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
+          <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('skip')"></button>
+        </div>
         <div class="form-text">
           If set, adds a "Skip" button that will jump to the tutorial for the given selector.
         </div>
