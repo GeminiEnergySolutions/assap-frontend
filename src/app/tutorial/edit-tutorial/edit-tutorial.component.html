@@ -4,75 +4,100 @@
     <a class="btn-close" aria-label="Close" routerLink="../.."></a>
   </div>
   <div class="modal-body">
-    <div class="mb-3">
-      <label class="form-label" for="selector">
-        Selector
-        <span class="text-danger" ngbTooltip="Required">*</span>
-      </label>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="title">
-        Title
-        <span class="text-danger" ngbTooltip="Required">*</span>
-      </label>
-      <input type="text" class="form-control" id="title" [(ngModel)]="step.title" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="description">
-        Description
-        <span class="text-danger" ngbTooltip="Required">*</span>
-      </label>
-      <textarea class="form-control" id="description" rows=4 [(ngModel)]="step.description"></textarea>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="next">
-        Next
-        <span class="text-danger" ngbTooltip="Required">*</span>
-      </label>
-      <input type="text" class="form-control" id="next" [(ngModel)]="step.next" />
-      <div class="form-text">
-        The selector for the next step in the tutorial.
-      </div>
-    </div>
-    <h5>Advanced Options</h5>
-    <div class="mb-3">
-      <label class="form-label" for="next">Skip</label>
-      <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
-      <div class="form-text">
-        If set, adds a "Skip" button that will jump to the tutorial for the given selector.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="triggers">Triggers</label>
-      <div>
-        @for (trigger of TRIGGERS; track trigger) {
-          <div class="form-check form-check-inline">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="trigger-{{trigger}}"
-              [checked]="step.listen?.includes(trigger)"
-              (change)="setListen(trigger, $event.target.checked)"
-            />
-            <label class="form-check-label" for="trigger-{{trigger}}">{{ trigger }}</label>
-          </div>
+    @if (pick) {
+      <div class="alert alert-info" style="margin: -1rem">
+        @if (selectorOptions) {
+          <p>
+            Pick the selector you want to use:
+          </p>
+          @for (option of selectorOptions; track option) {
+            <button class="btn btn-primary font-monospace me-2 mb-3" (click)="chooseSelector(option)">
+              {{ option }}
+            </button>
+          }
+        } @else {
+          <p>
+            Pick an element on the page to use as the <b>{{ pick }}</b>.
+          </p>
         }
+        <button class="btn btn-secondary" (click)="cancelPick()">Cancel</button>
       </div>
-      <div class="form-text">
-        Which events on the target element should trigger the next step.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="route">Route</label>
-      <input type="text" class="form-control" id="route" [(ngModel)]="step.route" />
-      <div class="form-text">
-        Optional page to navigate to when the step is activated.
-      </div>
-    </div>
+    } @else {
+      <div class="mb-3">
+        <label class="form-label" for="selector">
+          Selector
+          <span class="text-danger" ngbTooltip="Required">*</span>
+        </label>
         <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="step.selector" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="title">
+          Title
+          <span class="text-danger" ngbTooltip="Required">*</span>
+        </label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="step.title" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">
+          Description
+          <span class="text-danger" ngbTooltip="Required">*</span>
+        </label>
+        <textarea class="form-control" id="description" rows=4 [(ngModel)]="step.description"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="next">
+          Next
+          <span class="text-danger" ngbTooltip="Required">*</span>
+        </label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="next" [(ngModel)]="step.next" />
+          <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('next')"></button>
+        </div>
+        <div class="form-text">
+          The selector for the next step in the tutorial.
+        </div>
+      </div>
+      <h5>Advanced Options</h5>
+      <div class="mb-3">
+        <label class="form-label" for="next">Skip</label>
+        <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
+        <div class="form-text">
+          If set, adds a "Skip" button that will jump to the tutorial for the given selector.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="triggers">Triggers</label>
+        <div>
+          @for (trigger of TRIGGERS; track trigger) {
+            <div class="form-check form-check-inline">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="trigger-{{trigger}}"
+                [checked]="step.listen?.includes(trigger)"
+                (change)="setListen(trigger, $event.target.checked)"
+              />
+              <label class="form-check-label" for="trigger-{{trigger}}">{{ trigger }}</label>
+            </div>
+          }
+        </div>
+        <div class="form-text">
+          Which events on the target element should trigger the next step.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="route">Route</label>
+        <input type="text" class="form-control" id="route" [(ngModel)]="step.route" />
+        <div class="form-text">
+          Optional page to navigate to when the step is activated.
+        </div>
+      </div>
+    }
   </div>
-  <div class="modal-footer">
-    <a class="btn btn-secondary" routerLink="..">Cancel</a>
-    <a class="btn btn-primary" routerLink=".." (click)="save()">Save</a>
-  </div>
+  @if (!pick) {
+    <div class="modal-footer">
+      <a class="btn btn-secondary" routerLink="..">Cancel</a>
+      <a class="btn btn-primary" routerLink=".." (click)="save()">Save</a>
+    </div>
+  }
 </ng-template>

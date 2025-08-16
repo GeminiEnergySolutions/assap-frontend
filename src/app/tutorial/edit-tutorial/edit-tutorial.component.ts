@@ -28,6 +28,10 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly router = inject(Router);
   readonly tutorialService = inject(TutorialService);
 
+  /** If set, element picker mode is active */
+  pick?: 'selector' | 'next' | 'skip';
+  selectorOptions?: string[];
+
   modalRef?: NgbModalRef;
 
   edit = false;
@@ -65,6 +69,52 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.modalRef?.dismiss('destroy');
+  }
+
+  pickElement(pick: 'selector' | 'next' | 'skip') {
+    this.pick = pick;
+    document.addEventListener('click', (event: Event) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      if (event.target instanceof HTMLElement) {
+        this.setSelectorOptions(event.target);
+      }
+    }, {once: true, capture: true});
+  }
+
+  chooseSelector(selector: string) {
+    if (!this.pick) {
+      return;
+    }
+
+    this.step[this.pick] = selector;
+    this.cancelPick();
+  }
+
+  cancelPick() {
+    this.pick = undefined;
+    this.selectorOptions = undefined;
+  }
+
+  setSelectorOptions(element: HTMLElement) {
+    let selectors: string[] = [];
+    if (element.id) {
+      selectors.push(`#${element.id}`);
+    }
+    if (element.classList.length) {
+      selectors.push(`.${Array.from(element.classList).filter(s => !s.startsWith('ng-')).join('.')}`);
+    }
+    for (const attribute of ['name', 'title', 'aria-label', 'placeholder']) {
+      if (element.hasAttribute(attribute)) {
+        selectors.push(`[${attribute}="${element.getAttribute(attribute)}"]`);
+      }
+    }
+    // Remove selectors that don't uniquely identify the element
+    selectors = selectors.filter(s => {
+      const matching = document.querySelectorAll(s);
+      return matching.length === 1 && matching.item(0) === element;
+    });
+    this.selectorOptions = selectors;
   }
 
   save() {
