@@ -9,6 +9,9 @@
     @if (element.required) {
       <span class="text-danger" ngbTooltip="Required">*</span>
     }
+    @if (element.summary || element.docs) {
+      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+    }
   </label>
 }
 @switch (element.type) {
@@ -52,6 +55,9 @@
       >
       <label class="form-check-label" [for]="id">
         {{ element.title }}
+        @if (element.summary || element.docs) {
+          <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+        }
       </label>
       @if (element.hint) {
         <div [id]="id + '-help'" class="form-text">

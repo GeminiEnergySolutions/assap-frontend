@@ -14,6 +14,9 @@
         <button ngbAccordionButton [disabled]="!editable && disabled" [class.text-secondary]="!elements.length">
           <div class="flex-grow-1">
             {{ schema.name }}
+            @if (schema.summary || schema.docs) {
+              <app-help-icon [title]="schema.name" [summary]="schema.summary" [docs]="schema.docs" (click)="$event.stopPropagation()"></app-help-icon>
+            }
             @if (search && elements.length) {
               <span class="text-muted me-2">({{ elements.length }})</span>
             }

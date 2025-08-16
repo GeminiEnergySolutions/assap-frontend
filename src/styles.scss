@@ -18,6 +18,24 @@ html, body {
   height: 100%;
 }
 
+.NgxEditor__Wrapper {
+  --ngx-editor-text-color: var(--bs-body-color) !important;
+  --ngx-editor-background-color: var(--bs-body-bg) !important;
+  --ngx-editor-popup-bg-color: var(--bs-body-bg) !important;
+  --ngx-editor-menubar-bg-color: var(--bs-body-bg) !important;
+  --ngx-editor-menu-item-active-bg-color: var(--bs-tertiary-bg) !important;
+  --ngx-editor-menu-item-hover-bg-color: var(--bs-secondary-bg) !important;
+}
+
+.NgxEditor__MenuItem--Button, .NgxEditor__Popup button {
+  @extend .btn;
+  @extend .btn-secondary;
+}
+
+.NgxEditor__Popup input:not([type=checkbox]) {
+  @extend .form-control;
+}
+
 .btn-floating-action {
   position: fixed;
   bottom: 2rem;
