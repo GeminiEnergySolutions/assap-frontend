@@ -1,8 +1,13 @@
-import {Injectable} from '@angular/core';
-import {NotFoundError, Observable, of, throwError} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {map, Observable, of} from 'rxjs';
+import {environment} from '../../environments/environment';
+import {Response} from '../shared/model/response.interface';
 
 @Injectable({providedIn: 'root'})
 export class TutorialService {
+  private readonly http = inject(HttpClient);
+
   private _getAllSelectors(): string[] {
     const set = new Set(Object.keys(steps));
 
@@ -37,14 +42,15 @@ export class TutorialService {
   }
 
   getStep(selector: string): Observable<Step> {
-    const step = this._getStep(selector);
-    return step ? of(step) : throwError(() => new NotFoundError(selector));
+    return this.http.get<Response<Step>>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`).pipe(map(r => r.data));
   }
 
-  saveStep(selector: string, step: Step): Observable<void> {
-    // TODO save to backend
-    localStorage.setItem(`tutorial/${selector}`, JSON.stringify(step));
-    return of();
+  saveStep(selector: string, step: Step): Observable<Response> {
+    return this.http.put<Response>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`, step);
+  }
+
+  deleteStep(selector: string): Observable<Response> {
+    return this.http.delete<Response>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`);
   }
 }
 
