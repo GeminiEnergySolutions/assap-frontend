@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {Response} from '../shared/model/response.interface';
 
@@ -8,37 +8,12 @@ import {Response} from '../shared/model/response.interface';
 export class TutorialService {
   private readonly http = inject(HttpClient);
 
-  private _getAllSelectors(): string[] {
-    const set = new Set(Object.keys(steps));
-
-    // TODO load from backend
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)!;
-      if (key.startsWith('tutorial/')) {
-        const selector = key.substring(9);
-        set.add(selector);
-      }
-    }
-
-    return [...set];
-  }
-
   getAllSelectors(): Observable<string[]> {
-    return of(this._getAllSelectors());
+    return this.getAllSteps().pipe(map(steps => steps.map(s => s.selector)));
   }
 
-  getAllSteps(): Observable<Record<string, Step>> {
-    const stepsMap: Record<string, Step> = {};
-    for (const selector of this._getAllSelectors()) {
-      stepsMap[selector] = this._getStep(selector)!;
-    }
-    return of(stepsMap);
-  }
-
-  private _getStep(selector: string): Step | undefined {
-    // TODO load from backend
-    const stored = localStorage.getItem(`tutorial/${selector}`);
-    return stored ? JSON.parse(stored) : steps[selector];
+  getAllSteps(): Observable<Step[]> {
+    return this.http.get<Response<Step[]>>(`${environment.url}api/tutorial`).pipe(map(r => r.data));
   }
 
   getStep(selector: string): Observable<Step> {
