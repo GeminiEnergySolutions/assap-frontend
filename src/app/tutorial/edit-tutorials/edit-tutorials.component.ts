@@ -33,10 +33,7 @@ export class EditTutorialsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     this.tutorialService.getAllSteps().subscribe(steps => {
-      this.steps = Object.entries(steps).map(([selector, step]) => ({
-        ...step,
-        selector,
-      }));
+      this.steps = steps;
     });
   }
 
