@@ -19,7 +19,6 @@ import {environment} from '../../../environments/environment';
 export class DownloadReportModalComponent implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly route = inject(ActivatedRoute);
-  // private readonly authService = inject(AuthService);
 
   progress = 0;
   error?: string;
@@ -27,8 +26,6 @@ export class DownloadReportModalComponent implements OnInit {
   ngOnInit() {
     this.route.params.pipe(
       switchMap(({aid}) => this.http.get(`${environment.url}api/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
-        // TODO remove this if possible
-        // params: {auth_token: this.authService.getAuthToken() ?? ''},
         reportProgress: true,
         observe: 'events',
         responseType: 'blob',
