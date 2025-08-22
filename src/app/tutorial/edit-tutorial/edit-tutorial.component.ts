@@ -119,7 +119,9 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   save() {
-    this.tutorialService.saveStep(this.step).subscribe();
+    this.tutorialService.saveStep(this.step).subscribe(() => {
+      this.router.navigate(['..'], {relativeTo: this.route});
+    });
   }
 
   setListen(trigger: Trigger, checked: boolean) {
