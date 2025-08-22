@@ -4,7 +4,14 @@
   </ng-container>
   <ng-container modal-body>
     <div class="progress mb-3">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [style.width.%]="progress">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated"
+        role="progressbar"
+        [style.width.%]="progress * 100"
+        [attr.aria-valuenow]="progress * 100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
         {{ progress | percent }}
       </div>
     </div>

@@ -35,7 +35,7 @@ export class DownloadReportModalComponent implements OnInit {
       })),
     ).subscribe(event => {
       if (event.type === HttpEventType.DownloadProgress) {
-        this.progress = event.loaded / (event.total ?? 2 ** 15);
+        this.progress = event.loaded / (event.total ?? 2 ** 20); // rough estimate of 1 MiB total size
       } else if (event.type === HttpEventType.Response && event.body) {
         this.progress = 1;
         saveAs(event.body);
