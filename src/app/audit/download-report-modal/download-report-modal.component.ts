@@ -38,7 +38,7 @@ export class DownloadReportModalComponent implements OnInit {
         this.progress = event.loaded / (event.total ?? 2 ** 20); // rough estimate of 1 MiB total size
       } else if (event.type === HttpEventType.Response && event.body) {
         this.progress = 1;
-        saveAs(event.body);
+        saveAs(event.body, this.getFilename());
       }
     }, async error => {
       this.progress = 0;
@@ -49,5 +49,21 @@ export class DownloadReportModalComponent implements OnInit {
         this.error = error.message ?? error.toString();
       }
     });
+  }
+
+  getFilename(): string {
+    // The file extension is automatically added by saveAs based on the content type of the blob.
+    switch (this.route.snapshot.queryParams.type) {
+      case 'energyAudit':
+        return 'Energy Audit Report';
+      case 'cdh10per':
+        return 'CDH 10% Design Prep';
+      case 'cehMicrogridSheet':
+        return 'CEH Microgrid Sheet';
+      case 'feasibility':
+        return 'CEH Feasibility Report';
+      default:
+        throw new Error(`Unknown report type: ${this.route.snapshot.queryParams.type}`);
+    }
   }
 }
