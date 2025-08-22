@@ -17,7 +17,14 @@ export const routes: Routes = [
     component: AuditMasterDetailComponent,
     children: [
       {path: 'new', component: CreateAuditModalComponent},
-      {path: ':aid/preaudit', component: PreauditFormComponent, canDeactivate: [UnsavedChangesGuard]},
+      {
+        path: ':aid/preaudit',
+        component: PreauditFormComponent,
+        canDeactivate: [UnsavedChangesGuard],
+        children: [
+          {path: 'report', component: DownloadReportModalComponent},
+        ],
+      },
       {path: ':aid/grants', component: GrantsComponent, canDeactivate: [UnsavedChangesGuard]},
       {
         path: ':aid/cleanenergyhub',
