@@ -1,0 +1,38 @@
+<ngbx-modal #modal [back]="['..']">
+  <ng-container modal-title>
+    Download Report
+  </ng-container>
+  <ng-container modal-body>
+    <div class="progress mb-3">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated"
+        role="progressbar"
+        [style.width.%]="progress * 100"
+        [attr.aria-valuenow]="progress * 100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        {{ progress | percent }}
+      </div>
+    </div>
+    @if (error) {
+      <div class="alert alert-danger">
+        <h6>Download failed due to error:</h6>
+        {{ error }}
+      </div>
+    } @else if (progress >= 1) {
+      <div class="alert alert-success">
+        <h6>Download complete!</h6>
+        Your report is ready.
+      </div>
+    } @else {
+      <div class="alert alert-info">
+        <h6>Downloading...</h6>
+        Please wait while we prepare your report.
+      </div>
+    }
+  </ng-container>
+  <ng-container modal-footer>
+    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+  </ng-container>
+</ngbx-modal>

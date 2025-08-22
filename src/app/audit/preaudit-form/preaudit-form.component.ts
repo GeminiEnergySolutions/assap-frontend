@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 
@@ -23,10 +24,17 @@ import {SchemaService} from '../../shared/services/schema.service';
     ProgressBarComponent,
     FormComponent,
     ListPlaceholderComponent,
+    NgbDropdown,
+    NgbDropdownItem,
+    NgbDropdownMenu,
+    NgbDropdownToggle,
+    RouterLink,
+    RouterOutlet,
   ],
 })
-export class PreauditFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+export class PreauditFormComponent implements OnInit, AfterViewInit, SaveableChangesComponent, OnDestroy {
   @ViewChild('form') form?: FormComponent;
+  @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   auditId?: number;
   progress?: PercentageCompletion;
@@ -69,6 +77,10 @@ export class PreauditFormComponent implements OnInit, SaveableChangesComponent, 
         auditId: aid,
       })),
     ).subscribe(res => this.progress = res);
+  }
+
+  ngAfterViewInit() {
+    this.breadcrumbService.options = this.options;
   }
 
   ngOnDestroy() {

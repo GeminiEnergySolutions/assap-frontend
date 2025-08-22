@@ -1,3 +1,14 @@
+<ng-template #options>
+  <div ngbDropdown #dropdown="ngbDropdown" class="d-inline-block" display="dynamic">
+    <button type="button" class="btn btn-link bi-three-dots" id="dropdown-audit" ngbDropdownToggle>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdown-audit">
+      <a ngbDropdownItem class="bi-file-earmark-richtext" routerLink="report" [queryParams]="{type: 'energyAudit'}">
+        Download Energy Audit Report
+      </a>
+    </div>
+  </div>
+</ng-template>
 <div class="bg-dark text-light mb-3 p-3">
   <h1>
     Pre-Audit
@@ -17,3 +28,4 @@
     <app-list-placeholder></app-list-placeholder>
   }
 </div>
+<router-outlet></router-outlet>
