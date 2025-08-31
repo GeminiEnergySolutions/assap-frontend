@@ -60,7 +60,14 @@
           <span class="text-danger" ngbTooltip="Required">*</span>
         </label>
         <div class="input-group">
-          <input type="text" class="form-control" id="next" [(ngModel)]="step.next" />
+          <input
+            type="text"
+            class="form-control"
+            id="next"
+            [(ngModel)]="step.next"
+            [ngbTypeahead]="search"
+            [resultFormatter]="resultFormatter"
+          />
           <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('next')"></button>
         </div>
         <div class="form-text">
@@ -71,7 +78,14 @@
       <div class="mb-3">
         <label class="form-label" for="next">Skip</label>
         <div class="input-group">
-          <input type="text" class="form-control" id="skip" [(ngModel)]="step.skip" />
+          <input
+            type="text"
+            class="form-control"
+            id="skip"
+            [(ngModel)]="step.skip"
+            [ngbTypeahead]="search"
+            [resultFormatter]="resultFormatter"
+          />
           <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('skip')"></button>
         </div>
         <div class="form-text">

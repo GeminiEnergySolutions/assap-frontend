@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgbModal, NgbModalRef, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {of, switchMap, tap} from 'rxjs';
+import {NgbModal, NgbModalRef, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, distinctUntilChanged, map, Observable, of, OperatorFunction, switchMap, tap} from 'rxjs';
 import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
 
 @Component({
@@ -12,6 +12,7 @@ import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
     RouterLink,
     FormsModule,
     NgbTooltip,
+    NgbTypeahead,
 
   ],
   templateUrl: './edit-tutorial.component.html',
@@ -41,6 +42,28 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
     description: '',
   };
 
+  steps: Step[] = [];
+
+  readonly search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term) => {
+        if (term.length < 2) {
+          return [];
+        }
+        return this.steps
+          .filter(s => s.selector.includes(term) || s.title.toLowerCase().includes(term.toLowerCase()))
+          .slice(0, 10)
+          .map(s => s.selector)
+      }),
+    );
+
+  readonly resultFormatter = (selector: string) => {
+    const step = this.steps.find(s => s.selector === selector);
+    return step ? `${step.selector} (${step.title})` : selector;
+  };
+
   ngOnInit() {
     this.route.params.pipe(
       tap(({selector}) => {
@@ -53,7 +76,11 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
       switchMap(({selector}) => selector ? this.tutorialService.getStep(selector) : of(this.step)),
     ).subscribe(step => {
       this.step = step;
-    })
+    });
+
+    this.tutorialService.getAllSteps().subscribe(steps => {
+      this.steps = steps;
+    });
   }
 
   ngAfterViewInit() {
