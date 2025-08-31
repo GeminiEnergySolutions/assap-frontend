@@ -8,7 +8,6 @@ import {FeatureCardComponent} from '../../shared/components/feature-card/feature
 import {PhotoCaptureComponent} from '../../shared/components/photo-capture/photo-capture.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {icons} from '../../shared/icons';
-import {Audit} from '../../shared/model/audit.interface';
 import {EquipmentCategory} from '../../shared/model/equipment.interface';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {Zone} from '../../shared/model/zone.interface';
@@ -35,7 +34,6 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
 export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
-  audit?: Audit;
   zone?: Zone;
   equipments: EquipmentCategory[] = [];
   progress?: PercentageCompletion;
@@ -56,12 +54,6 @@ export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '.', relativeTo: this.route};
     this.breadcrumbService.pushBreadcrumb(breadcrumb);
-
-    this.route.params.pipe(
-      switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
-    ).subscribe(({data}) => {
-      this.audit = data;
-    });
 
     this.route.params.pipe(
       tap(() => {
