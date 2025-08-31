@@ -47,7 +47,7 @@ export class SelectElementComponent implements AfterViewInit, OnDestroy {
           height: rect.height,
         });
       });
-    })
+    });
   }
 
   ngOnDestroy() {
