@@ -212,7 +212,6 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               title: 'Input Type',
               hint: 'The type of input field',
               values: ['checkbox'],
-              disabled: true,
               defaultValue: 'checkbox',
             },
           ]
