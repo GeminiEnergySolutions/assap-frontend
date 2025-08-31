@@ -18,6 +18,10 @@ function sortPartialOrder(steps: Step[]) {
       const nextStep = stepMap.get(step.next);
       if (nextStep) visit(nextStep);
     }
+    if (step.skip) {
+      const skipStep = stepMap.get(step.skip);
+      if (skipStep) visit(skipStep);
+    }
     sorted.push(step);
   }
 
