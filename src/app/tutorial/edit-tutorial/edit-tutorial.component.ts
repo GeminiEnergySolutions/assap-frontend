@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbModal, NgbModalRef, NgbTooltip, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime, distinctUntilChanged, map, Observable, of, OperatorFunction, switchMap, tap} from 'rxjs';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
 
 @Component({
@@ -28,6 +29,7 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly route = inject(ActivatedRoute);
   readonly router = inject(Router);
   readonly tutorialService = inject(TutorialService);
+  readonly promptModalService = inject(PromptModalService);
 
   /** If set, element picker mode is active */
   pick?: 'selector' | 'next' | 'skip';
@@ -148,6 +150,24 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   save() {
     this.tutorialService.saveStep(this.step).subscribe(() => {
       this.router.navigate(['..'], {relativeTo: this.route});
+    });
+  }
+
+  delete() {
+    if (!this.edit) {
+      return;
+    }
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Step',
+      text: `Are you sure you want to delete the step "${this.step.title}"? This action cannot be undone.`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.tutorialService.deleteStep(this.step.selector).subscribe(() => {
+        this.router.navigate(['..'], {relativeTo: this.route});
+      });
     });
   }
 
