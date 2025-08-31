@@ -5,6 +5,26 @@ import {NgbModal, NgbModalRef, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {Step, TutorialService} from '../tutorial.service';
 
+function sortPartialOrder(steps: Step[]) {
+  // Sort by next attribute
+  const stepMap = new Map(steps.map(step => [step.selector, step]));
+  const sorted: Step[] = [];
+  const visited = new Set<string>();
+
+  function visit(step: Step) {
+    if (visited.has(step.selector)) return;
+    visited.add(step.selector);
+    if (step.next) {
+      const nextStep = stepMap.get(step.next);
+      if (nextStep) visit(nextStep);
+    }
+    sorted.push(step);
+  }
+
+  steps.forEach(visit);
+  return sorted.reverse();
+}
+
 @Component({
   selector: 'app-edit-tutorials',
   imports: [
@@ -33,7 +53,7 @@ export class EditTutorialsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     this.tutorialService.getAllSteps().subscribe(steps => {
-      this.steps = steps;
+      this.steps = sortPartialOrder(steps);
     });
   }
 
