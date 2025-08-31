@@ -9,8 +9,6 @@ import {
   NgbDropdownToggle,
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
-
-import {environment} from '../../../environments/environment';
 import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
@@ -34,9 +32,6 @@ export class AuditOptionsDropdownComponent {
   @Input({required: true}) audit?: Audit;
 
   @Output() deleted = new EventEmitter<Audit>();
-
-  serverUrl = environment.url;
-  authToken = this.authService.getAuthToken() ?? '';
 
   constructor(
     private auditService: AuditService,
