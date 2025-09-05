@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {EMPTY, switchMap, tap} from 'rxjs';
+import {EMPTY, forkJoin, switchMap, tap} from 'rxjs';
 
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
 import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
@@ -136,6 +136,26 @@ export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
       },
       error: error => {
         this.toastService.error('Failed to Paste Section', 'Clipboard is empty or does not contain a valid section', error);
+      },
+    });
+  }
+
+  saveAll() {
+    const dirtySectionUpdates$ = this.schemaSections
+      .filter(s => s._dirty)
+      .map(s => this.schemaService.updateSchemaSection(this.kind, s.id, s));
+    if (!dirtySectionUpdates$.length) {
+      this.toastService.warn('No Changes', 'There are no changes to save');
+      return;
+    }
+
+    forkJoin(dirtySectionUpdates$).subscribe({
+      next: () => {
+        this.schemaSections.forEach(s => s._dirty = false);
+        this.toastService.success('Saved', 'All changes have been saved');
+      },
+      error: error => {
+        this.toastService.error('Failed to Save', 'An error occurred while saving changes', error);
       },
     });
   }

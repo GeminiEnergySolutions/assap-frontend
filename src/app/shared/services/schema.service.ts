@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {SchemaSection} from '../model/schema.interface';
-import {environment} from '../../../environments/environment.prod';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, tap} from 'rxjs';
+import {environment} from '../../../environments/environment.prod';
 import {Response} from '../model/response.interface';
+import {SchemaSection} from '../model/schema.interface';
 
 export type SchemaKind = 'preAudit' | 'ceh' | 'grants' | 'zone' | `equipment/${number}`;
 
@@ -15,7 +15,10 @@ export class SchemaService {
   }
 
   getSchema(kind: SchemaKind): Observable<Response<SchemaSection[]>> {
-    return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`);
+    return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`).pipe(
+      // TODO remove this when backend does the sorting
+      tap(res => res.data.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))),
+    );
   }
 
   createSchemaSection(kind: SchemaKind, data: SchemaSection): Observable<Response<SchemaSection>> {

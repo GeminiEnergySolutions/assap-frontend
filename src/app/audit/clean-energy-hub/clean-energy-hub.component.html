@@ -3,19 +3,13 @@
     <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
-      <a ngbDropdownItem class="bi-clipboard-check"
-         [href]="serverUrl + 'api/reports/feasibility/' + auditId + '?auth_token=' + authToken"
-         download target="_blank">
+      <a ngbDropdownItem class="bi-clipboard-check" routerLink="report" [queryParams]="{type: 'feasibility'}">
         Download Feasibility Report
       </a>
-      <a ngbDropdownItem class="bi-grid-3x3"
-         [href]="serverUrl + 'api/reports/cehMicrogridSheet/' + auditId + '?auth_token=' + authToken"
-         download target="_blank">
+      <a ngbDropdownItem class="bi-grid-3x3" routerLink="report" [queryParams]="{type: 'cehMicrogridSheet'}">
         Download Microgrid Sheet
       </a>
-      <a ngbDropdownItem class="bi-percent"
-         [href]="serverUrl + 'api/reports/cdh10per/' + auditId + '?auth_token=' + authToken"
-         download target="_blank">
+      <a ngbDropdownItem class="bi-percent" routerLink="report" [queryParams]="{type: 'cdh10per'}">
         Download 10% Design Prep
       </a>
     </div>
@@ -40,3 +34,4 @@
     <app-list-placeholder></app-list-placeholder>
   }
 </div>
+<router-outlet></router-outlet>

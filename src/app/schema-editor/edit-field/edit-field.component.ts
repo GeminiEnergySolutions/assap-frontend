@@ -211,8 +211,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               type: 'select',
               title: 'Input Type',
               hint: 'The type of input field',
-              values: ['checkbox'],
-              disabled: true,
+              values: ['checkbox', 'switch'],
               defaultValue: 'checkbox',
             },
           ]
@@ -319,6 +318,16 @@ export class EditFieldComponent implements OnInit, OnDestroy {
 
   setDirty(dirty = true) {
     this.section!._dirty = dirty;
+  }
+
+  setDocs(key: 'summary' | 'docs', value: string) {
+    if (value === '<p></p>') {
+      value = '';
+    }
+    if (this.field[key] !== value) {
+      this.field[key] = value;
+      this.setDirty();
+    }
   }
 
   addValidation() {

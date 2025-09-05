@@ -1,10 +1,8 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
-
-import {environment} from '../../../environments/environment';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
 import {FormComponent} from '../../shared/form/form/form.component';
@@ -14,7 +12,6 @@ import {PercentageCompletion} from '../../shared/model/percentage-completion.int
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {AuditService} from '../../shared/services/audit.service';
-import {AuthService} from '../../shared/services/auth.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {SchemaService} from '../../shared/services/schema.service';
 
@@ -30,6 +27,8 @@ import {SchemaService} from '../../shared/services/schema.service';
     ProgressBarComponent,
     FormComponent,
     ListPlaceholderComponent,
+    RouterLink,
+    RouterOutlet,
   ],
 })
 export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent, OnDestroy, AfterViewInit {
@@ -41,18 +40,13 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
   typeSchema?: SchemaSection[];
   formData?: PreAuditData;
 
-  serverUrl = environment.url;
-  authToken: string;
-
   constructor(
     private route: ActivatedRoute,
     private auditService: AuditService,
     private schemaService: SchemaService,
     private toastService: ToastService,
     private breadcrumbService: BreadcrumbService,
-    authService: AuthService,
   ) {
-    this.authToken = authService.getAuthToken() ?? '';
   }
 
   isSaved(): boolean {

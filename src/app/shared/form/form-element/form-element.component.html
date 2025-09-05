@@ -3,7 +3,7 @@
     {{ element.heading }}
   </h2>
 }
-@if (element.type !== 'checkbox') {
+@if (element.type !== 'checkbox' && element.type !== 'switch') {
   <label [for]="id" class="form-label">
     {{ element.title }}
     @if (element.required) {
@@ -14,6 +14,28 @@
     }
   </label>
 }
+<ng-template #checkbox>
+  <input
+    type=checkbox
+    class="form-check-input"
+    [id]="id"
+    [(ngModel)]="formData.data[element.key]"
+    (change)="setDirty()"
+    [attr.aria-describedby]="id + '-help'"
+    [disabled]="!!element.disabled"
+  >
+  <label class="form-check-label" [for]="id">
+    {{ element.title }}
+    @if (element.summary || element.docs) {
+      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+    }
+  </label>
+  @if (element.hint) {
+    <div [id]="id + '-help'" class="form-text">
+      {{ element.hint }}
+    </div>
+  }
+</ng-template>
 @switch (element.type) {
   @case ("select") {
     <select
@@ -44,26 +66,12 @@
   }
   @case ("checkbox") {
     <div class="form-check">
-      <input
-        type=checkbox
-        class="form-check-input"
-        [id]="id"
-        [(ngModel)]="formData.data[element.key]"
-        (change)="setDirty()"
-        [attr.aria-describedby]="id + '-help'"
-        [disabled]="!!element.disabled"
-      >
-      <label class="form-check-label" [for]="id">
-        {{ element.title }}
-        @if (element.summary || element.docs) {
-          <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
-        }
-      </label>
-      @if (element.hint) {
-        <div [id]="id + '-help'" class="form-text">
-          {{ element.hint }}
-        </div>
-      }
+      <ng-container [ngTemplateOutlet]="checkbox"></ng-container>
+    </div>
+  }
+  @case ("switch") {
+    <div class="form-check form-switch">
+      <ng-container [ngTemplateOutlet]="checkbox"></ng-container>
     </div>
   }
   @case ("date") {
@@ -119,7 +127,7 @@
     </div>
   }
 }
-@if (element.type !== 'checkbox' && element.hint) {
+@if (element.hint && element.type !== 'checkbox' && element.type !== 'switch') {
   <div [id]="id + '-help'" class="form-text">
     {{ element.hint }}
   </div>
