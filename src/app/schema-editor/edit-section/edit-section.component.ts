@@ -130,4 +130,14 @@ export class EditSectionComponent implements OnInit, OnDestroy {
     delete this.editSpec!.mappingInputs[key];
     this.setDirty();
   }
+
+  setDocs(key: 'summary' | 'docs', value: string) {
+    if (value === '<p></p>') {
+      value = '';
+    }
+    if (this.section[key] !== value) {
+      this.section[key] = value;
+      this.setDirty();
+    }
+  }
 }

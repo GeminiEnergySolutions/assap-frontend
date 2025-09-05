@@ -4,10 +4,17 @@
   placeholder="Search form fields"
   [(ngModel)]="search"
 />
-<div ngbAccordion [closeOthers]="true">
+<div ngbAccordion [closeOthers]="true" cdkDropList [cdkDropListDisabled]="!editable">
   @for (schema of typeSchema; track schema.id) {
     @let elements = schema.schema | search:search:['key', 'title'];
-    <div ngbAccordionItem #accordion=ngbAccordionItem [id]="'s-' + schema.id" [title]="schema.name">
+    <div
+      ngbAccordionItem
+      #accordion=ngbAccordionItem
+      [id]="'s-' + schema.id"
+      [title]="schema.name"
+      cdkDrag
+      (cdkDragDropped)="dropSection($event)"
+    >
       <h2 ngbAccordionHeader>
         @let condition = schema.conditionalSchema?.disabled?.[0]?.['if'];
         @let disabled = condition && (condition | eval:formData.data | async);
@@ -41,10 +48,19 @@
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
+            @let collapsed = accordion.collapsed;
+            <div
+              class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2"
+              [class.disabled]="!collapsed"
+              ngbTooltip="Drag to Reorder"
+              [disableTooltip]="!collapsed"
+              cdkDragHandle
+              [cdkDragHandleDisabled]="!collapsed"
+            ></div>
             <button
               class="btn m-0 p-0 btn-link text-danger bi-trash me-2"
               ngbTooltip="Remove Section"
-              [disabled]="!accordion.collapsed"
+              [disabled]="!collapsed"
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {

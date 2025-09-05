@@ -2,6 +2,7 @@ export interface SchemaSection {
   id: number;
   typeId?: number;
   name: string;
+  order?: number;
   summary?: string;
   docs?: string;
   schema: SchemaElement[];

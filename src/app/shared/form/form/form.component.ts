@@ -205,6 +205,17 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
     section._dirty = true;
   }
 
+  dropSection(event: CdkDragDrop<SchemaSection[]>) {
+    moveItemInArray(this.typeSchema, event.previousIndex, event.currentIndex);
+    for (let i = 0; i < this.typeSchema.length; i++) {
+      const section = this.typeSchema[i];
+      if (section.order !== i) {
+        section.order = i;
+        section._dirty = true;
+      }
+    }
+  }
+
   addFormElement(section: SchemaSection) {
     section.schema.push({
       key: `new_${section.schema.length + 1}`,
