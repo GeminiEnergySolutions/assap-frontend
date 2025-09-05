@@ -49,12 +49,19 @@
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
-            <div class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2" ngbTooltip="Drag to Reorder"
-                 cdkDragHandle></div>
+            @let collapsed = accordion.collapsed;
+            <div
+              class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2"
+              [class.disabled]="!collapsed"
+              ngbTooltip="Drag to Reorder"
+              [disableTooltip]="!collapsed"
+              cdkDragHandle
+              [cdkDragHandleDisabled]="!collapsed"
+            ></div>
             <button
               class="btn m-0 p-0 btn-link text-danger bi-trash me-2"
               ngbTooltip="Remove Section"
-              [disabled]="!accordion.collapsed"
+              [disabled]="!collapsed"
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {
