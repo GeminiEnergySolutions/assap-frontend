@@ -4,7 +4,7 @@
   placeholder="Search form fields"
   [(ngModel)]="search"
 />
-<div ngbAccordion [closeOthers]="true" cdkDropList>
+<div ngbAccordion [closeOthers]="true" cdkDropList [cdkDropListDisabled]="!editable">
   @for (schema of typeSchema; track schema.id) {
     @let elements = schema.schema | search:search:['key', 'title'];
     <div
