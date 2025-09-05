@@ -51,14 +51,11 @@ export class AddDataCollectorModalComponent implements OnInit {
   onOkClick(): void {
     const assigned = this.dataCollectors
       .filter(d => this.selected[d.id])
-      .map(d => ({
-        auditId: this.audit!.auditId,
-        dataCollectorId: d.id,
-      }));
+      .map(d => d.id);
     if (!assigned.length) {
       return;
     }
-    this.dataCollectorService.assignDataCollectors(assigned).subscribe(() => {
+    this.dataCollectorService.assignDataCollectors(this.audit!.auditId, assigned).subscribe(() => {
       this.toastService.success('Success', `Audit Assignment successful`);
     });
   }
