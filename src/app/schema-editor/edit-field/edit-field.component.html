@@ -10,13 +10,13 @@
     Summary
   </h2>
   <div class="mb-3">
-    <app-editor [(ngModel)]="field.summary" (ngModelChange)="setDirty()"></app-editor>
+    <app-editor [ngModel]="field.summary" (ngModelChange)="setDocs('summary', $event)"></app-editor>
   </div>
   <h2>
     Documentation
   </h2>
   <div class="mb-3">
-    <app-editor [(ngModel)]="field.docs" (ngModelChange)="setDirty()"></app-editor>
+    <app-editor [ngModel]="field.docs" (ngModelChange)="setDocs('docs', $event)"></app-editor>
   </div>
   <h2 class="d-flex align-items-center">
     Validation

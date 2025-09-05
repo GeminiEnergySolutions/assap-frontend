@@ -321,6 +321,16 @@ export class EditFieldComponent implements OnInit, OnDestroy {
     this.section!._dirty = dirty;
   }
 
+  setDocs(key: 'summary' | 'docs', value: string) {
+    if (value === '<p></p>') {
+      value = '';
+    }
+    if (this.field[key] !== value) {
+      this.field[key] = value;
+      this.setDirty();
+    }
+  }
+
   addValidation() {
     (this.field.validations ??= []).push({
       level: 'warning',
