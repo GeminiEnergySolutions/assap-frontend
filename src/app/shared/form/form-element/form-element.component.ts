@@ -1,3 +1,4 @@
+import {NgTemplateOutlet} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +18,7 @@ import {FormChoicesPipe} from '../form-choices.pipe';
     FormChoicesPipe,
     IsCurrencyPipe,
     HelpIconComponent,
+    NgTemplateOutlet,
   ],
 })
 export class FormElementComponent implements OnInit, OnChanges {
