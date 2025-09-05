@@ -16,7 +16,7 @@ export class DataCollectorService {
     return this.http.get<Response<User[]>>(`${environment.url}authApi/v1/audit/${auditId}/dataCollectors/unassigned`);
   }
 
-  assignDataCollectors(data: { auditId: number; dataCollectorId: number }[]): Observable<Response> {
-    return this.http.post<Response>(`${environment.url}api/auditAssignment`, data);
+  assignDataCollectors(auditId: number, ids: number[]): Observable<Response> {
+    return this.http.post<Response>(`${environment.url}api/audit/${auditId}/assign`, ids);
   }
 }
