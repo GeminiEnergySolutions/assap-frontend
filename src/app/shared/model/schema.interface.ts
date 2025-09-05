@@ -30,7 +30,7 @@ export interface SchemaElement {
   // Required properties
   key: string;
   dataType: 'text' | 'number' | 'integer' | 'date' | 'bool';
-  type: 'textBox' | 'select' | 'checkbox' | 'textArea' | 'date' | 'radio';
+  type: 'textBox' | 'select' | 'checkbox' | 'switch' | 'textArea' | 'date' | 'radio';
   title: string;
   hint: 'rq' | string;
 
