@@ -57,6 +57,7 @@
             "browser": "src/main.ts"
           },
           "configurations": {
+            "development": {},
             "production": {
               "fileReplacements": [
                 {
@@ -91,10 +92,14 @@
             "buildTarget": "conserve:build"
           },
           "configurations": {
+            "development": {
+              "buildTarget": "conserve:build:development"
+            },
             "production": {
               "buildTarget": "conserve:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
