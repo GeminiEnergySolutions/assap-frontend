@@ -61,15 +61,9 @@ export class AuditMasterDetailComponent implements OnInit {
       {label: 'Audits', routerLink: '.', relativeTo: this.route},
     ]);
 
-    if (this.authService.currentLoginUser?.role?.role === 'dataCollector') {
-      this.auditService.getAllDataCollectorAudit().subscribe(res => {
-        this.groupAudits(res.data);
-      });
-    } else {
-      this.auditService.getAllAudit().subscribe(res => {
-        this.groupAudits(res.data);
-      });
-    }
+    this.auditService.getAllAudit().subscribe(res => {
+      this.groupAudits(res.data);
+    });
 
     this.route.queryParams.pipe(
       switchMap(({new: newId}) => newId ? this.auditService.getSingleAudit(newId) : EMPTY),

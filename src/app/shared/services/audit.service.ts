@@ -2,9 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
+import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
 import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
@@ -34,10 +34,6 @@ export class AuditService {
     return this.http.get<Response<PercentageCompletion>>(`${environment.url}api/formData/progress`, {
       params,
     }).pipe(map(({data}) => data));
-  }
-
-  getAllDataCollectorAudit(): Observable<Response<Audit[]>> {
-    return this.http.get<Response<Audit[]>>(`${environment.url}api/audit/dataCollector`);
   }
 
   getSingleAudit(id: number): Observable<Response<Audit>> {
