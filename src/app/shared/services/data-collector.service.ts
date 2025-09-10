@@ -13,10 +13,12 @@ export class DataCollectorService {
   }
 
   getUnassignedDataCollectors(auditId: number): Observable<Response<User[]>> {
-    return this.http.get<Response<User[]>>(`${environment.url}authApi/v1/audit/${auditId}/dataCollectors/unassigned`);
+    return this.http.get<Response<User[]>>(`${environment.url}api/audit/${auditId}/dataCollector`, {
+      params: {type: 'unassigned'},
+    });
   }
 
   assignDataCollectors(auditId: number, ids: number[]): Observable<Response> {
-    return this.http.post<Response>(`${environment.url}api/audit/${auditId}/assign`, ids);
+    return this.http.post<Response>(`${environment.url}api/audit/${auditId}/dataCollector`, ids);
   }
 }
