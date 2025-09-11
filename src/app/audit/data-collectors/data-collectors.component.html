@@ -25,6 +25,10 @@
             </label>
           </div>
         </li>
+      } @empty {
+        <li class="text-muted">
+          No results.
+        </li>
       }
     </ul>
     <p class="form-text">
@@ -52,6 +56,10 @@
               <div class="font-monospace">{{ item.email }}</div>
             </label>
           </div>
+        </li>
+      } @empty {
+        <li class="text-muted">
+          No results.
         </li>
       }
     </ul>
