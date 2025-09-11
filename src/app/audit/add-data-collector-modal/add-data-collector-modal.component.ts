@@ -23,9 +23,12 @@ import {DataCollectorService} from '../../shared/services/data-collector.service
 })
 export class AddDataCollectorModalComponent implements OnInit {
   audit?: Audit;
-  dataCollectors: User[] = [];
+  activeDataCollectors: User[] = [];
+  inactiveDataCollectors: User[] = [];
   selected: Partial<Record<number, boolean>> = {};
-  search = '';
+
+  searchActive = '';
+  searchInactive = '';
 
   constructor(
     private auditService: AuditService,
@@ -41,22 +44,47 @@ export class AddDataCollectorModalComponent implements OnInit {
     ).subscribe(({data}) => this.audit = data);
 
     this.route.params.pipe(
-      switchMap(({aid}) => this.dataCollectorService.getUnassignedDataCollectors(aid)),
+      switchMap(({aid}) => this.dataCollectorService.getDataCollectors(aid, 'assigned')),
     ).subscribe(({data}) => {
-      this.dataCollectors = data;
+      this.activeDataCollectors = data;
       this.selected = {};
+      for (const user of data) {
+        this.selected[user.id] = true;
+      }
+    });
+
+    this.route.params.pipe(
+      switchMap(({aid}) => this.dataCollectorService.getDataCollectors(aid, 'unassigned')),
+    ).subscribe(({data}) => {
+      this.inactiveDataCollectors = data;
     });
   }
 
-  onOkClick(): void {
-    const assigned = this.dataCollectors
-      .filter(d => this.selected[d.id])
-      .map(d => d.id);
-    if (!assigned.length) {
+  saveDataCollectors(): void {
+    const removed = this.activeDataCollectors
+      .filter(d => !this.selected[d.id]);
+    if (!removed.length) {
+      this.toastService.warn('Remove Data Collectors', 'No changes to save.');
       return;
     }
-    this.dataCollectorService.assignDataCollectors(this.audit!.auditId, assigned).subscribe(() => {
-      this.toastService.success('Success', `Audit Assignment successful`);
+    this.dataCollectorService.deleteDataCollectors(this.audit!.auditId, removed.map(d => d.id)).subscribe(() => {
+      this.toastService.warn('Remove Data Collectors', `Successfully removed ${removed.length} data collectors.`);
+      this.inactiveDataCollectors.unshift(...removed);
+      this.activeDataCollectors = this.activeDataCollectors.filter(d => this.selected[d.id]);
+    });
+  }
+
+  addDataCollectors(): void {
+    const assigned = this.inactiveDataCollectors
+      .filter(d => this.selected[d.id]);
+    if (!assigned.length) {
+      this.toastService.warn('Add Data Collectors', 'No changes to save.');
+      return;
+    }
+    this.dataCollectorService.assignDataCollectors(this.audit!.auditId, assigned.map(d => d.id)).subscribe(() => {
+      this.toastService.success('Add Data Collectors', `Successfully added ${assigned.length} data collectors.`);
+      this.activeDataCollectors.push(...assigned);
+      this.inactiveDataCollectors = this.inactiveDataCollectors.filter(d => !this.selected[d.id]);
     });
   }
 }
