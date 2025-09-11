@@ -1,13 +1,15 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
 import {AuditService} from 'src/app/shared/services/audit.service';
+import {icons} from '../../shared/icons';
 import {Audit} from '../../shared/model/audit.interface';
 import {User} from '../../shared/model/user.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
+import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {DataCollectorService} from '../../shared/services/data-collector.service';
 
 @Component({
@@ -21,7 +23,7 @@ import {DataCollectorService} from '../../shared/services/data-collector.service
     SearchPipe,
   ],
 })
-export class AddDataCollectorModalComponent implements OnInit {
+export class AddDataCollectorModalComponent implements OnInit, OnDestroy {
   audit?: Audit;
   activeDataCollectors: User[] = [];
   inactiveDataCollectors: User[] = [];
@@ -35,13 +37,26 @@ export class AddDataCollectorModalComponent implements OnInit {
     private dataCollectorService: DataCollectorService,
     private toastService: ToastService,
     private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
   ngOnInit(): void {
+    const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
+    this.breadcrumbService.pushBreadcrumb(breadcrumb);
+    this.breadcrumbService.pushBreadcrumb({
+      class: icons.dataCollectors,
+      label: 'Data Collectors',
+      routerLink: '.',
+      relativeTo: this.route,
+    });
+
     this.route.params.pipe(
       switchMap(({aid}) => this.auditService.getSingleAudit(aid)),
-    ).subscribe(({data}) => this.audit = data);
+    ).subscribe(({data}) => {
+      this.audit = data;
+      breadcrumb.label = data.auditName;
+    });
 
     this.route.params.pipe(
       switchMap(({aid}) => this.dataCollectorService.getDataCollectors(aid, 'assigned')),
@@ -58,6 +73,11 @@ export class AddDataCollectorModalComponent implements OnInit {
     ).subscribe(({data}) => {
       this.inactiveDataCollectors = data;
     });
+  }
+
+  ngOnDestroy() {
+    this.breadcrumbService.popBreadcrumb();
+    this.breadcrumbService.popBreadcrumb();
   }
 
   saveDataCollectors(): void {

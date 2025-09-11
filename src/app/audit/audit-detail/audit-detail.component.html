@@ -11,11 +11,11 @@
       }
     </h1>
     <div>
-      <a class="btn btn-sm btn-outline-light rounded-pill bi-binoculars ms-2" routerLink="data-collectors">
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-binoculars ms-2" routerLink="overview">
         Overview
       </a>
       @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
-        <a class="btn btn-sm btn-outline-light rounded-pill bi-person ms-2" routerLink="data-collectors">
+        <a class="btn btn-sm btn-outline-light rounded-pill bi-people ms-2" routerLink="data-collectors">
           Data Collectors
         </a>
       }
