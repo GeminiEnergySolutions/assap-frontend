@@ -1,16 +1,23 @@
-<ngbx-modal #modal [back]="['..']" [scrollable]="true">
-  <ng-container modal-title>
-    Add Data Collector
-    <span class="text-muted">{{ audit?.auditName | titlecase }}</span>
-  </ng-container>
-  <ng-container modal-body>
+<div class="bg-dark text-light mb-3 p-3">
+  <div class="d-md-flex align-items-center">
+    <h1 class="flex-grow-1">
+      Data Collectors
+    </h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <h1>Active Data Collectors</h1>
+  </div>
+  <div class="col-md-6">
+    <h1>Inactive Data Collectors</h1>
     <input
       type="search"
       class="form-control mb-3 sticky-top"
       placeholder="Search..."
       [(ngModel)]="search"
     />
-    <ul class="list-unstyled">
+    <ul class="list-unstyled rounded border p-3" style="max-height: 50vh; overflow-y: auto;">
       @for (item of dataCollectors | search:search:['userName','email']; track item.id) {
         <li>
           <div class="form-check">
@@ -23,13 +30,11 @@
         </li>
       }
     </ul>
-  </ng-container>
-  <ng-container modal-footer>
-    <button type="button" class="btn btn-secondary" (click)="modal.close()">
-      Cancel
+    <p class="form-text">
+      Select data collectors to add to this audit.
+    </p>
+    <button type="button" class="btn btn-success" (click)="onOkClick()">
+      Add
     </button>
-    <button type="button" class="btn btn-primary" (click)="onOkClick(); modal.close()">
-      Save
-    </button>
-  </ng-container>
-</ngbx-modal>
+  </div>
+</div>

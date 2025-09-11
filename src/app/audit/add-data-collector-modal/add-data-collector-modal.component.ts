@@ -1,14 +1,14 @@
+import {TitleCasePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {AuditService} from 'src/app/shared/services/audit.service';
-import {ModalModule, ToastService} from '@mean-stream/ngbx';
-import {Audit} from '../../shared/model/audit.interface';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {switchMap} from 'rxjs';
+import {AuditService} from 'src/app/shared/services/audit.service';
+import {Audit} from '../../shared/model/audit.interface';
 import {User} from '../../shared/model/user.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 import {DataCollectorService} from '../../shared/services/data-collector.service';
-import {FormsModule} from '@angular/forms';
-import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-add-data-collector-modal',
