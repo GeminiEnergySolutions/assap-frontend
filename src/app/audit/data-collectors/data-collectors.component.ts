@@ -13,9 +13,9 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
 import {DataCollectorService} from '../../shared/services/data-collector.service';
 
 @Component({
-  selector: 'app-add-data-collector-modal',
-  templateUrl: './add-data-collector-modal.component.html',
-  styleUrls: ['./add-data-collector-modal.component.scss'],
+  selector: 'app-data-collectors',
+  templateUrl: './data-collectors.component.html',
+  styleUrls: ['./data-collectors.component.scss'],
   imports: [
     ModalModule,
     FormsModule,
@@ -23,7 +23,7 @@ import {DataCollectorService} from '../../shared/services/data-collector.service
     SearchPipe,
   ],
 })
-export class AddDataCollectorModalComponent implements OnInit, OnDestroy {
+export class DataCollectorsComponent implements OnInit, OnDestroy {
   audit?: Audit;
   activeDataCollectors: User[] = [];
   inactiveDataCollectors: User[] = [];
