@@ -14,9 +14,11 @@
       <a class="btn btn-sm btn-outline-light rounded-pill bi-binoculars ms-2" routerLink="data-collectors">
         Overview
       </a>
-      <a class="btn btn-sm btn-outline-light rounded-pill bi-person ms-2" routerLink="data-collectors">
-        Data Collectors
-      </a>
+      @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
+        <a class="btn btn-sm btn-outline-light rounded-pill bi-person ms-2" routerLink="data-collectors">
+          Data Collectors
+        </a>
+      }
       <a class="btn btn-sm btn-outline-light rounded-pill bi-image ms-2" routerLink="photos">
         Images
       </a>
