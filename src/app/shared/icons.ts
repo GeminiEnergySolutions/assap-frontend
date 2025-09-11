@@ -3,6 +3,7 @@ export const icons = {
   preAudit: 'bi-journal-text',
   photo: 'bi-image',
   camera: 'bi-camera',
+  dataCollectors: 'bi-people',
   grants: 'bi-patch-check',
   ceh: 'bi-plug',
   zone: 'bi-dice-4',

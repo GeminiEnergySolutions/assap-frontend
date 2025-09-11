@@ -8,7 +8,7 @@ import {GrantsComponent} from './grants/grants.component';
 import {PreauditFormComponent} from './preaudit-form/preaudit-form.component';
 import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal.component';
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
-import {AddDataCollectorModalComponent} from './add-data-collector-modal/add-data-collector-modal.component';
+import {DataCollectorsComponent} from './data-collectors/data-collectors.component';
 import {UnsavedChangesGuard} from '../shared/guard/unsaved-changes.guard';
 
 export const routes: Routes = [
@@ -36,7 +36,7 @@ export const routes: Routes = [
       },
       {path: ':aid/photos', component: PhotosComponent},
       {path: ':aid/overview', component: EquipmentOverviewComponent},
-      {path: ':aid/data-collectors', component: AddDataCollectorModalComponent},
+      {path: ':aid/data-collectors', component: DataCollectorsComponent},
       {
         path: ':aid', component: AuditDetailComponent,
         children: [

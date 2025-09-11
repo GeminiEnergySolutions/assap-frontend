@@ -1,0 +1,73 @@
+<div class="bg-dark text-light mb-3 p-3">
+  <div class="d-md-flex align-items-center">
+    <h1 class="flex-grow-1">
+      Data Collectors
+    </h1>
+  </div>
+</div>
+<div class="row mx-0">
+  <div class="col-md-6">
+    <h2>Active Data Collectors</h2>
+    <input
+      type="search"
+      class="form-control mb-3 sticky-top"
+      placeholder="Search..."
+      [(ngModel)]="searchActive"
+    />
+    <ul class="list-unstyled rounded border p-3" style="max-height: 50vh; overflow-y: auto;">
+      @for (item of activeDataCollectors | search:searchActive:['userName','email']; track item.id) {
+        <li>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="data-collector-{{ item.id }}" [(ngModel)]="selected[item.id]"/>
+            <label class="form-check-label" for="data-collector-{{ item.id }}">
+              {{ item.userName | titlecase }}
+              <div class="font-monospace">{{ item.email }}</div>
+            </label>
+          </div>
+        </li>
+      } @empty {
+        <li class="text-muted">
+          No results.
+        </li>
+      }
+    </ul>
+    <p class="form-text">
+      Untick data collectors to remove them from this audit.
+    </p>
+    <button type="button" class="btn btn-primary" (click)="saveDataCollectors()">
+      Save
+    </button>
+  </div>
+  <div class="col-md-6">
+    <h2>Inactive Data Collectors</h2>
+    <input
+      type="search"
+      class="form-control mb-3 sticky-top"
+      placeholder="Search..."
+      [(ngModel)]="searchInactive"
+    />
+    <ul class="list-unstyled rounded border p-3" style="max-height: 50vh; overflow-y: auto;">
+      @for (item of inactiveDataCollectors | search:searchInactive:['userName','email']; track item.id) {
+        <li>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="data-collector-{{ item.id }}" [(ngModel)]="selected[item.id]"/>
+            <label class="form-check-label" for="data-collector-{{ item.id }}">
+              {{ item.userName | titlecase }}
+              <div class="font-monospace">{{ item.email }}</div>
+            </label>
+          </div>
+        </li>
+      } @empty {
+        <li class="text-muted">
+          No results.
+        </li>
+      }
+    </ul>
+    <p class="form-text">
+      Select data collectors to add to this audit.
+    </p>
+    <button type="button" class="btn btn-success" (click)="addDataCollectors()">
+      Add
+    </button>
+  </div>
+</div>
