@@ -8,6 +8,7 @@ import {ProgressBarComponent} from '../../shared/components/progress-bar/progres
 import {icons} from '../../shared/icons';
 import {Audit} from '../../shared/model/audit.interface';
 import {AuditService} from '../../shared/services/audit.service';
+import {AuthService} from '../../shared/services/auth.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-options-dropdown.component';
 
@@ -33,8 +34,9 @@ export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     public auditService: AuditService,
-    private breadcrumbService: BreadcrumbService,
     public route: ActivatedRoute,
+    protected authService: AuthService,
+    private breadcrumbService: BreadcrumbService,
   ) {
   }
 
