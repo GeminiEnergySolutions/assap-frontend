@@ -3,7 +3,8 @@ import {User} from "./user.interface";
 
 export interface Audit {
   auditId: number;
-  auditCreatedOn: string;
+  createdOn: string;
+  updatedOn: string;
   auditName: string;
   cehStatus: boolean;
   grantStatus: boolean;

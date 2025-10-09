@@ -5,7 +5,7 @@ import {Equipment, EquipmentCategory, EquipmentType} from './equipment.interface
 export interface Photo {
   id: number;
   photo: string;
-  timestamp: string;
+  createdOn: string;
   auditId: number;
   audit?: Audit;
   zoneId?: number;
