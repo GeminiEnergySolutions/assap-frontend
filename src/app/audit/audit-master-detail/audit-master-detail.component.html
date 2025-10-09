@@ -1,16 +1,17 @@
 <app-master-detail>
   <div list>
     <input
+      id="audit-search"
       type="search"
       class="form-control mb-3"
       placeholder="Search all audits"
       [(ngModel)]="search"
     />
-    <a class="btn btn-outline-secondary w-100 bi-journal-plus mb-3" routerLink="new">
+    <a id="add-audit" class="btn btn-outline-secondary w-100 bi-journal-plus mb-3" routerLink="new">
       Add Audit
     </a>
     @if (audits) {
-      <div ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
+      <div id="audit-list" ngbAccordion [destroyOnHide]="true" [closeOthers]="true">
         @for (section of audits | keyvalue; track section.key) {
           @let audits = section.value | search:search:['auditName'];
           <div ngbAccordionItem [disabled]="!audits.length">
@@ -62,5 +63,8 @@
     <h2>
       Please select an audit to begin.
     </h2>
+    <a class="btn btn-primary" id="begin-tutorial" [routerLink]="['', {outlets: {tutorial: ['t', '#begin-tutorial']}}]">
+      Tutorial
+    </a>
   </div>
 </app-master-detail>
