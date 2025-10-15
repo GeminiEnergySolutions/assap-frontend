@@ -30,6 +30,9 @@
         Created By: {{ audit?.user?.userName | titlecase }} ({{audit?.user?.role?.role}})
       </button>
       <button ngbDropdownItem>
+        CreatedOn: {{ audit?.createdOn | date:'medium' }}
+      </button>
+      <button ngbDropdownItem>
         UpdateOn: {{ audit?.updatedOn | date:'medium' }}
       </button>
     }
