@@ -24,6 +24,7 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addValidation()">
       Add Validation
     </button>
+    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteValidation()" ngbTooltip="Paste Validation"></button>
   </h2>
   <ng-template #popup>
     <dl>
@@ -97,6 +98,7 @@
             />
           </div>
           <div class="col-auto">
+            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" ngbTooltip="Copy Validation" (click)="copyValidation(validation)"></button>
             <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Validation" (click)="removeValidation($index)"></button>
           </div>
         </div>

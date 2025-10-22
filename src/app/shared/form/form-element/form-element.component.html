@@ -74,18 +74,6 @@
       <ng-container [ngTemplateOutlet]="checkbox"></ng-container>
     </div>
   }
-  @case ("date") {
-    <input
-      type="date"
-      class="form-control"
-      [id]="id"
-      [(ngModel)]="formData.data[element.key]"
-      (change)="setDirty()"
-      [attr.aria-describedby]="id + '-help'"
-      [disabled]="!!element.disabled"
-      [placeholder]="element.defaultValue ?? ''"
-    >
-  }
   @case ("radio") {
     @for (entry of (element.values ?? []) | formChoices; track entry) {
       <div class="form-check">
@@ -105,7 +93,9 @@
     }
   }
   @default {
-    @let type = element.dataType === 'integer' ? 'number' : element.dataType;
+    @let type =
+      element.dataType === 'integer' ? 'number' :
+      element.dataType;
     <div class="input-group">
       @if (element.unit && (element.unit | isCurrency)) {
         <span class="input-group-text">{{ element.unit }}</span>
