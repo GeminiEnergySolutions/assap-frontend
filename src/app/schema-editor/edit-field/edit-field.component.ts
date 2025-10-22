@@ -87,7 +87,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
           type: 'select',
           hint: 'The type of data this field represents',
           title: 'Data Type',
-          values: ['text', 'number', 'integer', 'date', 'bool'],
+          values: ['text', 'number', 'integer', 'date', 'time', 'bool'],
           required: true,
           inputList: [
             // --------------- Text ---------------
@@ -167,7 +167,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               hint: 'The physical unit or currency of the input field',
               required: false,
             },
-            // --------------- Date ---------------
+            // --------------- Date and Time ---------------
             {
               dependentKeyValue: 'date',
               key: 'isDateNow',
@@ -185,15 +185,23 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               hint: 'The default date value for this field',
             },
             {
-              dependentKeyValue: 'date',
+              dependentKeyValue: 'time',
+              key: 'defaultValue',
+              dataType: 'time',
+              type: 'textBox',
+              title: 'Default Time Value',
+              hint: 'The default time value for this field',
+            },
+            {
+              dependentKeyValue: ['date', 'time'],
               key: 'type',
               dataType: 'text',
               type: 'select',
               title: 'Input Type',
               hint: 'The type of input field',
-              values: ['date'],
+              values: ['textBox'],
               disabled: true,
-              defaultValue: 'date',
+              defaultValue: 'textBox',
             },
             // --------------- Boolean ---------------
             {
