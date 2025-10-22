@@ -26,15 +26,16 @@
         </button>
       }
       <div class="dropdown-divider"></div>
-      <button ngbDropdownItem>
-        Created By: {{ audit?.user?.userName | titlecase }} ({{audit?.user?.role?.role}})
-      </button>
-      <button ngbDropdownItem>
-        CreatedOn: {{ audit?.createdOn | date:'medium' }}
-      </button>
-      <button ngbDropdownItem>
-        UpdateOn: {{ audit?.updatedOn | date:'medium' }}
-      </button>
+      <h6 class="dropdown-header">Audit Info</h6>
+      <div class="dropdown-item-text">
+        Created by <b [ngbTooltip]="audit?.user?.role?.role">{{ audit?.user?.userName | titlecase }}</b>
+      </div>
+      <div class="dropdown-item-text">
+        Created at <b [ngbTooltip]="audit?.createdOn | date:'long'">{{ audit?.createdOn | date:'short' }}</b>
+      </div>
+      <div class="dropdown-item-text">
+        Updated at <b [ngbTooltip]="audit?.updatedOn | date:'long'">{{ audit?.updatedOn | date:'short' }}</b>
+      </div>
     }
   </div>
 </div>
