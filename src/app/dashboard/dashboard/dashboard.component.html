@@ -58,4 +58,21 @@
       </div>
     </div>
   </div>
+
+  <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
+    scales: {
+      projection: {
+        axis: 'x',
+        projection: 'albersUsa'
+      },
+      color: {
+        axis: 'x',
+        quantize: 5,
+        legend: {
+          position: 'bottom-right',
+          align: 'bottom'
+        },
+      }
+    }
+  }"></canvas>
 </div>
