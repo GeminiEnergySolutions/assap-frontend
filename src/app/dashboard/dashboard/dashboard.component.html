@@ -1,0 +1,115 @@
+<div class="container text-center">
+  <h1>Welcome to Conserve!</h1>
+  <h2>Thanks to you, we could save:</h2>
+  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-white bg-primary">
+          <h4 class="my-0 fw-normal">Energy</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            {{ totalEnergySavings | number }}
+            <small class="text-muted fw-light">kBTU/year</small>
+          </h1>
+          <button class="btn" (click)="energyEquivalent = random(equivalents.energy, energyEquivalent)">
+            {{ energyEquivalent.prefix }}
+            <b>
+              {{ totalEnergySavings * energyEquivalent.factor | number:'0.0-0' }}
+              {{ energyEquivalent.unit }}
+            </b>
+            {{ energyEquivalent.suffix }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-dark bg-empowerment">
+          <h4 class="my-0 fw-normal">Greenhouse Gas Emissions</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            {{ totalGHGSavings | number }}
+            <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small>
+          </h1>
+          <button class="btn" (click)="ghgEquivalent = random(equivalents.ghg, ghgEquivalent)">
+            {{ ghgEquivalent.prefix }}
+            <b>
+              {{ totalGHGSavings * ghgEquivalent.factor | number:'0.0-0' }}
+              {{ ghgEquivalent.unit }}
+            </b>
+            {{ ghgEquivalent.suffix }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-white bg-dark">
+          <h4 class="my-0 fw-normal">Costs</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            <small class="text-muted fw-light">$</small>
+            {{ totalCostSavings | number:'0.2-2' }}
+            <small class="text-muted fw-light">/year</small>
+          </h1>
+          <button class="btn" (click)="costsEquivalent = random(equivalents.costs, costsEquivalent)">
+            {{ costsEquivalent.prefix }}
+            <b>
+              {{ totalCostSavings * costsEquivalent.factor | number:'0.0-0' }}
+              {{ costsEquivalent.unit }}
+            </b>
+            {{ costsEquivalent.suffix }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 mb-3">
+    <div class="col">
+      <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
+        scales: {
+          projection: {
+            axis: 'x',
+            projection: 'albersUsa'
+          },
+          color: {
+            axis: 'x',
+            quantize: 5,
+            legend: {
+              position: 'bottom-right',
+              align: 'bottom'
+            },
+          }
+        }
+      }"></canvas>
+    </div>
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
+            <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
+            <th>Costs <small class="text-muted fw-light">$/year</small></th>
+            <th>Audits</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (state of results; track state.stateId) {
+            <tr>
+              <th scope="row">{{ state.state_name || 'Other' }}</th>
+              <td>{{ state.kBTU_per_year_savings ?? 0 | number }}</td>
+              <td>{{ state.GHG_emissions_savings ?? 0 | number }}</td>
+              <td>{{ state.cost_per_year_savings ?? 0 | currency }}</td>
+              <td>{{ state.included_audits.length }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,9 @@
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column h-100">
       @if (authService.currentLoginUser) {
+        <a class="nav-item nav-link bi-pie-chart" routerLinkActive="active" routerLink="/dashboard">
+          Dashboard
+        </a>
         <a class="nav-item nav-link bi-journal-check" routerLinkActive="active" routerLink="/audits">
           Audits
         </a>

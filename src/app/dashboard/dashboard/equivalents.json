@@ -1,0 +1,88 @@
+{
+  "ghg": [
+    {
+      "prefix": "Equivalent to ",
+      "unit": "miles",
+      "suffix": " driven by an average gasoline car.",
+      "factor": 2.5
+    },
+    {
+      "prefix": "Comparable to ",
+      "suffix": " smartphone charges.",
+      "factor": 200
+    },
+    {
+      "prefix": "Roughly the emissions of ",
+      "suffix": " beef burgers.",
+      "factor": 0.17
+    },
+    {
+      "prefix": "Similar to ",
+      "suffix": " bags of household trash.",
+      "factor": 0.5
+    },
+    {
+      "prefix": "Equivalent to flying ",
+      "unit": "kilometers",
+      "suffix": " .",
+      "factor": 11
+    }
+  ],
+  "energy": [
+    {
+      "prefix": "Enough to power ",
+      "suffix": " households for a year.",
+      "factor": 0.0000276
+    },
+    {
+      "prefix": "Equivalent to ",
+      "unit": "hours",
+      "suffix": " of LED bulb usage.",
+      "factor": 29
+    },
+    {
+      "prefix": "Enough for ",
+      "unit": "miles",
+      "suffix": " in an electric vehicle.",
+      "factor": 3
+    },
+    {
+      "prefix": "The same as running ",
+      "suffix": " refrigerators for a year.",
+      "factor": 0.0004878
+    },
+    {
+      "prefix": "Enough energy for ",
+      "suffix": " laptop charges.",
+      "factor": 5
+    }
+  ],
+  "costs": [
+    {
+      "prefix": "Equivalent to buying ",
+      "suffix": " cups of coffee.",
+      "factor": 0.2857
+    },
+    {
+      "prefix": "Enough for ",
+      "suffix": " movie tickets.",
+      "factor": 0.0833
+    },
+    {
+      "prefix": "Enough to pay for ",
+      "suffix": " public transit rides.",
+      "factor": 0.3636
+    },
+    {
+      "prefix": "Covers about ",
+      "unit": "months",
+      "suffix": " of streaming service.",
+      "factor": 0.0667
+    },
+    {
+      "prefix": "Equivalent to buying ",
+      "suffix": " smartphones.",
+      "factor": 0.00167
+    }
+  ]
+}
