@@ -86,6 +86,7 @@
             <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
             <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
             <th>Costs <small class="text-muted fw-light">$/year</small></th>
+            <th>Audits</th>
           </tr>
         </thead>
         <tbody>
@@ -95,6 +96,7 @@
               <th>{{ state.kBTU_per_year_savings ?? 0 | number }}</th>
               <th>{{ state.GHG_emissions_savings ?? 0 | number }}</th>
               <th>{{ state.cost_per_year_savings ?? 0 | currency }}</th>
+              <th>{{ state.included_audits.length }}</th>
             </tr>
           }
         </tbody>
