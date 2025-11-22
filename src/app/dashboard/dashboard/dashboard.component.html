@@ -101,11 +101,11 @@
         <tbody>
           @for (state of results; track state.stateId) {
             <tr>
-              <th>{{ state.state_name || 'Other' }}</th>
-              <th>{{ state.kBTU_per_year_savings ?? 0 | number }}</th>
-              <th>{{ state.GHG_emissions_savings ?? 0 | number }}</th>
-              <th>{{ state.cost_per_year_savings ?? 0 | currency }}</th>
-              <th>{{ state.included_audits.length }}</th>
+              <th scope="row">{{ state.state_name || 'Other' }}</th>
+              <td>{{ state.kBTU_per_year_savings ?? 0 | number }}</td>
+              <td>{{ state.GHG_emissions_savings ?? 0 | number }}</td>
+              <td>{{ state.cost_per_year_savings ?? 0 | currency }}</td>
+              <td>{{ state.included_audits.length }}</td>
             </tr>
           }
         </tbody>

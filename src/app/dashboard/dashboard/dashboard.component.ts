@@ -1,5 +1,5 @@
 import {CurrencyPipe, DecimalPipe} from '@angular/common';
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {registerables} from 'chart.js';
 import {
@@ -30,8 +30,6 @@ import equivalents from './equivalents.json';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild(BaseChartDirective) coffeeChart?: BaseChartDirective;
-
   private readonly route = inject(ActivatedRoute);
   private readonly dashboardService = inject(DashboardService);
 
