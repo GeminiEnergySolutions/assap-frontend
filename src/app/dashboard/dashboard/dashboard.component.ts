@@ -1,4 +1,4 @@
-import {DecimalPipe} from '@angular/common';
+import {CurrencyPipe, DecimalPipe} from '@angular/common';
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {registerables} from 'chart.js';
@@ -21,6 +21,7 @@ import equivalents from './equivalents.json';
   imports: [
     DecimalPipe,
     BaseChartDirective,
+    CurrencyPipe,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(ChoroplethController, GeoFeature, ProjectionScale, ColorScale, ...registerables)),

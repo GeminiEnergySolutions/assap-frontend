@@ -59,20 +59,46 @@
     </div>
   </div>
 
-  <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
-    scales: {
-      projection: {
-        axis: 'x',
-        projection: 'albersUsa'
-      },
-      color: {
-        axis: 'x',
-        quantize: 5,
-        legend: {
-          position: 'bottom-right',
-          align: 'bottom'
-        },
-      }
-    }
-  }"></canvas>
+  <div class="row row-cols-1 row-cols-md-2 mb-3">
+    <div class="col">
+      <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
+        scales: {
+          projection: {
+            axis: 'x',
+            projection: 'albersUsa'
+          },
+          color: {
+            axis: 'x',
+            quantize: 5,
+            legend: {
+              position: 'bottom-right',
+              align: 'bottom'
+            },
+          }
+        }
+      }"></canvas>
+    </div>
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
+            <th>Emissions <small class="text-muted fw-light">kgCO<sub>2</sub>eq</small></th>
+            <th>Costs <small class="text-muted fw-light">$/year</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (state of results; track state.stateId) {
+            <tr>
+              <th>{{ state.state_name || 'Other' }}</th>
+              <th>{{ state.kBTU_per_year_savings ?? 0 | number }}</th>
+              <th>{{ state.GHG_emissions_savings ?? 0 | number }}</th>
+              <th>{{ state.cost_per_year_savings ?? 0 | currency }}</th>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
