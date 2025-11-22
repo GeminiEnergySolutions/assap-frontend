@@ -2,7 +2,8 @@
   "ghg": [
     {
       "prefix": "Equivalent to ",
-      "suffix": " miles driven by an average gasoline car.",
+      "unit": "miles",
+      "suffix": " driven by an average gasoline car.",
       "factor": 2.5
     },
     {
@@ -22,7 +23,8 @@
     },
     {
       "prefix": "Equivalent to flying ",
-      "suffix": " kilometers.",
+      "unit": "kilometers",
+      "suffix": " .",
       "factor": 11
     }
   ],
@@ -34,12 +36,14 @@
     },
     {
       "prefix": "Equivalent to ",
-      "suffix": " hours of LED bulb usage.",
+      "unit": "hours",
+      "suffix": " of LED bulb usage.",
       "factor": 29
     },
     {
       "prefix": "Enough for ",
-      "suffix": " miles in an electric vehicle.",
+      "unit": "miles",
+      "suffix": " in an electric vehicle.",
       "factor": 3
     },
     {
@@ -71,7 +75,8 @@
     },
     {
       "prefix": "Covers about ",
-      "suffix": " months of streaming service.",
+      "unit": "months",
+      "suffix": " of streaming service.",
       "factor": 0.0667
     },
     {
