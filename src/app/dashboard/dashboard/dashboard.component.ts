@@ -22,9 +22,9 @@ export class DashboardComponent implements OnInit {
   totalEnergySavings = 0;
   totalCostSavings = 0;
 
-  readonly ghgEquivalent = equivalents.ghg[Math.floor(Math.random() * equivalents.ghg.length)];
-  readonly energyEquivalent = equivalents.energy[Math.floor(Math.random() * equivalents.energy.length)]
-  readonly costsEquivalent = equivalents.costs[Math.floor(Math.random() * equivalents.costs.length)];
+  ghgEquivalent = this.random(equivalents.ghg);
+  energyEquivalent = this.random(equivalents.energy);
+  costsEquivalent = this.random(equivalents.costs);
 
   ngOnInit() {
     this.route.queryParams.pipe(
@@ -36,6 +36,14 @@ export class DashboardComponent implements OnInit {
       this.totalEnergySavings = data.reduce((a, c) => a + c.kBTU_per_year_savings, 0);
       this.totalCostSavings = data.reduce((a, c) => a + c.cost_per_year_savings, 0);
     });
+  }
+
+  random<T>(arr: T[], current?: T): T {
+    let result: T;
+    do {
+      result = arr[Math.floor(Math.random() * arr.length)];
+    } while (result === current && arr.length > 1);
+    return result;
   }
 
   protected readonly equivalents = equivalents;

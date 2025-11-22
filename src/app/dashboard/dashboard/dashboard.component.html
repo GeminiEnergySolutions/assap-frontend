@@ -12,9 +12,11 @@
             {{ totalEnergySavings | number }}
             <small class="text-muted fw-light">kBTU/year</small>
           </h1>
-          {{ energyEquivalent.prefix }}
-          {{ totalEnergySavings * energyEquivalent.factor | number:'0.0-0' }}
-          {{ energyEquivalent.suffix }}
+          <button class="btn" (click)="energyEquivalent = random(equivalents.energy, energyEquivalent)">
+            {{ energyEquivalent.prefix }}
+            {{ totalEnergySavings * energyEquivalent.factor | number:'0.0-0' }}
+            {{ energyEquivalent.suffix }}
+          </button>
         </div>
       </div>
     </div>
@@ -28,9 +30,11 @@
             {{ totalGHGSavings | number }}
             <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>&nbsp;eq.</small>
           </h1>
-          {{ ghgEquivalent.prefix }}
-          {{ totalGHGSavings * ghgEquivalent.factor | number:'0.0-0' }}
-          {{ ghgEquivalent.suffix }}
+          <button class="btn" (click)="ghgEquivalent = random(equivalents.ghg, ghgEquivalent)">
+            {{ ghgEquivalent.prefix }}
+            {{ totalGHGSavings * ghgEquivalent.factor | number:'0.0-0' }}
+            {{ ghgEquivalent.suffix }}
+          </button>
         </div>
       </div>
     </div>
@@ -45,9 +49,11 @@
             {{ totalCostSavings | number:'0.2-2' }}
             <small class="text-muted fw-light">/year</small>
           </h1>
-          {{ costsEquivalent.prefix }}
-          {{ totalCostSavings * costsEquivalent.factor | number:'0.0-0' }}
-          {{ costsEquivalent.suffix }}
+          <button class="btn" (click)="costsEquivalent = random(equivalents.costs, costsEquivalent)">
+            {{ costsEquivalent.prefix }}
+            {{ totalCostSavings * costsEquivalent.factor | number:'0.0-0' }}
+            {{ costsEquivalent.suffix }}
+          </button>
         </div>
       </div>
     </div>
