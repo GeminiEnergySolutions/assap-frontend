@@ -1,0 +1,55 @@
+<div class="container text-center">
+  <h1>Welcome to Conserve!</h1>
+  <h2>Thanks to you, we could save:</h2>
+  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-white bg-primary">
+          <h4 class="my-0 fw-normal">Energy</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            {{ totalEnergySavings | number }}
+            <small class="text-muted fw-light">kBTU/year</small>
+          </h1>
+          {{ energyEquivalent.prefix }}
+          {{ totalEnergySavings * energyEquivalent.factor | number:'0.0-0' }}
+          {{ energyEquivalent.suffix }}
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-dark bg-empowerment">
+          <h4 class="my-0 fw-normal">Greenhouse Gas Emissions</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            {{ totalGHGSavings | number }}
+            <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>&nbsp;eq.</small>
+          </h1>
+          {{ ghgEquivalent.prefix }}
+          {{ totalGHGSavings * ghgEquivalent.factor | number:'0.0-0' }}
+          {{ ghgEquivalent.suffix }}
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3 text-white bg-dark">
+          <h4 class="my-0 fw-normal">Costs</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            <small class="text-muted fw-light">$</small>
+            {{ totalCostSavings | number:'0.2-2' }}
+            <small class="text-muted fw-light">/year</small>
+          </h1>
+          {{ costsEquivalent.prefix }}
+          {{ totalCostSavings * costsEquivalent.factor | number:'0.0-0' }}
+          {{ costsEquivalent.suffix }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
