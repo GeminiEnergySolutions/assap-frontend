@@ -28,7 +28,7 @@
         <div class="card-body">
           <h1 class="card-title pricing-card-title">
             {{ totalGHGSavings | number }}
-            <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>&nbsp;eq.</small>
+            <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small>
           </h1>
           <button class="btn" (click)="ghgEquivalent = random(equivalents.ghg, ghgEquivalent)">
             {{ ghgEquivalent.prefix }}
@@ -84,7 +84,7 @@
           <tr>
             <th>State</th>
             <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
-            <th>Emissions <small class="text-muted fw-light">kgCO<sub>2</sub>eq</small></th>
+            <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
             <th>Costs <small class="text-muted fw-light">$/year</small></th>
           </tr>
         </thead>
