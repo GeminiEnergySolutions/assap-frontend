@@ -20,7 +20,6 @@
             </b>
             {{ energyEquivalent.suffix }}
           </button>
-          <button class="btn btn-link stretched-link" (click)="selectData('kBTU_per_year_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
@@ -42,7 +41,6 @@
             </b>
             {{ ghgEquivalent.suffix }}
           </button>
-          <button class="btn btn-link stretched-link" (click)="selectData('GHG_emissions_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
@@ -65,7 +63,6 @@
             </b>
             {{ costsEquivalent.suffix }}
           </button>
-          <button class="btn btn-link stretched-link" (click)="selectData('cost_per_year_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
@@ -89,6 +86,17 @@
           }
         }
       }"></canvas>
+      <div class="btn-group mt-3">
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'kBTU_per_year_savings'" (click)="selectData('kBTU_per_year_savings'); chart.update()">
+          Energy
+        </button>
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'GHG_emissions_savings'" (click)="selectData('GHG_emissions_savings'); chart.update()">
+          Emissions
+        </button>
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'cost_per_year_savings'" (click)="selectData('cost_per_year_savings'); chart.update()">
+          Costs
+        </button>
+      </div>
     </div>
     <div class="col">
       <h2>States</h2>
