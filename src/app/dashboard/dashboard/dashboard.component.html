@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 mb-3">
+  <div class="row row-cols-1 row-cols-md-2 mb-3 border rounded p-3">
     <div class="col">
       <canvas baseChart #chart=base-chart type="choropleth" [data]="mapData" [legend]="false" [options]="{
         scales: {
@@ -91,6 +91,7 @@
       }"></canvas>
     </div>
     <div class="col">
+      <h2>States</h2>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -114,5 +115,36 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="rounded border p-3 mb-3">
+    <h2>Included Audits</h2>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>State</th>
+        <th>Audit</th>
+        <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
+        <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
+        <th>Costs <small class="text-muted fw-light">$/year</small></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (state of results; track state.stateId) {
+          @for (audit of state.included_audits; track audit.auditId) {
+            <tr>
+              <th>
+                {{ state.state_name || 'Other' }}
+              </th>
+              <th scope="row">
+                <a [routerLink]="['/audits', audit.auditId]">{{ audit.auditName }}</a>
+              </th>
+              <td>{{ audit.kBTU_per_year_savings ?? 0 | number }}</td>
+              <td>{{ audit.GHG_emissions_savings ?? 0 | number }}</td>
+              <td>{{ audit.cost_per_year_savings ?? 0 | currency }}</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
   </div>
 </div>
