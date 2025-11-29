@@ -99,7 +99,8 @@
             <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
             <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
             <th>Costs <small class="text-muted fw-light">$/year</small></th>
-            <th>Audits</th>
+            <th>Included Audits</th>
+            <th>Excluded Audits</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +111,20 @@
               <td>{{ state.GHG_emissions_savings ?? 0 | number }}</td>
               <td>{{ state.cost_per_year_savings ?? 0 | currency }}</td>
               <td>{{ state.included_audits.length }}</td>
+              <td [ngbTooltip]="state.excluded_audits.length ? excludedTooltip : null">
+                {{ state.excluded_audits.length }}
+                @if (state.excluded_audits.length) {
+                  <i class="bi-info-circle"></i>
+                }
+              </td>
+              <ng-template #excludedTooltip>
+                These audits were not included for stats because they are unfinished:
+                <ul>
+                  @for (audit of state.excluded_audits; track audit.auditId) {
+                    <li>{{ audit.auditName }}</li>
+                  }
+                </ul>
+              </ng-template>
             </tr>
           }
         </tbody>

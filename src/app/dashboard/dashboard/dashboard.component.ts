@@ -1,6 +1,7 @@
 import {CurrencyPipe, DecimalPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {registerables} from 'chart.js';
 import {
   ChoroplethChart,
@@ -25,6 +26,7 @@ const FIELDS = ['GHG_emissions_savings', 'kBTU_per_year_savings', 'cost_per_year
     BaseChartDirective,
     CurrencyPipe,
     RouterLink,
+    NgbTooltip,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(ChoroplethController, GeoFeature, ProjectionScale, ColorScale, ...registerables)),
