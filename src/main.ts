@@ -17,7 +17,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),
+    provideZoneChangeDetection({eventCoalescing: true}),
     {
       provide: HTTP_INTERCEPTORS,
       multi: true,

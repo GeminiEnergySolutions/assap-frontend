@@ -14,7 +14,15 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
-      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/ban-ts-comment": [
+        "error",
+        {
+          "ts-ignore": "allow-with-description",
+          "ts-expect-error": "allow-with-description",
+          "ts-nocheck": true,
+          "ts-check": false
+        }
+      ],
       "@angular-eslint/prefer-inject": "off",
       "@angular-eslint/directive-selector": [
         "error",
