@@ -88,9 +88,7 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "buildTarget": "conserve:build"
-          },
+          "options": {},
           "configurations": {
             "development": {
               "buildTarget": "conserve:build:development"

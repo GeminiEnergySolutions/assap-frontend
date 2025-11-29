@@ -22,8 +22,14 @@
         <a class="nav-item nav-link bi-ui-checks" routerLinkActive="active" routerLink="/schema-editor">
           Schema Editor
         </a>
+        <a class="nav-item nav-link bi-patch-question" [routerLink]="['', {outlets: {tutorial: ['edit']}}]" (click)="offcanvas.close()">
+          Edit Tutorial
+        </a>
       }
       <div class="flex-grow-1"></div>
+      <a class="nav-item nav-link bi-question-circle" [routerLink]="['', {outlets: {tutorial: ['select']}}]" (click)="offcanvas.close()">
+        Help
+      </a>
       @if (authService.currentLoginUser) {
         <a class="nav-item nav-link bi-gear" routerLinkActive="active" routerLink="/settings">
           Settings

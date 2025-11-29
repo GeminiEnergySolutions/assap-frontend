@@ -136,3 +136,12 @@ ul.pagination, ol.breadcrumb {
 .bg-empowerment {
   background-color: $ges-empowerment;
 }
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.tutorial-backdrop {
+  z-index: 2000;
+  box-shadow: 0 0 1rem 1rem rgba(#007bff, .5);
+}
