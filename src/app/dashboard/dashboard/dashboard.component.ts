@@ -53,9 +53,9 @@ export class DashboardComponent implements OnInit {
   selectedData: typeof FIELDS[number] = 'GHG_emissions_savings';
 
   ngOnInit() {
-    // @ts-expect-error taken from the example, can't bother with the types
+    // @ts-ignore taken from the example, can't bother with the types
     const nation = topojson.feature(us, us.objects.nation).features[0];
-    // @ts-expect-error see above
+    // @ts-ignore see above
     const states = topojson.feature(us, us.objects.states).features;
 
     this.route.queryParams.pipe(
