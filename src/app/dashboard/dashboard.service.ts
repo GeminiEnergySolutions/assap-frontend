@@ -16,12 +16,17 @@ export class DashboardService {
   }
 }
 
-export interface SummaryResult {
-  'stateId': number;
-  'state_name': string;
+export interface SummaryData {
   'GHG_emissions_savings': number;
   'kBTU_per_year_savings': number;
   'cost_per_year_savings': number;
-  'included_audits': Pick<Audit, 'auditId' | 'auditName'>[];
-  'excluded_audits': Pick<Audit, 'auditId' | 'auditName'>[];
 }
+
+export interface SummaryResult extends SummaryData {
+  'stateId': number;
+  'state_name': string;
+  'included_audits': SummaryAudit[];
+  'excluded_audits': SummaryAudit[];
+}
+
+export type SummaryAudit = Pick<Audit, 'auditId' | 'auditName'> & SummaryData;
