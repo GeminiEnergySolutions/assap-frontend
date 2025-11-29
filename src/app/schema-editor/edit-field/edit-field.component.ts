@@ -9,7 +9,7 @@ import {EditorComponent} from '../../shared/components/editor/editor.component';
 
 import {FormComponent} from '../../shared/form/form/form.component';
 import {icons} from '../../shared/icons';
-import {SchemaElement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
+import {SchemaElement, SchemaRequirement, SchemaSection, SchemaSubElement} from '../../shared/model/schema.interface';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {CopyPasteService} from '../../shared/services/copy-paste.service';
 import {SchemaContextService} from '../schema-context.service';
@@ -87,7 +87,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
           type: 'select',
           hint: 'The type of data this field represents',
           title: 'Data Type',
-          values: ['text', 'number', 'integer', 'date', 'bool'],
+          values: ['text', 'number', 'integer', 'date', 'time', 'bool'],
           required: true,
           inputList: [
             // --------------- Text ---------------
@@ -167,7 +167,7 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               hint: 'The physical unit or currency of the input field',
               required: false,
             },
-            // --------------- Date ---------------
+            // --------------- Date and Time ---------------
             {
               dependentKeyValue: 'date',
               key: 'isDateNow',
@@ -185,15 +185,22 @@ export class EditFieldComponent implements OnInit, OnDestroy {
               hint: 'The default date value for this field',
             },
             {
-              dependentKeyValue: 'date',
+              dependentKeyValue: 'time',
+              key: 'defaultValue',
+              dataType: 'time',
+              type: 'textBox',
+              title: 'Default Time Value',
+              hint: 'The default time value for this field',
+            },
+            {
+              dependentKeyValue: ['date', 'time'],
               key: 'type',
               dataType: 'text',
               type: 'select',
               title: 'Input Type',
               hint: 'The type of input field',
-              values: ['date'],
-              disabled: true,
-              defaultValue: 'date',
+              values: ['textBox'],
+              defaultValue: 'textBox',
             },
             // --------------- Boolean ---------------
             {
@@ -342,6 +349,27 @@ export class EditFieldComponent implements OnInit, OnDestroy {
   removeValidation(index: number) {
     this.field.validations?.splice(index, 1);
     this.setDirty();
+  }
+
+  copyValidation(validation: SchemaRequirement) {
+    this.copyPasteService.copy(validation).subscribe(() => {
+      this.toastService.success('Copied to Clipboard', 'Validation copied to clipboard');
+    });
+  }
+
+  pasteValidation() {
+    this.copyPasteService.paste<SchemaRequirement>([
+      'level',
+      'if',
+      'message',
+    ]).subscribe({
+      next: validation => {
+        (this.field.validations ??= []).push(validation);
+        this.setDirty();
+        this.toastService.success('Pasted', `Successfully pasted validation`);
+      },
+      error: error => this.toastService.error('Failed to Paste', 'Clipboard is empty or does not contain a valid validation', error),
+    });
   }
 
   addSubfield() {

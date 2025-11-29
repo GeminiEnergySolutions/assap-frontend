@@ -30,8 +30,11 @@ export interface CopySpec {
 export interface SchemaElement {
   // Required properties
   key: string;
-  dataType: 'text' | 'number' | 'integer' | 'date' | 'bool';
-  type: 'textBox' | 'select' | 'checkbox' | 'switch' | 'textArea' | 'date' | 'radio';
+  dataType: 'text' | 'number' | 'integer' | 'date' | 'time' | 'bool';
+  type:
+    'textBox' | 'select' | 'checkbox' | 'switch' | 'textArea' | 'radio'
+    | 'date' // historically used for date picker, but the same as textBox with dataType=date
+  ;
   title: string;
   hint: 'rq' | string;
 

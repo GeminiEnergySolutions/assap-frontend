@@ -133,6 +133,10 @@ ul.pagination, ol.breadcrumb {
   content: url("/assets/logos/Gemini-Icon.svg");
 }
 
+.bg-empowerment {
+  background-color: $ges-empowerment;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }

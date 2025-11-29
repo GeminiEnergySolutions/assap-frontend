@@ -2,7 +2,7 @@
   <button type="button" class="btn btn-link bi-three-dots" id="dropdown-equipment" ngbDropdownToggle>
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdown-equipment">
-    @if (equipment?.type?.name === 'HVAC') {
+    @if (equipment?.type?.equipment?.equipmentName === 'HVAC') {
       <h5 class="dropdown-header">
         HVAC Specific
       </h5>

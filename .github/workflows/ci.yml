@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 # https://github.com/actions/starter-workflows/blob/main/pages/static.yml

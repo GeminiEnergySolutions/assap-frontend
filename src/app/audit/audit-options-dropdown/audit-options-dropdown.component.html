@@ -19,17 +19,23 @@
       <button ngbDropdownItem class="bi-pencil-square" (click)="rename()">
         Rename
       </button>
-      @if ((authService.currentLoginUser?.role?.role === 'admin' || authService.currentLoginUser?.role?.role === 'superAdmin') && audit?.user?.role?.role !== 'guest') {
-        <a ngbDropdownItem class="bi-person-plus" [routerLink]="['/audits', audit?.auditId, 'data-collectors']">
-          Add DataCollector
-        </a>
-      }
       @if (authService.currentLoginUser?.role?.role !== 'dataCollector' || (audit?.user?.role?.role !== 'admin' && audit?.user?.role?.role !== 'superAdmin')) {
         <div class="dropdown-divider"></div>
         <button ngbDropdownItem class="text-danger bi-trash" (click)="delete()">
           Delete
         </button>
       }
+      <div class="dropdown-divider"></div>
+      <h6 class="dropdown-header">Audit Info</h6>
+      <div class="dropdown-item-text">
+        Created by <b [ngbTooltip]="audit?.user?.role?.role">{{ audit?.user?.userName | titlecase }}</b>
+      </div>
+      <div class="dropdown-item-text">
+        Created at <b [ngbTooltip]="audit?.createdOn | date:'long'">{{ audit?.createdOn | date:'short' }}</b>
+      </div>
+      <div class="dropdown-item-text">
+        Updated at <b [ngbTooltip]="audit?.updatedOn | date:'long'">{{ audit?.updatedOn | date:'short' }}</b>
+      </div>
     }
   </div>
 </div>

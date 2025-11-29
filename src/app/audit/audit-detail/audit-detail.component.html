@@ -2,21 +2,29 @@
   <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
 </ng-template>
 <div class="bg-dark text-light mb-3 p-3">
-  <h1>
-    @if (audit) {
-      {{ audit.auditName | titlecase }}
-    } @else {
-      <span class="rounded placeholder placeholder-glow">Loading...</span>
-    }
-  </h1>
-  <div class="d-flex align-items-center">
-    <div class="me-3 flex-grow-1">
-      <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
+  <div class="d-md-flex align-items-center">
+    <h1 class="flex-grow-1">
+      @if (audit) {
+        {{ audit.auditName | titlecase }}
+      } @else {
+        <span class="rounded placeholder placeholder-glow">Loading...</span>
+      }
+    </h1>
+    <div>
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-binoculars ms-2" routerLink="overview">
+        Overview
+      </a>
+      @if (authService.currentLoginUser?.role?.role !== 'guest') {
+        <a class="btn btn-sm btn-outline-light rounded-pill bi-people ms-2" routerLink="data-collectors">
+          Data Collectors
+        </a>
+      }
+      <a class="btn btn-sm btn-outline-light rounded-pill bi-image ms-2" routerLink="photos">
+        Images
+      </a>
     </div>
-    <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
-      Images
-    </a>
   </div>
+  <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
 </div>
 <div class="container">
   <app-feature-card
@@ -46,10 +54,6 @@
     title="Zones"
     routerLink="zones"
     [percentageQuery]="{progressType: 'zone', auditId: route.snapshot.params.aid}"
-  ></app-feature-card>
-  <app-feature-card
-    title="Overview"
-    routerLink="overview"
   ></app-feature-card>
   <router-outlet></router-outlet>
 </div>
