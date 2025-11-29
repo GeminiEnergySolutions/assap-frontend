@@ -68,18 +68,15 @@ export class DashboardComponent implements OnInit {
       this.totalCostSavings = data.reduce((a, c) => a + c.cost_per_year_savings, 0);
 
       this.mapData = {
-        labels: states.map((d: any) => d.properties.name),
+        labels: states.map((d: { properties: { name: string; }; }) => d.properties.name),
         datasets: FIELDS.map(f => ({
           label: f,
           outline: nation,
           hidden: f !== this.selectedData,
-          data: states.map((d: any) => {
-            const stateName: string = d.properties.name;
-            return ({
-              feature: d,
-              value: data.find(state => state.state_name === stateName)?.[f] ?? 0,
-            });
-          }),
+          data: states.map((d: { properties: { name: string; }; }) => ({
+            feature: d,
+            value: data.find(state => state.state_name === d.properties.name)?.[f] ?? 0,
+          })),
         })),
       };
     });

@@ -115,9 +115,9 @@
           @for (state of results; track state.stateId) {
             <tr>
               <th scope="row">{{ state.state_name || 'Other' }}</th>
-              <td>{{ state.kBTU_per_year_savings ?? 0 | number }}</td>
-              <td>{{ state.GHG_emissions_savings ?? 0 | number }}</td>
-              <td>{{ state.cost_per_year_savings ?? 0 | currency }}</td>
+              <td>{{ state.kBTU_per_year_savings | number }}</td>
+              <td>{{ state.GHG_emissions_savings | number }}</td>
+              <td>{{ state.cost_per_year_savings | currency }}</td>
               <td>{{ state.included_audits.length }}</td>
               <td [ngbTooltip]="state.excluded_audits.length ? excludedTooltip : null">
                 {{ state.excluded_audits.length }}
@@ -155,15 +155,13 @@
         @for (state of results; track state.stateId) {
           @for (audit of state.included_audits; track audit.auditId) {
             <tr>
-              <th>
-                {{ state.state_name || 'Other' }}
-              </th>
+              <td>{{ state.state_name || 'Other' }}</td>
               <th scope="row">
                 <a [routerLink]="['/audits', audit.auditId]">{{ audit.auditName }}</a>
               </th>
-              <td>{{ audit.kBTU_per_year_savings ?? 0 | number }}</td>
-              <td>{{ audit.GHG_emissions_savings ?? 0 | number }}</td>
-              <td>{{ audit.cost_per_year_savings ?? 0 | currency }}</td>
+              <td>{{ audit.kBTU_per_year_savings | number }}</td>
+              <td>{{ audit.GHG_emissions_savings | number }}</td>
+              <td>{{ audit.cost_per_year_savings | currency }}</td>
             </tr>
           }
         }
