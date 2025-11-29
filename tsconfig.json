@@ -14,10 +14,6 @@
     "module": "es2020",
     "strict": true,
     "skipLibCheck": true,
-    "lib": [
-      "es2020",
-      "dom"
-    ],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
