@@ -3,7 +3,7 @@
   <h2>Thanks to you, we could save:</h2>
   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-white bg-primary">
           <h4 class="my-0 fw-normal">Energy</h4>
         </div>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-dark bg-empowerment">
           <h4 class="my-0 fw-normal">Greenhouse Gas Emissions</h4>
         </div>
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-white bg-dark">
           <h4 class="my-0 fw-normal">Costs</h4>
         </div>
@@ -68,9 +68,9 @@
     </div>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 mb-3">
+  <div class="row row-cols-1 row-cols-md-2 mb-3 border rounded p-3">
     <div class="col">
-      <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
+      <canvas baseChart #chart=base-chart type="choropleth" [data]="mapData" [legend]="false" [options]="{
         scales: {
           projection: {
             axis: 'x',
@@ -86,8 +86,20 @@
           }
         }
       }"></canvas>
+      <div class="btn-group mt-3">
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'kBTU_per_year_savings'" (click)="selectData('kBTU_per_year_savings'); chart.update()">
+          Energy
+        </button>
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'GHG_emissions_savings'" (click)="selectData('GHG_emissions_savings'); chart.update()">
+          Emissions
+        </button>
+        <button class="btn btn-sm btn-primary" [class.active]="selectedData === 'cost_per_year_savings'" (click)="selectData('cost_per_year_savings'); chart.update()">
+          Costs
+        </button>
+      </div>
     </div>
     <div class="col">
+      <h2>States</h2>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -95,21 +107,65 @@
             <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
             <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
             <th>Costs <small class="text-muted fw-light">$/year</small></th>
-            <th>Audits</th>
+            <th>Included Audits</th>
+            <th>Excluded Audits</th>
           </tr>
         </thead>
         <tbody>
           @for (state of results; track state.stateId) {
             <tr>
               <th scope="row">{{ state.state_name || 'Other' }}</th>
-              <td>{{ state.kBTU_per_year_savings ?? 0 | number }}</td>
-              <td>{{ state.GHG_emissions_savings ?? 0 | number }}</td>
-              <td>{{ state.cost_per_year_savings ?? 0 | currency }}</td>
+              <td>{{ state.kBTU_per_year_savings | number }}</td>
+              <td>{{ state.GHG_emissions_savings | number }}</td>
+              <td>{{ state.cost_per_year_savings | currency }}</td>
               <td>{{ state.included_audits.length }}</td>
+              <td [ngbTooltip]="state.excluded_audits.length ? excludedTooltip : null">
+                {{ state.excluded_audits.length }}
+                @if (state.excluded_audits.length) {
+                  <i class="bi-info-circle"></i>
+                }
+              </td>
+              <ng-template #excludedTooltip>
+                These audits were not included for stats because they are unfinished:
+                <ul>
+                  @for (audit of state.excluded_audits; track audit.auditId) {
+                    <li>{{ audit.auditName }}</li>
+                  }
+                </ul>
+              </ng-template>
             </tr>
           }
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="rounded border p-3 mb-3">
+    <h2>Included Audits</h2>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>State</th>
+        <th>Audit</th>
+        <th>Energy <small class="text-muted fw-light">kBTU/year</small></th>
+        <th>Emissions <small class="text-muted fw-light">kg&nbsp;CO<sub>2</sub>e</small></th>
+        <th>Costs <small class="text-muted fw-light">$/year</small></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (state of results; track state.stateId) {
+          @for (audit of state.included_audits; track audit.auditId) {
+            <tr>
+              <td>{{ state.state_name || 'Other' }}</td>
+              <th scope="row">
+                <a [routerLink]="['/audits', audit.auditId]">{{ audit.auditName }}</a>
+              </th>
+              <td>{{ audit.kBTU_per_year_savings | number }}</td>
+              <td>{{ audit.GHG_emissions_savings | number }}</td>
+              <td>{{ audit.cost_per_year_savings | currency }}</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
   </div>
 </div>
