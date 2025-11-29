@@ -3,7 +3,7 @@
   <h2>Thanks to you, we could save:</h2>
   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-white bg-primary">
           <h4 class="my-0 fw-normal">Energy</h4>
         </div>
@@ -20,11 +20,12 @@
             </b>
             {{ energyEquivalent.suffix }}
           </button>
+          <button class="btn btn-link stretched-link" (click)="selectData('kBTU_per_year_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-dark bg-empowerment">
           <h4 class="my-0 fw-normal">Greenhouse Gas Emissions</h4>
         </div>
@@ -41,11 +42,12 @@
             </b>
             {{ ghgEquivalent.suffix }}
           </button>
+          <button class="btn btn-link stretched-link" (click)="selectData('GHG_emissions_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card mb-4 rounded-3 shadow">
         <div class="card-header py-3 text-white bg-dark">
           <h4 class="my-0 fw-normal">Costs</h4>
         </div>
@@ -63,6 +65,7 @@
             </b>
             {{ costsEquivalent.suffix }}
           </button>
+          <button class="btn btn-link stretched-link" (click)="selectData('cost_per_year_savings'); chart.update()"></button>
         </div>
       </div>
     </div>
@@ -70,7 +73,7 @@
 
   <div class="row row-cols-1 row-cols-md-2 mb-3">
     <div class="col">
-      <canvas baseChart type="choropleth" [data]="mapData" [legend]="false" [options]="{
+      <canvas baseChart #chart=base-chart type="choropleth" [data]="mapData" [legend]="false" [options]="{
         scales: {
           projection: {
             axis: 'x',
