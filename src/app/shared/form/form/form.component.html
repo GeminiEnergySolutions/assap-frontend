@@ -45,11 +45,13 @@
             <button
               class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2"
               ngbTooltip="Copy Section"
+              aria-label="Copy Section"
               (click)="copySection(schema); $event.stopPropagation()"
             ></button>
             <a
               class="btn m-0 p-0 btn-link bi-pencil me-2"
               ngbTooltip="Edit Section"
+              aria-label="Edit Section"
               [routerLink]="['section', schema.id]" [state]="{section: schema}"
               (click)="$event.stopPropagation()"
             ></a>
@@ -65,6 +67,7 @@
             <button
               class="btn m-0 p-0 btn-link text-danger bi-trash me-2"
               ngbTooltip="Remove Section"
+              aria-label="Remove Section"
               [disabled]="!collapsed"
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
@@ -101,11 +104,13 @@
                       <button
                         class="btn m-0 p-1 btn-link text-secondary bi-clipboard"
                         ngbTooltip="Copy Field"
+                        aria-label="Copy Field"
                         (click)="copyField(element); $event.stopPropagation()"
                       ></button>
                       <a
                         class="btn m-0 p-1 btn-link bi-pencil"
                         ngbTooltip="Edit Field"
+                        aria-label="Edit Field"
                         [routerLink]="['field', element.key]"
                       ></a>
                       <div
@@ -116,6 +121,7 @@
                       <button
                         class="btn m-0 p-1 btn-link text-danger bi-trash"
                         ngbTooltip="Remove Field"
+                        aria-label="Remove Field"
                         (click)="removeFormElement(schema, $index)"
                       ></button>
                     </div>
@@ -135,7 +141,12 @@
               <button class="btn btn-success bi-plus-lg me-2" (click)="addFormElement(schema)">
                 Add Field
               </button>
-              <button class="btn btn-secondary bi-clipboard-plus me-2" ngbTooltip="Paste Field" (click)="pasteField(schema)"></button>
+              <button
+                class="btn btn-secondary bi-clipboard-plus me-2"
+                ngbTooltip="Paste Field"
+                aria-label="Paste Field"
+                (click)="pasteField(schema)"
+              ></button>
             }
           </ng-template>
         </div>

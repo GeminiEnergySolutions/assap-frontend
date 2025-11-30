@@ -55,6 +55,7 @@
     @let breadcrumbs = breadcrumbService.breadcrumbs$ | async;
     <button
       class="btn btn-link bi-list"
+      aria-label="Menu"
       [class.d-none]="breadcrumbs && breadcrumbs.length > 1"
       [class.d-sm-block]="breadcrumbs && breadcrumbs.length > 1"
       (click)="offcanvas.open(content)"
@@ -63,6 +64,7 @@
       @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
       <a
         class="btn btn-link bi-chevron-left d-block d-sm-none"
+        aria-label="Back"
         [routerLink]="prevBreadcrumb.routerLink" [relativeTo]="prevBreadcrumb.relativeTo"
         [ngbTooltip]="prevBreadcrumb.label"
       ></a>
@@ -97,7 +99,7 @@
     @if (breadcrumbService.options) {
       <ng-container [ngTemplateOutlet]="breadcrumbService.options"/>
     } @else {
-      <button class="btn btn-link bi-three-dots" disabled></button>
+      <button class="btn btn-link bi-three-dots" disabled aria-hidden="true"></button>
     }
   </div>
 </nav>

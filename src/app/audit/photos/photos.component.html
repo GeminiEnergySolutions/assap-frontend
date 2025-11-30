@@ -55,7 +55,12 @@
       >
       <div class="overlay">
         {{ text }}
-        <button class="btn btn-link bi-trash" ngbTooltip="Delete" (click)="deletePhoto(item.id)"></button>
+        <button
+          class="btn btn-link bi-trash"
+          ngbTooltip="Delete"
+          aria-label="Delete"
+          (click)="deletePhoto(item.id)"
+        ></button>
       </div>
     </div>
   }

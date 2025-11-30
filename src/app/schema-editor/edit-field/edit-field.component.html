@@ -30,7 +30,12 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addValidation()">
       Add Validation
     </button>
-    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteValidation()" ngbTooltip="Paste Validation"></button>
+    <button
+      class="btn btn-secondary bi-clipboard-plus ms-2"
+      ngbTooltip="Paste Validation"
+      aria-label="Paste Validation"
+      (click)="pasteValidation()"
+    ></button>
   </h2>
   <ng-template #popup>
     <dl>
@@ -104,8 +109,18 @@
             />
           </div>
           <div class="col-auto">
-            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" ngbTooltip="Copy Validation" (click)="copyValidation(validation)"></button>
-            <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Validation" (click)="removeValidation($index)"></button>
+            <button
+              class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2"
+              ngbTooltip="Copy Validation"
+              aria-label="Copy Validation"
+              (click)="copyValidation(validation)"
+            ></button>
+            <button
+              class="btn m-0 p-0 btn-link text-danger bi-trash"
+              ngbTooltip="Remove Validation"
+              aria-label="Remove Validation"
+              (click)="removeValidation($index)"
+            ></button>
           </div>
         </div>
       </div>
@@ -120,7 +135,12 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addSubfield()">
       Add Subfield
     </button>
-    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteSubfield()" ngbTooltip="Paste Subfield"></button>
+    <button
+      class="btn btn-secondary bi-clipboard-plus ms-2"
+      ngbTooltip="Paste Subfield"
+      aria-label="Paste Subfield"
+      (click)="pasteSubfield()"
+    ></button>
   </h2>
   <div class="list-group mb-3" cdkDropList (cdkDropListDropped)="dropSubfield($event)">
     @for (subField of field.inputList; track subField.key) {
@@ -177,10 +197,30 @@
             />
           </div>
           <div class="col-auto">
-            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" ngbTooltip="Copy Subfield" (click)="copySubfield(subField)"></button>
-            <a class="btn m-0 p-0 btn-link bi-pencil me-2" ngbTooltip="Edit Subfield" [routerLink]="['..', subField.key]"></a>
-            <div class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2" cdkDragHandle ngbTooltip="Drag to Reorder"></div>
-            <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Subfield" (click)="removeSubfield($index)"></button>
+            <button
+              class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2"
+              ngbTooltip="Copy Subfield"
+              aria-label="Copy Subfield"
+              (click)="copySubfield(subField)"
+            ></button>
+            <a
+              class="btn m-0 p-0 btn-link bi-pencil me-2"
+              ngbTooltip="Edit Subfield"
+              aria-label="Edit Subfield"
+              [routerLink]="['..', subField.key]"
+            ></a>
+            <div
+              class="btn m-0 p-0 btn-link text-secondary bi-grip-vertical me-2"
+              cdkDragHandle
+              ngbTooltip="Drag to Reorder"
+              aria-label="Drag to Reorder"
+            ></div>
+            <button
+              class="btn m-0 p-0 btn-link text-danger bi-trash"
+              ngbTooltip="Remove Subfield"
+              aria-label="Remove Subfield"
+              (click)="removeSubfield($index)"
+            ></button>
           </div>
         </div>
       </div>
