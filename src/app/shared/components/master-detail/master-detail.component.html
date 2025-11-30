@@ -2,15 +2,15 @@
   <div class="col-lg-3 h-100 overflow-auto master" style="margin-bottom: 20px;" routerLinkActive="master-active"
     [routerLinkActiveOptions]="{exact: true}">
     <a class="d-none" routerLink="."></a>
-    <ng-content select="[header]"></ng-content>
+    <ng-content select="[header]"/>
     <div class="p-3">
-      <ng-content select="[list]"></ng-content>
+      <ng-content select="[list]"/>
     </div>
   </div>
   <div class="col-lg-9 h-100 overflow-auto detail" [class.detail-active]="outlet.isActivated">
-    <router-outlet #outlet=outlet></router-outlet>
+    <router-outlet #outlet="outlet" />
     @if (!outlet.isActivated) {
-      <ng-content select="[default]"></ng-content>
+      <ng-content select="[default]"/>
     }
   </div>
 </div>

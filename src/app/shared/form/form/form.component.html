@@ -22,7 +22,12 @@
           <div class="flex-grow-1">
             {{ schema.name }}
             @if (schema.summary || schema.docs) {
-              <app-help-icon [title]="schema.name" [summary]="schema.summary" [docs]="schema.docs" (click)="$event.stopPropagation()"></app-help-icon>
+              <app-help-icon
+                [title]="schema.name"
+                [summary]="schema.summary"
+                [docs]="schema.docs"
+                (click)="$event.stopPropagation()"
+              />
             }
             @if (search && elements.length) {
               <span class="text-muted me-2">({{ elements.length }})</span>
@@ -64,7 +69,7 @@
               (click)="deleted.next(schema); $event.stopPropagation()"
             ></button>
           } @else {
-            <app-progress-bar class="w-25" [status]="false" [progress]="progressPerSection[schema.id]"></app-progress-bar>
+            <app-progress-bar class="w-25" [status]="false" [progress]="progressPerSection[schema.id]"/>
           }
         </button>
       </h2>
@@ -89,7 +94,7 @@
                       [formId]="formId + '/s-' + schema.id"
                       [formData]="formData"
                       (dirty)="setDirty(); updateProgress(schema)"
-                    ></app-form-element>
+                    />
                   }
                   @if (editable) {
                     <div class="position-absolute top-0 end-0 rounded border bg-blur">

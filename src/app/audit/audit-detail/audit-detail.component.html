@@ -1,5 +1,5 @@
 <ng-template #options>
-  <app-audit-options-dropdown [audit]="audit"></app-audit-options-dropdown>
+  <app-audit-options-dropdown [audit]="audit"/>
 </ng-template>
 <div class="bg-dark text-light mb-3 p-3">
   <div class="d-md-flex align-items-center">
@@ -24,7 +24,7 @@
       </a>
     </div>
   </div>
-  <app-progress-bar [progress]="auditService.currentProgress"></app-progress-bar>
+  <app-progress-bar [progress]="auditService.currentProgress"/>
 </div>
 <div class="container">
   <app-feature-card
@@ -32,14 +32,14 @@
     title="Pre-Audit"
     routerLink="preaudit"
     [percentageQuery]="{progressType: 'preAudit', auditId: route.snapshot.params.aid}"
-  ></app-feature-card>
+  />
   @if (audit?.grantStatus) {
     <app-feature-card
       [icon]="icons.grants"
       title="Grants"
       routerLink="grants"
       [percentageQuery]="{progressType: 'grants', auditId: route.snapshot.params.aid}"
-    ></app-feature-card>
+    />
   }
   @if (audit?.cehStatus) {
     <app-feature-card
@@ -47,13 +47,13 @@
       title="Clean Energy Hub"
       routerLink="cleanenergyhub"
       [percentageQuery]="{progressType: 'ceh', auditId: route.snapshot.params.aid}"
-    ></app-feature-card>
+    />
   }
   <app-feature-card
     [icon]="icons.zone"
     title="Zones"
     routerLink="zones"
     [percentageQuery]="{progressType: 'zone', auditId: route.snapshot.params.aid}"
-  ></app-feature-card>
-  <router-outlet></router-outlet>
+  />
+  <router-outlet/>
 </div>

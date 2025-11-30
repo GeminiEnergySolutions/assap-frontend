@@ -18,7 +18,7 @@
   </h1>
   <div class="d-flex align-items-center">
     <div class="me-3 flex-grow-1">
-      <app-progress-bar [progress]="progress"></app-progress-bar>
+      <app-progress-bar [progress]="progress"/>
     </div>
     <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
       Images
@@ -33,10 +33,10 @@
       [formData]="formData"
       [formId]="'audits/' + auditId + '/subtypes/' + equipmentId"
       (saved)="save()"
-    ></app-form>
+    />
   } @else {
-    <app-list-placeholder></app-list-placeholder>
+    <app-list-placeholder/>
   }
-  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
+  <app-photo-capture (photoUploaded)="uploadPhoto($event)"/>
 </div>
-<router-outlet></router-outlet>
+<router-outlet/>

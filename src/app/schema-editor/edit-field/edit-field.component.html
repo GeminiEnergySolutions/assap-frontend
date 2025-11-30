@@ -5,18 +5,24 @@
   <h2>
     Basic Information
   </h2>
-  <app-form [typeSchema]="metaSchema" [formData]="{data: $any(field)}" (saved)="save()" [dirty]="!!section?._dirty" (dirtyChange)="setDirty($event)"></app-form>
+  <app-form
+    [typeSchema]="metaSchema"
+    [formData]="{data: $any(field)}"
+    (saved)="save()"
+    [dirty]="!!section?._dirty"
+    (dirtyChange)="setDirty($event)"
+  />
   <h2>
     Summary
   </h2>
   <div class="mb-3">
-    <app-editor [ngModel]="field.summary" (ngModelChange)="setDocs('summary', $event)"></app-editor>
+    <app-editor [ngModel]="field.summary" (ngModelChange)="setDocs('summary', $event)"/>
   </div>
   <h2>
     Documentation
   </h2>
   <div class="mb-3">
-    <app-editor [ngModel]="field.docs" (ngModelChange)="setDocs('docs', $event)"></app-editor>
+    <app-editor [ngModel]="field.docs" (ngModelChange)="setDocs('docs', $event)"/>
   </div>
   <h2 class="d-flex align-items-center">
     Validation
