@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AuditService, PercentageQuery} from '../../services/audit.service';
-import {PercentageCompletion} from '../../model/percentage-completion.interface';
-import {BehaviorSubject, of, switchMap} from 'rxjs';
-import {ProgressBarComponent} from '../progress-bar/progress-bar.component';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {BehaviorSubject, of, switchMap} from 'rxjs';
+import {PercentageCompletion} from '../../model/percentage-completion.interface';
+import {AuditService, PercentageQuery} from '../../services/audit.service';
+import {ProgressBarComponent} from '../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-feature-card',
@@ -15,6 +15,8 @@ import {RouterLink} from '@angular/router';
   ],
 })
 export class FeatureCardComponent implements OnInit {
+  private auditService = inject(AuditService);
+
   @Input() icon?: string;
   @Input({required: true}) title!: string;
   @Input() subtitle?: string;
@@ -23,11 +25,6 @@ export class FeatureCardComponent implements OnInit {
   readonly percentageQuery$ = new BehaviorSubject<PercentageQuery | undefined>(undefined);
 
   progress?: PercentageCompletion;
-
-  constructor(
-    private readonly auditService: AuditService,
-  ) {
-  }
 
   @Input()
   set percentageQuery(query: PercentageQuery | undefined) {

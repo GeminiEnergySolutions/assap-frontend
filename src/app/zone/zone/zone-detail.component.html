@@ -1,5 +1,5 @@
 <ng-template #options>
-  <app-zone-options-dropdown [zone]="zone"></app-zone-options-dropdown>
+  <app-zone-options-dropdown [zone]="zone"/>
 </ng-template>
 <div class="bg-dark text-light mb-3 p-3">
   <h1>
@@ -11,7 +11,7 @@
   </h1>
   <div class="d-flex align-items-center">
     <div class="me-3 flex-grow-1">
-      <app-progress-bar [progress]="progress"></app-progress-bar>
+      <app-progress-bar [progress]="progress"/>
     </div>
     <a class="btn btn-sm btn-outline-light rounded-pill bi-image" routerLink="photos">
       Images
@@ -24,14 +24,14 @@
     title="Zone Details"
     routerLink="details"
     [percentageQuery]="{progressType: 'zoneDetails', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid}"
-  ></app-feature-card>
+  />
   <hr/>
   @for (equipment of equipments; track equipment.id) {
     <app-feature-card
       [title]="equipment.equipmentName | titlecase"
       [routerLink]="['equipments', equipment.id]"
       [percentageQuery]="{progressType: 'equipment', auditId: route.snapshot.params.aid, zoneId: route.snapshot.params.zid, equipmentId: equipment.id}"
-    ></app-feature-card>
+    />
   }
-  <app-photo-capture (photoUploaded)="uploadPhoto($event)"></app-photo-capture>
+  <app-photo-capture (photoUploaded)="uploadPhoto($event)"/>
 </div>

@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {switchMap, tap} from 'rxjs';
 
@@ -26,19 +26,16 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
   ],
 })
 export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  protected auditService = inject(AuditService);
+  protected route = inject(ActivatedRoute);
+  protected authService = inject(AuthService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   audit?: Audit;
 
   protected readonly icons = icons;
-
-  constructor(
-    public auditService: AuditService,
-    public route: ActivatedRoute,
-    protected authService: AuthService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   ngOnInit(): void {
     const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '.', relativeTo: this.route};

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {Observable, switchMap, tap} from 'rxjs';
@@ -28,6 +28,13 @@ import {SchemaService} from '../../shared/services/schema.service';
   ],
 })
 export class ZoneFormComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private auditService = inject(AuditService);
+  private zoneService = inject(AuditZoneService);
+  private schemaService = inject(SchemaService);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
@@ -35,16 +42,6 @@ export class ZoneFormComponent implements OnInit, SaveableChangesComponent, OnDe
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
   formData?: ZoneData;
-
-  constructor(
-    private route: ActivatedRoute,
-    private auditService: AuditService,
-    private zoneService: AuditZoneService,
-    private schemaService: SchemaService,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   isSaved(): boolean {
     return !this.form || this.form.isSaved();

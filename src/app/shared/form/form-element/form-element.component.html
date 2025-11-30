@@ -10,7 +10,7 @@
       <span class="text-danger" ngbTooltip="Required">*</span>
     }
     @if (element.summary || element.docs) {
-      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"/>
     }
   </label>
 }
@@ -27,7 +27,7 @@
   <label class="form-check-label" [for]="id">
     {{ element.title }}
     @if (element.summary || element.docs) {
-      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"></app-help-icon>
+      <app-help-icon [title]="element.title" [summary]="element.summary" [docs]="element.docs"/>
     }
   </label>
   @if (element.hint) {
@@ -66,12 +66,12 @@
   }
   @case ("checkbox") {
     <div class="form-check">
-      <ng-container [ngTemplateOutlet]="checkbox"></ng-container>
+      <ng-container [ngTemplateOutlet]="checkbox"/>
     </div>
   }
   @case ("switch") {
     <div class="form-check form-switch">
-      <ng-container [ngTemplateOutlet]="checkbox"></ng-container>
+      <ng-container [ngTemplateOutlet]="checkbox"/>
     </div>
   }
   @case ("radio") {
@@ -133,6 +133,6 @@
 }
 @for (child of childElements; track child // cannot track key because it might be duplicated) {
   <div class="ms-3 mt-3">
-    <app-form-element [element]="child" [formId]="formId" [formData]="formData" (dirty)="dirty.emit()"></app-form-element>
+    <app-form-element [element]="child" [formId]="formId" [formData]="formData" (dirty)="dirty.emit()"/>
   </div>
 }

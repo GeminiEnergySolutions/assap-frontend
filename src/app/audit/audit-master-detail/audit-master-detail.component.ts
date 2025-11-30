@@ -1,5 +1,5 @@
 import {KeyValuePipe, TitleCasePipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {
@@ -12,12 +12,12 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {EMPTY, switchMap} from 'rxjs';
 import {ListPlaceholderComponent} from '../../shared/components/list-placeholder/list-placeholder.component';
+import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
+import {Audit} from '../../shared/model/audit.interface';
 import {SearchPipe} from '../../shared/pipe/search.pipe';
 
 import {AuditService} from '../../shared/services/audit.service';
 import {AuthService} from '../../shared/services/auth.service';
-import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
-import {Audit} from '../../shared/model/audit.interface';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-options-dropdown.component';
 
@@ -44,17 +44,14 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
   ],
 })
 export class AuditMasterDetailComponent implements OnInit {
+  protected authService = inject(AuthService);
+  private auditService = inject(AuditService);
+  private route = inject(ActivatedRoute);
+  private breadcrumbService = inject(BreadcrumbService);
+  private router = inject(Router);
+
   audits?: Record<string, Audit[]>;
   search = '';
-
-  constructor(
-    private auditService: AuditService,
-    public authService: AuthService,
-    private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
-    private router: Router,
-  ) {
-  }
 
   ngOnInit(): void {
     this.breadcrumbService.setBreadcrumbs([

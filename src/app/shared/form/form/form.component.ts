@@ -1,6 +1,6 @@
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -50,6 +50,9 @@ import {FormElementComponent} from '../form-element/form-element.component';
   ],
 })
 export class FormComponent implements OnInit, SaveableChangesComponent {
+  private toastService = inject(ToastService);
+  private copyPasteService = inject(CopyPasteService);
+
   @Input({required: true}) typeSchema!: SchemaSection[];
   @Input({required: true}) formData!: { id?: string | number; data: Partial<Record<string, SchemaValue>> };
   /** for offline storage */
@@ -64,12 +67,6 @@ export class FormComponent implements OnInit, SaveableChangesComponent {
   search = '';
 
   progressPerSection: Partial<Record<number, PercentageCompletion>> = {};
-
-  constructor(
-    private toastService: ToastService,
-    private copyPasteService: CopyPasteService,
-  ) {
-  }
 
   ngOnInit() {
     for (const section of this.typeSchema) {

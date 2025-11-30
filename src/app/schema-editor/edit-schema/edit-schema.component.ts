@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -29,22 +29,19 @@ import {SchemaContextService} from '../schema-context.service';
   ],
 })
 export class EditSchemaComponent implements OnInit, SaveableChangesComponent {
+  protected route = inject(ActivatedRoute);
+  private schemaService = inject(SchemaService);
+  private equipmentService = inject(EquipmentService);
+  private schemaContext = inject(SchemaContextService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private toastService = inject(ToastService);
+  private copyPasteService = inject(CopyPasteService);
+  private promptModalService = inject(PromptModalService);
+
   kind: SchemaKind = 'preAudit';
   title = '';
   schemaSections: SchemaSection[] = [];
   equipmentType?: EquipmentType;
-
-  constructor(
-    protected route: ActivatedRoute,
-    private schemaService: SchemaService,
-    private equipmentService: EquipmentService,
-    private schemaContext: SchemaContextService,
-    private breadcrumbService: BreadcrumbService,
-    private toastService: ToastService,
-    private copyPasteService: CopyPasteService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   isSaved(): boolean {
     return this.schemaSections.every(section => !section._dirty);

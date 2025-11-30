@@ -1,19 +1,15 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {User} from '../model/user.interface';
 import {Response} from '../model/response.interface';
+import {User} from '../model/user.interface';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
+  private http = inject(HttpClient);
 
   currentLoginUser?: User;
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
 
   getAuthToken() {
     return localStorage.getItem('accessToken');

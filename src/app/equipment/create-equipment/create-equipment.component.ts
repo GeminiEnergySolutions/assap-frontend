@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {switchMap} from 'rxjs';
-import {EquipmentService} from '../../shared/services/equipment.service';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EquipmentType} from '../../shared/model/equipment.interface';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {switchMap} from 'rxjs';
+import {EquipmentType} from '../../shared/model/equipment.interface';
+import {EquipmentService} from '../../shared/services/equipment.service';
 
 @Component({
   selector: 'app-create-equipment',
@@ -18,18 +18,15 @@ import {FormsModule} from '@angular/forms';
   ],
 })
 export class CreateEquipmentComponent implements OnInit {
+  protected equipmentService = inject(EquipmentService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+
   types: EquipmentType[] = [];
 
   name = '';
   type?: EquipmentType;
-
-  constructor(
-    private route: ActivatedRoute,
-    protected equipmentService: EquipmentService,
-    private toastService: ToastService,
-    private router: Router,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(

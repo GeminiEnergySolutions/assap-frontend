@@ -1,16 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Observable, switchMap} from 'rxjs';
-import {Response} from '../model/response.interface';
-import {Photo, PhotoInfo, PhotoQuery} from '../model/photo.interface';
 import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {Observable, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {Photo, PhotoInfo, PhotoQuery} from '../model/photo.interface';
+import {Response} from '../model/response.interface';
 
 @Injectable({providedIn: 'root'})
 export class PhotoService {
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   getPhotos(query: PhotoQuery): Observable<Response<{
     photos: Photo[];

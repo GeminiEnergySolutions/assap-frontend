@@ -1,16 +1,13 @@
-import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 import {Response} from '../model/response.interface';
 import {User} from '../model/user.interface';
-import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class DataCollectorService {
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   getDataCollectors(auditId: number, type: 'assigned' | 'unassigned' = 'assigned'): Observable<Response<User[]>> {
     return this.http.get<Response<User[]>>(`${environment.url}api/audit/${auditId}/dataCollector`, {

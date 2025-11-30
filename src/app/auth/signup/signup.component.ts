@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {TitleCasePipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from 'src/app/shared/services/auth.service';
 import {BrandHeaderComponent} from '../brand-header/brand-header.component';
-import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -19,19 +19,16 @@ import {TitleCasePipe} from '@angular/common';
   ],
 })
 export class SignupComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+
   readonly userTypes = ['guest', 'dataCollector'] as const;
 
   signupForm!: FormGroup;
   selectedUserType: (typeof this.userTypes)[number] = 'guest';
   submitting = false;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({

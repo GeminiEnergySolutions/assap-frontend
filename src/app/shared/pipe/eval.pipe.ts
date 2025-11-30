@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {inject, Pipe, PipeTransform} from '@angular/core';
 import {ExpressionService} from '../services/expression.service';
 
 @Pipe({
@@ -6,10 +6,7 @@ import {ExpressionService} from '../services/expression.service';
   pure: true,
 })
 export class EvalPipe implements PipeTransform {
-  constructor(
-    private expressionService: ExpressionService,
-  ) {
-  }
+  private expressionService = inject(ExpressionService);
 
   transform(expression: string, context?: Record<string, unknown>): Promise<unknown> {
     return this.expressionService.eval(expression, context);

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
@@ -23,21 +23,18 @@ import {EquipmentService} from '../../shared/services/equipment.service';
   ],
 })
 export class DuplicateEquipmentModalComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private equipmentService = inject(EquipmentService);
+  private zoneService = inject(AuditZoneService);
+  private toastService = inject(ToastService);
+
   zones: Zone[] = [];
 
   toDuplicate?: Equipment;
   newName = '';
   zoneSearch = '';
   selectedZones = new Set<number>;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private equipmentService: EquipmentService,
-    private zoneService: AuditZoneService,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(

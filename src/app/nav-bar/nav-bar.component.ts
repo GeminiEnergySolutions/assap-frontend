@@ -1,5 +1,5 @@
 import {AsyncPipe, NgTemplateOutlet, TitleCasePipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,13 +20,10 @@ import {BreadcrumbService} from '../shared/services/breadcrumb.service';
   ],
 })
 export class NavBarComponent {
-  constructor(
-    public authService: AuthService,
-    protected offcanvas: NgbOffcanvas,
-    private router: Router,
-    protected breadcrumbService: BreadcrumbService,
-  ) {
-  }
+  protected authService = inject(AuthService);
+  protected offcanvas = inject(NgbOffcanvas);
+  protected breadcrumbService = inject(BreadcrumbService);
+  private router = inject(Router);
 
   logout(): void {
     this.authService.logout().subscribe(() => {

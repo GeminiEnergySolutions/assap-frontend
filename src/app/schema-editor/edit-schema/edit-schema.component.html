@@ -3,18 +3,28 @@
     <h4>
       Edit Schema: {{ title }}
       @if (equipmentType) {
-        <button class="btn btn-link bi-pencil" ngbTooltip="Rename" (click)="renameSubType()"></button>
+        <button class="btn btn-link bi-pencil" ngbTooltip="Rename" aria-label="Rename" (click)="renameSubType()"></button>
       }
     </h4>
     <h5>
       Preview
     </h5>
-    <app-form [typeSchema]="schemaSections" [formData]="{data: {}}" [editable]="true" (deleted)="deleteSection($event)"></app-form>
+    <app-form
+      [typeSchema]="schemaSections"
+      [formData]="{data: {}}"
+      [editable]="true"
+      (deleted)="deleteSection($event)"
+    />
     <div class="mt-3">
       <button class="btn btn-success bi-plus-lg me-2" (click)="addSection()">
         Add Section
       </button>
-      <button class="btn btn-secondary bi-clipboard-plus me-2" ngbTooltip="Paste Section" (click)="pasteSection()"></button>
+      <button
+        class="btn btn-secondary bi-clipboard-plus me-2"
+        ngbTooltip="Paste Section"
+        aria-label="Paste Section"
+        (click)="pasteSection()"
+      ></button>
       <button class="btn btn-primary me-2" (click)="saveAll()">
         Save All
       </button>

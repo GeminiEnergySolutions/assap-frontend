@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable, tap} from 'rxjs';
 import {environment} from '../../../environments/environment.prod';
 import {Response} from '../model/response.interface';
@@ -9,10 +9,7 @@ export type SchemaKind = 'preAudit' | 'ceh' | 'grants' | 'zone' | `equipment/${n
 
 @Injectable({providedIn: 'root'})
 export class SchemaService {
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   getSchema(kind: SchemaKind): Observable<Response<SchemaSection[]>> {
     return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`).pipe(

@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {AuthService} from 'src/app/shared/services/auth.service';
 import {BrandHeaderComponent} from '../brand-header/brand-header.component';
-import {FormsModule} from '@angular/forms';
-import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,14 +16,11 @@ import {RouterLink} from '@angular/router';
   ],
 })
 export class ForgotPasswordComponent {
+  private authService = inject(AuthService);
+  private toastService = inject(ToastService);
+
   email = '';
   submitting = false;
-
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService,
-  ) {
-  }
 
   onSubmit() {
     this.submitting = true;
