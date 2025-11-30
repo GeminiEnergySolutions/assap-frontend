@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {ThemeService, ToastModule} from '@mean-stream/ngbx';
@@ -17,11 +17,12 @@ import {BreadcrumbService} from './shared/services/breadcrumb.service';
   ],
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private updates: SwUpdate,
-    private breadcrumbService: BreadcrumbService,
-    themeService: ThemeService,
-  ) {
+  private updates = inject(SwUpdate);
+  private breadcrumbService = inject(BreadcrumbService);
+
+  constructor() {
+    const themeService = inject(ThemeService);
+
     String(themeService.theme); // must be injected, otherwise theme will not be applied
   }
 

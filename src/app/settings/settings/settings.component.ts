@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {BreadcrumbService} from 'src/app/shared/services/breadcrumb.service';
 import {MasterDetailComponent} from '../../shared/components/master-detail/master-detail.component';
@@ -14,11 +14,8 @@ import {MasterDetailComponent} from '../../shared/components/master-detail/maste
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  constructor(
-    private breadcrumbService: BreadcrumbService,
-    private route: ActivatedRoute,
-  ) {
-  }
+  private breadcrumbService = inject(BreadcrumbService);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.breadcrumbService.setBreadcrumbs([

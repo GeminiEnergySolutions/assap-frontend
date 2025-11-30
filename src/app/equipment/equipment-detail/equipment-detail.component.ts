@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +38,14 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
   ],
 })
 export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewInit, SaveableChangesComponent {
+  private equipmentService = inject(EquipmentService);
+  private auditService = inject(AuditService);
+  private photoService = inject(PhotoService);
+  private schemaService = inject(SchemaService);
+  private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('form') form?: FormComponent;
   @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
@@ -47,16 +55,6 @@ export class EquipmentDetailComponent implements OnInit, OnDestroy, AfterViewIni
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
   formData?: EquipmentFormData;
-
-  constructor(
-    public equipmentService: EquipmentService,
-    public auditService: AuditService,
-    private photoService: PhotoService,
-    private schemaService: SchemaService,
-    private route: ActivatedRoute,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) { }
 
   isSaved(): boolean {
     return !this.form || this.form.isSaved();

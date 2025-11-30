@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {switchMap} from 'rxjs';
 
@@ -26,18 +26,15 @@ import {EquipmentListComponent} from '../equipment-list/equipment-list.component
   ],
 })
 export class EquipmentMasterDetailComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private auditService = inject(AuditService);
+  private auditZoneService = inject(AuditZoneService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private equipmentService = inject(EquipmentService);
+
   audit?: Audit;
   zone?: Zone;
   equipment?: EquipmentCategory;
-
-  constructor(
-    private route: ActivatedRoute,
-    private auditService: AuditService,
-    private auditZoneService: AuditZoneService,
-    private breadcrumbService: BreadcrumbService,
-    public equipmentService: EquipmentService,
-  ) {
-  }
 
   ngOnInit(): void {
     const auditBreadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '../../../..', relativeTo: this.route};

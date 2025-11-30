@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
@@ -32,6 +32,14 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
   ],
 })
 export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  protected route = inject(ActivatedRoute);
+  private auditZoneService = inject(AuditZoneService);
+  private auditService = inject(AuditService);
+  private photoService = inject(PhotoService);
+  private equipmentService = inject(EquipmentService);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
   zone?: Zone;
@@ -39,17 +47,6 @@ export class ZoneDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   progress?: PercentageCompletion;
 
   protected readonly icons = icons;
-
-  constructor(
-    private auditZoneService: AuditZoneService,
-    private auditService: AuditService,
-    private photoService: PhotoService,
-    private equipmentService: EquipmentService,
-    public route: ActivatedRoute,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   ngOnInit(): void {
     const breadcrumb: Breadcrumb = {label: '', class: icons.zone, routerLink: '.', relativeTo: this.route};

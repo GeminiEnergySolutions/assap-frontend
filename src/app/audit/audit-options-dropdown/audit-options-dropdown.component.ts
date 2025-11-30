@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import {DatePipe, TitleCasePipe} from '@angular/common';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {
@@ -32,17 +32,14 @@ import {AuthService} from '../../shared/services/auth.service';
   ],
 })
 export class AuditOptionsDropdownComponent {
+  protected authService = inject(AuthService);
+  private auditService = inject(AuditService);
+  private toastService = inject(ToastService);
+  private promptModalService = inject(PromptModalService);
+
   @Input({required: true}) audit?: Audit;
 
   @Output() deleted = new EventEmitter<Audit>();
-
-  constructor(
-    private auditService: AuditService,
-    private toastService: ToastService,
-    protected authService: AuthService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   setSection(section: 'cehStatus' | 'grantStatus', status: boolean) {
     if (!this.audit) {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -30,16 +30,13 @@ import {ZoneOptionsDropdownComponent} from '../zone-options-dropdown/zone-option
   ],
 })
 export class ZoneListComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private zoneService = inject(AuditZoneService);
+  private toastService = inject(ToastService);
+  private promptModalService = inject(PromptModalService);
+
   zones?: Zone[];
   search = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private zoneService: AuditZoneService,
-    private toastService: ToastService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.route.params.pipe(

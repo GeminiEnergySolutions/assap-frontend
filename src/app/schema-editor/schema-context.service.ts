@@ -1,20 +1,17 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
+import {BehaviorSubject, filter, Observable, tap} from 'rxjs';
 import {Response} from '../shared/model/response.interface';
 import {SchemaSection} from '../shared/model/schema.interface';
 import {SchemaKind, SchemaService} from '../shared/services/schema.service';
-import {BehaviorSubject, filter, Observable, tap} from 'rxjs';
 
 @Injectable()
 export class SchemaContextService {
+  private schemaService = inject(SchemaService);
+
   kind: SchemaKind = 'preAudit';
   schema: SchemaSection[] = [];
 
   loaded = new BehaviorSubject(false);
-
-  constructor(
-    private schemaService: SchemaService,
-  ) {
-  }
 
   get loaded$() {
     return this.loaded.pipe(filter(Boolean));

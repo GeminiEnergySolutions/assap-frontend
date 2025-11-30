@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap} from 'rxjs';
@@ -20,6 +20,11 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
   ],
 })
 export class EquipmentOverviewComponent implements OnInit, OnDestroy {
+  private auditService = inject(AuditService);
+  private zoneService = inject(AuditZoneService);
+  private route = inject(ActivatedRoute);
+  private breadcrumbService = inject(BreadcrumbService);
+
   details?: AuditDetails;
   zones: Zone[] = [];
   zonesById: Partial<Record<number, Zone>> = {};
@@ -32,14 +37,6 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
     ['Refrigeration', 'Refrigeration'],
     ['Kitchen Equipment', 'KitchenEquipment'],
   ];
-
-  constructor(
-    private auditService: AuditService,
-    private zoneService: AuditZoneService,
-    private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   ngOnInit() {
     const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};

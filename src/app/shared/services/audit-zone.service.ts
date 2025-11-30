@@ -1,18 +1,15 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
-import {CreateZoneData, CreateZoneDto, UpdateZoneDto, Zone, ZoneData} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
+import {CreateZoneData, CreateZoneDto, UpdateZoneDto, Zone, ZoneData} from '../model/zone.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuditZoneService {
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   getSingleZone(auditId: number, zoneId: number): Observable<Response<Zone>> {
     return this.http.get<Response<Zone>>(`${environment.url}api/audit/${auditId}/zone/${zoneId}`);

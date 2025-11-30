@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -12,18 +12,14 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
   imports: [FormsModule, ReactiveFormsModule],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  private formBuilder = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
 
   public changePasswordForm !: FormGroup
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.breadcrumbService.pushBreadcrumb({

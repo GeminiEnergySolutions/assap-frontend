@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -18,20 +18,17 @@ import {SchemaService} from '../../shared/services/schema.service';
   imports: [RouterLink, NgbTooltip],
 })
 export class SelectSchemaComponent implements OnInit {
+  private equipmentService = inject(EquipmentService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private route = inject(ActivatedRoute);
+  private schemaService = inject(SchemaService);
+  private toastService = inject(ToastService);
+  private promptModalService = inject(PromptModalService);
+
   categories: EquipmentCategory[] = [];
   equipmentTypes: Partial<Record<number, EquipmentType[]>> = {};
 
   protected readonly icons = icons;
-
-  constructor(
-    private equipmentService: EquipmentService,
-    private breadcrumbService: BreadcrumbService,
-    private route: ActivatedRoute,
-    private schemaService: SchemaService,
-    private toastService: ToastService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   ngOnInit() {
     this.breadcrumbService.setBreadcrumbs([

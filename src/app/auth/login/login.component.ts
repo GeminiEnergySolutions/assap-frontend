@@ -1,9 +1,9 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import {AuthService} from 'src/app/shared/services/auth.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {BrandHeaderComponent} from '../brand-header/brand-header.component';
+import {Component, inject, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AuthService} from 'src/app/shared/services/auth.service';
+import {BrandHeaderComponent} from '../brand-header/brand-header.component';
 
 @Component({
   selector: 'app-login',
@@ -16,18 +16,15 @@ import {FormsModule} from '@angular/forms';
   ],
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
+  private modalService = inject(NgbModal);
+  private router = inject(Router);
+
   @ViewChild('pendingModal', {static: true}) pendingModal!: TemplateRef<unknown>;
 
   loggingIn = false;
   email = '';
   password = '';
-
-  constructor(
-    private authService: AuthService,
-    private modalService: NgbModal,
-    private router: Router,
-  ) {
-  }
 
   login() {
     this.loggingIn = true;

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {switchMap, tap} from 'rxjs';
@@ -26,21 +26,18 @@ import {SchemaService} from '../../shared/services/schema.service';
   ],
 })
 export class GrantsComponent implements OnInit, SaveableChangesComponent, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private auditService = inject(AuditService);
+  private schemaService = inject(SchemaService);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('form') form?: FormComponent;
 
   auditId?: number;
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
   formData?: PreAuditData;
-
-  constructor(
-    private route: ActivatedRoute,
-    private auditService: AuditService,
-    private schemaService: SchemaService,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   isSaved(): boolean {
     return !this.form || this.form.isSaved();
