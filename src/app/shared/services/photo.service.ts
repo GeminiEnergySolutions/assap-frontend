@@ -30,12 +30,12 @@ export class PhotoService {
       formData.append(key, String(value));
     }
     // Construct filename from current date and file extension (ignore filename, must be less than 50 characters)
-    formData.append('photo', Date.now() + file.name.substring(file.name.lastIndexOf('.')));
+    formData.append('photo', file.name);
     formData.append('type', file.type);
-    return this.http.post<{ upload_url: string }>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
-      switchMap(({upload_url}) => this.http.put(upload_url, file, {
-        responseType: 'blob',
-      })),
+    return this.http.post<Response<{data: {}; upload_url: string;}>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
+      switchMap(({data}) => {
+        return this.http.put(data.upload_url, file, {responseType: 'blob'})
+      }),
     );
   }
 }
