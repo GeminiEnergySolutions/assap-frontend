@@ -33,7 +33,7 @@ export class PhotoService {
     formData.append('photo', file.name);
     formData.append('type', file.type);
     return this.http.post<Response<{upload_url: string;}>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
-      switchMap(({data}) => this.http.put(data.upload_url, file, {responseType: 'blob'}),
+      switchMap(({data}) => this.http.put(data.upload_url, file, {responseType: 'blob'}))
     );
   }
 }
