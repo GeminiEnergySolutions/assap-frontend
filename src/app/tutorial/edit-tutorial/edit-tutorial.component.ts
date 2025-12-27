@@ -14,7 +14,6 @@ import {Step, Trigger, TRIGGERS, TutorialService} from '../tutorial.service';
     FormsModule,
     NgbTooltip,
     NgbTypeahead,
-
   ],
   templateUrl: './edit-tutorial.component.html',
   styleUrl: './edit-tutorial.component.scss'
@@ -69,11 +68,7 @@ export class EditTutorialComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.route.params.pipe(
       tap(({selector}) => {
-        if (selector) {
-          this.edit = true;
-        } else {
-          this.edit = false;
-        }
+        this.edit = !!selector;
       }),
       switchMap(({selector}) => selector ? this.tutorialService.getStep(selector) : of(this.step)),
     ).subscribe(step => {

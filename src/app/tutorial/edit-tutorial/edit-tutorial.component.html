@@ -36,7 +36,12 @@
         <div class="input-group">
           <input type="text" [readonly]="edit" class="form-control" id="selector" [(ngModel)]="step.selector" />
           @if (!edit) {
-            <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('selector')"></button>
+            <button
+              class="btn btn-outline-secondary bi-crosshair"
+              ngbTooltip="Pick element"
+              aria-label="Pick element"
+              (click)="pickElement('selector')"
+            ></button>
           }
         </div>
       </div>
@@ -68,7 +73,12 @@
             [ngbTypeahead]="search"
             [resultFormatter]="resultFormatter"
           />
-          <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('next')"></button>
+          <button
+            class="btn btn-outline-secondary bi-crosshair"
+            ngbTooltip="Pick element"
+            aria-label="Pick element"
+            (click)="pickElement('next')"
+          ></button>
         </div>
         <div class="form-text">
           The selector for the next step in the tutorial.
@@ -86,7 +96,11 @@
             [ngbTypeahead]="search"
             [resultFormatter]="resultFormatter"
           />
-          <button class="btn btn-outline-secondary bi-crosshair" ngbTooltip="Pick element" (click)="pickElement('skip')"></button>
+          <button
+            class="btn btn-outline-secondary bi-crosshair"
+            ngbTooltip="Pick element"
+            aria-label="Pick element"
+            (click)="pickElement('skip')"></button>
         </div>
         <div class="form-text">
           If set, adds a "Skip" button that will jump to the tutorial for the given selector.

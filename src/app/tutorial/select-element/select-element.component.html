@@ -16,6 +16,7 @@
 @for (target of targetAreas; track target) {
   <a
     class="position-absolute rounded tutorial-backdrop cursor-pointer"
+    [attr.aria-label]="target.selector"
     [routerLink]="['..', 't', target.selector]"
     [style.top.px]="target.top"
     [style.left.px]="target.left"
