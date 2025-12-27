@@ -1,25 +1,23 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {
   CreateEquipmentDto,
-  CreateEquipmentFormData, CreateEquipmentTypeDto,
+  CreateEquipmentFormData,
+  CreateEquipmentTypeDto,
   Equipment,
   EquipmentCategory,
   EquipmentFormData,
-  EquipmentType, UpdateEquipmentTypeDto,
+  EquipmentType,
+  UpdateEquipmentTypeDto,
 } from '../model/equipment.interface';
-import {HvacConnectedZone, ZoneWithHvacConnected} from '../model/zone.interface';
 import {Response} from '../model/response.interface';
+import {HvacConnectedZone, ZoneWithHvacConnected} from '../model/zone.interface';
 
 @Injectable({providedIn: 'root'})
 export class EquipmentService {
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  private http = inject(HttpClient);
 
   getEquipmentCategory(id: number): Observable<Response<EquipmentCategory>> {
     return this.http.get<Response<EquipmentCategory>>(`${environment.url}api/equipment/${id}`);

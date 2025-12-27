@@ -10,11 +10,11 @@
   </div>
   <h2>Summary</h2>
   <div class="mb-3">
-    <app-editor [ngModel]="section.summary" (ngModelChange)="setDocs('summary', $event)"></app-editor>
+    <app-editor [ngModel]="section.summary" (ngModelChange)="setDocs('summary', $event)"/>
   </div>
   <h2>Documentation</h2>
   <div class="mb-3">
-    <app-editor [ngModel]="section.docs" (ngModelChange)="setDocs('docs', $event)"></app-editor>
+    <app-editor [ngModel]="section.docs" (ngModelChange)="setDocs('docs', $event)"/>
   </div>
   <h2 class="d-flex align-items-center">
     Conditional Rules
@@ -80,7 +80,12 @@
             />
           </div>
           <div class="col-auto">
-            <button class="btn m-0 p-0 btn-link text-danger bi-trash" ngbTooltip="Remove Condition" (click)="removeCondition($index)"></button>
+            <button
+              class="btn m-0 p-0 btn-link text-danger bi-trash"
+              ngbTooltip="Remove Condition"
+              aria-label="Remove Condition"
+              (click)="removeCondition($index)"
+            ></button>
           </div>
         </div>
       </div>
@@ -95,7 +100,12 @@
     <button class="btn btn-success bi-plus-lg ms-auto" (click)="addCopySpec()">
       Add Copy Button
     </button>
-    <button class="btn btn-secondary bi-clipboard-plus ms-2" (click)="pasteCopySpec()" ngbTooltip="Paste Copy Button"></button>
+    <button
+      class="btn btn-secondary bi-clipboard-plus ms-2"
+      ngbTooltip="Paste Copy Button"
+      aria-label="Paste Copy Button"
+      (click)="pasteCopySpec()"
+    ></button>
   </h2>
   <div class="list-group mb-3">
     @for (copySpec of section.copySchema; track copySpec) {
@@ -118,8 +128,18 @@
             })">
               Edit Field Mapping
             </button>
-            <button class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2" (click)="copyCopySpec(copySpec)" ngbTooltip="Copy"></button>
-            <button class="btn m-0 p-0 btn-link text-danger bi-trash" (click)="deleteCopySpec($index)" ngbTooltip="Remove"></button>
+            <button
+              class="btn m-0 p-0 btn-link text-secondary bi-clipboard me-2"
+              ngbTooltip="Copy"
+              aria-label="Copy"
+              (click)="copyCopySpec(copySpec)"
+            ></button>
+            <button
+              class="btn m-0 p-0 btn-link text-danger bi-trash"
+              ngbTooltip="Remove"
+              aria-label="Remove"
+              (click)="deleteCopySpec($index)"
+            ></button>
           </div>
         </div>
       </div>
@@ -163,6 +183,7 @@
           <button
             class="btn btn-sm btn-success bi-plus-lg"
             ngbTooltip="Add Mapping"
+            aria-label="Add Mapping"
             [disabled]="!newSource || !newTarget"
             (click)="addMapping(newSource, newTarget)"
           ></button>
@@ -185,6 +206,7 @@
               <button
                 class="btn m-0 p-0 btn-link text-danger bi-trash"
                 ngbTooltip="Remove Mapping"
+                aria-label="Remove Mapping"
                 (click)="deleteMapping(field.key)"
               ></button>
             </td>

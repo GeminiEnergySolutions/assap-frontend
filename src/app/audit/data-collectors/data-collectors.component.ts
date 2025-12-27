@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
@@ -24,6 +24,12 @@ import {DataCollectorService} from '../../shared/services/data-collector.service
   ],
 })
 export class DataCollectorsComponent implements OnInit, OnDestroy {
+  private auditService = inject(AuditService);
+  private dataCollectorService = inject(DataCollectorService);
+  private toastService = inject(ToastService);
+  private route = inject(ActivatedRoute);
+  private breadcrumbService = inject(BreadcrumbService);
+
   audit?: Audit;
   activeDataCollectors: User[] = [];
   inactiveDataCollectors: User[] = [];
@@ -31,15 +37,6 @@ export class DataCollectorsComponent implements OnInit, OnDestroy {
 
   searchActive = '';
   searchInactive = '';
-
-  constructor(
-    private auditService: AuditService,
-    private dataCollectorService: DataCollectorService,
-    private toastService: ToastService,
-    private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   ngOnInit(): void {
     const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};

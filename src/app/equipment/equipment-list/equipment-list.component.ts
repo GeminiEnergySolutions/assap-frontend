@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -35,22 +35,19 @@ import {EquipmentOptionsDropdownComponent} from '../equipment-options-dropdown/e
   ],
 })
 export class EquipmentListComponent implements OnInit {
+  protected equipmentService = inject(EquipmentService);
+  protected modal = inject(NgbModal);
+  private auditService = inject(AuditService);
+  private zoneService = inject(AuditZoneService);
+  private toastService = inject(ToastService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private promptModalService = inject(PromptModalService);
+
   category?: EquipmentCategory;
   equipments?: Equipment[];
   zones?: Zone[];
   search = '';
-
-  constructor(
-    private auditService: AuditService,
-    private zoneService: AuditZoneService,
-    protected equipmentService: EquipmentService,
-    private toastService: ToastService,
-    public route: ActivatedRoute,
-    private router: Router,
-    protected modal: NgbModal,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.route.params.pipe(

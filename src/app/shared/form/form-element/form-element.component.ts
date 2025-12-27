@@ -1,7 +1,7 @@
 import {NgTemplateOutlet} from '@angular/common';
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {HelpIconComponent} from '../../components/help-icon/help-icon.component';
 import {SchemaElement, SchemaRequirement, SchemaSubElement, SchemaValue} from '../../model/schema.interface';
 import {IsCurrencyPipe} from '../../pipe/is-currency.pipe';
@@ -22,6 +22,8 @@ import {FormChoicesPipe} from '../form-choices.pipe';
   ],
 })
 export class FormElementComponent implements OnInit, OnChanges {
+  private expressionService = inject(ExpressionService);
+
   @Input() element!: SchemaElement;
   @Input() formId!: string;
   @Input() formData!: { data: Partial<Record<string, SchemaValue>> };
@@ -33,12 +35,6 @@ export class FormElementComponent implements OnInit, OnChanges {
   validationMessages: SchemaRequirement[] = [];
 
   childElements: SchemaSubElement[] = [];
-
-  constructor(
-    private expressionService: ExpressionService,
-    protected ngbOffcanvas: NgbOffcanvas,
-  ) {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.formId || changes.schema || changes.element) {

@@ -2,7 +2,7 @@
   <h1>
     Zone Details
   </h1>
-  <app-progress-bar [progress]="progress"></app-progress-bar>
+  <app-progress-bar [progress]="progress"/>
 </div>
 <div class="container">
   @if (typeSchema && formData) {
@@ -12,8 +12,8 @@
       [formData]="formData"
       [formId]="'audits/' + auditId + '/zones/' + zoneId"
       (saved)="save()"
-    ></app-form>
+    />
   } @else {
-    <app-list-placeholder></app-list-placeholder>
+    <app-list-placeholder/>
   }
 </div>

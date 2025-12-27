@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment.prod';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
@@ -23,12 +23,9 @@ export type PercentageQuery =
   providedIn: 'root',
 })
 export class AuditService {
-  currentProgress?: PercentageCompletion;
+  private http = inject(HttpClient);
 
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  currentProgress?: PercentageCompletion;
 
   getPercentage(params: PercentageQuery): Observable<PercentageCompletion> {
     return this.http.get<Response<PercentageCompletion>>(`${environment.url}api/formData/progress`, {

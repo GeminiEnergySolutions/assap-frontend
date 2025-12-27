@@ -1,5 +1,5 @@
 import {DatePipe, UpperCasePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -29,6 +29,16 @@ import {PhotoService} from '../../shared/services/photo.service';
   ],
 })
 export class PhotosComponent implements OnInit, OnDestroy {
+  protected route = inject(ActivatedRoute);
+  protected ngbModal = inject(NgbModal);
+  private router = inject(Router);
+  private photoService = inject(PhotoService);
+  private auditService = inject(AuditService);
+  private auditZoneService = inject(AuditZoneService);
+  private equipmentService = inject(EquipmentService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private promptModalService = inject(PromptModalService);
+
   zoneList: Zone[] = [];
   equipmentList: EquipmentCategory[] = [];
   subTypeList: Equipment[] = [];
@@ -42,19 +52,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   photos: Photo[] = [];
   modalPhoto?: Photo;
-
-  constructor(
-    private router: Router,
-    protected route: ActivatedRoute,
-    private photoService: PhotoService,
-    private auditService: AuditService,
-    private auditZoneService: AuditZoneService,
-    private equipmentService: EquipmentService,
-    private breadcrumbService: BreadcrumbService,
-    protected ngbModal: NgbModal,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   ngOnInit() {
     const prevBreadcrumb: Breadcrumb = {label: '', routerLink: '..', relativeTo: this.route};

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {
@@ -27,17 +27,14 @@ import {EquipmentService} from '../../shared/services/equipment.service';
   ],
 })
 export class EquipmentOptionsDropdownComponent {
+  private equipmentService = inject(EquipmentService);
+  private toastService = inject(ToastService);
+  private promptModalService = inject(PromptModalService);
+
   @Input({required: true}) equipment?: Equipment;
   @Input() routeWithId = false;
 
   @Output() deleted = new EventEmitter<void>();
-
-  constructor(
-    private equipmentService: EquipmentService,
-    private toastService: ToastService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
 
   rename() {
     const equipment = this.equipment;

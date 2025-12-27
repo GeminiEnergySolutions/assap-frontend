@@ -1,5 +1,5 @@
 import {KeyValuePipe} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -29,6 +29,13 @@ import {SchemaContextService} from '../schema-context.service';
   ],
 })
 export class EditSectionComponent implements OnInit, OnDestroy {
+  protected ngbOffcanvas = inject(NgbOffcanvas);
+  private route = inject(ActivatedRoute);
+  private schemaContext = inject(SchemaContextService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private copyPasteService = inject(CopyPasteService);
+  private toastService = inject(ToastService);
+
   section: SchemaSection = {id: 0, name: '', schema: []};
 
   allKeys: string[] = [];
@@ -45,16 +52,6 @@ export class EditSectionComponent implements OnInit, OnDestroy {
         term.length < 2 ? [] : this.allKeys.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
       ),
     );
-
-  constructor(
-    private route: ActivatedRoute,
-    private schemaContext: SchemaContextService,
-    private breadcrumbService: BreadcrumbService,
-    protected ngbOffcanvas: NgbOffcanvas,
-    private copyPasteService: CopyPasteService,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit() {
     const breadcrumb: Breadcrumb = {label: '', class: icons.schemaSection, routerLink: '.', relativeTo: this.route};

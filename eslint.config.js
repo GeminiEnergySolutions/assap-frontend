@@ -23,7 +23,6 @@ module.exports = tseslint.config(
           "ts-check": false
         }
       ],
-      "@angular-eslint/prefer-inject": "off",
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -50,7 +49,6 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {
-      '@angular-eslint/template/elements-content': 'off',
     },
   }
 );

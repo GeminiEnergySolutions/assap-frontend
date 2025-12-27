@@ -1,12 +1,11 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {inject, Pipe, PipeTransform} from '@angular/core';
 import {ExpressionService} from '../services/expression.service';
 
 @Pipe({
   name: 'expressionError',
 })
 export class ExpressionErrorPipe implements PipeTransform {
-  constructor(private expressionService: ExpressionService) {
-  }
+  private expressionService = inject(ExpressionService);
 
   transform(expression: string, context: Record<string, unknown>) {
     try {

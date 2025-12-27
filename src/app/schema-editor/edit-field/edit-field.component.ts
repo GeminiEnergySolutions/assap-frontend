@@ -1,5 +1,5 @@
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
@@ -31,6 +31,12 @@ import {SchemaContextService} from '../schema-context.service';
   ],
 })
 export class EditFieldComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private schemaContext = inject(SchemaContextService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private copyPasteService = inject(CopyPasteService);
+  private toastService = inject(ToastService);
+
   section?: SchemaSection;
   field: SchemaElement = {
     key: 'new',
@@ -265,15 +271,6 @@ export class EditFieldComponent implements OnInit, OnDestroy {
       ]
     }
   ];
-
-  constructor(
-    private route: ActivatedRoute,
-    private schemaContext: SchemaContextService,
-    private breadcrumbService: BreadcrumbService,
-    private copyPasteService: CopyPasteService,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit() {
     const sectionBreadcrumb: Breadcrumb = {label: '', class: icons.schemaSection, relativeTo: this.route};

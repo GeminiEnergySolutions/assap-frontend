@@ -41,7 +41,7 @@
                             (click)="$event.stopImmediatePropagation(); $event.preventDefault()"
                             [audit]="audit"
                             (deleted)="delete(section.key, audit)"
-                          ></app-audit-options-dropdown>
+                          />
                         </div>
                       </a>
                     }
@@ -53,7 +53,7 @@
         }
       </div>
     } @else {
-      <app-list-placeholder></app-list-placeholder>
+      <app-list-placeholder/>
     }
   </div>
   <div default class="h-100 d-flex justify-content-center align-items-center flex-column">

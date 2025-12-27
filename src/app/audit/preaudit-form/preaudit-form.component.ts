@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +33,12 @@ import {SchemaService} from '../../shared/services/schema.service';
   ],
 })
 export class PreauditFormComponent implements OnInit, AfterViewInit, SaveableChangesComponent, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private auditService = inject(AuditService);
+  private schemaService = inject(SchemaService);
+  private toastService = inject(ToastService);
+  private breadcrumbService = inject(BreadcrumbService);
+
   @ViewChild('form') form?: FormComponent;
   @ViewChild('options', {static: true}) options!: TemplateRef<unknown>;
 
@@ -40,15 +46,6 @@ export class PreauditFormComponent implements OnInit, AfterViewInit, SaveableCha
   progress?: PercentageCompletion;
   typeSchema?: SchemaSection[];
   formData?: PreAuditData;
-
-  constructor(
-    private route: ActivatedRoute,
-    private auditService: AuditService,
-    private schemaService: SchemaService,
-    private toastService: ToastService,
-    private breadcrumbService: BreadcrumbService,
-  ) {
-  }
 
   isSaved(): boolean {
     return !this.form || this.form.isSaved();

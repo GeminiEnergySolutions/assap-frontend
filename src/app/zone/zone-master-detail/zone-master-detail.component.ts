@@ -1,5 +1,5 @@
 import {TitleCasePipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {switchMap} from 'rxjs';
 
@@ -22,14 +22,11 @@ import {ZoneListComponent} from '../zone-list/zone-list.component';
   ],
 })
 export class ZoneMasterDetailComponent implements OnInit {
-  audit?: Audit;
+  private auditService = inject(AuditService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private route = inject(ActivatedRoute);
 
-  constructor(
-    private auditService: AuditService,
-    private breadcrumbService: BreadcrumbService,
-    private route: ActivatedRoute,
-  ) {
-  }
+  audit?: Audit;
 
   ngOnInit(): void {
     const auditBreadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};

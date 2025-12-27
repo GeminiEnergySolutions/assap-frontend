@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ModalModule, ToastService} from '@mean-stream/ngbx';
@@ -14,16 +14,13 @@ import {EquipmentService} from '../../shared/services/equipment.service';
   imports: [ModalModule, FormsModule, SearchPipe],
 })
 export class ConnectZoneComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private equipmentService = inject(EquipmentService);
+  private toastService = inject(ToastService);
+
   connectedZones: ZoneWithHvacConnected[] = [];
   selection = new Set<number>;
   search = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private equipmentService: EquipmentService,
-    private toastService: ToastService,
-  ) {
-  }
 
   ngOnInit() {
     this.route.params.pipe(

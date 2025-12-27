@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ToastService} from '@mean-stream/ngbx';
 import {
   NgbDropdown,
@@ -25,14 +25,11 @@ import {AuditZoneService} from '../../shared/services/audit-zone.service';
   ],
 })
 export class ZoneOptionsDropdownComponent {
-  @Input({required: true}) zone?: Zone;
+  private zoneService = inject(AuditZoneService);
+  private toastService = inject(ToastService);
+  private promptModalService = inject(PromptModalService);
 
-  constructor(
-    private zoneService: AuditZoneService,
-    private toastService: ToastService,
-    private promptModalService: PromptModalService,
-  ) {
-  }
+  @Input({required: true}) zone?: Zone;
 
   rename() {
     if (!this.zone) {

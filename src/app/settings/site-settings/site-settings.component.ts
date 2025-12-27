@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Theme, ThemeService} from '@mean-stream/ngbx';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -10,6 +10,9 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
   styleUrl: './site-settings.component.scss'
 })
 export class SiteSettingsComponent implements OnInit, OnDestroy {
+  private themeService = inject(ThemeService);
+  private breadcrumbService = inject(BreadcrumbService);
+  private route = inject(ActivatedRoute);
 
   selectedTheme = this.themeService.theme;
 
@@ -18,13 +21,6 @@ export class SiteSettingsComponent implements OnInit, OnDestroy {
     {name: 'Light', value: 'light', icon: 'bi-sun'},
     {name: 'Dark', value: 'dark', icon: 'bi-moon-stars'},
   ];
-
-  constructor(
-    private themeService: ThemeService,
-    private breadcrumbService: BreadcrumbService,
-    private route: ActivatedRoute,
-  ) {
-  }
 
   ngOnInit() {
     this.breadcrumbService.pushBreadcrumb({
