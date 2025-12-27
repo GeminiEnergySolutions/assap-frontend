@@ -1,0 +1,26 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Select Element</h4>
+    <a class="btn-close" aria-label="Close" routerLink=".."></a>
+  </div>
+  <div class="modal-body">
+    <p>
+      Select any element on the page to see its tutorial step.
+      Note that some elements may not have a tutorial step associated with them.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-secondary" routerLink="..">Close</a>
+  </div>
+</ng-template>
+@for (target of targetAreas; track target) {
+  <a
+    class="position-absolute rounded tutorial-backdrop cursor-pointer"
+    [attr.aria-label]="target.selector"
+    [routerLink]="['..', 't', target.selector]"
+    [style.top.px]="target.top"
+    [style.left.px]="target.left"
+    [style.width.px]="target.width"
+    [style.height.px]="target.height"
+  ></a>
+}

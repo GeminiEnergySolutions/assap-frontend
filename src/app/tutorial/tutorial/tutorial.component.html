@@ -1,0 +1,40 @@
+<div
+  class="position-absolute rounded tutorial-backdrop pointer-events-none"
+  #popover=ngbPopover
+  [ngbPopover]="body"
+  [popoverTitle]="title"
+  triggers="manual"
+  [autoClose]="false"
+  (hidden)="leave()"
+  [style.top.px]="targetPosition.top"
+  [style.left.px]="targetPosition.left"
+  [style.width.px]="targetPosition.width"
+  [style.height.px]="targetPosition.height"
+></div>
+<ng-template #title>
+  <div class="d-flex align-items-center">
+    {{ step?.title }}
+    <a class="btn-close ms-auto" aria-label="Close" routerLink="../.."></a>
+  </div>
+</ng-template>
+<ng-template #body>
+  <p>
+    {{ step?.description }}
+  </p>
+  <div class="btn-toolbar">
+    @if (step?.next; as next) {
+      <a class="btn btn-sm btn-primary me-1" [routerLink]="nextEnabled ? ['..', next] : null" [class.disabled]="!nextEnabled">
+        Next
+      </a>
+    } @else {
+      <a class="btn btn-sm btn-primary me-1" routerLink="../..">
+        Finish
+      </a>
+    }
+    @if (step?.skip; as skip) {
+      <a class="btn btn-sm btn-secondary me-1" [routerLink]="['..', skip]">
+        Skip
+      </a>
+    }
+  </div>
+</ng-template>
