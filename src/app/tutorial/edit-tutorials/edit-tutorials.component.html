@@ -11,7 +11,8 @@
       placeholder="Search {{steps.length }} steps"
     >
     <div class="list-group">
-      @for (step of steps|search:search:['title']; track step.selector) {
+      @let visible = steps|search:search:['title'];
+      @for (step of visible; track step.selector) {
         <a
           class="list-group-item list-group-item-action"
           [routerLink]="step.selector"
@@ -21,8 +22,14 @@
           placement="left"
           container="body"
         >
-          <span>{{ step.title }}</span>
+          {{ step.title }}
+          @if (step.skip) {
+            <span class="badge text-bg-primary">Skip: {{ stepMap[step.skip]?.title ?? step.skip }}</span>
+          }
         </a>
+        @if (!$last && step.next !== visible[$index + 1].selector) {
+          <hr class="my-2"/>
+        }
       }
     </div>
   </div>

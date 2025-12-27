@@ -51,13 +51,17 @@ export class EditTutorialsComponent implements OnInit, AfterViewInit, OnDestroy 
 
   modalRef?: NgbModalRef;
 
-  steps: (Step & {selector: string})[] = [];
+  stepMap: Partial<Record<string, Step>> = {};
+  steps: Step[] = [];
   target?: { top: number; left: number; width: number; height: number };
   search = '';
 
   ngOnInit() {
     this.tutorialService.getAllSteps().subscribe(steps => {
       this.steps = sortPartialOrder(steps);
+      for (const step of steps) {
+        this.stepMap[step.selector] = step;
+      }
     });
   }
 
