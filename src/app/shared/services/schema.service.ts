@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {Observable, tap} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment.prod';
 import {Response} from '../model/response.interface';
 import {SchemaSection} from '../model/schema.interface';
@@ -12,10 +12,7 @@ export class SchemaService {
   private http = inject(HttpClient);
 
   getSchema(kind: SchemaKind): Observable<Response<SchemaSection[]>> {
-    return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`).pipe(
-      // TODO remove this when backend does the sorting
-      tap(res => res.data.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))),
-    );
+    return this.http.get<Response<SchemaSection[]>>(`${environment.url}api/schemas/${kind}`);
   }
 
   createSchemaSection(kind: SchemaKind, data: SchemaSection): Observable<Response<SchemaSection>> {
