@@ -1,6 +1,6 @@
 import {DecimalPipe} from '@angular/common';
 import {Component, input} from '@angular/core';
-import equivalents from '../dashboard/equivalents.json';
+import equivalents from './equivalents.json';
 
 @Component({
   selector: 'app-saving-stats',

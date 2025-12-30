@@ -14,8 +14,9 @@ import {
 import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {switchMap} from 'rxjs';
 import us from 'us-atlas/states-10m.json';
-import {DashboardService, SummaryResult} from '../dashboard.service';
+import {DashboardService} from '../dashboard.service';
 import {SavingStatsComponent} from '../saving-stats/saving-stats.component';
+import {SummaryResult} from '../summary.interface';
 
 const FIELDS = ['GHG_emissions_savings', 'kBTU_per_year_savings', 'cost_per_year_savings'] as const;
 

@@ -1,4 +1,4 @@
-import {AuditSummarizedData} from '../../dashboard/dashboard.service';
+import {AuditSummarizedData} from '../../dashboard/summary.interface';
 import {PreAuditData} from './pre-audit-data.interface';
 import {User} from './user.interface';
 
