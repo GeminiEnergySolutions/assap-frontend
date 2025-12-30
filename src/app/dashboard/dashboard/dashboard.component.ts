@@ -14,8 +14,9 @@ import {
 import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {switchMap} from 'rxjs';
 import us from 'us-atlas/states-10m.json';
-import {DashboardService, SummaryResult} from '../dashboard.service';
-import equivalents from './equivalents.json';
+import {DashboardService} from '../dashboard.service';
+import {SavingStatsComponent} from '../saving-stats/saving-stats.component';
+import {SummaryResult} from '../summary.interface';
 
 const FIELDS = ['GHG_emissions_savings', 'kBTU_per_year_savings', 'cost_per_year_savings'] as const;
 
@@ -27,6 +28,7 @@ const FIELDS = ['GHG_emissions_savings', 'kBTU_per_year_savings', 'cost_per_year
     CurrencyPipe,
     RouterLink,
     NgbTooltip,
+    SavingStatsComponent,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(ChoroplethController, GeoFeature, ProjectionScale, ColorScale, ...registerables)),
@@ -38,16 +40,10 @@ export class DashboardComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly dashboardService = inject(DashboardService);
 
-  protected readonly equivalents = equivalents;
-
   results: SummaryResult[] = [];
   totalGHGSavings = 0;
   totalEnergySavings = 0;
   totalCostSavings = 0;
-
-  ghgEquivalent = this.random(equivalents.ghg);
-  energyEquivalent = this.random(equivalents.energy);
-  costsEquivalent = this.random(equivalents.costs);
 
   mapData?: ChoroplethChart['data'];
   selectedData: typeof FIELDS[number] = 'GHG_emissions_savings';
@@ -80,14 +76,6 @@ export class DashboardComponent implements OnInit {
         })),
       };
     });
-  }
-
-  random<T>(arr: T[], current?: T): T {
-    let result: T;
-    do {
-      result = arr[Math.floor(Math.random() * arr.length)];
-    } while (result === current && arr.length > 1);
-    return result;
   }
 
   selectData(data: typeof FIELDS[number]) {

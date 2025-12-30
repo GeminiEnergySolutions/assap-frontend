@@ -15,10 +15,13 @@ export class ExpressionService {
   }
 
   async eval(expression: string | RequirementFunction, context?: Record<string, unknown>): Promise<unknown> {
-    if (typeof expression === 'string') {
-      return this.compile(expression).eval(context);
-    } else {
-      return expression(context ?? {});
+    switch (typeof expression) {
+      case 'string':
+        return this.compile(expression).eval(context);
+      case 'function':
+        return expression(context ?? {});
+      default:
+        throw new TypeError(`Unsupported expression type: ${typeof expression}`);
     }
   }
 
