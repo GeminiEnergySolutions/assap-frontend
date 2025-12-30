@@ -27,6 +27,14 @@
   <app-progress-bar [progress]="auditService.currentProgress"/>
 </div>
 <div class="container">
+  @if (audit?.audit_summarized_data?.data; as summary) {
+    <app-saving-stats
+      class="mb-3"
+      [ghgSavings]="summary.GHG_emissions_savings"
+      [energySavings]="summary.kBTU_per_year_savings"
+      [costSavings]="summary.cost_per_year_savings"
+    />
+  }
   <app-feature-card
     [icon]="icons.preAudit"
     title="Pre-Audit"

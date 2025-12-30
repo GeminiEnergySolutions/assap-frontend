@@ -2,6 +2,7 @@ import {TitleCasePipe} from '@angular/common';
 import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {switchMap, tap} from 'rxjs';
+import {SavingStatsComponent} from '../../dashboard/saving-stats/saving-stats.component';
 
 import {FeatureCardComponent} from '../../shared/components/feature-card/feature-card.component';
 import {ProgressBarComponent} from '../../shared/components/progress-bar/progress-bar.component';
@@ -23,6 +24,7 @@ import {AuditOptionsDropdownComponent} from '../audit-options-dropdown/audit-opt
     RouterOutlet,
     TitleCasePipe,
     AuditOptionsDropdownComponent,
+    SavingStatsComponent,
   ],
 })
 export class AuditDetailComponent implements OnInit, OnDestroy, AfterViewInit {

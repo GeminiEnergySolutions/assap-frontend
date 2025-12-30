@@ -30,3 +30,11 @@ export interface SummaryResult extends SummaryData {
 }
 
 export type SummaryAudit = Pick<Audit, 'auditId' | 'auditName'> & SummaryData;
+export interface AuditSummarizedData {
+  Id: number; // sic
+  createdOn: string;
+  updatedOn: string;
+  auditId: number;
+  stateId: number;
+  data: SummaryData;
+}
