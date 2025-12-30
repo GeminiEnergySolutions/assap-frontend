@@ -61,7 +61,7 @@ export class FormElementComponent implements OnInit, OnChanges {
     }
     Promise.all(this.element.validations.map(async requirement => {
       if (!requirement.if) {
-        console.warn(`Missing requirement condition for ${this.id} ${requirement.level} '${requirement.message}'`)
+        console.warn(`Missing requirement condition for ${this.id} ${requirement.level} '${requirement.message}'`);
         return;
       }
       if (await this.expressionService.eval(requirement.if, this.formData.data)) {
