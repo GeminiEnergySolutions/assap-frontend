@@ -5,7 +5,6 @@ import {ActivatedRoute} from '@angular/router';
 import {ModalModule} from '@mean-stream/ngbx';
 import {saveAs} from 'file-saver';
 import {switchMap} from 'rxjs';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-download-report-modal',
@@ -25,7 +24,7 @@ export class DownloadReportModalComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({aid}) => this.http.get(`${environment.url}api/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
+      switchMap(({aid}) => this.http.get(`/api/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
         reportProgress: true,
         observe: 'events',
         responseType: 'blob',

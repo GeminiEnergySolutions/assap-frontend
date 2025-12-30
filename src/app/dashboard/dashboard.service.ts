@@ -1,7 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
 import {Response} from '../shared/model/response.interface';
 import {SummaryResult} from './summary.interface';
 
@@ -10,7 +9,7 @@ export class DashboardService {
   private readonly http = inject(HttpClient);
 
   getDataSummary(stateId?: number): Observable<Response<SummaryResult[]>> {
-    return this.http.get<Response<SummaryResult[]>>(`${environment.url}api/energyAudit/summarizeData`, {
+    return this.http.get<Response<SummaryResult[]>>(`/api/energyAudit/summarizeData`, {
       params: stateId ? {stateId} : {},
     });
   }
