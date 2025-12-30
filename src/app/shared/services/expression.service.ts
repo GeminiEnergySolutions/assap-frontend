@@ -17,7 +17,7 @@ export class ExpressionService {
   async eval(expression: string | RequirementFunction, context?: Record<string, unknown>): Promise<unknown> {
     if (typeof expression === 'string') {
       return this.compile(expression).eval(context);
-    } else {
+    } else if (typeof expression === 'function') {
       return expression(context ?? {});
     }
   }
