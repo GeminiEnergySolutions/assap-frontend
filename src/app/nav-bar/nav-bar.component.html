@@ -27,6 +27,9 @@
         </a>
       }
       <div class="flex-grow-1"></div>
+      <button class="nav-item nav-link text-start bi-exclamation-diamond" (click)="reportProblem(); offcanvas.close()">
+        Support Request
+      </button>
       <a class="nav-item nav-link bi-question-circle" [routerLink]="['', {outlets: {tutorial: ['select']}}]" (click)="offcanvas.close()">
         Help
       </a>
@@ -58,15 +61,14 @@
 </ng-template>
 <nav class="navbar navbar-collapse navbar-dark bg-dark text-light link-light">
   <div class="container-fluid">
-    @let breadcrumbs = breadcrumbService.breadcrumbs$ | async;
     <button
       class="btn btn-link bi-list"
       aria-label="Menu"
-      [class.d-none]="breadcrumbs && breadcrumbs.length > 1"
-      [class.d-sm-block]="breadcrumbs && breadcrumbs.length > 1"
+      [class.d-none]="breadcrumbs.length > 1"
+      [class.d-sm-block]="breadcrumbs.length > 1"
       (click)="offcanvas.open(content)"
     ></button>
-    @if (breadcrumbs && breadcrumbs.length > 1) {
+    @if (breadcrumbs.length > 1) {
       @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
       <a
         class="btn btn-link bi-chevron-left d-block d-sm-none"

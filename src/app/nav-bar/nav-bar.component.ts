@@ -1,10 +1,11 @@
-import {AsyncPipe, NgTemplateOutlet, TitleCasePipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {NgTemplateOutlet, TitleCasePipe} from '@angular/common';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgbOffcanvas, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {AuthService} from '../shared/services/auth.service';
-import {BreadcrumbService} from '../shared/services/breadcrumb.service';
+import {Breadcrumb, BreadcrumbService} from '../shared/services/breadcrumb.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,16 +15,24 @@ import {BreadcrumbService} from '../shared/services/breadcrumb.service';
     RouterLinkActive,
     RouterLink,
     TitleCasePipe,
-    AsyncPipe,
     NgbTooltip,
     NgTemplateOutlet,
   ],
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   protected authService = inject(AuthService);
   protected offcanvas = inject(NgbOffcanvas);
   protected breadcrumbService = inject(BreadcrumbService);
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+
+  protected breadcrumbs: Breadcrumb[] = [];
+
+  ngOnInit() {
+    this.breadcrumbService.breadcrumbs$.pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe(breadcrumbs => this.breadcrumbs = breadcrumbs);
+  }
 
   logout(): void {
     this.authService.logout().subscribe(() => {
@@ -31,5 +40,37 @@ export class NavBarComponent {
       this.authService.currentLoginUser = undefined;
       this.router.navigate(['/auth/login']);
     })
+  }
+
+  reportProblem() {
+    const subject = `Conserve - Support Request`;
+    const user = this.authService.currentLoginUser;
+    const body = `\
+# Support Request
+
+**Situation:**
+(Please describe what you were doing when the problem occured)
+-
+
+**Problem:**
+(Please describe the problem)
+-
+
+**Expected Behavior:**
+(Please describe your expected behavior)
+-
+
+**Additional Context:**
+(Please give additional details about your setup or environment, e.g. internet connectivity)
+-
+
+**Metadata:**
+(This is automatically filled out, please do not remove)
+- URL: ${location.origin + this.router.url}
+- Location: ${this.breadcrumbs.map(b => b.label).join(' > ') || '-'}
+- User: ${user ? `${user.userName} <${user.email}> Role: ${user.role?.role ?? '-'} ID: ${user.id}` : '-'}
+    `;
+    const email = `support@geminiesolutions.com`;
+    open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   }
 }
