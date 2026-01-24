@@ -1,4 +1,4 @@
-import {AsyncPipe, NgTemplateOutlet, TitleCasePipe} from '@angular/common';
+import {NgTemplateOutlet, TitleCasePipe} from '@angular/common';
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
@@ -17,7 +17,6 @@ import {Breadcrumb, BreadcrumbService} from '../shared/services/breadcrumb.servi
     TitleCasePipe,
     NgbTooltip,
     NgTemplateOutlet,
-    AsyncPipe,
   ],
 })
 export class NavBarComponent implements OnInit {
