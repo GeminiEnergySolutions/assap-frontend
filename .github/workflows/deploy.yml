@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -20,7 +23,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: corepack pnpm install
+        run: pnpm install
 
       - name: Set deploy Path and API URL
         run: |
@@ -40,7 +43,7 @@ jobs:
           sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.prod.ts
 
       - name: Build Angular app
-        run: corepack pnpm run build
+        run: pnpm run build
 
       - name: Clean target directory on server
         uses: appleboy/ssh-action@v1.0.0

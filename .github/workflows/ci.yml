@@ -26,16 +26,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: pnpm
       - name: Install dependencies
-        run: corepack pnpm install
+        run: pnpm install
       # Build Angular app
       - name: Build
-        run: corepack pnpm build
+        run: pnpm build
       # Allow routing on GitHub Pages
       - name: Create 404.html
         run: cp dist/conserve/browser/index.html dist/conserve/browser/404.html
