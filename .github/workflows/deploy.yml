@@ -23,7 +23,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --shamefully-hoist
 
       - name: Set deploy Path and API URL
         run: |
