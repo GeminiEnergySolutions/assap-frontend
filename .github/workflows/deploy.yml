@@ -16,13 +16,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: '24'
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --shamefully-hoist
+        run: corepack pnpm install
 
       - name: Set deploy Path and API URL
         run: |
@@ -42,7 +40,7 @@ jobs:
           sed -i "s|url: .*|url: '${{ env.API_URL }}'|g" src/environments/environment.prod.ts
 
       - name: Build Angular app
-        run: pnpm run build
+        run: corepack pnpm run build
 
       - name: Clean target directory on server
         uses: appleboy/ssh-action@v1.0.0
