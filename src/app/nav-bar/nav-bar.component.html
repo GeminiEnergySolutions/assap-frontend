@@ -61,22 +61,23 @@
 </ng-template>
 <nav class="navbar navbar-collapse navbar-dark bg-dark text-light link-light">
   <div class="container-fluid">
-    <button
-      class="btn btn-link bi-list"
-      aria-label="Menu"
-      [class.d-none]="breadcrumbs.length > 1"
-      [class.d-sm-block]="breadcrumbs.length > 1"
-      (click)="offcanvas.open(content)"
-    ></button>
-    @if (breadcrumbs.length > 1) {
-      @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
-      <a
-        class="btn btn-link bi-chevron-left d-block d-sm-none"
-        aria-label="Back"
-        [routerLink]="prevBreadcrumb.routerLink" [relativeTo]="prevBreadcrumb.relativeTo"
-        [ngbTooltip]="prevBreadcrumb.label"
-      ></a>
-    }
+    <div class="d-flex">
+      <button
+        class="btn btn-link bi-list"
+        aria-label="Menu"
+        ngbTooltip="Menu"
+        (click)="offcanvas.open(content)"
+      ></button>
+      @if (breadcrumbs.length > 1) {
+        @let prevBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
+        <a
+          class="btn btn-link bi-chevron-left d-block d-sm-none"
+          aria-label="Back"
+          [routerLink]="prevBreadcrumb.routerLink" [relativeTo]="prevBreadcrumb.relativeTo"
+          [ngbTooltip]="prevBreadcrumb.label"
+        ></a>
+      }
+    </div>
     <nav aria-label="breadcrumb" class="align-self-center">
       <ol class="breadcrumb">
         @for (breadcrumb of breadcrumbs; track breadcrumb) {
