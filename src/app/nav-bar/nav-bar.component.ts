@@ -50,7 +50,7 @@ export class NavBarComponent implements OnInit {
 # Support Request
 
 **Situation:**
-(Please describe what you were doing when the problem occured)
+(Please describe what you were doing when the problem occurred)
 -
 
 **Problem:**
@@ -72,6 +72,9 @@ export class NavBarComponent implements OnInit {
 - User: ${user ? `${user.userName} <${user.email}> Role: ${user.role?.role ?? '-'} ID: ${user.id}` : '-'}
     `;
     const email = `support@geminiesolutions.com`;
-    open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (!window.open(mailto)) {
+      window.location.href = mailto;
+    }
   }
 }
