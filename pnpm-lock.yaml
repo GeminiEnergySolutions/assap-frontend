@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  webpack-dev-middleware: ^6.1.2
-
 importers:
 
   .:
@@ -86,12 +83,18 @@ importers:
       libphonenumber-js:
         specifier: ^1.12.35
         version: 1.12.35
+      lodash-es:
+        specifier: ^4.17.23
+        version: 4.17.23
       ng2-charts:
         specifier: ^8.0.0
         version: 8.0.0(dd2215455f3ec85adc9b4033ee0148c1)
       ngx-editor:
         specifier: 19.0.0-beta.1
         version: 19.0.0-beta.1(2758629c354d3b2e25d19f8eea4ab88e)
+      prosemirror-transform:
+        specifier: ^1.11.0
+        version: 1.11.0
       prosemirror-view:
         specifier: ^1.41.5
         version: 1.41.5

@@ -36,8 +36,10 @@
     "file-saver": "^2.0.5",
     "jexl": "^2.3.0",
     "libphonenumber-js": "^1.12.35",
+    "lodash-es": "^4.17.23",
     "ng2-charts": "^8.0.0",
     "ngx-editor": "19.0.0-beta.1",
+    "prosemirror-transform": "^1.11.0",
     "prosemirror-view": "^1.41.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "~7.8.2",
@@ -64,9 +66,7 @@
     "typescript-eslint": "^8.53.1",
     "vitest": "^4.0.18"
   },
-  "resolutions": {
-    "webpack-dev-middleware": "^6.1.2"
-  },
+  "resolutions": {},
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
