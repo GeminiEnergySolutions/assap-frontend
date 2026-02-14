@@ -25,6 +25,8 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private breadcrumbService = inject(BreadcrumbService);
 
+  protected readonly icons = icons;
+
   details?: AuditDetails;
   zones: Zone[] = [];
   zonesById: Partial<Record<number, Zone>> = {};
@@ -33,7 +35,7 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   readonly sections: [string, keyof AuditDetails][] = [
     ['HVAC', 'HVAC'],
     ['Water Heating', 'WaterHeater'],
-    // ['Lighting', 'Lighting'],
+    ['Lighting', 'Lighting'],
     ['Refrigeration', 'Refrigeration'],
     ['Kitchen Equipment', 'KitchenEquipment'],
   ];
@@ -55,6 +57,15 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
       switchMap(({aid}) => this.auditService.getAuditDetails(aid)),
     ).subscribe(({data}) => {
       this.details = data;
+
+      // only for demo purposes
+      for (const equipment of data.Lighting?.equipment_list ?? []) {
+        equipment.data ??= {ceiling_type: 'Drop Ceiling', ceiling_height: 'Yes'};
+      }
+      for (const equipment of data.HVAC?.equipment_list ?? []) {
+        equipment.data ??= {heat_set: 70, cool_set: 50, thermostat_change: 'Turned Off'};
+      }
+
       this.zonesWithLighting = {};
       for (const lighting of data.Lighting.equipment_list) {
         this.zonesWithLighting[lighting.zoneId] = true;
