@@ -1,5 +1,6 @@
 import {AuditSummarizedData} from '../../dashboard/summary.interface';
 import {PreAuditData} from './pre-audit-data.interface';
+import {SchemaValue} from './schema.interface';
 import {User} from './user.interface';
 
 export interface Audit {
@@ -41,7 +42,7 @@ export interface EquipmentDetails {
     ceiling_type?: string;
     // Ceiling greater than 12 feet? (Yes/No)
     ceiling_height?: string;
-  };
+  } & Record<string, SchemaValue>;
 }
 
 export type CreateAuditDto = Pick<Audit, 'auditName' | 'grantStatus' | 'cehStatus' | 'stateId'>;
