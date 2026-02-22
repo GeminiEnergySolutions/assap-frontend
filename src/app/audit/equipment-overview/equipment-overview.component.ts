@@ -25,6 +25,8 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private breadcrumbService = inject(BreadcrumbService);
 
+  protected readonly icons = icons;
+
   details?: AuditDetails;
   zones: Zone[] = [];
   zonesById: Partial<Record<number, Zone>> = {};
@@ -33,7 +35,7 @@ export class EquipmentOverviewComponent implements OnInit, OnDestroy {
   readonly sections: [string, keyof AuditDetails][] = [
     ['HVAC', 'HVAC'],
     ['Water Heating', 'WaterHeater'],
-    // ['Lighting', 'Lighting'],
+    ['Lighting', 'Lighting'],
     ['Refrigeration', 'Refrigeration'],
     ['Kitchen Equipment', 'KitchenEquipment'],
   ];

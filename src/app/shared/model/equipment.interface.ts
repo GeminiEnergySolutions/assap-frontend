@@ -1,3 +1,5 @@
+import {SchemaValue} from './schema.interface';
+
 /**
  * A single piece of equipment, e.g. a freezer or an LED light.
  */
@@ -42,6 +44,6 @@ export interface EquipmentFormData {
   equipmentId: number;
   typeId: number;
   subTypeId: number;
-  data: Record<string, string | number | boolean>;
+  data: Record<string, SchemaValue>;
 }
 export type CreateEquipmentFormData = Omit<EquipmentFormData, 'id'>;

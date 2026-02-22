@@ -1,4 +1,4 @@
-<div class="row m-3">
+<div class="row h-100">
   <div class="col-lg">
     <h3>
       Zones
@@ -16,18 +16,45 @@
     </ul>
   </div>
   @for (section of sections; track section[1]) {
+    @let equipmentList = details?.[section[1]]?.equipment_list;
     <div class="col-lg">
       <h3>
         {{ section[0] }}
-        <small class="text-muted">{{ details?.[section[1]]?.equipment_list?.length }}</small>
+        <small class="text-muted">{{ equipmentList?.length }}</small>
       </h3>
       <ul>
-        @for (equipment of details?.[section[1]]?.equipment_list; track equipment.id) {
+        @for (equipment of equipmentList; track equipment.id) {
           <li>
             <a [routerLink]="['../zones', equipment.zoneId, 'equipments', details?.[section[1]]?.id, 'types', equipment.id]">
               {{ equipment.name }}
             </a>
-            <div class="small text-muted">{{ zonesById[equipment.zoneId]?.zoneName }}</div>
+            @let zone = zonesById[equipment.zoneId];
+            @if (zone) {
+              <div class="small text-muted">
+                <i [class]="icons.zone" ngbTooltip="Zone" aria-label="Zone"></i>
+                {{ zone?.zoneName }}
+              </div>
+            }
+            @if (equipment.data?.ceiling_type || equipment.data?.ceiling_height) {
+              <div class="small text-muted">
+                <i class="bi-arrow-bar-down" ngbTooltip="Ceiling" aria-label="Ceiling"></i>
+                {{ equipment.data?.ceiling_type }} {{ equipment.data?.ceiling_height === 'Yes' ? '>12ft' : '' }}
+              </div>
+            }
+            @if (equipment.data?.heat_set || equipment.data?.cool_set) {
+              <div class="small text-muted">
+                <i class="bi-thermometer-sun" ngbTooltip="A/C Temperature" aria-label="A/C Temperature"></i>
+                {{ equipment.data?.cool_set ?? '-' }} °F
+                <i class="bi-thermometer-snow" ngbTooltip="Heat Temperature" aria-label="Heat Temperature"></i>
+                {{ equipment.data?.heat_set ?? '-' }} °F
+              </div>
+            }
+            @if (equipment.data?.thermostat_change) {
+              <div class="small text-muted">
+                <i class="bi-door-closed" ngbTooltip="Non-Business" aria-label="Non-Business"></i>
+                {{ equipment.data?.thermostat_change }}
+              </div>
+            }
           </li>
         }
       </ul>
