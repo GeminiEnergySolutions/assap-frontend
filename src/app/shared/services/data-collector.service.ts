@@ -10,16 +10,16 @@ export class DataCollectorService {
   private http = inject(HttpClient);
 
   getDataCollectors(auditId: number, type: 'assigned' | 'unassigned' = 'assigned'): Observable<Response<User[]>> {
-    return this.http.get<Response<User[]>>(`${environment.url}api/audit/${auditId}/dataCollector`, {
+    return this.http.get<Response<User[]>>(`${environment.api}/audit/${auditId}/dataCollector`, {
       params: {type},
     });
   }
 
   assignDataCollectors(auditId: number, ids: number[]): Observable<Response> {
-    return this.http.post<Response>(`${environment.url}api/audit/${auditId}/dataCollector`, ids);
+    return this.http.post<Response>(`${environment.api}/audit/${auditId}/dataCollector`, ids);
   }
 
   deleteDataCollectors(auditId: number, ids: number[]): Observable<Response> {
-    return this.http.delete<Response>(`${environment.url}api/audit/${auditId}/dataCollector`, {body: ids});
+    return this.http.delete<Response>(`${environment.api}/audit/${auditId}/dataCollector`, {body: ids});
   }
 }

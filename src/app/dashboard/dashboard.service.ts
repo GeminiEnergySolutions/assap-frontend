@@ -10,7 +10,7 @@ export class DashboardService {
   private readonly http = inject(HttpClient);
 
   getDataSummary(stateId?: number): Observable<Response<SummaryResult[]>> {
-    return this.http.get<Response<SummaryResult[]>>(`${environment.url}api/energyAudit/summarizeData`, {
+    return this.http.get<Response<SummaryResult[]>>(`${environment.api}/energyAudit/summarizeData`, {
       params: stateId ? {stateId} : {},
     });
   }
