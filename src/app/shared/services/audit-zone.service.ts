@@ -34,7 +34,7 @@ export class AuditZoneService {
   }
 
   deleteAuditZone(auditId: number, zoneId: number): Observable<Response> {
-    return this.http.delete<Response>(`${(environment.api)}api/audit/${auditId}/zone/${zoneId}`);
+    return this.http.delete<Response>(`${environment.api}/audit/${auditId}/zone/${zoneId}`);
   }
 
   getZoneData(zoneId: number): Observable<Response<ZoneData>> {
