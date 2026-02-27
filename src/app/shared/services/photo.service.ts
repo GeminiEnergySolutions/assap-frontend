@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {Observable, switchMap} from 'rxjs';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Photo, PhotoInfo, PhotoQuery} from '../model/photo.interface';
 import {Response} from '../model/response.interface';
@@ -24,7 +24,7 @@ export class PhotoService {
     return this.http.delete<Response>(`${environment.url}api/audit/${auditId}/photos/${id}`);
   }
 
-  uploadPhoto(info: PhotoInfo, file: File): Observable<object> {
+  uploadPhoto(info: PhotoInfo, file: File): Observable<Photo> {
     const formData = new FormData();
     for (const [key, value] of Object.entries(info)) {
       formData.append(key, String(value));
@@ -32,8 +32,18 @@ export class PhotoService {
     // Construct filename from current date and file extension (ignore filename, must be less than 50 characters)
     formData.append('photo', file.name);
     formData.append('type', file.type);
-    return this.http.post<Response<{upload_url: string;}>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
-      switchMap(({data}) => this.http.put(data.upload_url, file, {responseType: 'blob'}))
+    return this.http.post<Response<Photo & {
+      upload_url: string;
+    }>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
+      switchMap(({data}) => this.http.put<void>(data.upload_url, file).pipe(
+        catchError(err => of(err)),
+        switchMap((resultOrError) => this.http.patch<Response>(`${environment.url}api/audit/${info.auditId}/photos/${data.id}`, {
+          // mark the new photo as uploaded or failed
+          upload_status: resultOrError instanceof HttpErrorResponse ? 'failed' : 'uploaded',
+        })),
+        // PATCH response is not meaningful {data: null}.
+        map(() => data),
+      )),
     );
   }
 }
