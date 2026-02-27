@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {map, Observable, switchMap} from 'rxjs';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Photo, PhotoInfo, PhotoQuery} from '../model/photo.interface';
 import {Response} from '../model/response.interface';
@@ -35,10 +35,11 @@ export class PhotoService {
     return this.http.post<Response<Photo & {
       upload_url: string;
     }>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
-      switchMap(({data}) => this.http.put(data.upload_url, file, {responseType: 'blob'}).pipe(
-        switchMap(() => this.http.patch<Response>(`${environment.url}api/audit/${info.auditId}/photos/${data.id}`, {
-          // mark the new photo as uploaded
-          upload_status: true,
+      switchMap(({data}) => this.http.put<void>(data.upload_url, file).pipe(
+        catchError(err => of(err)),
+        switchMap((resultOrError) => this.http.patch<Response>(`${environment.url}api/audit/${info.auditId}/photos/${data.id}`, {
+          // mark the new photo as uploaded or failed
+          upload_status: resultOrError instanceof HttpErrorResponse ? 'failed' : 'uploaded',
         })),
         // PATCH response is not meaningful {data: null}.
         map(() => data),
