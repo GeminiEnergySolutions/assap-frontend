@@ -13,19 +13,19 @@ export class TutorialService {
   }
 
   getAllSteps(): Observable<Step[]> {
-    return this.http.get<Response<Step[]>>(`${environment.url}api/tutorial`).pipe(map(r => r.data));
+    return this.http.get<Response<Step[]>>(`${environment.api}/tutorial`).pipe(map(r => r.data));
   }
 
   getStep(selector: string): Observable<Step> {
-    return this.http.get<Response<Step>>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`).pipe(map(r => r.data));
+    return this.http.get<Response<Step>>(`${environment.api}/tutorial/${encodeURIComponent(selector)}`).pipe(map(r => r.data));
   }
 
   saveStep(step: Step): Observable<Response> {
-    return this.http.put<Response>(environment.url + `api/tutorial/${encodeURIComponent(step.selector)}`, step);
+    return this.http.put<Response>(`${environment.api}/tutorial/${encodeURIComponent(step.selector)}`, step);
   }
 
   deleteStep(selector: string): Observable<Response> {
-    return this.http.delete<Response>(environment.url + `api/tutorial/${encodeURIComponent(selector)}`);
+    return this.http.delete<Response>(`${environment.api}/tutorial/${encodeURIComponent(selector)}`);
   }
 }
 

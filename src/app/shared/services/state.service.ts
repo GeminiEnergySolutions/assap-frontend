@@ -10,6 +10,6 @@ export class StateService {
   private http = inject(HttpClient);
 
   getStates(): Observable<Response<State[]>> {
-    return this.http.get<Response<State[]>>(`${environment.url}api/states`);
+    return this.http.get<Response<State[]>>(`${environment.api}/states`);
   }
 }

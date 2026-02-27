@@ -88,7 +88,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {},
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "development": {
               "buildTarget": "conserve:build:development"

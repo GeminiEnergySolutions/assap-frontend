@@ -25,7 +25,7 @@ export class DownloadReportModalComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.pipe(
-      switchMap(({aid}) => this.http.get(`${environment.url}api/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
+      switchMap(({aid}) => this.http.get(`${environment.api}/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
         reportProgress: true,
         observe: 'events',
         responseType: 'blob',

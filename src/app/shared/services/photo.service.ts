@@ -17,11 +17,11 @@ export class PhotoService {
     return this.http.get<Response<{
       photos: Photo[];
       count_total_photos: number;
-    }>>(`${environment.url}api/audit/${query.auditId}/photos`, {params});
+    }>>(`${environment.api}/audit/${query.auditId}/photos`, {params});
   }
 
   deletePhoto(auditId: number, id: number): Observable<Response> {
-    return this.http.delete<Response>(`${environment.url}api/audit/${auditId}/photos/${id}`);
+    return this.http.delete<Response>(`${environment.api}/audit/${auditId}/photos/${id}`);
   }
 
   uploadPhoto(info: PhotoInfo, file: File): Observable<Photo> {
@@ -34,10 +34,10 @@ export class PhotoService {
     formData.append('type', file.type);
     return this.http.post<Response<Photo & {
       upload_url: string;
-    }>>(`${environment.url}api/audit/${info.auditId}/photos`, formData).pipe(
+    }>>(`${environment.api}/audit/${info.auditId}/photos`, formData).pipe(
       switchMap(({data}) => this.http.put<void>(data.upload_url, file).pipe(
         catchError(err => of(err)),
-        switchMap((resultOrError) => this.http.patch<Response>(`${environment.url}api/audit/${info.auditId}/photos/${data.id}`, {
+        switchMap((resultOrError) => this.http.patch<Response>(`${environment.api}/audit/${info.auditId}/photos/${data.id}`, {
           // mark the new photo as uploaded or failed
           upload_status: resultOrError instanceof HttpErrorResponse ? 'failed' : 'uploaded',
         })),
