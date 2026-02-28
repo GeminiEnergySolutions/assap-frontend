@@ -1,4 +1,7 @@
-<ul ngbNav [activeId]="route.snapshot.queryParams.type" class="nav-tabs mb-3">
+<h1>
+  Reports
+</h1>
+<ul ngbNav [activeId]="route.snapshot.queryParams.type" class="nav-pills mb-3">
   <li ngbNavItem>
     <a ngbNavLink routerLink="." [queryParams]="{type: null}" queryParamsHandling="merge">
       All
@@ -40,6 +43,8 @@
         (click)="deleteReport(report)"
       ></button>
     </li>
+  } @empty {
+    <li class="list-group-item text-muted">No reports found.</li>
   }
 </ul>
 <div class="row g-0 align-items-center mb-3">
