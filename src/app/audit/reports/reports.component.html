@@ -78,6 +78,7 @@
   </div>
   <button
     #uploadButton
+    [disabled]="!reportType.value || !fileUpload.files?.length"
     class="btn btn-success bi-journal-plus"
     (click)="uploadReport(reportType.value, fileUpload.files, uploadButton)"
   >
