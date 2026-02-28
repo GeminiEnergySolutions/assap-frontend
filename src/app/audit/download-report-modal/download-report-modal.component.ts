@@ -1,11 +1,10 @@
 import {PercentPipe} from '@angular/common';
-import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ModalModule} from '@mean-stream/ngbx';
-import {saveAs} from 'file-saver';
-import {switchMap} from 'rxjs';
-import {environment} from '../../../environments/environment';
+import {combineLatest, switchMap} from 'rxjs';
+import {AuditService} from '../../shared/services/audit.service';
 
 @Component({
   selector: 'app-download-report-modal',
@@ -17,26 +16,21 @@ import {environment} from '../../../environments/environment';
   styleUrl: './download-report-modal.component.scss'
 })
 export class DownloadReportModalComponent implements OnInit {
-  private readonly http = inject(HttpClient);
+  private readonly auditService = inject(AuditService);
   private readonly route = inject(ActivatedRoute);
 
   progress = 0;
   error?: string;
 
   ngOnInit() {
-    this.route.params.pipe(
-      switchMap(({aid}) => this.http.get(`${environment.api}/reports/${this.route.snapshot.queryParams.type}/${aid}`, {
-        reportProgress: true,
-        observe: 'events',
-        responseType: 'blob',
+    combineLatest([this.route.params, this.route.queryParams]).pipe(
+      switchMap(([{aid}, {type}]) => this.auditService.createReport({
+        auditId: +aid,
+        type,
       })),
     ).subscribe(event => {
-      if (event.type === HttpEventType.DownloadProgress) {
-        this.progress = event.loaded / (event.total ?? 2 ** 20); // rough estimate of 1 MiB total size
-      } else if (event.type === HttpEventType.Response && event.body) {
-        this.progress = 1;
-        saveAs(event.body, this.getFilename());
-      }
+      this.progress = 1;
+      console.log(event);
     }, async error => {
       this.progress = 0;
       if (error instanceof HttpErrorResponse && error.error instanceof Blob && error.error.type === 'application/json') {
@@ -46,21 +40,5 @@ export class DownloadReportModalComponent implements OnInit {
         this.error = error.message ?? error.toString();
       }
     });
-  }
-
-  getFilename(): string {
-    // The file extension is automatically added by saveAs based on the content type of the blob.
-    switch (this.route.snapshot.queryParams.type) {
-      case 'energyAudit':
-        return 'Energy Audit Report';
-      case 'cdh10per':
-        return 'CDH 10% Design Prep';
-      case 'cehMicrogridSheet':
-        return 'CEH Microgrid Sheet';
-      case 'feasibility':
-        return 'CEH Feasibility Report';
-      default:
-        throw new Error(`Unknown report type: ${this.route.snapshot.queryParams.type}`);
-    }
   }
 }

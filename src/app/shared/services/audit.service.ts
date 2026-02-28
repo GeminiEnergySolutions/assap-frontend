@@ -84,8 +84,10 @@ export class AuditService {
     return this.http.put<Response<PreAuditData>>(`${environment.api}/formData/audit/${auditId}/preAudit`, formData);
   }
 
-  createReport(dto: CreateReportDto): Observable<Response<Report>> {
-    return this.http.post<Response<Report>>(`${environment.api}/reports`, dto);
+  createReport(dto: CreateReportDto & { file: string }): Observable<Response<Report & { upload_url: string }>>;
+  createReport(dto: CreateReportDto): Observable<Response<null>>;
+  createReport(dto: CreateReportDto): Observable<Response<Report & {upload_url: string} | null>> {
+    return this.http.post<Response<Report & {upload_url: string} | null>>(`${environment.api}/reports`, dto);
   }
   getReports(params?: FilterReportsDto): Observable<Response<Report[]>> {
     return this.http.get<Response<Report[]>>(`${environment.api}/reports`, {params: {...params}});
