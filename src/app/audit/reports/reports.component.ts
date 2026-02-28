@@ -1,6 +1,7 @@
+import {DatePipe, SlicePipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgbPagination} from '@ng-bootstrap/ng-bootstrap';
+import {NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, switchMap} from 'rxjs';
 import {icons} from '../../shared/icons';
 import {FilterReportsDto, Report} from '../../shared/model/report.interface';
@@ -11,6 +12,9 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
   selector: 'app-reports',
   imports: [
     NgbPagination,
+    DatePipe,
+    NgbTooltip,
+    SlicePipe,
   ],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',

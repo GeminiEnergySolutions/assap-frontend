@@ -1,3 +1,30 @@
+<ul class="list-group mb-3">
+  @for (report of reports; track report.id) {
+    <li class="list-group-item">
+      <a
+        target="_blank"
+        class="btn btn-lg btn-primary bi-download float-end"
+        download
+        [href]="report.file"
+        ngbTooltip="Download"
+        aria-label="Download"
+      ></a>
+      <h4>
+        @switch (report.type) {
+          @case ('energy_audit') {Energy Audit}
+          @case ('feasibility') {Feasibility}
+          @case ('microgrid') {Microgrid Sheet}
+          @case ('10_per_design_prep') {10% Design Prep}
+        }
+        Report #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
+      </h4>
+      <div class="text-muted">
+        Created: {{ report.createdOn | date:'medium' }}
+        by {{ report.user?.userName }}
+      </div>
+    </li>
+  }
+</ul>
 <div class="row g-0 align-items-center">
   <ngb-pagination
     class="col-auto"

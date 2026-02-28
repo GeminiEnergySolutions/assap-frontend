@@ -1,6 +1,6 @@
 import {User} from './user.interface';
 
-export type ReportType = 'energy_audit' | 'feasibility' | 'microgrid' | '10';
+export type ReportType = 'energy_audit' | 'feasibility' | 'microgrid' | '10_per_design_prep';
 
 export interface Report {
   id: number;
