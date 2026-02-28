@@ -34,11 +34,39 @@
     </li>
   }
 </ul>
-<div class="row g-0 align-items-center">
+<div class="row g-0 align-items-center mb-3">
   <ngb-pagination
     class="col-auto"
     [(page)]="query.pageNo" (pageChange)="updateQuery({pageNo: $event})"
     [pageSize]="query.size"
     [collectionSize]="totalReports"
   />
+</div>
+<div class="mb-3">
+  <h4>Upload Report</h4>
+  <div class="mb-3">
+    <label class="form-label" for="report-type">Report Type</label>
+    <select class="form-select" id="report-type" #reportType>
+      @for (type of reportTypes | keyvalue; track type.key) {
+        <option [value]="type.key">{{ type.value }}</option>
+      }
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="upload-file">File (.zip, .docx, .pdf)</label>
+    <input
+      #fileUpload
+      class="form-control"
+      type="file"
+      id="upload-file"
+      accept="application/zip, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+    >
+  </div>
+  <button
+    #uploadButton
+    class="btn btn-success bi-file-plus"
+    (click)="uploadReport(reportType.value, fileUpload.files, uploadButton)"
+  >
+    Upload
+  </button>
 </div>

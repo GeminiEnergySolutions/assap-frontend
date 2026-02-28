@@ -1,10 +1,11 @@
 import {DatePipe, KeyValuePipe, SlicePipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbNav, NgbNavItem, NgbNavLink, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, switchMap} from 'rxjs';
 import {icons} from '../../shared/icons';
-import {FilterReportsDto, Report} from '../../shared/model/report.interface';
+import {FilterReportsDto, Report, ReportType} from '../../shared/model/report.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
 
@@ -20,6 +21,7 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
     RouterLink,
     NgbNavLink,
     NgbNavItem,
+    FormsModule,
   ],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',
@@ -90,6 +92,25 @@ export class ReportsComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: this.query,
       queryParamsHandling: 'replace',
+    });
+  }
+
+  protected uploadReport(type: string, files: FileList | null, button: HTMLButtonElement) {
+    if (!files?.length) {
+      return;
+    }
+
+    button.disabled = true;
+    this.auditService.uploadReport({
+      auditId: +this.route.snapshot.params.aid,
+      type: type as ReportType,
+    }, files[0]).subscribe({
+      next: report => {
+        button.disabled = false;
+        this.reports.push(report);
+        this.totalReports++;
+      },
+      error: () => button.disabled = false,
     });
   }
 }
