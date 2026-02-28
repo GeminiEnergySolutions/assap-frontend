@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbNav, NgbNavItem, NgbNavLink, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, switchMap} from 'rxjs';
+import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {icons} from '../../shared/icons';
 import {FilterReportsDto, Report, ReportType} from '../../shared/model/report.interface';
 import {AuditService} from '../../shared/services/audit.service';
@@ -31,6 +32,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly breadcrumbService = inject(BreadcrumbService);
   private readonly auditService = inject(AuditService);
+  private readonly promptModalService = inject(PromptModalService);
 
   protected reports: Report[] = [];
   protected totalReports = 0;
@@ -92,6 +94,22 @@ export class ReportsComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: this.query,
       queryParamsHandling: 'replace',
+    });
+  }
+
+  protected deleteReport(report: Report) {
+    this.promptModalService.prompt(this.promptModalService.confirmDanger({
+      title: 'Delete Report',
+      text: `Are you sure you want to delete this report?`,
+      dangerText: 'This action cannot be undone.',
+      submitLabel: 'Yes, Delete',
+    }, {
+      type: 'checkbox',
+    })).then(() => {
+      this.auditService.deleteReport(report.id).subscribe(() => {
+        this.reports = this.reports.filter(r => r.id !== report.id);
+        this.totalReports--;
+      });
     });
   }
 

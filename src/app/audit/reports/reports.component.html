@@ -14,23 +14,31 @@
 </ul>
 <ul class="list-group mb-3">
   @for (report of reports; track report.id) {
-    <li class="list-group-item">
+    <li class="list-group-item d-flex align-items-center">
       <a
         target="_blank"
-        class="btn btn-lg btn-primary bi-download float-end"
+        class="btn btn-lg btn-primary bi-download me-3"
         download
         [href]="report.file"
         ngbTooltip="Download"
         aria-label="Download"
       ></a>
-      <h4>
-        {{ reportTypes[report.type] }}
-        Report #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
-      </h4>
-      <div class="text-muted">
-        Created: {{ report.createdOn | date:'medium' }}
-        by {{ report.user?.userName }}
+      <div>
+        <h4>
+          {{ reportTypes[report.type] }}
+          Report #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
+        </h4>
+        <div class="text-muted">
+          Created: {{ report.createdOn | date:'medium' }}
+          by {{ report.user?.userName }}
+        </div>
       </div>
+      <button
+        class="btn btn-danger bi-trash ms-auto"
+        ngbTooltip="Delete"
+        aria-label="Delete"
+        (click)="deleteReport(report)"
+      ></button>
     </li>
   }
 </ul>
