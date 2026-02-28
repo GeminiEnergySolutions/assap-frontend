@@ -5,6 +5,7 @@ import {environment} from 'src/environments/environment';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
+import {CreateReportDto, FilterReportsDto, UpdateReportDto} from '../model/report.interface';
 import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
@@ -81,5 +82,21 @@ export class AuditService {
   }
   updatePreAuditData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
     return this.http.put<Response<PreAuditData>>(`${environment.api}/formData/audit/${auditId}/preAudit`, formData);
+  }
+
+  createReport(dto: CreateReportDto): Observable<Response<Report>> {
+    return this.http.post<Response<Report>>(`${environment.api}/reports`, dto);
+  }
+  getReports(params?: FilterReportsDto): Observable<Response<Report[]>> {
+    return this.http.get<Response<Report[]>>(`${environment.api}/reports`, {params: {...params}});
+  }
+  getReport(id: number): Observable<Response<Report>> {
+    return this.http.get<Response<Report>>(`${environment.api}/reports/${id}`);
+  }
+  updateReport(id: number, dto: UpdateReportDto): Observable<Response> {
+    return this.http.patch<Response>(`${environment.api}/reports/${id}`, dto);
+  }
+  deleteReport(id: number): Observable<Response> {
+    return this.http.delete<Response>(`${environment.api}/reports/${id}`);
   }
 }
