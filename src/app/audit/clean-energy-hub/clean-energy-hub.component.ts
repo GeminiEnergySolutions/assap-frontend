@@ -10,6 +10,7 @@ import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard
 import {icons} from '../../shared/icons';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {ReportType} from '../../shared/model/report.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -110,5 +111,14 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
       progressType: 'ceh',
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
+  }
+
+  protected generateReport(type: ReportType) {
+    this.auditService.generateReport({
+      auditId: this.auditId!,
+      type,
+    }).subscribe({
+      next: () => this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.'),
+    });
   }
 }

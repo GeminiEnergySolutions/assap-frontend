@@ -5,9 +5,9 @@
     @if (dropdown.isOpen()) {
       @let isGuest = audit?.user?.role?.role === 'guest';
       <div [ngbTooltip]="isGuest ? 'You must be logged in as a Data Collector to download the report' : null">
-        <a ngbDropdownItem class="bi-file-earmark-richtext" [disabled]="isGuest" routerLink="report" [queryParams]="{type: 'energy_audit'}">
-          Download Energy Audit Report
-        </a>
+        <button ngbDropdownItem class="bi-file-earmark-richtext" [disabled]="isGuest" (click)="generateReport()">
+          Generate Energy Audit Report
+        </button>
       </div>
       <div class="dropdown-divider"></div>
       <button ngbDropdownItem [class]="audit?.grantStatus ? 'bi-eye-slash' : 'bi-eye'" (click)="setSection('grantStatus', !audit?.grantStatus)">

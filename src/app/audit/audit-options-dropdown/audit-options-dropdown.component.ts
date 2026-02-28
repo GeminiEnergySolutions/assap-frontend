@@ -92,4 +92,13 @@ export class AuditOptionsDropdownComponent {
       });
     });
   }
+
+  protected generateReport() {
+    this.auditService.generateReport({
+      auditId: this.audit!.auditId,
+      type: 'energy_audit',
+    }).subscribe({
+      next: () => this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.'),
+    });
+  }
 }
