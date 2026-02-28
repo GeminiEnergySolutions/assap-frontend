@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
@@ -28,7 +28,6 @@ import {SchemaService} from '../../shared/services/schema.service';
     ProgressBarComponent,
     FormComponent,
     ListPlaceholderComponent,
-    RouterLink,
     RouterOutlet,
   ],
 })
@@ -121,4 +120,6 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
       next: () => this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.'),
     });
   }
+
+  protected readonly icons = icons;
 }

@@ -3,7 +3,6 @@ export const icons = {
   preAudit: 'bi-journal-text',
   photo: 'bi-image',
   camera: 'bi-camera',
-  report: 'bi-file-richtext',
   dataCollectors: 'bi-people',
   grants: 'bi-patch-check',
   ceh: 'bi-plug',
@@ -11,7 +10,15 @@ export const icons = {
   zoneDetails: 'bi-bounding-box',
   equipment: 'bi-device-ssd', // vaguely resembles an oven
 
+  // Schema Editor
   schema: 'bi-ui-checks',
   schemaSection: 'bi-card-list',
   schemaField: 'bi-input-cursor-text',
+
+  // Reports
+  report: 'bi-journal-richtext',
+  energy_audit: 'bi-journal-check',
+  feasibility: 'bi-clipboard-check',
+  microgrid: 'bi-grid-3x3',
+  '10_per_design_prep': 'bi-percent',
 };

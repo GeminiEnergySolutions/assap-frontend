@@ -30,7 +30,7 @@
       <div>
         <h4>
           {{ reportTypes[report.type] }}
-          Report #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
+          #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
         </h4>
         <div class="text-muted">
           Created: {{ report.createdOn | date:'medium' }}
@@ -78,7 +78,7 @@
   </div>
   <button
     #uploadButton
-    class="btn btn-success bi-file-plus"
+    class="btn btn-success bi-journal-plus"
     (click)="uploadReport(reportType.value, fileUpload.files, uploadButton)"
   >
     Upload

@@ -131,4 +131,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
       error: () => button.disabled = false,
     });
   }
+
+  protected readonly icons = icons;
 }

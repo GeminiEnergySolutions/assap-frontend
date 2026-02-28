@@ -3,13 +3,13 @@
     <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
-      <button ngbDropdownItem class="bi-clipboard-check" (click)="generateReport('feasibility')">
+      <button ngbDropdownItem [class]="icons.feasibility" (click)="generateReport('feasibility')">
         Generate Feasibility Report
       </button>
-      <button ngbDropdownItem class="bi-grid-3x3" (click)="generateReport('microgrid')">
+      <button ngbDropdownItem [class]="icons.microgrid" (click)="generateReport('microgrid')">
         Generate Microgrid Sheet
       </button>
-      <button ngbDropdownItem class="bi-percent" (click)="generateReport('10_per_design_prep')">
+      <button ngbDropdownItem [class]="icons['10_per_design_prep']" (click)="generateReport('10_per_design_prep')">
         Generate 10% Design Prep
       </button>
     </div>
