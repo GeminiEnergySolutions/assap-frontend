@@ -102,8 +102,11 @@ export class AuditService {
     );
   }
 
-  getReports(params?: FilterReportsDto): Observable<Response<Report[]>> {
-    return this.http.get<Response<Report[]>>(`${environment.api}/reports`, {params: {...params}});
+  getReports(params?: FilterReportsDto): Observable<Response<{ reports: Report[]; count_total_reports: number; }>> {
+    return this.http.get<Response<{
+      reports: Report[];
+      count_total_reports: number;
+    }>>(`${environment.api}/reports`, {params: {...params}});
   }
   getReport(id: number): Observable<Response<Report>> {
     return this.http.get<Response<Report>>(`${environment.api}/reports/${id}`);

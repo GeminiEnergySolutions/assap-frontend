@@ -1,1 +1,8 @@
-<p>reports works!</p>
+<div class="row g-0 align-items-center">
+  <ngb-pagination
+    class="col-auto"
+    [(page)]="query.pageNo" (pageChange)="updateQuery({pageNo: $event})"
+    [pageSize]="query.size"
+    [collectionSize]="totalReports"
+  />
+</div>
