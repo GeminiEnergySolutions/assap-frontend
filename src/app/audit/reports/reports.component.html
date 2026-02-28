@@ -1,3 +1,17 @@
+<ul ngbNav [activeId]="route.snapshot.queryParams.type" class="nav-tabs mb-3">
+  <li ngbNavItem>
+    <a ngbNavLink routerLink="." [queryParams]="{type: null}" queryParamsHandling="merge">
+      All
+    </a>
+  </li>
+  @for (type of reportTypes | keyvalue; track type.key) {
+    <li [ngbNavItem]="type.key">
+      <a ngbNavLink routerLink="." [queryParams]="{type: type.key}" queryParamsHandling="merge">
+        {{ type.value }}
+      </a>
+    </li>
+  }
+</ul>
 <ul class="list-group mb-3">
   @for (report of reports; track report.id) {
     <li class="list-group-item">
@@ -10,12 +24,7 @@
         aria-label="Download"
       ></a>
       <h4>
-        @switch (report.type) {
-          @case ('energy_audit') {Energy Audit}
-          @case ('feasibility') {Feasibility}
-          @case ('microgrid') {Microgrid Sheet}
-          @case ('10_per_design_prep') {10% Design Prep}
-        }
+        {{ reportTypes[report.type] }}
         Report #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
       </h4>
       <div class="text-muted">

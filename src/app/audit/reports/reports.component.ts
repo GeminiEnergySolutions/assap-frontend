@@ -1,7 +1,7 @@
-import {DatePipe, SlicePipe} from '@angular/common';
+import {DatePipe, KeyValuePipe, SlicePipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {NgbNav, NgbNavItem, NgbNavLink, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, switchMap} from 'rxjs';
 import {icons} from '../../shared/icons';
 import {FilterReportsDto, Report} from '../../shared/model/report.interface';
@@ -15,12 +15,17 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
     DatePipe,
     NgbTooltip,
     SlicePipe,
+    NgbNav,
+    KeyValuePipe,
+    RouterLink,
+    NgbNavLink,
+    NgbNavItem,
   ],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',
 })
 export class ReportsComponent implements OnInit, OnDestroy {
-  private readonly route = inject(ActivatedRoute);
+  protected readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly breadcrumbService = inject(BreadcrumbService);
   private readonly auditService = inject(AuditService);
@@ -28,11 +33,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
   protected reports: Report[] = [];
   protected totalReports = 0;
 
-  protected query: Required<FilterReportsDto> = {
-    auditId: 0,
-    type: 'energy_audit',
+  protected query: FilterReportsDto & Required<Pick<FilterReportsDto, 'size' | 'pageNo'>> = {
     size: 20,
     pageNo: 1,
+  };
+  protected readonly reportTypes = {
+    energy_audit: 'Energy Audit',
+    feasibility: 'Feasibility',
+    microgrid: 'Microgrid Sheet',
+    '10_per_design_prep': '10% Design Prep',
   };
 
   ngOnInit() {
@@ -53,6 +62,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.query.auditId = +params.aid;
         if (query.type) {
           this.query.type = query.type;
+        } else {
+          delete this.query.type;
         }
         if (query.pageNo) {
           this.query.pageNo = +query.pageNo;
