@@ -85,19 +85,21 @@ export class AuditService {
   }
 
   generateReport(dto: CreateReportDto): Observable<Response<null>> {
-    delete dto.file; // use uploadReport if you want this
-    return this.http.post<Response<null>>(`${environment.api}/reports`, dto);
+    const {file, ...rest} = dto;
+    return this.http.post<Response<null>>(`${environment.api}/reports`, rest);
   }
   uploadReport(dto: CreateReportDto, file: File): Observable<Report> {
     return this.http.post<Response<Report & {upload_url: string}>>(`${environment.api}/reports`, {...dto, file: file.name}).pipe(
       switchMap(({data}) => this.http.put(data.upload_url, file).pipe(
-        catchError(err => of(err)),
-        switchMap((resultOrError) => this.updateReport(data.id, {
+        map(() => 'uploaded' as const),
+        catchError(() => of('failed' as const)),
+        switchMap(upload_status => this.updateReport(data.id, {
           // mark the new report as uploaded or failed
-          upload_status: resultOrError instanceof HttpErrorResponse ? 'failed' : 'uploaded',
-        })),
-        // PATCH response is not meaningful {data: null}.
-        map(() => data),
+          upload_status,
+        }).pipe(
+          // PATCH response is not meaningful {data: null}, return the original POST response + new upload_status.
+          map(() => ({...data, upload_status})),
+        )),
       )),
     );
   }

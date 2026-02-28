@@ -21,8 +21,9 @@
       <a
         target="_blank"
         class="btn btn-lg btn-primary bi-download me-3"
+        [class.disabled]="!report.file"
         download
-        [href]="report.file"
+        [href]="report.file ?? null"
         ngbTooltip="Download"
         aria-label="Download"
       ></a>
