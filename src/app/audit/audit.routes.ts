@@ -10,6 +10,7 @@ import {CreateAuditModalComponent} from './create-audit-modal/create-audit-modal
 import {EquipmentOverviewComponent} from './equipment-overview/equipment-overview.component';
 import {DataCollectorsComponent} from './data-collectors/data-collectors.component';
 import {UnsavedChangesGuard} from '../shared/guard/unsaved-changes.guard';
+import {ReportsComponent} from './reports/reports.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,7 @@ export const routes: Routes = [
       },
       {path: ':aid/photos', component: PhotosComponent},
       {path: ':aid/overview', component: EquipmentOverviewComponent},
+      {path: ':aid/reports', component: ReportsComponent},
       {path: ':aid/data-collectors', component: DataCollectorsComponent},
       {
         path: ':aid', component: AuditDetailComponent,
