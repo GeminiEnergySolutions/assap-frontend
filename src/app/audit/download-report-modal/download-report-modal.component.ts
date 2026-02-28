@@ -24,7 +24,7 @@ export class DownloadReportModalComponent implements OnInit {
 
   ngOnInit() {
     combineLatest([this.route.params, this.route.queryParams]).pipe(
-      switchMap(([{aid}, {type}]) => this.auditService.createReport({
+      switchMap(([{aid}, {type}]) => this.auditService.generateReport({
         auditId: +aid,
         type,
       })),

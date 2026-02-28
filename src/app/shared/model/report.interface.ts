@@ -1,10 +1,17 @@
+import {User} from './user.interface';
+
 export type ReportType = 'energy_audit' | 'feasibility' | 'microgrid' | '10';
 
 export interface Report {
+  id: number;
+  createdOn: string; // Date
+  updatedOn: string; // Date
+  file?: string; // S3 download URL
   type: ReportType;
+  upload_status: 'uploaded' | 'failed' | 'pending';
   auditId: number;
-
-  // TODO
+  createdBy: number;
+  user?: User;
 }
 
 export interface CreateReportDto {

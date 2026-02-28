@@ -1,11 +1,11 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
-import {CreateReportDto, FilterReportsDto, UpdateReportDto} from '../model/report.interface';
+import {CreateReportDto, FilterReportsDto, Report, UpdateReportDto} from '../model/report.interface';
 import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
@@ -84,11 +84,24 @@ export class AuditService {
     return this.http.put<Response<PreAuditData>>(`${environment.api}/formData/audit/${auditId}/preAudit`, formData);
   }
 
-  createReport(dto: CreateReportDto & { file: string }): Observable<Response<Report & { upload_url: string }>>;
-  createReport(dto: CreateReportDto): Observable<Response<null>>;
-  createReport(dto: CreateReportDto): Observable<Response<Report & {upload_url: string} | null>> {
-    return this.http.post<Response<Report & {upload_url: string} | null>>(`${environment.api}/reports`, dto);
+  generateReport(dto: CreateReportDto): Observable<Response<null>> {
+    delete dto.file; // use uploadReport if you want this
+    return this.http.post<Response<null>>(`${environment.api}/reports`, dto);
   }
+  uploadReport(dto: CreateReportDto, file: File): Observable<Report> {
+    return this.http.post<Response<Report & {upload_url: string}>>(`${environment.api}/reports`, {...dto, file: file.name}).pipe(
+      switchMap(({data}) => this.http.put(data.upload_url, file).pipe(
+        catchError(err => of(err)),
+        switchMap((resultOrError) => this.updateReport(data.id, {
+          // mark the new report as uploaded or failed
+          upload_status: resultOrError instanceof HttpErrorResponse ? 'failed' : 'uploaded',
+        })),
+        // PATCH response is not meaningful {data: null}.
+        map(() => data),
+      )),
+    );
+  }
+
   getReports(params?: FilterReportsDto): Observable<Response<Report[]>> {
     return this.http.get<Response<Report[]>>(`${environment.api}/reports`, {params: {...params}});
   }
