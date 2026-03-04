@@ -1,6 +1,6 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import {catchError, EMPTY, map, Observable, of, switchMap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
@@ -109,6 +109,11 @@ export class AuditService {
       reports: Report[];
       count_total_reports: number;
     }>>(`${environment.api}/reports`, {params: {...params}});
+  }
+  headReport(report: Report): Observable<HttpResponse<void>> {
+    return report.head ? this.http.head<void>(report.head, {
+      observe: 'response',
+    }) : EMPTY;
   }
   getReport(id: number): Observable<Response<Report>> {
     return this.http.get<Response<Report>>(`${environment.api}/reports/${id}`);
