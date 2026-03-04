@@ -119,7 +119,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   protected uploadReport(type: string, files: FileList | null, button: HTMLButtonElement) {
-    console.log(files);
     if (!files?.length) {
       return;
     }
