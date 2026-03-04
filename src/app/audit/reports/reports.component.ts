@@ -1,14 +1,29 @@
-import {DatePipe, KeyValuePipe, SlicePipe} from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AsyncPipe, DatePipe, DecimalPipe, KeyValuePipe, SlicePipe} from '@angular/common';
+import {Component, inject, OnDestroy, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgbNav, NgbNavItem, NgbNavLink, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {combineLatest, switchMap} from 'rxjs';
+import {combineLatest, map, Observable, of, switchMap} from 'rxjs';
 import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
 import {icons} from '../../shared/icons';
 import {FilterReportsDto, Report, ReportType} from '../../shared/model/report.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
+
+
+@Pipe({name: 'headReport'})
+export class HeadReport implements PipeTransform {
+  private readonly auditService = inject(AuditService);
+
+  transform(report: Report): Observable<Report> {
+    return report._headers ? of(report) : this.auditService.headReport(report).pipe(
+      map(res => {
+        report._headers = res.headers;
+        return report;
+      }),
+    );
+  }
+}
 
 @Component({
   selector: 'app-reports',
@@ -23,6 +38,9 @@ import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.se
     NgbNavLink,
     NgbNavItem,
     FormsModule,
+    AsyncPipe,
+    HeadReport,
+    DecimalPipe,
   ],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',

@@ -36,6 +36,15 @@
           Created: {{ report.createdOn | date:'medium' }}
           by {{ report.user?.userName }}
         </div>
+
+        @let head = report | headReport | async;
+        <div class="text-muted">
+          Size: {{ +(head?._headers?.get('content-length') ?? 0) / 1024 | number:'0.0-1' }} KiB
+          &bullet;
+          Type: {{ head?._headers?.get('content-type') ?? '?' }}
+          &bullet;
+          Hash: {{ head?._headers?.get('etag') }}
+        </div>
       </div>
       <button
         class="btn btn-danger bi-trash ms-auto"
