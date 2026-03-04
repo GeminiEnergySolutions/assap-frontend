@@ -77,7 +77,7 @@
     </select>
   </div>
   <div class="mb-3">
-    <label class="form-label" for="upload-file">File ({{ fileExtensions }})</label>
+    <label class="form-label" for="upload-file">File ({{ fileExtensions }}; max. 16 MiB)</label>
     <input
       #fileUpload
       [(ngModel)]="uploadFiles"

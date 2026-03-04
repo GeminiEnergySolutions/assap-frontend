@@ -2,6 +2,7 @@ import {AsyncPipe, DatePipe, DecimalPipe, KeyValuePipe, SlicePipe} from '@angula
 import {Component, inject, OnDestroy, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ToastService} from '@mean-stream/ngbx';
 import {NgbNav, NgbNavItem, NgbNavLink, NgbPagination, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, map, Observable, of, switchMap} from 'rxjs';
 import {PromptModalService} from '../../shared/components/prompt-modal/prompt-modal.service';
@@ -51,6 +52,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private readonly breadcrumbService = inject(BreadcrumbService);
   private readonly auditService = inject(AuditService);
   private readonly promptModalService = inject(PromptModalService);
+  private readonly toastService = inject(ToastService);
 
   protected readonly icons = icons;
 
@@ -152,16 +154,22 @@ export class ReportsComponent implements OnInit, OnDestroy {
     if (!files?.length) {
       return;
     }
+    const file = files[0];
+    if (file.size > 16 * 1024 * 1024) {
+      this.toastService.error('Upload Report', 'Selected file must be smaller than 16 MiB.');
+      return;
+    }
 
     button.disabled = true;
     this.auditService.uploadReport({
       auditId: +this.route.snapshot.params.aid,
       type: type as ReportType,
-    }, files[0]).subscribe({
+    }, file).subscribe({
       next: report => {
         button.disabled = false;
         this.reports.push(report);
         this.totalReports++;
+        this.toastService.success('Upload Report', `Successfully uploaded report file "${file.name}".`);
       },
       error: () => button.disabled = false,
     });
