@@ -1,6 +1,5 @@
 import {DatePipe, TitleCasePipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {
   NgbDropdown,
@@ -26,9 +25,8 @@ import {AuthService} from '../../shared/services/auth.service';
     NgbTooltip,
     NgbDropdownItem,
     NgbDropdownButtonItem,
-    RouterLink,
     DatePipe,
-    TitleCasePipe
+    TitleCasePipe,
   ],
 })
 export class AuditOptionsDropdownComponent {
