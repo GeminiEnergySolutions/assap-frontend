@@ -96,7 +96,11 @@ export class AuditOptionsDropdownComponent {
       auditId: this.audit!.auditId,
       type: 'energy_audit',
     }).subscribe({
-      next: () => this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.'),
+      next: () => {
+        const toast = this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.');
+        toast.delay = 15_000;
+        toast.actions = [{name: 'View Reports', link: ['/audits', this.audit!.auditId, 'reports']}];
+      },
     });
   }
 }
