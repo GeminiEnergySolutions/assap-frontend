@@ -34,6 +34,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
   private readonly auditService = inject(AuditService);
   private readonly promptModalService = inject(PromptModalService);
 
+  protected readonly icons = icons;
+
   protected reports: Report[] = [];
   protected totalReports = 0;
 
@@ -47,6 +49,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
     microgrid: 'Microgrid Sheet',
     '10_per_design_prep': '10% Design Prep',
   };
+
+  protected uploadFiles: string[] = [];
+  protected uploadReportType: ReportType = 'energy_audit';
 
   ngOnInit() {
     const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
@@ -114,6 +119,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   protected uploadReport(type: string, files: FileList | null, button: HTMLButtonElement) {
+    console.log(files);
     if (!files?.length) {
       return;
     }
@@ -131,6 +137,4 @@ export class ReportsComponent implements OnInit, OnDestroy {
       error: () => button.disabled = false,
     });
   }
-
-  protected readonly icons = icons;
 }

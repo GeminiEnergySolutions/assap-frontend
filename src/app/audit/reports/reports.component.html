@@ -60,27 +60,28 @@
   <h4>Upload Report</h4>
   <div class="mb-3">
     <label class="form-label" for="report-type">Report Type</label>
-    <select class="form-select" id="report-type" #reportType>
+    <select class="form-select" id="report-type" [(ngModel)]="uploadReportType">
       @for (type of reportTypes | keyvalue; track type.key) {
         <option [value]="type.key">{{ type.value }}</option>
       }
     </select>
   </div>
   <div class="mb-3">
-    <label class="form-label" for="upload-file">File (.zip, .docx, .pdf)</label>
+    <label class="form-label" for="upload-file">File (.zip, .docx, .pdf, .csv)</label>
     <input
       #fileUpload
+      [(ngModel)]="uploadFiles"
       class="form-control"
       type="file"
       id="upload-file"
-      accept="application/zip, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+      accept="application/zip, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf, text/csv"
     >
   </div>
   <button
     #uploadButton
-    [disabled]="!reportType.value || !fileUpload.files?.length"
+    [disabled]="!uploadReportType || !uploadFiles.length"
     class="btn btn-success bi-journal-plus"
-    (click)="uploadReport(reportType.value, fileUpload.files, uploadButton)"
+    (click)="uploadReport(uploadReportType, fileUpload.files, uploadButton)"
   >
     Upload
   </button>
