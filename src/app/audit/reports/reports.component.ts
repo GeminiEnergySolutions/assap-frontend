@@ -67,6 +67,18 @@ export class ReportsComponent implements OnInit, OnDestroy {
     microgrid: 'Microgrid Sheet',
     '10_per_design_prep': '10% Design Prep',
   };
+  protected readonly fileTypes = {
+    'text/csv': {title: 'CSV', extension: '.csv', icon: 'bi-file-earmark-spreadsheet'},
+    'application/pdf': {title: 'PDF', extension: '.pdf', icon: 'bi-file-earmark-richtext'},
+    'application/zip': {title: 'Zip', extension: '.zip', icon: 'bi-file-earmark-zip'},
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
+      title: 'Word Document',
+      extension: '.docx',
+      icon: 'bi-file-earmark-word',
+    },
+  };
+  protected readonly fileExtensions = Object.values(this.fileTypes).map(v => v.extension).join(', ');
+  protected readonly fileMimeTypes = Object.keys(this.fileTypes).join(',');
 
   protected uploadFiles: string[] = [];
   protected uploadReportType: ReportType = 'energy_audit';
