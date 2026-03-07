@@ -17,9 +17,13 @@ export class HeadReport implements PipeTransform {
   private readonly auditService = inject(AuditService);
 
   transform(report: Report): Observable<Report> {
-    return report._headers ? of(report) : this.auditService.headReport(report).pipe(
+    return report._head ? of(report) : this.auditService.headReport(report).pipe(
       map(res => {
-        report._headers = res.headers;
+        report._head = {
+          size: +(res.headers.get('content-length') ?? 0),
+          type: res.headers.get('content-type') ?? 'unknown',
+          etag: res.headers.get('etag') ?? '-',
+        };
         return report;
       }),
     );

@@ -39,12 +39,12 @@
 
         @let head = report | headReport | async;
         <div class="text-muted">
-          Size: {{ +(head?._headers?.get('content-length') ?? 0) / 1024 | number:'0.0-1' }} KiB
+          Size: {{ +(head?._head?.size ?? 0) / 1024 | number:'0.0-1' }} KiB
           &bullet;
-          @let type = $any(fileTypes)[head?._headers?.get('content-type') ?? '-'];
+          @let type = $any(fileTypes)[head?._head?.type ?? '-'];
           Type: <i [class]="type?.icon"></i> {{ type?.title }}
           &bullet;
-          Hash: {{ head?._headers?.get('etag') }}
+          Hash: {{ head?._head?.etag }}
         </div>
       </div>
       <button

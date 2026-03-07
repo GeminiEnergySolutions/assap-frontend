@@ -98,7 +98,15 @@ export class AuditService {
           upload_status,
         }).pipe(
           // PATCH response is not meaningful {data: null}, return the original POST response + new upload_status.
-          map(() => ({...data, upload_status})),
+          map(() => ({
+            ...data,
+            upload_status,
+            _headers: {
+              type: file.type,
+              size: file.size,
+              etag: '-',
+            },
+          })),
         )),
       )),
     );

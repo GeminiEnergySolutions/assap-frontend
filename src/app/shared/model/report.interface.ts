@@ -15,7 +15,11 @@ export interface Report {
   createdBy: number;
   user?: User;
 
-  _headers?: HttpHeaders;
+  _head?: {
+    size: number;
+    type: string;
+    etag: string;
+  };
 }
 
 export interface CreateReportDto {
