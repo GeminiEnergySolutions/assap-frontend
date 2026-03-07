@@ -1,4 +1,3 @@
-import {HttpHeaders} from '@angular/common/http';
 import {User} from './user.interface';
 
 export type ReportType = 'energy_audit' | 'feasibility' | 'microgrid' | '10_per_design_prep';

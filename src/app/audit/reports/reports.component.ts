@@ -10,7 +10,7 @@ import {icons} from '../../shared/icons';
 import {FilterReportsDto, Report, ReportType} from '../../shared/model/report.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
-import {HeadReport} from './head-report.pipe';
+import {HeadReportPipe} from './head-report.pipe';
 
 @Component({
   selector: 'app-reports',
@@ -26,7 +26,7 @@ import {HeadReport} from './head-report.pipe';
     NgbNavItem,
     FormsModule,
     AsyncPipe,
-    HeadReport,
+    HeadReportPipe,
     DecimalPipe,
   ],
   templateUrl: './reports.component.html',

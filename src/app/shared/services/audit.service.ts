@@ -90,7 +90,7 @@ export class AuditService {
   }
   uploadReport(dto: CreateReportDto, file: File): Observable<Report> {
     return this.http.post<Response<Report & {upload_url: string}>>(`${environment.api}/reports`, {...dto, file: file.name}).pipe(
-      switchMap(({data}) => this.http.put(data.upload_url, file).pipe(
+      switchMap(({data}) => this.http.put<void>(data.upload_url, file).pipe(
         map(() => 'uploaded' as const),
         catchError(() => of('failed' as const)),
         switchMap(upload_status => this.updateReport(data.id, {
@@ -101,7 +101,7 @@ export class AuditService {
           map(() => ({
             ...data,
             upload_status,
-            _headers: {
+            _head: {
               type: file.type,
               size: file.size,
               etag: '-',

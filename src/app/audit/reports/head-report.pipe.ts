@@ -4,7 +4,7 @@ import {Report} from '../../shared/model/report.interface';
 import {AuditService} from '../../shared/services/audit.service';
 
 @Pipe({name: 'headReport'})
-export class HeadReport implements PipeTransform {
+export class HeadReportPipe implements PipeTransform {
   private readonly auditService = inject(AuditService);
 
   transform(report: Report): Observable<Report> {
