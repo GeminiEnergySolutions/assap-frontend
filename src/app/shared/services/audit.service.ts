@@ -1,10 +1,11 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {catchError, EMPTY, map, Observable, of, switchMap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {Audit, AuditDetails, CreateAuditDto, UpdateAuditDto} from '../model/audit.interface';
 import {PercentageCompletion} from '../model/percentage-completion.interface';
 import {CreatePreAuditData, PreAuditData} from '../model/pre-audit-data.interface';
+import {CreateReportDto, FilterReportsDto, Report, UpdateReportDto} from '../model/report.interface';
 import {Response} from '../model/response.interface';
 
 export type PercentageQuery =
@@ -81,5 +82,54 @@ export class AuditService {
   }
   updatePreAuditData(auditId: number, formData: PreAuditData): Observable<Response<PreAuditData>> {
     return this.http.put<Response<PreAuditData>>(`${environment.api}/formData/audit/${auditId}/preAudit`, formData);
+  }
+
+  generateReport(dto: CreateReportDto): Observable<Response<null>> {
+    const {file, ...rest} = dto;
+    return this.http.post<Response<null>>(`${environment.api}/reports`, rest);
+  }
+  uploadReport(dto: CreateReportDto, file: File): Observable<Report> {
+    return this.http.post<Response<Report & {upload_url: string}>>(`${environment.api}/reports`, {...dto, file: file.name}).pipe(
+      switchMap(({data}) => this.http.put<void>(data.upload_url, file).pipe(
+        map(() => 'uploaded' as const),
+        catchError(() => of('failed' as const)),
+        switchMap(upload_status => this.updateReport(data.id, {
+          // mark the new report as uploaded or failed
+          upload_status,
+        }).pipe(
+          // PATCH response is not meaningful {data: null}, return the original POST response + new upload_status.
+          map(() => ({
+            ...data,
+            upload_status,
+            _head: {
+              type: file.type,
+              size: file.size,
+              etag: '-',
+            },
+          })),
+        )),
+      )),
+    );
+  }
+
+  getReports(params?: FilterReportsDto): Observable<Response<{ reports: Report[]; count_total_reports: number; }>> {
+    return this.http.get<Response<{
+      reports: Report[];
+      count_total_reports: number;
+    }>>(`${environment.api}/reports`, {params: {...params}});
+  }
+  headReport(report: Report): Observable<HttpResponse<void>> {
+    return report.head ? this.http.head<void>(report.head, {
+      observe: 'response',
+    }) : EMPTY;
+  }
+  getReport(id: number): Observable<Response<Report>> {
+    return this.http.get<Response<Report>>(`${environment.api}/reports/${id}`);
+  }
+  updateReport(id: number, dto: UpdateReportDto): Observable<Response> {
+    return this.http.patch<Response>(`${environment.api}/reports/${id}`, dto);
+  }
+  deleteReport(id: number): Observable<Response> {
+    return this.http.delete<Response>(`${environment.api}/reports/${id}`);
   }
 }

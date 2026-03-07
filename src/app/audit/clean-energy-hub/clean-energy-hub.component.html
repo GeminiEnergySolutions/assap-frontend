@@ -3,15 +3,15 @@
     <button type="button" class="btn btn-link bi-three-dots" id="dropdown-preaudit" ngbDropdownToggle>
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdown-preaudit">
-      <a ngbDropdownItem class="bi-clipboard-check" routerLink="report" [queryParams]="{type: 'feasibility'}">
-        Download Feasibility Report
-      </a>
-      <a ngbDropdownItem class="bi-grid-3x3" routerLink="report" [queryParams]="{type: 'cehMicrogridSheet'}">
-        Download Microgrid Sheet
-      </a>
-      <a ngbDropdownItem class="bi-percent" routerLink="report" [queryParams]="{type: 'cdh10per'}">
-        Download 10% Design Prep
-      </a>
+      <button ngbDropdownItem [class]="icons.feasibility" (click)="generateReport('feasibility')">
+        Generate Feasibility Report
+      </button>
+      <button ngbDropdownItem [class]="icons.microgrid" (click)="generateReport('microgrid')">
+        Generate Microgrid Sheet
+      </button>
+      <button ngbDropdownItem [class]="icons['10_per_design_prep']" (click)="generateReport('10_per_design_prep')">
+        Generate 10% Design Prep
+      </button>
     </div>
   </div>
 </ng-template>

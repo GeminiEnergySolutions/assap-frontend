@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterOutlet} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {switchMap, tap} from 'rxjs';
@@ -10,6 +10,7 @@ import {SaveableChangesComponent} from '../../shared/guard/unsaved-changes.guard
 import {icons} from '../../shared/icons';
 import {PercentageCompletion} from '../../shared/model/percentage-completion.interface';
 import {PreAuditData} from '../../shared/model/pre-audit-data.interface';
+import {ReportType} from '../../shared/model/report.interface';
 import {SchemaSection} from '../../shared/model/schema.interface';
 import {AuditService} from '../../shared/services/audit.service';
 import {Breadcrumb, BreadcrumbService} from '../../shared/services/breadcrumb.service';
@@ -27,7 +28,6 @@ import {SchemaService} from '../../shared/services/schema.service';
     ProgressBarComponent,
     FormComponent,
     ListPlaceholderComponent,
-    RouterLink,
     RouterOutlet,
   ],
 })
@@ -111,4 +111,19 @@ export class CleanEnergyHubComponent implements OnInit, SaveableChangesComponent
       auditId: this.auditId,
     }).subscribe(res => this.progress = res);
   }
+
+  protected generateReport(type: ReportType) {
+    this.auditService.generateReport({
+      auditId: this.auditId!,
+      type,
+    }).subscribe({
+      next: () => {
+        const toast = this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.');
+        toast.delay = 15_000;
+        toast.actions = [{name: 'View Reports', link: ['/audits', this.auditId, 'reports']}];
+      },
+    });
+  }
+
+  protected readonly icons = icons;
 }

@@ -1,6 +1,5 @@
 import {DatePipe, TitleCasePipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {ToastService} from '@mean-stream/ngbx';
 import {
   NgbDropdown,
@@ -26,9 +25,8 @@ import {AuthService} from '../../shared/services/auth.service';
     NgbTooltip,
     NgbDropdownItem,
     NgbDropdownButtonItem,
-    RouterLink,
     DatePipe,
-    TitleCasePipe
+    TitleCasePipe,
   ],
 })
 export class AuditOptionsDropdownComponent {
@@ -90,6 +88,19 @@ export class AuditOptionsDropdownComponent {
         this.deleted.emit(this.audit);
         this.toastService.success('Delete Audit', 'Successfully deleted audit.');
       });
+    });
+  }
+
+  protected generateReport() {
+    this.auditService.generateReport({
+      auditId: this.audit!.auditId,
+      type: 'energy_audit',
+    }).subscribe({
+      next: () => {
+        const toast = this.toastService.success('Report Queued', 'Your report was successfully queued. It will be available shortly.');
+        toast.delay = 15_000;
+        toast.actions = [{name: 'View Reports', link: ['/audits', this.audit!.auditId, 'reports']}];
+      },
     });
   }
 }
