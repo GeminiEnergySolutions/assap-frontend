@@ -1,6 +1,6 @@
 import {Component, forwardRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Editor, NgxEditorComponent, NgxEditorModule} from 'ngx-editor';
+import {Editor, NgxEditorComponent, NgxEditorModule, Toolbar} from 'ngx-editor';
 
 @Component({
   selector: 'app-editor',
@@ -15,11 +15,21 @@ import {Editor, NgxEditorComponent, NgxEditorModule} from 'ngx-editor';
 })
 export class EditorComponent implements OnInit, OnDestroy, ControlValueAccessor {
   editor!: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic', 'underline', 'strike', 'superscript', 'subscript'],
+    ['ordered_list', 'bullet_list', 'indent', 'outdent'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image', 'horizontal_rule'],
+    ['text_color', 'background_color', 'format_clear'],
+    ['undo', 'redo'],
+  ];
 
   @ViewChild('editorComponent', {static: true}) editorComponent!: NgxEditorComponent;
 
   ngOnInit() {
-    this.editor = new Editor();
+    this.editor = new Editor({
+
+    });
   }
 
   ngOnDestroy() {
