@@ -88,11 +88,16 @@
     >
   </div>
   <button
-    #uploadButton
-    [disabled]="!uploadReportType || !uploadFiles.length"
-    class="btn btn-success bi-journal-plus"
-    (click)="uploadReport(uploadReportType, fileUpload.files, uploadButton)"
+    [disabled]="uploadInProgress || !uploadReportType || !uploadFiles.length"
+    class="btn btn-success"
+    (click)="uploadReport(uploadReportType, fileUpload.files)"
   >
-    Upload
+    @if (uploadInProgress) {
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status">Uploading...</span>
+    } @else {
+      <i class="bi-journal-plus"></i>
+      Upload
+    }
   </button>
 </div>

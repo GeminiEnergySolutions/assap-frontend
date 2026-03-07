@@ -70,6 +70,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
   protected uploadFiles: string[] = [];
   protected uploadReportType: ReportType = 'energy_audit';
+  protected uploadInProgress = false;
 
   ngOnInit() {
     const breadcrumb: Breadcrumb = {label: '', class: icons.audit, routerLink: '..', relativeTo: this.route};
@@ -136,7 +137,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected uploadReport(type: string, files: FileList | null, button: HTMLButtonElement) {
+  protected uploadReport(type: string, files: FileList | null) {
     if (!files?.length) {
       return;
     }
@@ -146,18 +147,18 @@ export class ReportsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    button.disabled = true;
+    this.uploadInProgress = true;
     this.auditService.uploadReport({
       auditId: +this.route.snapshot.params.aid,
       type: type as ReportType,
     }, file).subscribe({
       next: report => {
-        button.disabled = false;
+        this.uploadInProgress = false;
         this.reports.push(report);
         this.totalReports++;
         this.toastService.success('Upload Report', `Successfully uploaded report file "${file.name}".`);
       },
-      error: () => button.disabled = false,
+      error: () => this.uploadInProgress = false,
     });
   }
 }
