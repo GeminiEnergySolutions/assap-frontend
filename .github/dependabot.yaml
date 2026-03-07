@@ -2,7 +2,23 @@
 
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/optimizing-pr-creation-version-updates
+      angular:
+        applies-to: version-updates
+        patterns:
+          - "@angular*"
+          - "angular-eslint"
+        update-types: [ minor, patch ]
+      major:
+        update-types: [ major ]
+      minor-patch:
+        update-types: [ minor, patch ]
