@@ -1,7 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {RouterOutlet} from '@angular/router';
 import {SwUpdate} from '@angular/service-worker';
 import {ThemeService, ToastModule} from '@mean-stream/ngbx';
+import {environment} from '../environments/environment';
 
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {BreadcrumbService} from './shared/services/breadcrumb.service';
@@ -21,9 +23,11 @@ export class AppComponent implements OnInit {
   private breadcrumbService = inject(BreadcrumbService);
 
   constructor() {
-    const themeService = inject(ThemeService);
+    inject(ThemeService);
 
-    String(themeService.theme); // must be injected, otherwise theme will not be applied
+    if (!environment.production) {
+      inject(Title).setTitle('Conserve [Dev]');
+    }
   }
 
   async ngOnInit() {
