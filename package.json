@@ -24,7 +24,7 @@
     "@angular/service-worker": "^21.2.0",
     "@babel/runtime": "^7.28.6",
     "@floating-ui/core": "^1.7.4",
-    "@floating-ui/dom": "^1.7.5",
+    "@floating-ui/dom": "^1.7.6",
     "@mean-stream/ngbx": "^0.14.0",
     "@ng-bootstrap/ng-bootstrap": "^20.0.0",
     "@popperjs/core": "^2.11.8",
