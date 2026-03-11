@@ -1,12 +1,16 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (req.url.includes('s3.amazonaws.com') || req.url.includes('localhost:9000')) {
-      // Don't add Authorization header for S3/Minio uploads
+    if ((!req.url.startsWith('/') || req.url.startsWith('//'))
+      && !req.url.startsWith(environment.api)
+      && !req.url.startsWith(environment.authApi)
+    ) {
+      // Don't add Authorization header for S3/Minio/cross-origin requests
       return next.handle(req);
     }
 
