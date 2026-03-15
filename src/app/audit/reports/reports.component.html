@@ -1,0 +1,103 @@
+<h1>
+  Reports
+</h1>
+<ul ngbNav [activeId]="route.snapshot.queryParams.type" class="nav-pills mb-3">
+  <li ngbNavItem>
+    <a ngbNavLink routerLink="." [queryParams]="{type: null}" queryParamsHandling="merge">
+      All
+    </a>
+  </li>
+  @for (type of reportTypes | keyvalue; track type.key) {
+    <li [ngbNavItem]="type.key">
+      <a ngbNavLink routerLink="." [queryParams]="{type: type.key}" queryParamsHandling="merge">
+        {{ type.value }}
+      </a>
+    </li>
+  }
+</ul>
+<ul class="list-group mb-3">
+  @for (report of reports; track report.id) {
+    <li class="list-group-item d-flex align-items-center">
+      <a
+        target="_blank"
+        class="btn btn-lg btn-primary bi-download me-3"
+        [class.disabled]="!report.file"
+        download
+        [href]="report.file ?? null"
+        ngbTooltip="Download"
+        aria-label="Download"
+      ></a>
+      <div>
+        <h4>
+          {{ reportTypes[report.type] }}
+          #{{ report.createdOn | slice:0:4 }}.{{ report.auditId }}.{{ report.id }}
+        </h4>
+        <div class="text-muted">
+          Created: {{ report.createdOn | date:'medium' }}
+          by {{ report.user?.userName }}
+        </div>
+
+        @let head = report | headReport | async;
+        <div class="text-muted">
+          Size: {{ +(head?._head?.size ?? 0) / 1024 | number:'0.0-1' }} KiB
+          &bullet;
+          @let type = $any(fileTypes)[head?._head?.type ?? '-'];
+          Type: <i [class]="type?.icon"></i> {{ type?.title }}
+          &bullet;
+          Hash: {{ head?._head?.etag }}
+        </div>
+      </div>
+      <button
+        class="btn btn-danger bi-trash ms-auto"
+        ngbTooltip="Delete"
+        aria-label="Delete"
+        (click)="deleteReport(report)"
+      ></button>
+    </li>
+  } @empty {
+    <li class="list-group-item text-muted">No reports found.</li>
+  }
+</ul>
+<div class="row g-0 align-items-center mb-3">
+  <ngb-pagination
+    class="col-auto"
+    [(page)]="query.pageNo" (pageChange)="updateQuery({pageNo: $event})"
+    [pageSize]="query.size"
+    [collectionSize]="totalReports"
+  />
+</div>
+<div class="mb-3">
+  <h4>Upload Report</h4>
+  <div class="mb-3">
+    <label class="form-label" for="report-type">Report Type</label>
+    <select class="form-select" id="report-type" [(ngModel)]="uploadReportType">
+      @for (type of reportTypes | keyvalue; track type.key) {
+        <option [value]="type.key">{{ type.value }}</option>
+      }
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="upload-file">File ({{ fileExtensions }}; max. 16 MiB)</label>
+    <input
+      #fileUpload
+      [(ngModel)]="uploadFiles"
+      class="form-control"
+      type="file"
+      id="upload-file"
+      [accept]="fileMimeTypes"
+    >
+  </div>
+  <button
+    [disabled]="uploadInProgress || !uploadReportType || !uploadFiles.length"
+    class="btn btn-success"
+    (click)="uploadReport(uploadReportType, fileUpload.files)"
+  >
+    @if (uploadInProgress) {
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status">Uploading...</span>
+    } @else {
+      <i class="bi-journal-plus"></i>
+      Upload
+    }
+  </button>
+</div>

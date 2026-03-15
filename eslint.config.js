@@ -40,6 +40,9 @@ module.exports = tseslint.config(
         },
       ],
       "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", {
+        ignoreRestSiblings: true,
+      }],
     },
   },
   {
